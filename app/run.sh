@@ -1,0 +1,1 @@
+docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap-app

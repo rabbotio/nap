@@ -1,0 +1,1 @@
+docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap-app)

@@ -29,7 +29,8 @@ open http://localhost:3000/
 ## TODO
 - [x] Create [Dockerfile](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/) with [nextjs-apollo](https://github.com/zeit/next.js/blob/master/examples)
 - [x] Add express https://github.com/zeit/next.js/blame/master/examples/custom-server-express
-- [ ] Add GraphQL https://github.com/philipz/react-starter-kit/blob/master/src/server.js#L77
+- [x] Add GraphQL https://github.com/philipz/react-starter-kit/blob/master/src/server.js#L77
+- [ ] Support `graphql-tools`
 - [ ] Add passport https://github.com/philipz/react-starter-kit/blob/master/src/server.js#L59
 - [ ] Add passport (optional) https://github.com/kriasoft/nodejs-api-starter/blob/master/src/passport.js
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
@@ -48,6 +49,7 @@ open http://localhost:3000/
 
 ## TOHAVE
 - [ ] Volume `./app` as container?
+- [ ] Volume `./graphql` as container?
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] Use yo man gen passport vendors
 - [ ] RabbitMQ.

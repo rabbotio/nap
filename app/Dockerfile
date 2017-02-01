@@ -1,5 +1,9 @@
 FROM node:7.4.0-alpine
 
+# TODO : config
+ENV GRAPHQL_SUPPORT=1
+ENV GRAPHIQL_SUPPORT=1
+
 # use changes to package.json to force Docker not to use the cache
 # when we change our application's nodejs dependencies:
 ADD package.json /tmp/package.json
