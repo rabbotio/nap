@@ -14,6 +14,18 @@ Docker
 └─ MongoDB ["/data/db"]
 ```
 
+## Develop
+```shell
+# To build docker compose
+docker-compose build
+
+# To run via docker compose
+docker-compose up -d
+
+# Open browser (Stop other localhost services first)
+open http://localhost:3000/
+```
+
 ## TODO
 - [x] Create [Dockerfile](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/) with [nextjs-apollo](https://github.com/zeit/next.js/blob/master/examples)
 - [ ] Volume `./app`
