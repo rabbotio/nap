@@ -28,7 +28,7 @@ open http://localhost:3000/
 
 ## TODO
 - [x] Create [Dockerfile](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/) with [nextjs-apollo](https://github.com/zeit/next.js/blob/master/examples)
-- [ ] Add express https://nodejs.org/en/docs/guides/nodejs-docker-webapp/#create-the-node-js-app
+- [x] Add express https://github.com/zeit/next.js/blame/master/examples/custom-server-express
 - [ ] Add GraphQL https://github.com/philipz/react-starter-kit/blob/master/src/server.js#L77
 - [ ] Add passport https://github.com/philipz/react-starter-kit/blob/master/src/server.js#L59
 - [ ] Add passport (optional) https://github.com/kriasoft/nodejs-api-starter/blob/master/src/passport.js
