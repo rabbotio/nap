@@ -48,3 +48,4 @@ open http://localhost:3000/
 - [ ] Use yo gen passport vendors
 - [ ] RabbitMQ.
 - [ ] Debug with VSCode https://alexanderzeitler.com/articles/debugging-a-nodejs-es6-application-in-a-docker-container-using-visual-studio-code/
+- [ ] Faster build time https://github.com/npm/npm/issues/8836

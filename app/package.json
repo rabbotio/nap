@@ -2,12 +2,13 @@
   "name": "with-apollo",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next",
+    "dev": "node index.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node index.js"
   },
   "dependencies": {
     "apollo-client": "^0.7.3",
+    "express": "^4.14.1",
     "graphql": "^0.8.2",
     "graphql-tag": "^1.2.3",
     "next": "^2.0.0-beta",
@@ -17,5 +18,5 @@
     "redux-thunk": "^2.1.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
