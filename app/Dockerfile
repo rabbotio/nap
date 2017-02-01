@@ -10,8 +10,14 @@ RUN npm install
 
 # Bundle app source
 COPY . /usr/src/app
-RUN ls /usr/src/app
 RUN npm run build
 
+# For development
+RUN npm install -g nodemon
+EXPOSE 5858
 EXPOSE 3000
+
+# Production
+EXPOSE 80
+
 CMD [ "npm", "start" ]

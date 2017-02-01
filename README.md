@@ -25,11 +25,14 @@ Docker
 - [ ] Add async register.
 - [ ] Custom app, Ensure ES6 with vscode debug working.
 - [ ] Custom schema, Ensure graphql-tools
-- [ ] Custom DB, orm, MongoDB
-- [ ] Ensure Redis speed.
-- [ ] Create docker compose.
+- [ ] Custom DB, orm, MongoDB `docker exec -it node1 mongo --eval "rs.initiate()"`
+- [x] Create docker compose.
+- [ ] env_file: .env https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L10
+- [ ] yarn https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
+- [ ] redis https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L34
 
 ## TOHAVE
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] Use yo gen passport vendors
 - [ ] RabbitMQ.
+- [ ] Debug with VSCode https://alexanderzeitler.com/articles/debugging-a-nodejs-es6-application-in-a-docker-container-using-visual-studio-code/

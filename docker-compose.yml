@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  app:
+    build: ./app
+    command: npm start
+    volumes:
+      - ./app:/app
+    ports:
+      - "3000:3000"
+      - "5858:5858"
+    networks:
+      - front-tier
+      - back-tier
+
+networks:
+  front-tier:
+  back-tier:
