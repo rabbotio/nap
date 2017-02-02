@@ -1,6 +1,6 @@
 const { makeExecutableSchema } = require('graphql-tools')
 
-const rootSchema = [`
+const typeDefs = [`
 type Query {
   getFoo(
     # Any String.
@@ -22,7 +22,7 @@ schema {
 }
 `];
 
-const rootResolvers = {
+const resolvers = {
   Query: {
     getFoo(root, { bar }, context) {
       return `Hello ${bar}`
@@ -37,12 +37,7 @@ const rootResolvers = {
   }
 }
 
-const schema = [...rootSchema]
-const resolvers = rootResolvers
-
-const executableSchema = makeExecutableSchema({
-  typeDefs: schema,
+module.exports = makeExecutableSchema({
+  typeDefs,
   resolvers,
-});
-
-module.exports = executableSchema;
+})
