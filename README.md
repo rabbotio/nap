@@ -27,6 +27,7 @@ open http://localhost:3000/
 ```
 
 # GraphQL
+![](art/graphql.png)
 ```
 # Query
 {
