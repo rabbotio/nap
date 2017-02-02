@@ -46,8 +46,10 @@ mutation {
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add async register.
 - [ ] yarn https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
-- [ ] redis https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L34
+- [ ] Redis https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L34
 - [ ] SSL https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
+- [ ] Add Nginx support.
+- [ ] Add test.
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
