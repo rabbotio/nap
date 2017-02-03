@@ -24,7 +24,7 @@ schema {
 
 const resolvers = {
   Query: {
-    getFoo: (root, { bar }, context) => `Hello ${bar} ${context.user ? ', Nice to see you logged in' : 'Please login'}`
+    getFoo: (root, { bar }, context) => `Hello ${bar} ${context.user ? ', Nice to see you logged in' : ', Please login'}`
   },
 
   Mutation: {
