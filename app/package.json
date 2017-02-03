@@ -4,12 +4,13 @@
   "scripts": {
     "dev": "npm run build && node --harmony index.js",
     "build": "next build",
-    "start": "NODE_ENV=production GRAPHQL_SUPPORT=1 GRAPHIQL_SUPPORT=1 node --harmony index.js",
+    "start": "node --harmony index.js",
     "nap": "npm run build && npm run start"
   },
   "dependencies": {
     "apollo-client": "^0.8.1",
     "body-parser": "^1.16.0",
+    "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",

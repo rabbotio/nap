@@ -1,3 +1,5 @@
+const config = require('../config')
+
 const init = (app) => {
   const passport = require('passport')
 
@@ -27,7 +29,19 @@ const init = (app) => {
   app.use(require('morgan')('combined'))
   app.use(require('cookie-parser')())
   app.use(require('body-parser').urlencoded({ extended: true }))
-  app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
+  // POC// app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
+
+  // Store
+  const session = require('express-session')
+  const RedisStore = require('connect-redis')(session)
+  app.use(session({
+    store: new RedisStore({
+      url: config.redisStore.url
+    }),
+    secret: config.redisStore.secret,
+    resave: true,
+    saveUninitialized: true
+  }))
 
   // Initialize Passport and restore authentication state, if any, from the
   // session.
