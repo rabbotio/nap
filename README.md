@@ -14,6 +14,16 @@ Docker
 └─ MongoDB ["/data/db"]
 ```
 
+## Config
+```shell
+cp .env.example .env
+```
+Then fill up `.env` file. e.g.
+```
+FACEBOOK_APP_ID=213587919136550
+FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
+```
+
 ## Develop
 ```shell
 # To build docker compose
