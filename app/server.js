@@ -9,7 +9,11 @@ const HTTP_PORT = process.env.HTTP_PORT || 3000
 
 _next.prepare()
   .then(() => {
+    // Create a new Express application.
     const app = express()
+
+    // Passport
+    require('./passport/init')(app)
 
     // GraphQL
     const GRAPHQL_SUPPORT = process.env.GRAPHQL_SUPPORT === '1'

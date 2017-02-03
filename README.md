@@ -6,7 +6,7 @@
 ```
 Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
-├─ NodeJS
+├─ NodeJS 7.5
 │  ├─ PassportJS ["/vendors"]
 │  ├─ Apollo GraphQL ["/graphql"]
 │  └─ NextJS ["/app"]
@@ -41,10 +41,7 @@ mutation {
 ```
 
 ## TODO
-- [ ] Add passport https://github.com/philipz/react-starter-kit/blob/master/src/server.js#L59
-- [ ] Add passport (optional) https://github.com/kriasoft/nodejs-api-starter/blob/master/src/passport.js
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
-- [ ] Add async register.
 - [ ] yarn https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
 - [ ] Redis https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L34
 - [ ] SSL https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
@@ -57,6 +54,7 @@ mutation {
 - [ ] Custom DB, orm, MongoDB `docker exec -it node1 mongo --eval "rs.initiate()"`
 - [ ] env_file: .env https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L10
 - [ ] Custom .env HTTP_PORT
+- [ ] Add passport github.
 
 ## TOHAVE
 - [ ] Volume `./app` as container?

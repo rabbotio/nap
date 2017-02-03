@@ -24,16 +24,11 @@ schema {
 
 const resolvers = {
   Query: {
-    getFoo(root, { bar }, context) {
-      return `Hello ${bar}`
-    }
+    getFoo: (root, { bar }, context) => `Hello ${bar} ${context.user ? ', Nice to see you logged in' : 'Please login'}`
   },
 
   Mutation: {
-    setFoo(_, { bar }) {
-      // Do something with greeting.
-      return `Welcome ${bar}`
-    }
+    setFoo: (_, { bar }, context) => context.user ? `Saved! ${bar}` : `Aw!, you'll need to logged in first!`
   }
 }
 

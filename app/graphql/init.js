@@ -21,14 +21,16 @@ const init = (app) => {
   console.log(`GRAPHQL_NOCACHE_SCHEMA:${GRAPHQL_NOCACHE_SCHEMA}`);
 
   const graphQLHTTP = require('express-graphql');
+  const bodyParser = require('body-parser');
 
-  app.use('/graphql', graphQLHTTP((request) => {
-    return {
+  app.use('/graphql',
+    bodyParser.json(),
+    graphQLHTTP((req, res) => ({
       graphiql: GRAPHIQL_SUPPORT,
       pretty: GRAPHQL_PRETTY,
       schema: getSchema(GRAPHQL_SCHEMA, GRAPHQL_NOCACHE_SCHEMA)
-    }
-  }));
+    }))
+  )
 }
 
 module.exports = init
