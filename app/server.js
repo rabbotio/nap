@@ -16,8 +16,7 @@ _next.prepare()
     require('./passport/init')(app)
 
     // GraphQL
-    const GRAPHQL_ENABLED = process.env.GRAPHQL_ENABLED === '1'
-    GRAPHQL_ENABLED && require('./graphql/init')(app)
+    process.env.GRAPHQL_SERVER_DISABLED === '0' && require('./graphql/init')(app)
 
     // Static
     app.get('/a', (req, res) => {
