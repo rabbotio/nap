@@ -1,5 +1,3 @@
-const config = require('../config')
-
 const init = (app) => {
   const passport = require('passport')
 
@@ -32,6 +30,7 @@ const init = (app) => {
   // POC// app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
   // Store
+  const config = require('../config')
   const session = require('express-session')
   const RedisStore = require('connect-redis')(session)
   app.use(session({
