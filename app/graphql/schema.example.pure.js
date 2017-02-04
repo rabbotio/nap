@@ -1,3 +1,7 @@
+/*
+An exmple for simple Query with pure GraphQL only.
+*/
+
 const graphql = require('graphql')
 const GraphQLSchema = graphql.GraphQLSchema
 const GraphQLObjectType = graphql.GraphQLObjectType
