@@ -54,9 +54,12 @@ mutation {
 - [ ] Add Redis container https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L34
 - [ ] Add Nginx container.
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
-- [ ] yarn https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
-- [ ] SSL https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Add test.
+- [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
+
+## TOTEST
+- [ ] Redis fail test.
+- [ ] HTTP fail test.
+- [ ] HTTPS fail test.
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
@@ -65,6 +68,7 @@ mutation {
 - [ ] env_file: .env https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L10
 - [ ] Custom .env HTTP_PORT
 - [ ] Add passport github.
+- [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 
 ## TOHAVE
 - [ ] Volume `./app` as container?
@@ -75,3 +79,5 @@ mutation {
 - [ ] Notifications or maybe use vendors with webtask.
 - [ ] GraphQL subscriptions.
 - [ ] GraphQL advance examples.
+- [ ] Other server support, maybe hapi?
+- [ ] yarn? https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18

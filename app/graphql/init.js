@@ -7,7 +7,7 @@ const getSchema = (schemaURI, noCache) => {
 }
 
 const init = (app) => {
-  const IS_DEVELOPMENT = process.env.NODE_ENV !== 'production'
+  const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
   const GRAPHQL_SCHEMA = process.env.GRAPHQL_SCHEMA || './schema.js'
   const GRAPHQL_PRETTY = (process.env.GRAPHQL_PRETTY === '1') || IS_DEVELOPMENT
   const GRAPHIQL_SUPPORT = (process.env.GRAPHIQL_SUPPORT === '1') || IS_DEVELOPMENT

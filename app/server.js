@@ -1,7 +1,7 @@
 const express = require('express')
 const next = require('next')
 
-const IS_DEVELOPMENT = process.env.NODE_ENV !== 'production'
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 const _next = next({ IS_DEVELOPMENT })
 const handle = _next.getRequestHandler()
 

@@ -1,5 +1,11 @@
 # Apollo Example
 ## Develop
+### With node
+```bash
+# Will build and serve
+npm run nap
+```
+### With Docker
 ```bash
 # Building your image
 docker build -t rabbotio/nap-app . 
