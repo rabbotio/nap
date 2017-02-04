@@ -2,17 +2,41 @@ version: "3"
 
 services:
   app:
+    env_file:
+      - ./app/.env
+    environment:
+      - HTTP_PORT=$HTTP_PORT
     build: ./app
+    restart: always
+    links:
+      - redis
     command: npm start
+    working_dir: /usr/app
     volumes:
-      - ./app:/app
+      - app:/app
     ports:
+      - "127.0.0.1:9229:9229" # V8 inspector
       - "3000:3000"
       - "5858:5858"
     networks:
       - front-tier
       - back-tier
 
+  redis:
+    image: redis:3.2.6-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis:/data
+    networks:
+      - back-tier
+
 networks:
   front-tier:
   back-tier:
+
+volumes:
+  app:
+  redis:

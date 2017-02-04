@@ -51,7 +51,6 @@ mutation {
 ```
 
 ## TODO
-- [ ] Add Redis container https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L34
 - [ ] Add Nginx container.
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
@@ -81,3 +80,4 @@ mutation {
 - [ ] GraphQL advance examples.
 - [ ] Other server support, maybe hapi?
 - [ ] yarn? https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
+- [ ] Fallback for `Redis` session store.
