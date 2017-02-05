@@ -19,10 +19,20 @@ Docker
 cp .env.example .env
 ```
 Then fill up `.env` file. e.g.
-```
+```shell
+# This is fake id, use your own!
 FACEBOOK_APP_ID=213587919136550
 FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
 ```
+
+## Passport
+You'll need to config `Redis` endpoint at `.env`
+```shell
+# For localhost standalone dev
+REDIS_STORE_URI=redis://redis:6379
+```
+### To login with Facebook
+- http://localhost:3000/auth/facebook/
 
 ## Develop
 ```shell
@@ -66,8 +76,7 @@ mutation {
 - [ ] Custom app, Ensure ES6 with vscode debug working.
 - [ ] Custom schema, Ensure graphql-tools
 - [ ] Custom DB, orm, MongoDB `docker exec -it node1 mongo --eval "rs.initiate()"`
-- [ ] env_file: .env https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L10
-- [ ] Custom .env HTTP_PORT
+- [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
 - [ ] Add passport github.
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 
@@ -80,7 +89,9 @@ mutation {
 - [ ] Notifications or maybe use vendors with webtask.
 - [ ] GraphQL subscriptions.
 - [ ] GraphQL advance examples.
-- [ ] Other server support, maybe hapi?
+- [ ] Other server support, maybe [hapi](https://github.com/RisingStack/graffiti#hapi), [koa](https://github.com/RisingStack/graffiti#koa)?
 - [ ] yarn? https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
 - [ ] Fallback for `Redis` session store.
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
+- [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
+- [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
