@@ -3,13 +3,14 @@
 
 ![](art/nap-logo.png)
 
+## Stacks
 ```
 Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 ├─ NodeJS 7.5
-│  ├─ PassportJS ["/vendors"]
+│  ├─ NextJS ["/app"]
 │  ├─ Apollo GraphQL ["/graphql"]
-│  └─ NextJS ["/app"]
+│  └─ PassportJS ["/vendors"]
 ├─ Redis ["/data"]
 └─ MongoDB ["/data/db"]
 ```
@@ -59,13 +60,16 @@ mutation {
   setFoo(bar:"katopz")
 }
 ```
+# Extras
+- [x] Support [`express-session`](https://github.com/expressjs/session)
+- [x] Support [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose)
 
 ## TODO
-- [ ] Add Nginx container.
 - [ ] Add MongoDB container.
-- [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
+- [ ] Add Nginx container.
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
+- [ ] Add logs.
 
 ## TOTEST
 - [ ] Redis fail test.
@@ -79,13 +83,15 @@ mutation {
 - [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
 - [ ] Add passport github.
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
+- [ ] Redis : https://hub.docker.com/_/redis/
+- [ ] MongoDB : https://hub.docker.com/_/mongo/
 
 ## TOHAVE
-- [ ] Volume `./app` as container?
+- [ ] Volume `./app` as data container?
 - [ ] Volume file `./graphql/schema.js`?
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] Use yo man gen passport vendors
-- [ ] RabbitMQ.
+- [ ] RabbitMQ?
 - [ ] Notifications or maybe use vendors with webtask.
 - [ ] GraphQL subscriptions.
 - [ ] GraphQL advance examples.
@@ -95,3 +101,7 @@ mutation {
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
 - [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
+- [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
+- [ ] Notifications Support.
+- [ ] Hook Support.
+- [ ] Admin Dashboard.

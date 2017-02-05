@@ -33,6 +33,23 @@ services:
     networks:
       - back-tier
 
+  mongodata:  
+    image: mongo:3.4
+    volumes:
+      - /data/db
+    command: --break-mongo
+    networks:
+      - back-tier
+  mongo:  
+    image: mongo:3.4
+    volumes_from:
+      - mongodata
+    ports:
+      - "27017:27017"
+    command: --smallfiles --rest
+    networks:
+      - back-tier
+
 networks:
   front-tier:
   back-tier:
