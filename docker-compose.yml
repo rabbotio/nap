@@ -36,7 +36,7 @@ services:
   mongodata:  
     image: mongo:3.4
     volumes:
-      - mongodata:/data/db
+      - /data/db
     command: --break-mongo
     networks:
       - back-tier
@@ -58,5 +58,4 @@ networks:
 volumes:
   app:
   redis:
-  mongo:
   mongodata:

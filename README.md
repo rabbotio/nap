@@ -127,4 +127,5 @@ mutation{
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Notifications Support.
 - [ ] Hook Support.
-- [ ] Admin Dashboard.
+- [ ] Admin Dashboard with `SSH`.
+- [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)
