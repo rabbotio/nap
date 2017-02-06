@@ -35,9 +35,9 @@ const init = (app) => {
   const RedisStore = require('connect-redis')(session)
   app.use(session({
     store: new RedisStore({
-      url: config.redisStore.url
+      url: config.redis.url
     }),
-    secret: config.redisStore.secret,
+    secret: config.redis.secret,
     resave: true,
     saveUninitialized: true
   }))

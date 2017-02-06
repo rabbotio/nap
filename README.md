@@ -52,12 +52,26 @@ open http://localhost:3000/
 ```
 # Query
 {
-  getFoo(bar:"World")
+  pets(name: "katopz") {
+    id
+    name
+  }
 }
 
 # Mutation
-mutation {
-  setFoo(bar:"katopz")
+mutation{
+  addPet(input:{name:"katopz", type: "B", age: 11}) {
+    viewer {
+      pets(name:"katopz") {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -73,7 +87,6 @@ mutation {
 - [x] [`nginx`](https://github.com/nginxinc) for proxy.
 
 ## TODO
-- [ ] Add `MongoDB` container.
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` container.
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
