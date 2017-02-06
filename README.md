@@ -60,16 +60,27 @@ mutation {
   setFoo(bar:"katopz")
 }
 ```
-# Extras
-- [x] Support [`express-session`](https://github.com/expressjs/session)
-- [x] Support [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose)
+
+## Stacks
+- [x] [`next`](https://github.com/zeit/next.js/) for SSR `React`.
+- [x] [`apollo`](https://github.com/apollographql) for `GraphQL` client.
+- [x] [`passport`](https://github.com/jaredhanson/passport) for `Express` authentication.
+
+## Extras
+- [x] [`express`](https://github.com/expressjs/express) for web framework.
+- [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
+- [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
+- [x] [`nginx`](https://github.com/nginxinc) for proxy.
 
 ## TODO
-- [ ] Add MongoDB container.
+- [ ] Add `MongoDB` container.
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
-- [ ] Add Nginx container.
+- [ ] Add `Nginx` container.
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
 - [ ] Add logs.
+- [ ] Add email/pass user.
+- [ ] Link user with social.
+- [ ] Cron with webtask.io.
 
 ## TOTEST
 - [ ] Redis fail test.
@@ -78,7 +89,7 @@ mutation {
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
-- [ ] Custom schema, Ensure graphql-tools
+- [ ] Custom schema, Ensure `graphql-tools`.
 - [ ] Custom DB, orm, MongoDB `docker exec -it node1 mongo --eval "rs.initiate()"`
 - [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
 - [ ] Add passport github.
@@ -95,7 +106,6 @@ mutation {
 - [ ] Notifications or maybe use vendors with webtask.
 - [ ] GraphQL subscriptions.
 - [ ] GraphQL advance examples.
-- [ ] Other server support, maybe [hapi](https://github.com/RisingStack/graffiti#hapi), [koa](https://github.com/RisingStack/graffiti#koa)?
 - [ ] yarn? https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
 - [ ] Fallback for `Redis` session store.
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
