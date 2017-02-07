@@ -93,7 +93,7 @@ mutation{
 - [ ] Add logs.
 - [ ] Add email/pass user.
 - [ ] Link user with social.
-- [ ] Cron with webtask.io.
+- [ ] Add https://github.com/apollographql/graphql-subscriptions
 
 ## TOTEST
 - [ ] Redis fail test.
@@ -129,3 +129,5 @@ mutation{
 - [ ] Hook Support.
 - [ ] Admin Dashboard with `SSH`.
 - [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)
+- [ ] Cron with `webtask.io`.
+- [ ] `graffiti` simple API
