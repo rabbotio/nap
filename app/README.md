@@ -8,16 +8,16 @@ npm run nap
 ### With Docker
 ```bash
 # Building your image
-docker build -t rabbotio/nap-app .
+docker build -t rabbotio/nap .
 
 # Verify existing
 docker images
 
 # To remove existing.
-docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap-app)
+docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap)
 
 # Run the image
-docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap-app
+docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap
 
 # Open browser (Stop other localhost services first)
 open http://localhost:3000/

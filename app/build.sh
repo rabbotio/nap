@@ -1,2 +1,2 @@
 # Building your image
-docker build -t rabbotio/nap-app .
+docker build -t rabbotio/nap .

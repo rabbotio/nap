@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    container_name: nap_app
+    container_name: next
     env_file:
       - ./app/.env
     environment:
@@ -34,11 +34,10 @@ services:
     networks:
       - back-tier
 
-  mongodata:  
+  mongo_data:  
     image: mongo:3.4
-    volumes:
-      - /data/db
-    command: --break-mongo
+    container_name: mongo_data
+    command: bin/true
     networks:
       - back-tier
 
@@ -46,7 +45,7 @@ services:
     image: mongo:3.4
     container_name: mongo
     volumes:
-      - mongodata:/data/db
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
     command: --smallfiles --rest
@@ -60,4 +59,4 @@ networks:
 volumes:
   app:
   redis:
-  mongodata:
+  mongo_data:
