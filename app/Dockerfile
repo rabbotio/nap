@@ -1,4 +1,5 @@
 FROM node:7.5.0-alpine
+MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 
 # use changes to package.json to force Docker not to use the cache
 # when we change our application's nodejs dependencies:

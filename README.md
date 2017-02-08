@@ -109,6 +109,36 @@ mutation{
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Redis : https://hub.docker.com/_/redis/
 - [ ] MongoDB : https://hub.docker.com/_/mongo/
+- [ ] Container config e.g. restart policy.
+```
+version: "3"
+services:
+  web:
+    image: web
+    labels:
+      com.example.description: "This label will appear on all containers for the web service"
+    deploy:
+      labels:
+        com.example.description: "This label will appear on the web service"
+      resources:
+        limits:
+          cpus: '0.001'
+          memory: 50M
+        reservations:
+          cpus: '0.0001'
+          memory: 20M
+      mode: replicated
+      replicas: 6
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+          - engine.labels.operatingsystem == ubuntu 14.04
+```
 
 ## TOHAVE
 - [ ] Volume `./app` as data container?
