@@ -2,10 +2,11 @@ version: "3"
 
 services:
   app:
+    container_name: nap_app
     env_file:
       - ./app/.env
     environment:
-      - HTTP_PORT=$HTTP_PORT
+      - HTTP_PORT=${HTTP_PORT:-3000}
     build: ./app
     restart: always
     links:
@@ -43,6 +44,7 @@ services:
 
   mongo:  
     image: mongo:3.4
+    container_name: mongo
     volumes:
       - mongodata:/data/db
     ports:
