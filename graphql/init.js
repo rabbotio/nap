@@ -8,7 +8,7 @@ const getSchema = (schemaURI, noCache) => {
 
 const init = app => {
   // GraphQL's schema URI
-  const GRAPHQL_SCHEMA = process.env.GRAPHQL_SCHEMA || "./schema.js"
+  const GRAPHQL_SCHEMA = process.env.GRAPHQL_SCHEMA || "./schema"
 
   // Custom config
   const IS_DEVELOPMENT = process.env.NODE_ENV === "development"
@@ -17,7 +17,7 @@ const init = app => {
   const GRAPHQL_SCHEMA_NOCACHE = process.env.GRAPHQL_SCHEMA_NOCACHE === "1" || IS_DEVELOPMENT
 
   // Middleware
-  const schema = require('./schema')
+  const schema = getSchema(GRAPHQL_SCHEMA, GRAPHQL_SCHEMA_NOCACHE)
   const graffiti = require('@risingstack/graffiti')
   const { json } = require("body-parser")
 

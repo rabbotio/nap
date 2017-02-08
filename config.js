@@ -5,8 +5,4 @@ config.redis = {
   secret: process.env.EXPRESS_SESSION_SECRET
 }
 
-config.mongo = {
-  url: process.env.MONGO_URI
-}
-
 module.exports = config

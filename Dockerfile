@@ -13,6 +13,13 @@ RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
 WORKDIR /usr/app
 ADD . /usr/app
 
+# Custom pages/components
+ADD $NEXT_PAGES /usr/
+ADD $NEXT_COMPONENTS /usr/
+
+# Custom GraphQL schema
+ADD $GRAPHQL_SCHEMA /usr/
+
 # Build next
 RUN npm run build
 

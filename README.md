@@ -37,13 +37,10 @@ REDIS_STORE_URI=redis://redis:6379
 
 ## Develop
 ```shell
-# To build docker compose
-docker-compose build
+# To build and run docker compose
+npm run dc-start
 
-# To run via docker compose
-docker-compose up -d
-
-# Open browser (Stop other localhost services first)
+# Open browser (Ensure to stop other localhost services first)
 open http://localhost:3000/
 ```
 
@@ -87,8 +84,10 @@ mutation{
 - [x] [`nginx`](https://github.com/nginxinc) for proxy.
 
 ## TODO
+- [ ] Dev mode hot reload schema.
 - [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
+- [ ] Custom routes.
 - [ ] Add `Nginx` container.
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
 - [ ] Add logs.
