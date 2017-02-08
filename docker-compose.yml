@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  app:
+  next:
     container_name: next
     env_file:
       - ./app/.env
@@ -11,6 +11,7 @@ services:
     restart: always
     links:
       - redis
+      - mongo
     command: npm start
     working_dir: /usr/app
     volumes:
