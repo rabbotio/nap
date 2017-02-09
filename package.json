@@ -12,7 +12,8 @@
     "run": "docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap || true",
     "logs": "docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "down": "docker-compose kill && docker-compose down || true",
-    "up": "docker-compose build && docker-compose up -d || true"
+    "up": "docker-compose build && docker-compose up -d && docker ps -a || true",
+    "clear": "docker rm $(docker ps -aq) && docker system prune && docker images && docker ps -a || true"
   },
   "dependencies": {
     "@risingstack/graffiti": "^3.3.0",
