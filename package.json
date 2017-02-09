@@ -13,7 +13,7 @@
     "down": "docker-compose kill && docker-compose down || true",
     "up": "docker-compose build && docker-compose up -d && docker ps -a || true",
     "clear": "docker rm $(docker ps -aq) -f || true && docker system prune -f && docker images && docker ps -a || true",
-    "schema": "docker cp ./schema/ $(docker ps -a -q --filter ancestor=rabbotio/nap):/usr/app/graphql/schema/ || true"
+    "schema": "docker cp ./schema $(docker ps -a -q --filter ancestor=rabbotio/nap):/usr/app/graphql/ || true"
   },
   "dependencies": {
     "@risingstack/graffiti": "^3.3.0",

@@ -9,6 +9,9 @@ const PetSchema = new mongoose.Schema({
   },
   age: {
     type: Number
+  },
+  weight: {
+    type: Number
   }
 })
 
