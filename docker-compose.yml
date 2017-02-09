@@ -7,7 +7,8 @@ services:
       - .env
     environment:
       - HTTP_PORT=${HTTP_PORT:-3000}
-    build: .
+    build:
+      context: .
     image: rabbotio/nap
     restart: always
     links:
@@ -16,7 +17,7 @@ services:
     command: npm start
     working_dir: /usr/app
     ports:
-      - "127.0.0.1:9229:9229" # V8 inspector
+      - "9229:9229" # V8 inspector
       - "3000:3000"
       - "5858:5858"
     networks:

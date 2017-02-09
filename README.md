@@ -84,7 +84,7 @@ mutation{
 - [x] [`nginx`](https://github.com/nginxinc) for proxy.
 
 ## TODO
-- [ ] Dev mode hot reload schema.
+- [ ] Dev mode hot reload schema. https://github.com/glenjamin/ultimate-hot-reloading-example/
 - [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Custom routes.
@@ -109,6 +109,7 @@ mutation{
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Redis : https://hub.docker.com/_/redis/
 - [ ] MongoDB : https://hub.docker.com/_/mongo/
+- [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
 - [ ] Container config e.g. restart policy.
 ```
 version: "3"

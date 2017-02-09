@@ -2,8 +2,7 @@
   "name": "nap",
   "version": "0.1.0",
   "scripts": {
-    "dev": "npm run build && node --harmony index.js",
-    "start": "node --harmony index.js",
+    "start": "nodemon --harmony index.js",
     "nap": "next build && npm run start",
     "build-next": "next build",
     "dive": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh",
@@ -13,7 +12,8 @@
     "logs": "docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "down": "docker-compose kill && docker-compose down || true",
     "up": "docker-compose build && docker-compose up -d && docker ps -a || true",
-    "clear": "docker rm $(docker ps -aq) && docker system prune && docker images && docker ps -a || true"
+    "clear": "docker rm $(docker ps -aq) -f || true && docker system prune -f && docker images && docker ps -a || true",
+    "schema": "docker cp ./schema/ $(docker ps -a -q --filter ancestor=rabbotio/nap):/usr/app/graphql/schema/ || true"
   },
   "dependencies": {
     "@risingstack/graffiti": "^3.3.0",
@@ -38,5 +38,8 @@
     "redux": "^3.6.0"
   },
   "author": "katopz@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
 }
