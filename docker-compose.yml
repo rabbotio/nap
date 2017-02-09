@@ -14,14 +14,13 @@ services:
     links:
       - redis
       - mongo
-    command: npm start
     working_dir: /usr/app
     ports:
       - "9229:9229" # V8 inspector
       - "3000:3000"
       - "5858:5858"
     volumes:
-      - /schema/customs
+      - ./models:/models
     networks:
       - front-tier
       - back-tier

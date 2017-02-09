@@ -9,10 +9,10 @@ const index = () => {
     const app = require('express')()
 
     // Passport
-    process.env.PASSPORT_DISABLED !== '1' && require('../passport')(app)
+    process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app)
 
     // Apollo
-    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('../graphql')(app)
+    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app)
 
     // Next
     require('./routes')(app, next)

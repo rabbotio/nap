@@ -29,7 +29,7 @@ FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
 ## Passport
 You may need to config `Redis` URI at `.env`
 ```shell
-EXPRESS_SESSION_REDIS_URI=redis://redis:6379
+EXPRESS_SESSION_REDIS_URI=redis://redis
 ```
 ### To login with Facebook
 - http://localhost:3000/auth/facebook/
