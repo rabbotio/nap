@@ -7,23 +7,26 @@ ADD package.json /tmp/package.json
 RUN npm config set registry https://registry.npmjs.org/
 RUN cd /tmp && npm install
 RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
+RUN mkdir -p /usr/app
 
 # From here we load our application's code in, therefore the previous docker
 # "layer" thats been cached will be used if possible
-WORKDIR /usr/app
-ADD server /usr/app
-ADD passport /usr/app
-ADD lib /usr/app
-ADD index.js /usr/app
-ADD package.json /usr/app
-ADD .env /usr/app
+ADD server /usr/app/server
+ADD passport /usr/app/passport
+ADD graphql /usr/app/graphql
+ADD lib /usr/app/lib
+ADD index.js /usr/app/
+ADD package.json /usr/app/
+ADD .env /usr/app/.env
 
 # Custom pages/components
-ADD $NEXT_PAGES /usr/app/pages/
-ADD $NEXT_COMPONENTS /usr/app/components/
+ADD ${SRC_NEXT_PAGES:-'pages'} /usr/app/pages
+ADD ${SRC_NEXT_COMPONENTS:-'components'} /usr/app/components
 
 # Custom GraphQL schema
-ADD $GRAPHQL_SCHEMA /usr/app/graphql/schema/
+ADD ${SRC_GRAPHQL_SCHEMA:-'schema'}  /usr/app/graphql/schema
+
+RUN ls /usr/app
 
 # Build next
 RUN npm run build-next
@@ -32,4 +35,5 @@ RUN npm run build-next
 EXPOSE 5858
 EXPOSE 3000
 
+WORKDIR /usr/app
 CMD [ "npm", "start" ]

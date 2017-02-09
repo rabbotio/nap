@@ -6,6 +6,7 @@
     "start": "node --harmony index.js",
     "nap": "next build && npm run start",
     "build-next": "next build",
+    "dive": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh",
     "build": "docker build -t rabbotio/nap . || true",
     "clean": "docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "run": "docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap || true",
