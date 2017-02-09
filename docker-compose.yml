@@ -20,6 +20,8 @@ services:
       - "9229:9229" # V8 inspector
       - "3000:3000"
       - "5858:5858"
+    volumes:
+      - /schema/customs
     networks:
       - front-tier
       - back-tier

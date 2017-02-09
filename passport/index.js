@@ -34,9 +34,9 @@ const index = (app) => {
   const RedisStore = require('connect-redis')(session)
   app.use(session({
     store: new RedisStore({
-      url: process.env.REDIS_STORE_URI
+      url: process.env.EXPRESS_SESSION_REDIS_URI || 'redis://redis:6379'
     }),
-    secret: process.env.EXPRESS_SESSION_SECRET,
+    secret: process.env.EXPRESS_SESSION_SECRET || 'foo',
     resave: true,
     saveUninitialized: true
   }))

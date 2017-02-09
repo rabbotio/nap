@@ -5,8 +5,6 @@ const { getSchema } = require('@risingstack/graffiti-mongoose')
 mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGO_URI || 'mongodb://mongo/graphql')
 
-// Custom
-const User = require('./user')
-const Pet = require('./pet')
-
-module.exports = getSchema([Pet, User])
+// Custom schema
+const customs = require('./customs')()
+module.exports = getSchema(customs)
