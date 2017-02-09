@@ -28,8 +28,8 @@ COPY lib /usr/app/lib
 COPY $SRC_NEXT_PAGES /usr/app/pages
 COPY $SRC_NEXT_COMPONENTS /usr/app/components
 
-# Custom GraphQL schema
-COPY $SRC_MONGOOSE_MODELS /usr/app/models
+# Custom GraphQL schema from models
+VOLUME ["/usr/app/models"]
 
 RUN ls /usr/app
 
