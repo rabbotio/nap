@@ -1,4 +1,4 @@
-const init = () => {
+const index = () => {
   // Next
   const next = require('next')({
     IS_DEVELOPMENT: (process.env.NODE_ENV === 'development')
@@ -9,14 +9,14 @@ const init = () => {
     const app = require('express')()
 
     // Passport
-    process.env.PASSPORT_DISABLED !== '1' && require('../passport/init')(app)
+    process.env.PASSPORT_DISABLED !== '1' && require('../passport')(app)
 
     // Apollo
-    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('../graphql/init')(app)
+    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('../graphql')(app)
 
     // Next
     require('./routes')(app, next)
   })
 }
 
-module.exports = init
+module.exports = index

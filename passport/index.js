@@ -1,4 +1,4 @@
-const init = (app) => {
+const index = (app) => {
   const passport = require('passport')
 
   // Use Facebook
@@ -64,4 +64,4 @@ const init = (app) => {
     })
 }
 
-module.exports = init
+module.exports = index

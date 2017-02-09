@@ -1,2 +1,2 @@
 require('dotenv').config()
-require("./server/init")()
+require("./server")()

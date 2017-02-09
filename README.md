@@ -27,21 +27,30 @@ FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
 ```
 
 ## Passport
-You'll need to config `Redis` endpoint at `.env`
+You may need to config `Redis` URI at `.env`
 ```shell
-# For localhost standalone dev
 REDIS_STORE_URI=redis://redis:6379
 ```
 ### To login with Facebook
 - http://localhost:3000/auth/facebook/
 
+## Mongoose/Graffiti/GraphQL
+You may need to config `MongoDB` URI at `.env`
+```shell
+# For localhost standalone dev
+MONGO_URI=mongodb://mongo/graphql
+```
+
 ## Develop
 ```shell
 # To build and run docker compose
-npm run dc-start
+npm run up
 
 # Open browser (Ensure to stop other localhost services first)
 open http://localhost:3000/
+
+# To change schema on the fly
+npm run schema
 ```
 
 # GraphQL
@@ -84,7 +93,6 @@ mutation{
 - [x] [`nginx`](https://github.com/nginxinc) for proxy.
 
 ## TODO
-- [ ] Dev mode hot reload schema. https://github.com/glenjamin/ultimate-hot-reloading-example/
 - [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Custom routes.
@@ -93,7 +101,7 @@ mutation{
 - [ ] Add logs.
 - [ ] Add email/pass user.
 - [ ] Link user with social.
-- [ ] Add https://github.com/apollographql/graphql-subscriptions
+- [ ] Grateful shutdown.
 
 ## TOTEST
 - [ ] Redis fail test.
@@ -102,15 +110,12 @@ mutation{
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
-- [ ] Custom schema, Ensure `graphql-tools`.
-- [ ] Custom DB, orm, MongoDB `docker exec -it node1 mongo --eval "rs.initiate()"`
+- [ ] Custom MongoDB replication `docker exec -it node1 mongo --eval "rs.initiate()"`
 - [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
 - [ ] Add passport github.
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
-- [ ] Redis : https://hub.docker.com/_/redis/
-- [ ] MongoDB : https://hub.docker.com/_/mongo/
 - [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
-- [ ] Container config e.g. restart policy.
+- [ ] Container config e.g. restart policy, limits CPU/RAM.
 ```
 version: "3"
 services:
@@ -142,13 +147,11 @@ services:
 ```
 
 ## TOHAVE
-- [ ] Volume `./app` as data container?
-- [ ] Volume file `./graphql/schema.js`?
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] Use yo man gen passport vendors
 - [ ] RabbitMQ?
 - [ ] Notifications or maybe use vendors with webtask.
-- [ ] GraphQL subscriptions.
+- [ ] GraphQL subscriptions :https://github.com/apollographql/graphql-subscriptions
 - [ ] GraphQL advance examples.
 - [ ] yarn? https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
 - [ ] Fallback for `Redis` session store.
