@@ -1,15 +1,15 @@
 {
-  "name": "with-apollo",
-  "version": "1.0.0",
+  "name": "nap",
+  "version": "0.1.0",
   "scripts": {
     "dev": "npm run build && node --harmony index.js",
-    "build": "next build",
     "start": "node --harmony index.js",
-    "nap": "npm run build && npm run start",
-    "dbuild": "docker build -t rabbotio/nap . || true",
-    "dclean": "docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
-    "drun": "docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap || true",
-    "dlogs": "docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
+    "nap": "next build && npm run start",
+    "build-next": "next build",
+    "build": "docker build -t rabbotio/nap . || true",
+    "clean": "docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
+    "run": "docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap || true",
+    "logs": "docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "down": "docker-compose kill && docker-compose down || true",
     "up": "docker-compose build && docker-compose up -d || true"
   },

@@ -14,14 +14,14 @@ WORKDIR /usr/app
 ADD . /usr/app
 
 # Custom pages/components
-ADD $NEXT_PAGES /usr/
-ADD $NEXT_COMPONENTS /usr/
+ADD $NEXT_PAGES /usr/app/pages/
+ADD $NEXT_COMPONENTS /usr/app/components/
 
 # Custom GraphQL schema
-ADD $GRAPHQL_SCHEMA /usr/
+ADD $GRAPHQL_SCHEMA /usr/app/graphql/schema/
 
 # Build next
-RUN npm run build
+RUN npm run build-next
 
 # Port
 EXPOSE 5858
