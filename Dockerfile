@@ -3,7 +3,7 @@ MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 
 # use changes to package.json to force Docker not to use the cache
 # when we change our application's nodejs dependencies:
-ADD package.json /tmp/package.json
+COPY package.json /tmp/package.json
 RUN npm config set registry https://registry.npmjs.org/
 RUN cd /tmp && npm install
 RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
@@ -11,29 +11,29 @@ RUN mkdir -p /usr/app
 
 # From here we load our application's code in, therefore the previous docker
 # "layer" thats been cached will be used if possible
-ADD server /usr/app/server
-ADD passport /usr/app/passport
-ADD graphql /usr/app/graphql
-ADD lib /usr/app/lib
-ADD index.js /usr/app/
-ADD package.json /usr/app/
-ADD .env /usr/app/.env
+COPY server /usr/app/server
+COPY passport /usr/app/passport
+COPY graphql /usr/app/graphql
+COPY lib /usr/app/lib
+COPY index.js /usr/app/
+COPY package.json /usr/app/
+COPY .env /usr/app/.env
 
 # Custom pages/components
-ADD ${SRC_NEXT_PAGES:-'pages'} /usr/app/pages
-ADD ${SRC_NEXT_COMPONENTS:-'components'} /usr/app/components
+COPY ${SRC_NEXT_PAGES:-'pages'} /usr/app/pages
+COPY ${SRC_NEXT_COMPONENTS:-'components'} /usr/app/components
 
 # Custom GraphQL schema
-ADD ${SRC_GRAPHQL_SCHEMA:-'schema'}  /usr/app/graphql/schema
+COPY ${SRC_GRAPHQL_SCHEMA:-'schema'}  /usr/app/graphql/schema
 
 RUN ls /usr/app
 
 # Build next
+WORKDIR /usr/app
 RUN npm run build-next
 
 # Port
 EXPOSE 5858
 EXPOSE 3000
 
-WORKDIR /usr/app
 CMD [ "npm", "start" ]
