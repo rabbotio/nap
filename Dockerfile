@@ -12,7 +12,7 @@ COPY package.json /tmp/package.json
 RUN npm config set registry https://registry.npmjs.org/
 RUN cd /tmp && npm install
 RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
-RUN mkdir -p /usr/app
+WORKDIR /usr/app
 
 # From here we load our application's code in, therefore the previous docker
 # "layer" thats been cached will be used if possible
@@ -22,23 +22,24 @@ COPY package.json /usr/app/
 COPY index.js /usr/app/
 
 # TO BE REMOVE
-COPY lib /usr/app/lib
+# COPY $SRC_NEXT_LIB /usr/app/lib
 
 # Custom pages/components
-COPY $SRC_NEXT_PAGES /usr/app/pages
-COPY $SRC_NEXT_COMPONENTS /usr/app/components
+# COPY $SRC_NEXT_PAGES /usr/app/pages
+# COPY $SRC_NEXT_COMPONENTS /usr/app/components
 
 # Custom GraphQL schema from models
-VOLUME ["/usr/app/models"]
+VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/models"]
 
-RUN ls /usr/app
-
-# Build next
-WORKDIR /usr/app
-RUN npm run build
+# Validate folder
+RUN ls /usr/app/pages
 
 # Port
 EXPOSE 5858
 EXPOSE 3000
 
-CMD [ "npm", "start"]
+# Build next
+# RUN npm run build
+
+# Command
+# CMD [ "npm", "start"]

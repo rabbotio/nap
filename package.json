@@ -2,18 +2,18 @@
   "name": "nap",
   "version": "0.1.0",
   "scripts": {
+    "build": "next build",
     "start": "nodemon --harmony index.js",
     "nap": "next build && npm run start",
-    "build": "next build",
     "build-image": "docker build -t rabbotio/nap . || true",
     "dive": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh",
     "clean": "docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "run": "docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap || true",
     "logs": "docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "stop": "docker stop $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
-    "clear": "docker rm $(docker ps -aq) -f || true && docker system prune -f && docker images && docker ps -a || true",
+    "clear": "docker rm $(docker ps -aq) -f || true docker rmi -f rabbotio/nap && docker system prune -f && docker images && docker ps -a || true",
     "schema": "docker cp ./schema $(docker ps -a -q --filter ancestor=rabbotio/nap):/usr/app/graphql/ || true",
-    "down": "docker-compose kill && docker-compose down || true",
+    "down": "docker-compose kill || true && docker-compose down || true",
     "up": "docker-compose build && docker-compose up -d && docker ps -a || true"
   },
   "dependencies": {

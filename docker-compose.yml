@@ -3,12 +3,9 @@ version: "3"
 services:
   next:
     container_name: next
-    env_file:
-      - .env
+    env_file: .env
     environment:
       - HTTP_PORT=${HTTP_PORT:-3000}
-    build:
-      context: .
     image: rabbotio/nap
     restart: always
     links:
@@ -20,7 +17,12 @@ services:
       - "3000:3000"
       - "5858:5858"
     volumes:
-      - ./${SRC_MONGOOSE_MODELS:-models}:/usr/app/models
+      - ${SRC_NEXT_PAGES:-./pages}:/usr/app/pages
+      - ${SRC_NEXT_COMPONENTS:-./components}:/usr/app/components
+      - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
+      - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
+    build: .
+    command: npm run nap
     networks:
       - front
       - back
