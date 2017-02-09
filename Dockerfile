@@ -11,7 +11,12 @@ RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
 # From here we load our application's code in, therefore the previous docker
 # "layer" thats been cached will be used if possible
 WORKDIR /usr/app
-ADD . /usr/app
+ADD server /usr/app
+ADD passport /usr/app
+ADD lib /usr/app
+ADD index.js /usr/app
+ADD package.json /usr/app
+ADD .env /usr/app
 
 # Custom pages/components
 ADD $NEXT_PAGES /usr/app/pages/

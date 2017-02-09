@@ -30,14 +30,13 @@ const init = (app) => {
   // POC// app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
   // Store
-  const config = require('../config')
   const session = require('express-session')
   const RedisStore = require('connect-redis')(session)
   app.use(session({
     store: new RedisStore({
-      url: config.redis.url
+      url: process.env.REDIS_STORE_URI
     }),
-    secret: config.redis.secret,
+    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: true,
     saveUninitialized: true
   }))
