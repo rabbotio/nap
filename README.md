@@ -8,80 +8,11 @@
 Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 ├─ NodeJS 7.5
-│  ├─ NextJS ["/app"]
-│  ├─ Apollo GraphQL ["/graphql"]
+│  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib"]
+│  ├─ Apollo GraphQL ["/usr/app/models"]
 │  └─ PassportJS ["/vendors"]
 ├─ Redis ["/data"]
 └─ MongoDB ["/data/db"]
-```
-
-## Config
-```shell
-cp .env.example .env
-```
-Then fill up `.env` file. e.g.
-```shell
-# This is fake id, use your own!
-FACEBOOK_APP_ID=213587919136550
-FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
-```
-
-## Passport
-You may need to config `Redis` URI at `.env`
-```shell
-EXPRESS_SESSION_REDIS_URI=redis://redis
-```
-### To login with Facebook
-- http://localhost:3000/auth/facebook/
-
-## Mongoose/Graffiti/GraphQL
-You may need to config `MongoDB` URI at `.env`
-```shell
-# For localhost standalone dev
-MONGO_URI=mongodb://mongo/graphql
-```
-
-## Develop
-```shell
-# Install dependency
-npm i
-
-# To build and run docker compose
-npm run up
-
-# Open browser (Ensure to stop other localhost services first)
-open http://localhost:3000/
-
-# To change schema on the fly
-npm run schema
-```
-
-# GraphQL
-![](art/graphql.png)
-```
-# Query
-{
-  pets(name: "katopz") {
-    id
-    name
-  }
-}
-
-# Mutation
-mutation{
-  addPet(input:{name:"katopz", type: "B", age: 11}) {
-    viewer {
-      pets(name:"katopz") {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-}
 ```
 
 ## Stacks
@@ -94,6 +25,40 @@ mutation{
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
 - [x] [`nginx`](https://github.com/nginxinc) for proxy.
+
+## Config
+```shell
+cp .env.example .env
+```
+Then fill up `.env` file. e.g.
+```shell
+# This is fake id, use your own!
+FACEBOOK_APP_ID=213587919136550
+FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
+```
+
+## Develop
+```shell
+# Install dependency
+npm i
+
+# To build and run docker compose
+npm run up
+
+# Open browser (Ensure to stop other localhost services first)
+open http://localhost:3000/
+```
+
+## Build
+```shell
+# To build Docker file
+npm run build-image
+```
+
+## Examples
+- https://github.com/rabbotio/nap-graffiti-mongoose
+
+- - -
 
 ## TODO
 - [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
