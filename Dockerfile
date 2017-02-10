@@ -30,5 +30,8 @@ EXPOSE 5858
 # HTTP port, default to 3000
 EXPOSE ${HTTP_PORT:-3000}
 
+# node_modules
+ENV NODE_PATH /usr/app/node_modules/
+
 # Start server
-CMD [ "npm", "start"]
+# CMD [ "npm", "run", "server"]

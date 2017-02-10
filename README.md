@@ -47,8 +47,8 @@ open http://localhost:3000/
 
 ## Build
 ```shell
-# To build Docker file
-npm run build-image
+# To build Docker file image
+npm run bi
 ```
 
 ## Examples

@@ -20,7 +20,7 @@ services:
       - ${SRC_NEXT:-./.next}:/usr/app/.next
       - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
     build: .
-    command: npm run nap
+    command: npm run server
     networks:
       - front
       - back
