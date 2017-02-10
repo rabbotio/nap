@@ -43,6 +43,9 @@ MONGO_URI=mongodb://mongo/graphql
 
 ## Develop
 ```shell
+# Install dependency
+npm i
+
 # To build and run docker compose
 npm run up
 
