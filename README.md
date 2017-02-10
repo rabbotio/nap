@@ -1,9 +1,10 @@
 # nap
-[WIP] NextJS/Apollo/PassportJS
+[WIP] NextJS/ApolloJS/PassportJS
+Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authentication, Docker for development and production.
 
 ![](art/nap-logo.png)
 
-## Stacks
+## Overview
 ```
 Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
