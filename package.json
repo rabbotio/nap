@@ -12,14 +12,12 @@
     "logs": "docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "stop": "docker stop $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "clear": "docker rm $(docker ps -aq) -f || true docker rmi -f rabbotio/nap && docker system prune -f && docker images && docker ps -a || true",
-    "schema": "docker cp ./schema $(docker ps -a -q --filter ancestor=rabbotio/nap):/usr/app/graphql/ || true",
     "down": "docker-compose kill || true && docker-compose down || true",
     "up": "docker-compose build && docker-compose up -d && docker ps -a || true"
   },
   "dependencies": {
     "@risingstack/graffiti": "^3.3.0",
     "@risingstack/graffiti-mongoose": "^6.0.0",
-    "apollo-client": "^0.8.3",
     "body-parser": "^1.16.0",
     "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
@@ -27,16 +25,12 @@
     "express": "^4.14.1",
     "express-session": "^1.15.0",
     "graphql": "^0.9.1",
-    "graphql-tag": "^1.2.4",
     "graphql-tools": "^0.10.0",
-    "isomorphic-fetch": "^2.2.1",
     "mongoose": "^4.8.1",
     "morgan": "^1.8.0",
     "next": "^2.0.0-beta",
     "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1",
-    "react-apollo": "^0.10.0",
-    "redux": "^3.6.0"
+    "passport-facebook": "^2.1.1"
   },
   "author": "katopz@gmail.com",
   "license": "MIT",

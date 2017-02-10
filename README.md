@@ -29,13 +29,8 @@ Docker
 
 ## Config
 ```shell
+# Edit .env as you wish
 cp .env.example .env
-```
-Then fill up `.env` file. e.g.
-```shell
-# This is fake id, use your own!
-FACEBOOK_APP_ID=213587919136550
-FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
 ```
 
 ## Develop
@@ -63,12 +58,12 @@ npm run build-image
 
 ## TODO
 - [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
-- [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Custom routes.
-- [ ] Add `Nginx` container.
+- [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
+- [ ] Add `Nginx` container.https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Add logs.
-- [ ] Add email/pass user.
+- [ ] Add logs. https://github.com/expressjs/morgan
+- [ ] Add email/pass user.https://github.com/iaincollins/nextjs-starter
 - [ ] Link user with social.
 - [ ] Grateful shutdown.
 
