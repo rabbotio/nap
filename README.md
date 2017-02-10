@@ -9,7 +9,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 ├─ NodeJS 7.5
-│  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib"]
+│  ├─ NextJS ["/usr/app/.next", "/usr/app/components", "/usr/app/lib"]
 │  ├─ Apollo GraphQL ["/usr/app/models"]
 │  └─ PassportJS ["/vendors"]
 ├─ Redis ["/data"]

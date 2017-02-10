@@ -2,9 +2,10 @@
   "name": "nap",
   "version": "0.1.0",
   "scripts": {
+    "dev": "next",
     "build": "next build",
+    "nap": "next start",
     "start": "nodemon --harmony index.js",
-    "nap": "next build && npm run start",
     "build-image": "docker build -t rabbotio/nap . || true",
     "dive": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh",
     "clean": "docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
@@ -30,7 +31,9 @@
     "morgan": "^1.8.0",
     "next": "^2.0.0-beta",
     "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1"
+    "passport-facebook": "^2.1.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
   },
   "author": "katopz@gmail.com",
   "license": "MIT",

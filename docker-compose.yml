@@ -17,10 +17,7 @@ services:
       - "5858:5858" # Node Inspector port
       - "3000:${HTTP_PORT:-3000}" # HTTP port
     volumes:
-      - ${SRC_NEXT_PAGES:-./pages}:/usr/app/pages
-      - ${SRC_NEXT_COMPONENTS:-./components}:/usr/app/components
-      - ${SRC_NEXT_STATIC:-./lib}:/usr/app/static
-      - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
+      - ${SRC_NEXT:-./.next}:/usr/app/.next
       - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
     build: .
     command: npm run nap
