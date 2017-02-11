@@ -13,16 +13,16 @@ services:
       - mongo
     working_dir: /usr/app
     ports:
-      - "9229:9229" # V8 inspector
-      - "3000:3000"
-      - "5858:5858"
+      - "5858:5858" # Node Inspector port
+      - "3000:${HTTP_PORT:-3000}" # HTTP port
     volumes:
       - ${SRC_NEXT_PAGES:-./pages}:/usr/app/pages
       - ${SRC_NEXT_COMPONENTS:-./components}:/usr/app/components
+      - ${SRC_NEXT_STATIC:-./static}:/usr/app/static
       - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
       - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
     build: .
-    command: npm run nap
+    command: npm run build-back # Will build next and run express server
     networks:
       - front
       - back
@@ -52,6 +52,7 @@ services:
       - mongo_data:/data/db
     ports:
       - "27017:27017"
+    restart: always
     command: --smallfiles --rest
     networks:
       - back

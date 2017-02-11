@@ -25,52 +25,122 @@ Docker
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
-- [x] [`nginx`](https://github.com/nginxinc) for proxy.
+- [ ] [`nginx`](https://github.com/nginxinc) for proxy.
+- [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 
 ## Config
 ```shell
+# Edit .env as you wish
 cp .env.example .env
-```
-Then fill up `.env` file. e.g.
-```shell
-# This is fake id, use your own!
-FACEBOOK_APP_ID=213587919136550
-FACEBOOK_APP_SECRET=249ac8dcc38afe95decf442fc4e63ec8
 ```
 
 ## Develop
+### To develop frontend
 ```shell
 # Install dependency
 npm i
 
-# To build and run docker compose
-npm run up
+# Develop with `nextjs` as usual, Try modify pages, components, lib, static
+npm run dev
 
 # Open browser (Ensure to stop other localhost services first)
 open http://localhost:3000/
 ```
 
-## Build
+### To develop backend
 ```shell
-# To build Docker file
-npm run build-image
+# You know what to do right? If not don't ask!
 ```
 
-## Examples
-- https://github.com/rabbotio/nap-graffiti-mongoose
+### To develop backend via docker
+```shell
+# To build and run docker compose
+npm run up
+
+# Try modify file in ./models and see the chagend at GraphiQL
+open http://localhost:3000/graphql
+```
+
+### Addition
+```shell
+# To kill all and tear down
+npm run down
+
+# To dive in container
+npm run dive
+```
+
+- - -
+
+## Next
+```shell
+# This will auto sync by docker volume
+SRC_NEXT_PAGES=./pages
+SRC_NEXT_COMPONENTS=./components
+SRC_NEXT_STATIC=./static
+SRC_NEXT_LIB=./lib
+- - -
+
+## Apollo GraphQL
+```shell
+# This will auto sync via docker volume and auto build by nodemon
+SRC_MONGOOSE_MODELS=./models
+
+# Query
+{
+  pets(name: "katopz") {
+    id
+    name
+  }
+}
+
+# Mutation
+mutation{
+  addPet(input:{name:"katopz", type: "B", age: 11}) {
+    viewer {
+      pets(name:"katopz") {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+```
+More query : https://github.com/RisingStack/graffiti-mongoose#usage
+
+## Mongoose/Graffiti/GraphQL
+You may need to config `MongoDB` URI at `.env`
+```shell
+# For localhost standalone dev
+MONGO_URI=mongodb://mongo/graphql
+```
+- - -
+
+## Passport
+You may need to config `Redis` URI at `.env`
+```shell
+EXPRESS_SESSION_REDIS_URI=redis://redis
+```
+### To login with Facebook
+- http://localhost:3000/auth/facebook/
 
 - - -
 
 ## TODO
 - [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
-- [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Custom routes.
-- [ ] Add `Nginx` container.
+- [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
+- [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Add logs.
-- [ ] Add email/pass user.
+- [ ] Add logs. https://github.com/expressjs/morgan
+- [ ] Add email/pass user.https://github.com/iaincollins/nextjs-starter
 - [ ] Link user with social.
 - [ ] Grateful shutdown.
+- [ ] Don't run as root https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 
 ## TOTEST
 - [ ] Redis fail test.
