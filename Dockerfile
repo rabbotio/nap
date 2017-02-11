@@ -1,7 +1,10 @@
 FROM node:7.5.0-alpine
 MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 
-ARG SRC_NEXT=${SRC_NEXT:-'./.next'}
+ARG SRC_NEXT_PAGES=${SRC_NEXT_PAGES:-'./pages'}
+ARG SRC_NEXT_COMPONENTS=${SRC_NEXT_COMPONENTS:-'./components'}
+ARG SRC_NEXT_LIB=${SRC_NEXT_LIB:-'./lib'}
+ARG SRC_NEXT_STATIC=${SRC_NEXT_STATIC:-'./static'}
 ARG SRC_MONGOOSE_MODELS=${SRC_MONGOOSE_MODELS:-'./models'}
 
 # Ref : http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/
@@ -21,8 +24,8 @@ COPY package.json /usr/app/
 COPY index.js /usr/app/
 
 # Make volume path
-RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/models
-VOLUME ["/usr/app/.next", "/usr/app/models"]
+RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/pages && mkdir -p /usr/app/components && mkdir -p /usr/app/lib && mkdir -p /usr/app/static && mkdir -p /usr/app/models
+VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/static", "/usr/app/models"]
 
 # Port
 # Node Inspector port
@@ -30,8 +33,5 @@ EXPOSE 5858
 # HTTP port, default to 3000
 EXPOSE ${HTTP_PORT:-3000}
 
-# node_modules
-ENV NODE_PATH /usr/app/node_modules/
-
-# Start server
-# CMD [ "npm", "run", "server"]
+# Start server (Can't start yet bacause volume is not ready yet, we'll start with compose instead)
+# CMD [ "npm", "start"]

@@ -9,7 +9,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 ├─ NodeJS 7.5
-│  ├─ NextJS ["/usr/app/.next", "/usr/app/components", "/usr/app/lib"]
+│  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib"]
 │  ├─ Apollo GraphQL ["/usr/app/models"]
 │  └─ PassportJS ["/vendors"]
 ├─ Redis ["/data"]
@@ -25,7 +25,8 @@ Docker
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
-- [x] [`nginx`](https://github.com/nginxinc) for proxy.
+- [ ] [`nginx`](https://github.com/nginxinc) for proxy.
+- [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 
 ## Config
 ```shell
@@ -34,25 +35,98 @@ cp .env.example .env
 ```
 
 ## Develop
+### To develop frontend
 ```shell
 # Install dependency
 npm i
 
-# To build and run docker compose
-npm run up
+# Develop with `nextjs` as usual, Try modify pages, components, lib, static
+npm run dev
 
 # Open browser (Ensure to stop other localhost services first)
 open http://localhost:3000/
 ```
 
-## Build
+### To develop backend
 ```shell
-# To build Docker file image
-npm run bi
+# You know what to do right? If not don't ask!
 ```
 
-## Examples
-- https://github.com/rabbotio/nap-graffiti-mongoose
+### To develop backend via docker
+```shell
+# To build and run docker compose
+npm run up
+
+# Try modify file in ./models and see the chagend at GraphiQL
+open http://localhost:3000/graphql
+```
+
+### Addition
+```shell
+# To kill all and tear down
+npm run down
+
+# To dive in container
+npm run dive
+```
+
+- - -
+
+## Next
+```shell
+# This will auto sync by docker volume
+SRC_NEXT_PAGES=./pages
+SRC_NEXT_COMPONENTS=./components
+SRC_NEXT_STATIC=./static
+SRC_NEXT_LIB=./lib
+- - -
+
+## Apollo GraphQL
+```shell
+# This will auto sync via docker volume and auto build by nodemon
+SRC_MONGOOSE_MODELS=./models
+
+# Query
+{
+  pets(name: "katopz") {
+    id
+    name
+  }
+}
+
+# Mutation
+mutation{
+  addPet(input:{name:"katopz", type: "B", age: 11}) {
+    viewer {
+      pets(name:"katopz") {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+```
+More query : https://github.com/RisingStack/graffiti-mongoose#usage
+
+## Mongoose/Graffiti/GraphQL
+You may need to config `MongoDB` URI at `.env`
+```shell
+# For localhost standalone dev
+MONGO_URI=mongodb://mongo/graphql
+```
+- - -
+
+## Passport
+You may need to config `Redis` URI at `.env`
+```shell
+EXPRESS_SESSION_REDIS_URI=redis://redis
+```
+### To login with Facebook
+- http://localhost:3000/auth/facebook/
 
 - - -
 
@@ -60,12 +134,13 @@ npm run bi
 - [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
 - [ ] Custom routes.
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
-- [ ] Add `Nginx` container.https://github.com/rabbotio/nginx-certbot
+- [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
 - [ ] Add logs. https://github.com/expressjs/morgan
 - [ ] Add email/pass user.https://github.com/iaincollins/nextjs-starter
 - [ ] Link user with social.
 - [ ] Grateful shutdown.
+- [ ] Don't run as root https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 
 ## TOTEST
 - [ ] Redis fail test.
