@@ -7,10 +7,8 @@ const init = app => {
   // Middleware
   const schema = require('./schema')
   const graffiti = require('@risingstack/graffiti')
-  const { json } = require("body-parser")
 
   // Apply
-  app.use(json())
   app.use(graffiti.express({ schema }))
 }
 

@@ -49,19 +49,44 @@ open http://localhost:3000/
 
 ### To develop backend
 ```shell
+# Change Redis, MongoDB to your .env
+EXPRESS_SESSION_REDIS_URI=redis://localhost
+MONGO_URI=mongodb://localhost/graphql
+
 # Manually do what docker compose do or just use docker compose :)
+npm run up
+
+# Then stop `nap` server inside container.
+npm run stop
+
+# Finally start server from external.
+npm run serve
+```
+
+### To develop frontend via docker
+```shell
+# Change docker-compose from
+    command: npm run build-back
+# to 
+    command: npm run build-front
+
+# To build and run docker compose (it take sometime to build)
+npm run up
+
+# Try modify file in ./pages ./component ./lib and see the result (will need refresh)
+open http://localhost:3000
 ```
 
 ### To develop backend via docker
 ```shell
-# To build and run docker compose
+# To build and run docker compose (it take sometime to build)
 npm run up
 
-# Try modify file in ./models and see the changed via GraphiQL
-open http://localhost:3000/graphql
-
-# Try modify file in ./routes and see the changed
+# Try modify file in ./routes ./server and see the result
 open http://localhost:3000
+
+# Try modify file in ./models and see the result via GraphiQL
+open http://localhost:3000/graphql
 ```
 
 ### Addition

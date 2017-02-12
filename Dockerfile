@@ -19,14 +19,13 @@ WORKDIR /usr/app
 
 # From here we load our application's code in, therefore the previous docker
 # "layer" thats been cached will be used if possible
-COPY server /usr/app/server
 COPY .env /usr/app/.env
 COPY package.json /usr/app/
 COPY index.js /usr/app/
 
 # Make volume path
 # RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/pages && mkdir -p /usr/app/components && mkdir -p /usr/app/lib && mkdir -p /usr/app/public && mkdir -p /usr/app/models
-VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes"]
+VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes", "/usr/app/server"]
 
 # Port
 # Node Inspector port

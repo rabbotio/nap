@@ -20,7 +20,11 @@ const init = app => {
   // logging, parsing, and session handling.
   app.use(require("morgan")("combined"))
   app.use(require("cookie-parser")(secret))
-  app.use(require("body-parser").urlencoded({ extended: true }))
+
+  // Apply
+  const bodyParser = require("body-parser")
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
   // POC// app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
   // Passport does not directly manage your session, it only uses the session.

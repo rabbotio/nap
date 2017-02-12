@@ -22,6 +22,7 @@ services:
       - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
       - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
       - ${SRC_MONGOOSE_ROUTES:-./routes}:/usr/app/routes
+      - ${SRC_SERVER:-./server}:/usr/app/server
     build: .
     command: npm run build-back # Will build next and run express server
     networks:
