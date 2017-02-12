@@ -1,10 +1,10 @@
 const init = () => {
   // Next
-  const next = require('next')({
+  const nextjs = require('next')({
     IS_DEVELOPMENT: (process.env.NODE_ENV === 'development')
   })
 
-  next.prepare().then(() => {
+  nextjs.prepare().then(() => {
     // Create a new Express application.
     const app = require('express')()
 
@@ -15,7 +15,7 @@ const init = () => {
     process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app)
 
     // Express
-    require('./express')(app, next)
+    require('./express')(app, nextjs)
   })
 }
 

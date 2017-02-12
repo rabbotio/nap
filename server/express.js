@@ -1,13 +1,13 @@
-const init = (app, next) => {
+const init = (app, nextjs) => {
   // Custom routes
   try {
-    require('../routes')(app, next)
+    require('../routes')(app, nextjs)
   } catch(e) {
     // Never mind.
   }
 
   // Next
-  const handle = next.getRequestHandler()
+  const handle = nextjs.getRequestHandler()
   app.get('*', (req, res) => handle(req, res))
 
   // Server
