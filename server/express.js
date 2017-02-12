@@ -2,7 +2,7 @@ const init = (app, nextjs) => {
   // Custom routes
   try {
     require('../routes')(app, nextjs)
-  } catch(e) {
+  } catch (e) {
     // Never mind.
   }
 

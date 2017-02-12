@@ -24,7 +24,7 @@ schema {
   query: Query
   mutation: Mutation
 }
-`];
+`]
 
 const resolvers = {
   Query: {

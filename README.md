@@ -40,7 +40,7 @@ cp .env.example .env
 # Install dependency
 npm i
 
-# Develop with `nextjs` as usual, Try modify pages, components, lib, static
+# Develop with `nextjs` as usual, Try modify pages, components, lib, public
 npm run dev
 
 # Open browser (Ensure to stop other localhost services first)
@@ -80,7 +80,7 @@ npm run dive
 # This will auto sync by docker volume
 SRC_NEXT_PAGES=./pages
 SRC_NEXT_COMPONENTS=./components
-SRC_NEXT_STATIC=./static
+SRC_NEXT_STATIC=./public
 SRC_NEXT_LIB=./lib
 ```
 

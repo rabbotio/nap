@@ -5,8 +5,13 @@ const init = () => {
   })
 
   nextjs.prepare().then(() => {
+    const express = require('express')
+
     // Create a new Express application.
-    const app = require('express')()
+    const app = express()
+
+    // Static
+    app.use(express.static('public'))
 
     // Passport
     process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app)

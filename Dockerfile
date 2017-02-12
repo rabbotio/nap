@@ -4,7 +4,7 @@ MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 ARG SRC_NEXT_PAGES=${SRC_NEXT_PAGES:-'./pages'}
 ARG SRC_NEXT_COMPONENTS=${SRC_NEXT_COMPONENTS:-'./components'}
 ARG SRC_NEXT_LIB=${SRC_NEXT_LIB:-'./lib'}
-ARG SRC_NEXT_STATIC=${SRC_NEXT_STATIC:-'./static'}
+ARG SRC_NEXT_STATIC=${SRC_NEXT_STATIC:-'./public'}
 ARG SRC_MONGOOSE_MODELS=${SRC_MONGOOSE_MODELS:-'./models'}
 ARG SRC_MONGOOSE_ROUTES=${SRC_MONGOOSE_ROUTES:-'./routes'}
 
@@ -25,8 +25,8 @@ COPY package.json /usr/app/
 COPY index.js /usr/app/
 
 # Make volume path
-# RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/pages && mkdir -p /usr/app/components && mkdir -p /usr/app/lib && mkdir -p /usr/app/static && mkdir -p /usr/app/models
-VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/static", "/usr/app/models", "/usr/app/routes"]
+# RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/pages && mkdir -p /usr/app/components && mkdir -p /usr/app/lib && mkdir -p /usr/app/public && mkdir -p /usr/app/models
+VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes"]
 
 # Port
 # Node Inspector port

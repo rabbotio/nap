@@ -14,9 +14,9 @@ module.exports = new GraphQLSchema({
       hello: {
         type: GraphQLString,
         resolve() {
-          return 'world';
+          return 'world'
         }
       }
     }
   })
-});
+})
