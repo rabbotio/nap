@@ -8,8 +8,8 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "cwd": "${workspaceRoot}/app",
-      "program": "${workspaceRoot}/app/index.js",
+      "cwd": "${workspaceRoot}",
+      "program": "${workspaceRoot}/index.js",
       "args": ["--harmony"]
     }
   ]
