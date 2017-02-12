@@ -1,4 +1,4 @@
-const index = () => {
+const init = () => {
   // Next
   const next = require('next')({
     IS_DEVELOPMENT: (process.env.NODE_ENV === 'development')
@@ -14,9 +14,9 @@ const index = () => {
     // Apollo
     process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app)
 
-    // Next
-    require('./routes')(app, next)
+    // Express
+    require('./express')(app, next)
   })
 }
 
-module.exports = index
+module.exports = init

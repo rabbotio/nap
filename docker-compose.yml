@@ -21,6 +21,7 @@ services:
       - ${SRC_NEXT_STATIC:-./static}:/usr/app/static
       - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
       - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
+      - ${SRC_MONGOOSE_ROUTES:-./routes}:/usr/app/routes
     build: .
     command: npm run build-back # Will build next and run express server
     networks:
@@ -34,7 +35,7 @@ services:
       - "6379:6379"
     restart: always
     volumes:
-      - redis:/data
+      - redis_data:/data
     networks:
       - back
 
@@ -62,5 +63,5 @@ networks:
   back:
 
 volumes:
-  redis:
+  redis_data:
   mongo_data:

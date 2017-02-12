@@ -1,4 +1,4 @@
-const index = app => {
+const init = app => {
   // Custom config
   const IS_DEVELOPMENT = process.env.NODE_ENV === "development"
   const GRAPHQL_PRETTY = process.env.GRAPHQL_PRETTY === "1" || IS_DEVELOPMENT
@@ -14,4 +14,4 @@ const index = app => {
   app.use(graffiti.express({ schema }))
 }
 
-module.exports = index
+module.exports = init

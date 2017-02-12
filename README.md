@@ -49,7 +49,7 @@ open http://localhost:3000/
 
 ### To develop backend
 ```shell
-# You know what to do right? If not don't ask!
+# Manually do what docker compose do or just use docker compose :)
 ```
 
 ### To develop backend via docker
@@ -57,8 +57,11 @@ open http://localhost:3000/
 # To build and run docker compose
 npm run up
 
-# Try modify file in ./models and see the chagend at GraphiQL
+# Try modify file in ./models and see the changed via GraphiQL
 open http://localhost:3000/graphql
+
+# Try modify file in ./routes and see the changed
+open http://localhost:3000
 ```
 
 ### Addition
@@ -79,6 +82,8 @@ SRC_NEXT_PAGES=./pages
 SRC_NEXT_COMPONENTS=./components
 SRC_NEXT_STATIC=./static
 SRC_NEXT_LIB=./lib
+```
+
 - - -
 
 ## Apollo GraphQL

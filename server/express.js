@@ -1,12 +1,10 @@
 const init = (app, next) => {
   // Custom routes
-  app.get('/a', (req, res) => {
-    return next.render(req, res, '/b', req.query)
-  })
-
-  app.get('/b', (req, res) => {
-    return next.render(req, res, '/a', req.query)
-  })
+  try {
+    require('../routes')(app, next)
+  } catch(e) {
+    // Never mind.
+  }
 
   // Next
   const handle = next.getRequestHandler()
