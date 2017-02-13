@@ -1,1 +1,1 @@
-export default () => <div>a<img src="nap-logo.png"/></div>
+export default () => <div>a<img src='nap-logo.png'/></div>

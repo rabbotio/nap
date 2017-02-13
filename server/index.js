@@ -1,4 +1,4 @@
-require("./debug")
+require('./debug')
 
 const init = () => {
   // Next

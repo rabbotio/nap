@@ -98,14 +98,14 @@ const init = (app, passport) => {
 
     app.get(
       `/auth/${provider}/callback`,
-      passport.authenticate(provider, { failureRedirect: "/login" }),
+      passport.authenticate(provider, { failureRedirect: '/login' }),
       (req, res) => {
         // Redirect to the sign in success, page which will force the client to update it's cache
         res.redirect('/')
       })
 
-    app.get("/auth/facebook/return",
-      passport.authenticate("facebook", { failureRedirect: "/login" }),
+    app.get('/auth/facebook/return',
+      passport.authenticate('facebook', { failureRedirect: '/login' }),
       (req, res) => {
         // Successful authentication, redirect home.
         res.redirect('/')
