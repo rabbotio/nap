@@ -22,6 +22,7 @@ WORKDIR /usr/app
 COPY .env /usr/app/.env
 COPY package.json /usr/app/
 COPY index.js /usr/app/
+COPY debug.js /usr/app/
 
 # Make volume path
 # RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/pages && mkdir -p /usr/app/components && mkdir -p /usr/app/lib && mkdir -p /usr/app/public && mkdir -p /usr/app/models

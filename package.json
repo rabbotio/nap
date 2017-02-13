@@ -2,6 +2,7 @@
   "name": "nap",
   "version": "0.1.0",
   "scripts": {
+    "lint": "eslint .",
     "dev": "next",
     "build": "next build",
     "start": "next start",
@@ -47,6 +48,11 @@
   "author": "katopz@gmail.com",
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.15.0",
+    "eslint-plugin-babel": "^4.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-react": "^6.9.0",
     "nodemon": "^1.11.0"
   }
 }

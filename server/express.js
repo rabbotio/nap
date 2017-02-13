@@ -14,7 +14,7 @@ const init = (app, nextjs) => {
   const HTTP_PORT = process.env.HTTP_PORT || 3000
   app.listen(HTTP_PORT, (err) => {
     if (err) throw err
-    console.log(`> [${process.env.NODE_ENV}] Ready on http://localhost:${HTTP_PORT}`)
+    debug.log(`> Ready on http://localhost:${HTTP_PORT}`)
   })
 }
 
