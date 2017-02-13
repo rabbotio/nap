@@ -8,8 +8,8 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 ```
 Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
-├─ NodeJS 7.5
-│  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib"]
+├─ NodeJS 7.5 --harmony, nodemon
+│  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/routes", "/usr/app/server"]
 │  ├─ Apollo GraphQL ["/usr/app/models"]
 │  └─ PassportJS ["/vendors"]
 ├─ Redis ["/data"]
@@ -25,6 +25,7 @@ Docker
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
+- [x] Pre/Post [`graffiti-mongoose` hooks](https://github.com/RisingStack/graffiti-mongoose#resolve-hooks).
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
 - [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 
@@ -161,8 +162,6 @@ EXPRESS_SESSION_REDIS_URI=redis://redis
 - - -
 
 ## TODO
-- [ ] Add pre, post hook for authen https://github.com/RisingStack/graffiti-mongoose#resolve-hooks
-- [ ] Custom routes.
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
@@ -174,8 +173,11 @@ EXPRESS_SESSION_REDIS_URI=redis://redis
 
 ## TOTEST
 - [ ] Redis fail test.
+- [ ] MongoDB fail test.
 - [ ] HTTP fail test.
 - [ ] HTTPS fail test.
+- [ ] Test `graffiti-mongoose` hooks.
+- [ ] Passport test.
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
@@ -229,7 +231,6 @@ services:
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Notifications Support.
-- [ ] Hook Support.
 - [ ] Admin Dashboard with `SSH`.
 - [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)
 - [ ] Cron with `webtask.io`.
