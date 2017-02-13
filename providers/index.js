@@ -28,7 +28,7 @@ const init = (providers) => {
         consumerSecret: process.env.TWITTER_SECRET
       },
       scope: null,
-      getUserFromProfile: (profile) => ({
+      getUserFromProfile: (profile) => (debug.log(profile) && {
         id: profile.id,
         name: profile.displayName,
         email: profile.username + '@twitter'
@@ -47,7 +47,7 @@ const init = (providers) => {
         clientSecret: process.env.GOOGLE_SECRET
       },
       scope: 'profile email',
-      getUserFromProfile: (profile) => ({
+      getUserFromProfile: (profile) => (debug.log(profile) && {
         id: profile.id,
         name: profile.displayName,
         email: profile.emails[0].value
@@ -55,7 +55,23 @@ const init = (providers) => {
     })
   }
 
-  // TODO : Add Github
+  // Github
+  if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+    providers.push({
+      provider: 'github',
+      Strategy: require('passport-github2').Strategy,
+      strategyOptions: {
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET
+      },
+      scope: null,
+      getUserFromProfile: (profile) => ({
+        id: profile.id,
+        name: profile.displayName,
+        email: profile.emails[0].value
+      })
+    })
+  }
 }
 
 module.exports = init
