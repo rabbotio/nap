@@ -1,3 +1,5 @@
+require('./debug')
+
 const init = () => {
   // Next
   const nextjs = require('next')({
