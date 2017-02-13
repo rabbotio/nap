@@ -6,15 +6,15 @@ const init = (app, nextjs) => {
     // Never mind.
   }
 
-  // Next
+  // Default catch-all handler to allow Next.js to handle all other routes
   const handle = nextjs.getRequestHandler()
-  app.get('*', (req, res) => handle(req, res))
+  app.all('*', (req, res) => handle(req, res))
 
   // Server
   const HTTP_PORT = process.env.HTTP_PORT || 3000
   app.listen(HTTP_PORT, (err) => {
     if (err) throw err
-    console.log(`> Ready on http://localhost:${HTTP_PORT}`)
+    console.log(`> [${process.env.NODE_ENV}] Ready on http://localhost:${HTTP_PORT}`)
   })
 }
 

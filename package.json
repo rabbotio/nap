@@ -20,12 +20,12 @@
     "stop": "docker stop $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "clear": "docker rm $(docker ps -aq) -f || true docker rmi -f rabbotio/nap && docker system prune -f && docker images && docker ps -a || true",
     "down": "docker-compose kill || true && docker-compose down || true",
-    "up": "docker-compose build && docker-compose up -d && docker ps -a || true"
+    "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true"
   },
   "dependencies": {
     "@risingstack/graffiti": "^3.3.0",
     "@risingstack/graffiti-mongoose": "^6.0.0",
-    "apollo-client": "^0.8.4",
+    "apollo-client": "^0.8.5",
     "body-parser": "^1.16.1",
     "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
@@ -41,7 +41,7 @@
     "next": "^2.0.0-beta",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
-    "react-apollo": "^0.10.0",
+    "react-apollo": "^0.10.1",
     "redux": "^3.6.0"
   },
   "author": "katopz@gmail.com",
