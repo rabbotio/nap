@@ -25,7 +25,7 @@ Docker
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
-- [x] Pre/Post [`graffiti-mongoose` hooks](https://github.com/RisingStack/graffiti-mongoose#resolve-hooks).
+- [x] Pre/Post [`graffiti-mongoose` hooks](https://github.com/RisingStack/graffiti-mongoose#resolve-hooks) for authentications.
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
 - [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 
