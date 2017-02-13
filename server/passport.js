@@ -2,15 +2,6 @@ const init = app => {
   const passport = require("passport")
   const secret = process.env.EXPRESS_SESSION_SECRET || "foo"
 
-  // Use Facebook
-  const FacebookStrategy = require("passport-facebook").Strategy
-  passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
-  }, (accessToken, refreshToken, profile, cb) => {
-    return cb(null, profile)
-  }))
 
   // Configure Passport authenticated session persistence.
   passport.serializeUser((user, cb) => cb(null, user))
@@ -48,25 +39,8 @@ const init = app => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  app.get("/auth/facebook", passport.authenticate("facebook"))
-
-  app.get(
-    "/auth/facebook/callback",
-    passport.authenticate("facebook", { failureRedirect: "/login" }),
-    (req, res) => {
-      // Successful authentication, redirect home.
-      res.redirect("/")
-    }
-  )
-
-  app.get(
-    "/auth/facebook/return",
-    passport.authenticate("facebook", { failureRedirect: "/login" }),
-    function (req, res) {
-      // Successful authentication, redirect home.
-      res.redirect("/")
-    }
-  )
+  // Initialize providers
+  require('./providers')(app, passport)
 }
 
 module.exports = init

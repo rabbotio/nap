@@ -7,6 +7,8 @@ ARG SRC_NEXT_LIB=${SRC_NEXT_LIB:-'./lib'}
 ARG SRC_NEXT_STATIC=${SRC_NEXT_STATIC:-'./public'}
 ARG SRC_MONGOOSE_MODELS=${SRC_MONGOOSE_MODELS:-'./models'}
 ARG SRC_MONGOOSE_ROUTES=${SRC_MONGOOSE_ROUTES:-'./routes'}
+ARG SRC_PASSPORT_PROVIDERS=${SRC_PASSPORT_PROVIDERS:-'./providers'}
+ARG SRC_SERVER=${SRC_SERVER:-'./server'}
 
 # Ref : http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/
 # use changes to package.json to force Docker not to use the cache
@@ -25,7 +27,7 @@ COPY index.js /usr/app/
 
 # Make volume path
 # RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/pages && mkdir -p /usr/app/components && mkdir -p /usr/app/lib && mkdir -p /usr/app/public && mkdir -p /usr/app/models
-VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes", "/usr/app/server"]
+VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
 
 # Port
 # Node Inspector port

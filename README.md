@@ -11,7 +11,7 @@ Docker
 ├─ NodeJS 7.5 --harmony, nodemon
 │  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/routes", "/usr/app/server"]
 │  ├─ Apollo GraphQL ["/usr/app/models"]
-│  └─ PassportJS ["/vendors"]
+│  └─ PassportJS ["/providers"]
 ├─ Redis ["/data"]
 └─ MongoDB ["/data/db"]
 ```
