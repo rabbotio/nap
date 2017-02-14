@@ -3,7 +3,13 @@ let providers = []
 const init = (app, passport) => {
 
   // Initialize all providers
-  require('../providers')(providers)
+  try {
+    require('../providers')(providers)
+  } catch (err) {
+    // Never mind.
+    debug.warn(err)
+    return
+  }
 
   // Define a Passport strategy for provider
   providers.forEach(({provider, Strategy, strategyOptions, getUserFromProfile}) => {
@@ -104,13 +110,13 @@ const init = (app, passport) => {
         res.redirect('/')
       })
 
-    app.get('/auth/facebook/return',
-      passport.authenticate('facebook', { failureRedirect: '/login' }),
+    app.get(
+      `/auth/${provider}/return`,
+      passport.authenticate(provider, { failureRedirect: '/login' }),
       (req, res) => {
-        // Successful authentication, redirect home.
+        // Successful authentication, redirect home.ß
         res.redirect('/')
-      }
-    )
+      })
   })
 }
 
