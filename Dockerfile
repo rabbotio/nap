@@ -19,14 +19,17 @@ RUN cd /tmp && npm install
 RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
 WORKDIR /usr/app
 
+# Server layer
+RUN mkdir -p /usr/app/server
+COPY server /usr/app/server
+
 # From here we load our application's code in, therefore the previous docker
 # "layer" thats been cached will be used if possible
-COPY .env /usr/app/.env
 COPY package.json /usr/app/
 COPY index.js /usr/app/
 
 # Make volume path
-VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
+VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
 
 # Port
 # Node Inspector port
