@@ -26,7 +26,6 @@ COPY package.json /usr/app/
 COPY index.js /usr/app/
 
 # Make volume path
-# RUN mkdir -p /usr/app/.next && mkdir -p /usr/app/pages && mkdir -p /usr/app/components && mkdir -p /usr/app/lib && mkdir -p /usr/app/public && mkdir -p /usr/app/models
 VOLUME ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
 
 # Port
