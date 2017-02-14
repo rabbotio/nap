@@ -19,6 +19,10 @@ RUN cd /tmp && npm install
 RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
 WORKDIR /usr/app
 
+# Passport provider
+RUN mkdir -p /usr/app/providers
+COPY providers /usr/app/providers
+
 # Server layer
 RUN mkdir -p /usr/app/server
 COPY server /usr/app/server

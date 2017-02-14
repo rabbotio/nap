@@ -40,7 +40,7 @@ const init = app => {
   app.use(passport.session())
 
   // Initialize providers
-  require('./providers')(app, passport)
+  require('./authen')(app, passport)
 }
 
 module.exports = init

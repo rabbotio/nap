@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  next:
-    container_name: next
+  nap:
+    container_name: nap
     env_file: .env
     environment:
       - HTTP_PORT=${HTTP_PORT:-3000}
@@ -23,10 +23,10 @@ services:
       - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
       - ${SRC_MONGOOSE_ROUTES:-./routes}:/usr/app/routes
       - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
-      - ${SRC_PASSPORT_PROVIDERS-./providers}:/usr/app/providers
-      - ${SRC_SERVER:-./server}:/usr/app/server
+      - ${SRC_PASSPORT_PROVIDERS-./providers}:/usr/app/providers # __DEV__
+      - ${SRC_SERVER:-./server}:/usr/app/server # __DEV__
     build: .
-    command: npm run build-back # Will build next and run express server
+    command: npm run _build-back # Will build next and run express server
     networks:
       - front
       - back

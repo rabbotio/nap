@@ -11,7 +11,7 @@ Docker
 ├─ NodeJS 7.5 --harmony, nodemon
 │  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/routes", "/usr/app/server"]
 │  ├─ Apollo GraphQL ["/usr/app/models"]
-│  └─ PassportJS ["/providers"]
+│  └─ PassportJS ["/usr/app/providers"]
 ├─ Redis ["/data"]
 └─ MongoDB ["/data/db"]
 ```
@@ -48,7 +48,7 @@ cp .env.example .env
  - [x] Can custom `Next` pages and components.
 
 ## Develop
-### To develop backend inside docker (recommend)
+### To develop backend
 ```shell
 # To build and run docker compose (it take sometime to build)
 npm run up
@@ -58,51 +58,23 @@ open http://localhost:3000
 
 # Try modify file in ./models and see the result via GraphiQL
 open http://localhost:3000/graphql
+
+# To trigger frontend next build inside container
+npm run build
 ```
 
-### To develop frontend inside docker (recommend)
+### To develop frontend
 ```shell
 # Change docker-compose from
-    command: npm run build-back
-# to 
-    command: npm run build-front
+    command: npm run _build-back
+# to
+    command: npm run _build-front
 
 # To build and run docker compose (it take sometime to build)
 npm run up
 
 # Try modify file in ./pages ./component ./lib and see the result (will need refresh)
 open http://localhost:3000
-```
-
-### To develop backend outside docker
-```shell
-# Install dependency
-npm i
-
-# Change Redis, MongoDB to your .env
-EXPRESS_SESSION_REDIS_URI=redis://localhost
-MONGO_URI=mongodb://localhost/graphql
-
-# Manually do what docker compose do or just use docker compose :)
-npm run up
-
-# Then stop `nap` server inside container.
-npm run stop
-
-# Finally start server from external.
-npm run serve
-```
-
-### To develop frontend outside docker
-```shell
-# Install dependency
-npm i
-
-# Develop with `nextjs` as usual, Try modify pages, components, lib, public
-npm run dev
-
-# Open browser (Ensure to stop other localhost services first)
-open http://localhost:3000/
 ```
 
 ### Addition
