@@ -45,7 +45,9 @@
     "passport-github2": "^0.1.10",
     "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "react": "^15.4.2",
     "react-apollo": "^0.10.1",
+    "react-dom": "^15.4.2",
     "redux": "^3.6.0"
   },
   "author": "katopz@gmail.com",
