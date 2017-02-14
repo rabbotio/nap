@@ -5,50 +5,63 @@ const DEBUG = '@'
 const WARN = '!'
 const ERROR = '*'
 
-const _print = (type, any) => {
-  // No console in prod
-  if (process.env.NODE_ENV === 'production') return global.debug
-
-  // Can be crash somehow eg. circular object JSON
-  try {
-    const text = (any.constructor === String) ? any : JSON.stringify(any)
-    const at = new Date()
-
-    console.log([ // eslint-disable-line
-      at.toISOString(),
-      type,
-      text
-    ].join(' | '))
-  } catch (err) {
-    console.error() // eslint-disable-line
-  }
-
-  return global.debug
-}
-
 class debug extends console.Console { // eslint-disable-line
   constructor() {
     super();
   }
 
-  static log(any) {
-    return _print(LOG, any)
+  static _toString(any) {
+    // Can be crash somehow eg. circular object JSON
+    let result = ''
+    any.forEach(item => {
+      try {
+        result += (item.constructor === String) ? item : JSON.stringify(item, null, 2)
+      } catch (err) {
+        // NVM
+      }
+    })
+
+    return result
   }
 
-  static info(any) {
-    return _print(INFO, any)
+  static _print(type, text) {
+    // No console in prod
+    if (process.env.NODE_ENV === 'production') return global.debug
+
+    try {
+      const at = new Date()
+
+      console.log([ // eslint-disable-line
+        at.toISOString(),
+        type,
+        text
+      ].join(' | '))
+    } catch (err) {
+      console.error(err) // eslint-disable-line
+    }
+
+    return global.debug
   }
 
-  static warn(any) {
-    return _print(WARN, any)
+  static log(...any) {
+    const text = debug._toString(any)
+    return debug._print(LOG, text)
   }
 
-  static error(any) {
-    return _print(ERROR, any)
+  static info(...any) {
+    return debug._print(INFO, any)
   }
 
-  static debug(any) {
-    return _print(DEBUG, any)
+  static warn(...any) {
+    return debug._print(WARN, any)
+  }
+
+  static error(...any) {
+    return debug._print(ERROR, any)
+  }
+
+  static debug(...any) {
+    return debug._print(DEBUG, any)
   }
 }
 

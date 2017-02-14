@@ -29,27 +29,56 @@ Docker
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
 - [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 
-## Config
+- - -
+
+## Configurations
+> Copy from `.env.example` template and `.env` as you wish
 ```shell
-# Edit .env as you wish
 cp .env.example .env
 ```
 
+ - [x] Can enable/disable `GraphQL`, `GraphiQL` capabilities.
+ - [x] Can enable/disable `Passport` capabilities.
+ - [x] Can custom `MongoDB` connection URI, `db` volume.
+ - [x] Can custom `Redis` connection URI, `db` volume.
+ - [x] Can custom `GraphQL` schema via `Mongoose` models.
+ - [x] Can custom `Passport` providers.
+ - [x] Can custom `Next` static content.
+ - [x] Can custom `Next` dynamic routes.
+ - [x] Can custom `Next` pages and components.
+
 ## Develop
-### To develop frontend
+### To develop backend inside docker (recommend)
+```shell
+# To build and run docker compose (it take sometime to build)
+npm run up
+
+# Try modify file in ./routes ./server and see the result
+open http://localhost:3000
+
+# Try modify file in ./models and see the result via GraphiQL
+open http://localhost:3000/graphql
+```
+
+### To develop frontend inside docker (recommend)
+```shell
+# Change docker-compose from
+    command: npm run build-back
+# to 
+    command: npm run build-front
+
+# To build and run docker compose (it take sometime to build)
+npm run up
+
+# Try modify file in ./pages ./component ./lib and see the result (will need refresh)
+open http://localhost:3000
+```
+
+### To develop backend outside docker
 ```shell
 # Install dependency
 npm i
 
-# Develop with `nextjs` as usual, Try modify pages, components, lib, public
-npm run dev
-
-# Open browser (Ensure to stop other localhost services first)
-open http://localhost:3000/
-```
-
-### To develop backend
-```shell
 # Change Redis, MongoDB to your .env
 EXPRESS_SESSION_REDIS_URI=redis://localhost
 MONGO_URI=mongodb://localhost/graphql
@@ -64,30 +93,16 @@ npm run stop
 npm run serve
 ```
 
-### To develop frontend via docker
+### To develop frontend outside docker
 ```shell
-# Change docker-compose from
-    command: npm run build-back
-# to 
-    command: npm run build-front
+# Install dependency
+npm i
 
-# To build and run docker compose (it take sometime to build)
-npm run up
+# Develop with `nextjs` as usual, Try modify pages, components, lib, public
+npm run dev
 
-# Try modify file in ./pages ./component ./lib and see the result (will need refresh)
-open http://localhost:3000
-```
-
-### To develop backend via docker
-```shell
-# To build and run docker compose (it take sometime to build)
-npm run up
-
-# Try modify file in ./routes ./server and see the result
-open http://localhost:3000
-
-# Try modify file in ./models and see the result via GraphiQL
-open http://localhost:3000/graphql
+# Open browser (Ensure to stop other localhost services first)
+open http://localhost:3000/
 ```
 
 ### Addition
@@ -101,13 +116,21 @@ npm run dive
 
 - - -
 
-## Next
+## Docker volume
 ```shell
-# This will auto sync by docker volume
+# Next
 SRC_NEXT_PAGES=./pages
 SRC_NEXT_COMPONENTS=./components
 SRC_NEXT_STATIC=./public
 SRC_NEXT_LIB=./lib
+SRC_MONGOOSE_ROUTES=./routes
+SRC_SERVER=./server
+
+# Apollo GraphQL Mongoose
+SRC_MONGOOSE_MODELS=./models
+
+# Passport
+SRC_PASSPORT_PROVIDERS=./providers
 ```
 
 - - -
@@ -143,21 +166,13 @@ mutation{
 ```
 More query : https://github.com/RisingStack/graffiti-mongoose#usage
 
-## Mongoose/Graffiti/GraphQL
-You may need to config `MongoDB` URI at `.env`
-```shell
-# For localhost standalone dev
-MONGO_URI=mongodb://mongo/graphql
-```
 - - -
 
 ## Passport
-You may need to config `Redis` URI at `.env`
-```shell
-EXPRESS_SESSION_REDIS_URI=redis://redis
-```
-### To login with Facebook
-- http://localhost:3000/auth/facebook/
+- [x] Facebook :  http://localhost:3000/auth/facebook/
+- [x] Github :  http://localhost:3000/auth/github/
+- [ ] Twitter :  http://localhost:3000/auth/twitter/
+- [ ] Google :  http://localhost:3000/auth/google/
 
 - - -
 
@@ -165,7 +180,6 @@ EXPRESS_SESSION_REDIS_URI=redis://redis
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Add logs. https://github.com/expressjs/morgan
 - [ ] Add email/pass user.https://github.com/iaincollins/nextjs-starter
 - [ ] Link user with social.
 - [ ] Grateful shutdown.
@@ -176,7 +190,7 @@ EXPRESS_SESSION_REDIS_URI=redis://redis
 - [ ] MongoDB fail test.
 - [ ] HTTP fail test.
 - [ ] HTTPS fail test.
-- [ ] Test `graffiti-mongoose` hooks.
+- [ ] Unit test `graffiti-mongoose` hooks.
 - [ ] Passport test.
 
 ## TOCUSTOM
@@ -218,6 +232,8 @@ services:
 ```
 
 ## TOHAVE
+- [ ] Notifications Support.
+- [ ] More logs. https://github.com/expressjs/morgan
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] Use yo man gen passport vendors
 - [ ] RabbitMQ?
@@ -230,7 +246,6 @@ services:
 - [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
-- [ ] Notifications Support.
 - [ ] Admin Dashboard with `SSH`.
 - [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)
 - [ ] Cron with `webtask.io`.
