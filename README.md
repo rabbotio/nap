@@ -37,15 +37,16 @@ Docker
 cp .env.example .env
 ```
 
- - [x] Can enable/disable `GraphQL`, `GraphiQL` capabilities.
- - [x] Can enable/disable `Passport` capabilities.
- - [x] Can custom `MongoDB` connection URI, `db` volume.
- - [x] Can custom `Redis` connection URI, `db` volume.
- - [x] Can custom `GraphQL` schema via `Mongoose` models.
- - [x] Can custom `Passport` providers.
- - [x] Can custom `Next` static content.
- - [x] Can custom `Next` dynamic routes.
- - [x] Can custom `Next` pages and components.
+- [x] Can enable/disable `GraphQL`, `GraphiQL` capabilities.
+- [x] Can enable/disable `Passport` capabilities.
+- [x] Can custom `MongoDB` connection URI, `db` volume.
+- [x] Can custom `Redis` connection URI, `db` volume.
+- [x] Can custom `GraphQL` schema via `Mongoose` models.
+- [x] Can custom `GraphQL` pre/post hooks via `hooks`.
+- [x] Can custom `Passport` providers `Facebook`, `Twitter`, `Google`, `Github`.
+- [x] Can custom `Next` static content.
+- [x] Can custom `Next` dynamic routes.
+- [x] Can custom `Next` pages and components.
 
 ## Develop
 ### To develop backend
@@ -56,7 +57,7 @@ npm run up
 # Try modify file in ./routes ./server and see the result
 open http://localhost:3000
 
-# Try modify file in ./models and see the result via GraphiQL
+# Try modify file in ./models ./hooks and see the result via GraphiQL
 open http://localhost:3000/graphql
 
 # To trigger frontend next build inside container
