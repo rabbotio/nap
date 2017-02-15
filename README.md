@@ -209,7 +209,7 @@ services:
 ```
 
 ## TOHAVE
-- [ ] Notifications Support.
+- [ ] Notifications Support : https://pusher.com/docs/push_notifications/reference/architecture
 - [ ] More logs. https://github.com/expressjs/morgan
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] Use yo man gen passport vendors
