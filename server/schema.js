@@ -7,5 +7,15 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://mongo/graphql')
 
 // Custom schema from models, hooks
 const models = require('../models')()
-const hooks = require('./hooks')
-module.exports = getSchema(models, { hooks })
+let hooks = null
+
+// Custom hooks
+try {
+  hooks = require('../hooks')
+} catch (err) {
+  // Never mind.
+  hooks = null
+  debug.warn(err)
+}
+
+module.exports = hooks ? getSchema(models, { hooks }) : getSchema(models)

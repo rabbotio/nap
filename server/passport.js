@@ -2,7 +2,6 @@ const init = app => {
   const passport = require('passport')
   const secret = process.env.EXPRESS_SESSION_SECRET || 'foo'
 
-
   // Configure Passport authenticated session persistence.
   passport.serializeUser((user, cb) => cb(null, user))
   passport.deserializeUser((sessionUser, cb) => cb(null, sessionUser))

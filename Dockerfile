@@ -6,6 +6,7 @@ ARG SRC_NEXT_COMPONENTS=${SRC_NEXT_COMPONENTS:-'./components'}
 ARG SRC_NEXT_LIB=${SRC_NEXT_LIB:-'./lib'}
 ARG SRC_NEXT_STATIC=${SRC_NEXT_STATIC:-'./public'}
 ARG SRC_MONGOOSE_MODELS=${SRC_MONGOOSE_MODELS:-'./models'}
+ARG SRC_MONGOOSE_HOOKS=${SRC_MONGOOSE_HOOKS:-'./hooks'}
 ARG SRC_MONGOOSE_ROUTES=${SRC_MONGOOSE_ROUTES:-'./routes'}
 ARG SRC_PASSPORT_PROVIDERS=${SRC_PASSPORT_PROVIDERS:-'./providers'}
 ARG SRC_SERVER=${SRC_SERVER:-'./server'}
@@ -16,7 +17,7 @@ ARG SRC_SERVER=${SRC_SERVER:-'./server'}
 COPY package.json /tmp/package.json
 RUN npm config set registry https://registry.npmjs.org/
 RUN cd /tmp && npm install
-RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
+RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/cc
 WORKDIR /usr/app
 
 # Passport provider
@@ -33,7 +34,7 @@ COPY package.json /usr/app/
 COPY index.js /usr/app/
 
 # Make volume path
-VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
+VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/models", "/usr/app/hooks", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
 
 # Port
 # Node Inspector port
