@@ -152,6 +152,7 @@ More query : https://github.com/RisingStack/graffiti-mongoose#usage
 - - -
 
 ## TODO
+- [ ] Add [graphql-compose](https://github.com/nodkz/graphql-compose) support
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
@@ -161,18 +162,19 @@ More query : https://github.com/RisingStack/graffiti-mongoose#usage
 - [ ] Don't run as root https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 
 ## TOTEST
-- [ ] Redis fail test.
-- [ ] MongoDB fail test.
+- [ ] `Redis` fail test.
+- [ ] `MongoDB` fail test.
 - [ ] HTTP fail test.
 - [ ] HTTPS fail test.
 - [ ] Unit test `graffiti-mongoose` hooks.
-- [ ] Passport test.
+- [ ] `Passport` test.
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
-- [ ] Custom MongoDB replication `docker exec -it node1 mongo --eval "rs.initiate()"`
+- [ ] Custom `MongoDB` replication `docker exec -it node1 mongo --eval "rs.initiate()"`
 - [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
-- [ ] Add passport github.
+- [ ] Add `passport` Twitter.
+- [ ] Add `passport` Google.
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
 - [ ] Container config e.g. restart policy, limits CPU/RAM.
