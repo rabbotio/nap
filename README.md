@@ -10,7 +10,7 @@ Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 ├─ NodeJS 7.5 --harmony, nodemon
 │  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/routes", "/usr/app/server"]
-│  ├─ Apollo GraphQL ["/usr/app/models"]
+│  ├─ Apollo GraphQL ["/usr/app/models", "/usr/app/hooks"]
 │  └─ PassportJS ["/usr/app/providers"]
 ├─ Redis ["/data"]
 └─ MongoDB ["/data/db"]
@@ -100,6 +100,7 @@ SRC_SERVER=./server
 
 # Apollo GraphQL Mongoose
 SRC_MONGOOSE_MODELS=./models
+SRC_MONGOOSE_HOOKS=./hooks
 
 # Passport
 SRC_PASSPORT_PROVIDERS=./providers
@@ -111,6 +112,7 @@ SRC_PASSPORT_PROVIDERS=./providers
 ```shell
 # This will auto sync via docker volume and auto build by nodemon
 SRC_MONGOOSE_MODELS=./models
+SRC_MONGOOSE_HOOKS=./hooks
 
 # Query
 {
