@@ -17,7 +17,7 @@ ARG SRC_SERVER=${SRC_SERVER:-'./server'}
 COPY package.json /tmp/package.json
 RUN npm config set registry https://registry.npmjs.org/
 RUN cd /tmp && npm install
-RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/cc
+RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
 WORKDIR /usr/app
 
 # Passport provider
