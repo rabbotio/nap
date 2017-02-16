@@ -9,9 +9,9 @@ const init = app => {
 
   // Mongoose
   const graphqlHTTP = require('express-graphql')
-  const { mainPage, addToMainPage } = require('../mainPage')
-  const { getExampleNames, resolveExamplePath } = require('../config')
-  require('../mongooseConnection')
+  const { mainPage, addToMainPage } = require('./mainPage')
+  const { getExampleNames, resolveExamplePath } = require('../graphql/config')
+  require('./mongooseConnection')
 
   const addExample = (example, uri) => {
     example.uri = `/${uri}`

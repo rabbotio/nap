@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { mongoUri } from './config';
+import { mongoUri } from '../graphql/config';
 
 mongoose.Promise = Promise;
 mongoose.connect(mongoUri, {
@@ -14,7 +14,7 @@ export const connection = mongoose.connection;
 connection.on('error', (e) => {
   if (e.message.code === 'ETIMEDOUT') {
     console.log(e);
-    mongoose.connect(mongoUri, opts);
+    mongoose.connect(mongoUri);
   }
   console.log(e);
 });

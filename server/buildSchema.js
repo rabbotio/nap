@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { graphql } from 'graphql';
 import { introspectionQuery, printSchema } from 'graphql/utilities';
-import { getExampleNames, resolveExamplePath } from './config';
+import { getExampleNames, resolveExamplePath } from '../graphql/config';
 
 async function buildSchema(schemaPath) {
   const Schema = require(`${schemaPath}/graphqlSchema`).default;

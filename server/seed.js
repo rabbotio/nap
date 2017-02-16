@@ -2,7 +2,7 @@
 
 import { MongoClient } from 'mongodb';
 import fs from 'fs';
-import { getExampleNames, resolveExamplePath, mongoUri } from './config';
+import { getExampleNames, resolveExamplePath, mongoUri } from '../graphql/config';
 
 let db;
 async function run() {
