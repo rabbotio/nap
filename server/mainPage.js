@@ -1,8 +1,8 @@
-import qs from 'querystring'
+const  qs =require('querystring')
 
 const examplesMeta = [];
 
-export function addToMainPage(example) {
+const addToMainPage = (example) => {
   examplesMeta.push(example);
 }
 
@@ -32,7 +32,7 @@ function renderExamplesLinks() {
   return `<ol><li>${examplesHtml.join('</li><li>')}</li></ol>`;
 }
 
-export function mainPage() {
+const mainPage = () => {
   return `
     <html>
       <head>
@@ -72,3 +72,6 @@ export function mainPage() {
     </html>
   `;
 }
+
+
+module.exports = { addToMainPage, mainPage }

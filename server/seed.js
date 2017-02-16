@@ -1,8 +1,8 @@
 // This script scans `examples` folder for `data/seed.js` files and run them for seeding DB.
 
-import { MongoClient } from 'mongodb';
-import fs from 'fs';
-import { getExampleNames, resolveExamplePath, mongoUri } from '../graphql/config';
+const { MongoClient } = require('mongodb')
+const fs = require('fs')
+const { getExampleNames, resolveExamplePath, mongoUri } = require('../graphql')
 
 let db;
 async function run() {
@@ -10,7 +10,7 @@ async function run() {
 
   const exampleNames = getExampleNames();
   for (let name of exampleNames) {
-    console.log(`Starting seed '${name}'...`);
+    debug.log(`Starting seed '${name}'...`);
     const seedFile = resolveExamplePath(name, 'data/seed.js');
     try {
       fs.accessSync(seedFile, fs.F_OK);
@@ -18,18 +18,18 @@ async function run() {
       await seedFn(db);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
-        console.log(`  file '${seedFile}' not found. Skipping...`);
+        debug.log(`  file '${seedFile}' not found. Skipping...`);
       } else {
-        console.log(e);
+        debug.log(e);
       }
     }
   }
 
-  console.log('Seed competed!');
+  debug.log('Seed competed!');
   db.close();
-};
+}
 
 run().catch(e => {
-  console.log(e);
+  debug.log(e);
   process.exit(0);
 });
