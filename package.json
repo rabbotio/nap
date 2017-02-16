@@ -9,9 +9,9 @@
     "_serve": "nodemon --harmony index.js",
     "_build-front": "next build && next start",
     "_build-back": "next build && npm run _serve",
-    "_graphql-example": "babel ./examples/graphql --out-dir ./graphql --no-comments",
-    "_graphql-build-schema": "babel-node ./server/buildSchema.js",
-    "_graphql-seed": "babel-node ./server/seed.js",
+    "schema": "babel-node --presets babel-preset-es2015,babel-preset-stage-0 ./server/buildSchema.js",
+    "seed": "MONGODB_URI=mongodb://localhost/graphql babel-node --presets babel-preset-es2015,babel-preset-stage-0 ./server/seed.js",
+    "example": "cp -r ./examples/graphql . && babel --presets babel-preset-es2015,babel-preset-stage-0 ./examples/graphql --out-dir ./graphql --no-comments",
     "dev": "npm run exec -- npm run _dev",
     "build": "npm run exec -- npm run _build",
     "start": "npm run exec -- npm run _start",
@@ -65,16 +65,16 @@
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-eslint": "^7.1.1",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-preset-stage-3": "^6.22.0",
     "babel-register": "^6.23.0",
     "eslint": "^3.15.0",
     "eslint-plugin-babel": "^4.0.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.0",
-    "nodemon": "^1.11.0",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "babel-preset-stage-3": "^6.22.0"
+    "nodemon": "^1.11.0"
   },
   "_babel": {
     "presets": [

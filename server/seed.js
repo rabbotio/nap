@@ -1,8 +1,9 @@
 // This script scans `examples` folder for `data/seed.js` files and run them for seeding DB.
-
+// require('babel-register')
+// require('async-to-gen/register')
 const { MongoClient } = require('mongodb')
 const fs = require('fs')
-const { getExampleNames, resolveExamplePath, mongoUri } = require('../graphql')
+const { getExampleNames, resolveExamplePath, mongoUri } = require('./composer')
 
 let db;
 async function run() {

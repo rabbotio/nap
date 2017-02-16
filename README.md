@@ -106,36 +106,18 @@ SRC_PASSPORT_PROVIDERS=./providers
 
 - - -
 
-## Apollo GraphQL
+## GraphQL
+> https://github.com/nodkz/graphql-compose-examples
 ```shell
-# This will auto sync via docker volume and auto build by nodemon
-SRC_GRAPHQL=./graphql
+# To copy graphql compose examples to ./graphql volume
+npm run example
 
-# Query
-{
-  pets(name: "katopz") {
-    id
-    name
-  }
-}
+# TO build schema in container
+npm run schema
 
-# Mutation
-mutation{
-  addPet(input:{name:"katopz", type: "B", age: 11}) {
-    viewer {
-      pets(name:"katopz") {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-}
+# To seed data to monogo container
+npm run seed
 ```
-More query : https://github.com/RisingStack/graffiti-mongoose#usage
 
 - - -
 
@@ -149,6 +131,7 @@ More query : https://github.com/RisingStack/graffiti-mongoose#usage
 
 ## TODO
 - [ ] Add [graphql-compose](https://github.com/nodkz/graphql-compose) support with authen
+- [ ] https://www.npmjs.com/package/modclean
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md

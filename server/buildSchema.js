@@ -1,8 +1,8 @@
-const fs = require( 'fs')
-const path = require( 'path')
-const { graphql } = require( 'graphql')
-const { introspectionQuery, printSchema } = require( 'graphql/utilities')
-const { getExampleNames, resolveExamplePath } = require( './composer')
+const fs = require('fs')
+const path = require('path')
+const { graphql } = require('graphql')
+const { introspectionQuery, printSchema } = require('graphql/utilities')
+const { getExampleNames, resolveExamplePath } = require('./composer')
 
 async function buildSchema(schemaPath) {
   const Schema = require(`${schemaPath}/graphqlSchema`).default
