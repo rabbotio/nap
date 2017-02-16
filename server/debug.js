@@ -5,7 +5,7 @@ const DEBUG = '@'
 const WARN = '!'
 const ERROR = '*'
 
-class debug extends console.Console { // eslint-disable-line
+const debug = class debug extends console.Console { // eslint-disable-line
   constructor() {
     super();
   }
@@ -44,24 +44,24 @@ class debug extends console.Console { // eslint-disable-line
   }
 
   static log(...any) {
-    const text = debug._toString(any)
-    return debug._print(LOG, text)
+    const text = global.debug._toString(any)
+    return global.debug._print(LOG, text)
   }
 
   static info(...any) {
-    return debug._print(INFO, any)
+    return global.debug._print(INFO, any)
   }
 
   static warn(...any) {
-    return debug._print(WARN, any)
+    return global.debug._print(WARN, any)
   }
 
   static error(...any) {
-    return debug._print(ERROR, any)
+    return global.debug._print(ERROR, any)
   }
 
   static debug(...any) {
-    return debug._print(DEBUG, any)
+    return global.debug._print(DEBUG, any)
   }
 }
 

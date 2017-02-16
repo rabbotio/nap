@@ -18,7 +18,7 @@ const init = () => {
     // Passport
     process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app)
 
-    // Apollo
+    // GraphQL
     process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app)
 
     // Express
