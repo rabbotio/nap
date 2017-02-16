@@ -24,7 +24,7 @@ const init = app => {
   app.use(
     session({
       store: new RedisStore({
-        url: process.env.EXPRESS_SESSION_REDIS_URI || 'redis://redis:6379'
+        url: process.env.REDIS_SESSION_URI || 'redis://redis:6379'
       }),
       secret,
       resave: false, // do not automatically write to the session store
