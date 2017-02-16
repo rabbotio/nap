@@ -10,7 +10,7 @@ Docker
 ├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 ├─ NodeJS 7.5 --harmony, nodemon
 │  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/routes", "/usr/app/server"]
-│  ├─ Apollo GraphQL ["/usr/app/models", "/usr/app/hooks"]
+│  ├─ Apollo GraphQL ["/usr/app/graphql"]
 │  └─ PassportJS ["/usr/app/providers"]
 ├─ Redis ["/data"]
 └─ MongoDB ["/data/db"]
@@ -24,8 +24,7 @@ Docker
 ## Extras
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
-- [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
-- [x] Pre/Post [`graffiti-mongoose` hooks](https://github.com/RisingStack/graffiti-mongoose#resolve-hooks) for authentications.
+- [x] [`graphql-compose`](https://github.com/nodkz/graphql-compose) for auto schema `GraphQL` from `MongoDB`.
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
 - [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 
@@ -42,7 +41,6 @@ cp .env.example .env
 - [x] Can custom `MongoDB` connection URI, `db` volume.
 - [x] Can custom `Redis` connection URI, `db` volume.
 - [x] Can custom `GraphQL` schema via `Mongoose` models.
-- [x] Can custom `GraphQL` pre/post hooks via `hooks`.
 - [x] Can custom `Passport` providers `Facebook`, `Twitter`, `Google`, `Github`.
 - [x] Can custom `Next` static content.
 - [x] Can custom `Next` dynamic routes.
@@ -57,7 +55,7 @@ npm run up
 # Try modify file in ./routes ./server and see the result
 open http://localhost:3000
 
-# Try modify file in ./models ./hooks and see the result via GraphiQL
+# Try modify file in ./graphql and see the result via GraphiQL
 open http://localhost:3000/graphql
 
 # To trigger frontend next build inside container
@@ -100,8 +98,7 @@ SRC_MONGOOSE_ROUTES=./routes
 SRC_SERVER=./server
 
 # Apollo GraphQL Mongoose
-SRC_MONGOOSE_MODELS=./models
-SRC_MONGOOSE_HOOKS=./hooks
+SRC_GRAPHQL=./graphql
 
 # Passport
 SRC_PASSPORT_PROVIDERS=./providers
@@ -112,8 +109,7 @@ SRC_PASSPORT_PROVIDERS=./providers
 ## Apollo GraphQL
 ```shell
 # This will auto sync via docker volume and auto build by nodemon
-SRC_MONGOOSE_MODELS=./models
-SRC_MONGOOSE_HOOKS=./hooks
+SRC_GRAPHQL=./graphql
 
 # Query
 {
@@ -152,7 +148,7 @@ More query : https://github.com/RisingStack/graffiti-mongoose#usage
 - - -
 
 ## TODO
-- [ ] Add [graphql-compose](https://github.com/nodkz/graphql-compose) support
+- [ ] Add [graphql-compose](https://github.com/nodkz/graphql-compose) support with authen
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
@@ -166,7 +162,7 @@ More query : https://github.com/RisingStack/graffiti-mongoose#usage
 - [ ] `MongoDB` fail test.
 - [ ] HTTP fail test.
 - [ ] HTTPS fail test.
-- [ ] Unit test `graffiti-mongoose` hooks.
+- [ ] Unit test `graphql-compose`.
 - [ ] `Passport` test.
 
 ## TOCUSTOM

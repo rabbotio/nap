@@ -22,8 +22,7 @@ services:
       - ${SRC_NEXT_STATIC:-./public}:/usr/app/public
       - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
       - ${SRC_MONGOOSE_ROUTES:-./routes}:/usr/app/routes
-      - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
-      - ${SRC_MONGOOSE_HOOKS:-./hooks}:/usr/app/hooks
+      - ${SRC_GRAPHQL:-./graphql}:/usr/app/graphql
       - ${SRC_PASSPORT_PROVIDERS-./providers}:/usr/app/providers # __DEV__
       - ${SRC_SERVER:-./server}:/usr/app/server # __DEV__
     build: .

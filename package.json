@@ -75,5 +75,18 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0"
+  },
+  "_babel": {
+    "presets": [
+      "es2015",
+      "stage-0",
+      "stage-3"
+    ],
+    "plugins": [
+      "syntax-async-functions",
+      "transform-regenerator"
+    ],
+    "sourceMaps": true,
+    "retainLines": true
   }
 }

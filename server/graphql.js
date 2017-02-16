@@ -38,7 +38,7 @@ const init = app => {
     )
   }
 
-  app.get('/', (req, res) => {
+  app.get('/graphql-example', (req, res) => {
     res.send(mainPage())
   })
 }
