@@ -2,7 +2,7 @@ const fs = require( 'fs')
 const path = require( 'path')
 
 const expressPort = process.env.PORT || 3000
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/graphql-compose-mongoose'
+const mongoUri = process.env.MONGODB_URI || 'mongodb://mongo/graphql'
 const examplesPath = './graphql'
 
 function getDirectories(srcpath) {
