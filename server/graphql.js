@@ -2,7 +2,7 @@ const cors = require('cors')
 
 const init = app => {
   // Custom config
-  // const graphiql = process.env.GRAPHIQL_ENABLED === '1' || process.env.NODE_ENV !== 'production'
+  const graphiql = process.env.GRAPHIQL_ENABLED === '1' || process.env.NODE_ENV !== 'production'
 
   // Cross Origin
   app.use(cors())
@@ -17,7 +17,7 @@ const init = app => {
     example.uri = `/${uri}`
     app.use(example.uri, graphqlHTTP(() => ({
       schema: example.schema,
-      graphiql: true,
+      graphiql,
       formatError: (error) => ({
         message: error.message,
         stack: !error.message.match(/for security reason/i) ? error.stack.split('\n') : null,
