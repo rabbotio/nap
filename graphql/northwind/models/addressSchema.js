@@ -1,13 +1,12 @@
-import { Schema } from 'mongoose';
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.AddressSchema = undefined;var _mongoose = require('mongoose');
 
-export const AddressSchema = new Schema({
+var AddressSchema = exports.AddressSchema = new _mongoose.Schema({
   street: String,
   city: String,
   region: String,
   postalCode: String,
   country: String,
-  phone: String,
-},
+  phone: String },
+
 {
-  _id: false,
-});
+  _id: false });

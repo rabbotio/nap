@@ -1,69 +1,69 @@
-// SINGLE SCHEMA ON SERVER
-// import { GQC } from 'graphql-compose';
-
-// MULTI SCHEMA MODE IN ONE SERVER
-// create new GQC from ComposeStorage
-import { ComposeStorage } from 'graphql-compose';
-const GQC = new ComposeStorage();
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;};
 
 
-import composeWithRelay from 'graphql-compose-relay';
 
-import { CategoryTC } from './models/category';
-import { CustomerTC } from './models/cutomer';
-import { EmployeeTC } from './models/employee';
-import { OrderTC } from './models/order';
-import { ProductTC } from './models/product';
-import { RegionTC } from './models/region';
-import { ShipperTC } from './models/shipper';
-import { SupplierTC } from './models/supplier';
-import allowOnlyForLocalhost from './auth/allowOnlyForLocalhost';
 
-composeWithRelay(GQC.rootQuery());
+var _graphqlCompose = require('graphql-compose');
 
-const ViewerTC = GQC.get('Viewer');
+
+
+var _graphqlComposeRelay = require('graphql-compose-relay');var _graphqlComposeRelay2 = _interopRequireDefault(_graphqlComposeRelay);
+
+var _category = require('./models/category');
+var _cutomer = require('./models/cutomer');
+var _employee = require('./models/employee');
+var _order = require('./models/order');
+var _product = require('./models/product');
+var _region = require('./models/region');
+var _shipper = require('./models/shipper');
+var _supplier = require('./models/supplier');
+var _allowOnlyForLocalhost = require('./auth/allowOnlyForLocalhost');var _allowOnlyForLocalhost2 = _interopRequireDefault(_allowOnlyForLocalhost);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var GQC = new _graphqlCompose.ComposeStorage();
+
+(0, _graphqlComposeRelay2.default)(GQC.rootQuery());
+
+var ViewerTC = GQC.get('Viewer');
 GQC.rootQuery().addFields({
   viewer: {
     type: ViewerTC.getType(),
     description: 'Data under client context',
-    resolve: () => ({}),
-  },
-});
+    resolve: function resolve() {return {};} } });
 
-const fields = {
-  category: CategoryTC.getResolver('findOne'),
-  categoryList: CategoryTC.getResolver('findMany'),
 
-  customer: CustomerTC.getResolver('findOne'),
-  customerConnection: CustomerTC.getResolver('connection'),
 
-  employee: EmployeeTC.getResolver('findOne'),
-  employeeList: EmployeeTC.getResolver('findMany'),
+var fields = {
+  category: _category.CategoryTC.getResolver('findOne'),
+  categoryList: _category.CategoryTC.getResolver('findMany'),
 
-  order: OrderTC.getResolver('findOne'),
-  orderConnection: OrderTC.getResolver('connection'),
+  customer: _cutomer.CustomerTC.getResolver('findOne'),
+  customerConnection: _cutomer.CustomerTC.getResolver('connection'),
 
-  product: ProductTC.getResolver('findOne'),
-  productList: ProductTC.getResolver('findMany'),
-  productConnection: ProductTC.getResolver('connection'),
+  employee: _employee.EmployeeTC.getResolver('findOne'),
+  employeeList: _employee.EmployeeTC.getResolver('findMany'),
 
-  region: RegionTC.getResolver('findOne'),
-  regionList: RegionTC.getResolver('findMany'),
+  order: _order.OrderTC.getResolver('findOne'),
+  orderConnection: _order.OrderTC.getResolver('connection'),
 
-  shipper: ShipperTC.getResolver('findOne'),
-  shipperList: ShipperTC.getResolver('findMany'),
+  product: _product.ProductTC.getResolver('findOne'),
+  productList: _product.ProductTC.getResolver('findMany'),
+  productConnection: _product.ProductTC.getResolver('connection'),
 
-  supplier: SupplierTC.getResolver('findOne'),
-  supplierConnection: SupplierTC.getResolver('connection'),
-};
+  region: _region.RegionTC.getResolver('findOne'),
+  regionList: _region.RegionTC.getResolver('findMany'),
+
+  shipper: _shipper.ShipperTC.getResolver('findOne'),
+  shipperList: _shipper.ShipperTC.getResolver('findMany'),
+
+  supplier: _supplier.SupplierTC.getResolver('findOne'),
+  supplierConnection: _supplier.SupplierTC.getResolver('connection') };
+
 
 ViewerTC.addFields(fields);
 
-GQC.rootMutation().addFields({
-  ...allowOnlyForLocalhost({
-    createProduct: ProductTC.get('$createOne'),
-    removeProductById: ProductTC.get('$removeById'),
-  })
-});
+GQC.rootMutation().addFields(_extends({},
+(0, _allowOnlyForLocalhost2.default)({
+  createProduct: _product.ProductTC.get('$createOne'),
+  removeProductById: _product.ProductTC.get('$removeById') })));exports.default =
 
-export default GQC.buildSchema();
+
+
+GQC.buildSchema();

@@ -2,13 +2,13 @@ const fs = require( 'fs')
 const path = require( 'path')
 const { graphql } = require( 'graphql')
 const { introspectionQuery, printSchema } = require( 'graphql/utilities')
-const { getExampleNames, resolveExamplePath } = require( '../graphql')
+const { getExampleNames, resolveExamplePath } = require( './composer')
 
 async function buildSchema(schemaPath) {
   const Schema = require(`${schemaPath}/graphqlSchema`).default
   const result = await (graphql(Schema, introspectionQuery))
   if (result.errors) {
-    debug.error(
+    console.error(
       'ERROR introspecting schema: ',
       JSON.stringify(result.errors, null, 2)
     )
@@ -17,7 +17,7 @@ async function buildSchema(schemaPath) {
       path.join(schemaPath, './data/schema.graphql.json'),
       JSON.stringify(result, null, 2)
     )
-    debug.log(`  write file ${path.join(schemaPath, './data/schema.graphql.json')}`)
+    console.log(`  write file ${path.join(schemaPath, './data/schema.graphql.json')}`)
   }
 
   // Save user readable type system shorthand of schema
@@ -25,20 +25,20 @@ async function buildSchema(schemaPath) {
     path.join(schemaPath, './data/schema.graphql.txt'),
     printSchema(Schema)
   )
-  debug.log(`  write file ${path.join(schemaPath, './data/schema.graphql.txt')}`)
+  console.log(`  write file ${path.join(schemaPath, './data/schema.graphql.txt')}`)
 }
 
 async function run() {
   const exampleNames = getExampleNames()
   for (let name of exampleNames) {
-    debug.log(`Building schema for '${name}'...`)
+    console.log(`Building schema for '${name}'...`)
     await buildSchema(resolveExamplePath(name));
   }
 
-  debug.log('Building schemas competed!')
+  console.log('Building schemas competed!')
 }
 
 run().catch(e => {
-  debug.log(e)
+  console.log(e)
   // process.exit(0)
 })

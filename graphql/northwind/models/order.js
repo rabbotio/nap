@@ -1,31 +1,31 @@
-import mongoose, { Schema } from 'mongoose';
-import composeWithMongoose from 'graphql-compose-mongoose';
-import composeWithRelay from 'graphql-compose-relay';
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.OrderTC = exports.Order = exports.OrderSchema = exports.OrderDetailsSchema = undefined;var _mongoose = require('mongoose');var _mongoose2 = _interopRequireDefault(_mongoose);
+var _graphqlComposeMongoose = require('graphql-compose-mongoose');var _graphqlComposeMongoose2 = _interopRequireDefault(_graphqlComposeMongoose);
+var _graphqlComposeRelay = require('graphql-compose-relay');var _graphqlComposeRelay2 = _interopRequireDefault(_graphqlComposeRelay);
 
-import { AddressSchema } from './addressSchema';
-import { CustomerTC } from './cutomer';
-import { EmployeeTC } from './employee';
-import { ShipperTC } from './shipper';
-import { ProductTC } from './product';
+var _addressSchema = require('./addressSchema');
+var _cutomer = require('./cutomer');
+var _employee = require('./employee');
+var _shipper = require('./shipper');
+var _product = require('./product');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
-export const OrderDetailsSchema = new Schema(
-  {
-    productID: Number,
-    unitPrice: Number,
-    quantity: Number,
-    discount: Number,
-  },
-  {
-    _id: false,
-  }
-);
+var OrderDetailsSchema = exports.OrderDetailsSchema = new _mongoose.Schema(
+{
+  productID: Number,
+  unitPrice: Number,
+  quantity: Number,
+  discount: Number },
 
-export const OrderSchema = new Schema({
+{
+  _id: false });
+
+
+
+var OrderSchema = exports.OrderSchema = new _mongoose.Schema({
   orderID: {
     type: Number,
     description: 'Order unique ID',
-    unique: true,
-  },
+    unique: true },
+
   customerID: String,
   employeeID: Number,
   orderDate: Date,
@@ -34,69 +34,67 @@ export const OrderSchema = new Schema({
   shipVia: Number,
   freight: Number,
   shipName: String,
-  shipAddress: AddressSchema,
+  shipAddress: _addressSchema.AddressSchema,
   details: {
     type: [OrderDetailsSchema],
     index: true,
-    description: 'List of ordered products',
-  },
-}, {
-  collection: 'northwind_orders',
-});
+    description: 'List of ordered products' } },
 
-export const Order = mongoose.model('Order', OrderSchema);
+{
+  collection: 'northwind_orders' });
 
-export const OrderTC = composeWithRelay(composeWithMongoose(Order));
 
-OrderTC.addRelation(
-  'customer',
-  () => ({
-    resolver: CustomerTC.getResolver('findOne'),
-    args: {
-      filter: (source) => ({ customerID: source.customerID }),
-      skip: null,
-      sort: null,
-    },
-    projection: { customerID: true },
-  })
-);
+var Order = exports.Order = _mongoose2.default.model('Order', OrderSchema);
+
+var OrderTC = exports.OrderTC = (0, _graphqlComposeRelay2.default)((0, _graphqlComposeMongoose2.default)(Order));
 
 OrderTC.addRelation(
-  'employee',
-  () => ({
-    resolver: EmployeeTC.getResolver('findOne'),
+'customer',
+function () {return {
+    resolver: _cutomer.CustomerTC.getResolver('findOne'),
     args: {
-      filter: (source) => ({ employeeID: source.employeeID }),
+      filter: function filter(source) {return { customerID: source.customerID };},
       skip: null,
-      sort: null,
-    },
-    projection: { employeeID: true },
-  })
-);
+      sort: null },
+
+    projection: { customerID: true } };});
+
+
 
 OrderTC.addRelation(
-  'shipper',
-  () => ({
-    resolver: ShipperTC.getResolver('findOne'),
+'employee',
+function () {return {
+    resolver: _employee.EmployeeTC.getResolver('findOne'),
     args: {
-      filter: (source) => ({ shipperID: source.shipVia }),
+      filter: function filter(source) {return { employeeID: source.employeeID };},
       skip: null,
-      sort: null,
-    },
-    projection: { shipVia: true },
-  })
-);
+      sort: null },
 
-const OrderDetailsTC = OrderTC.get('details');
+    projection: { employeeID: true } };});
+
+
+
+OrderTC.addRelation(
+'shipper',
+function () {return {
+    resolver: _shipper.ShipperTC.getResolver('findOne'),
+    args: {
+      filter: function filter(source) {return { shipperID: source.shipVia };},
+      skip: null,
+      sort: null },
+
+    projection: { shipVia: true } };});
+
+
+
+var OrderDetailsTC = OrderTC.get('details');
 OrderDetailsTC.addRelation(
-  'product',
-  () => ({
-    resolver: ProductTC.getResolver('findOne'),
+'product',
+function () {return {
+    resolver: _product.ProductTC.getResolver('findOne'),
     args: {
-      filter: (source) => ({ productID: source.productID }),
+      filter: function filter(source) {return { productID: source.productID };},
       skip: null,
-      sort: null,
-    },
-    projection: { productID: true },
-  })
-);
+      sort: null },
+
+    projection: { productID: true } };});

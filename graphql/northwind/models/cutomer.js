@@ -1,39 +1,37 @@
-import mongoose, { Schema } from 'mongoose';
-import composeWithMongoose from 'graphql-compose-mongoose';
-import composeWithRelay from 'graphql-compose-relay';
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.CustomerTC = exports.Customer = exports.CustomerSchema = undefined;var _mongoose = require('mongoose');var _mongoose2 = _interopRequireDefault(_mongoose);
+var _graphqlComposeMongoose = require('graphql-compose-mongoose');var _graphqlComposeMongoose2 = _interopRequireDefault(_graphqlComposeMongoose);
+var _graphqlComposeRelay = require('graphql-compose-relay');var _graphqlComposeRelay2 = _interopRequireDefault(_graphqlComposeRelay);
 
-import { AddressSchema } from './addressSchema';
-import { OrderTC } from './order';
+var _addressSchema = require('./addressSchema');
+var _order = require('./order');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
-export const CustomerSchema = new Schema({
+var CustomerSchema = exports.CustomerSchema = new _mongoose.Schema({
   customerID: {
     type: String,
     description: 'Customer unique ID',
-    unique: true,
-  },
+    unique: true },
+
 
   companyName: {
     type: String,
-    unique: true,
-  },
+    unique: true },
+
   contactName: String,
   contactTitle: String,
-  address: AddressSchema,
-}, {
-  collection: 'northwind_customers',
-});
+  address: _addressSchema.AddressSchema },
+{
+  collection: 'northwind_customers' });
 
-export const Customer = mongoose.model('Customer', CustomerSchema);
 
-export const CustomerTC = composeWithRelay(composeWithMongoose(Customer));
+var Customer = exports.Customer = _mongoose2.default.model('Customer', CustomerSchema);
+
+var CustomerTC = exports.CustomerTC = (0, _graphqlComposeRelay2.default)((0, _graphqlComposeMongoose2.default)(Customer));
 
 CustomerTC.addRelation(
-  'orderConnection',
-  () => ({
-    resolver: OrderTC.getResolver('connection'),
+'orderConnection',
+function () {return {
+    resolver: _order.OrderTC.getResolver('connection'),
     args: {
-      filter: (source) => ({ customerID: source.customerID }),
-    },
-    projection: { customerID: true },
-  })
-);
+      filter: function filter(source) {return { customerID: source.customerID };} },
+
+    projection: { customerID: true } };});

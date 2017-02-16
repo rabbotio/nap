@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
-const { mongoUri } = require('../graphql')
+const { mongoUri } = require('./composer')
 
 mongoose.Promise = Promise
 mongoose.connect(mongoUri, {
   server: {
     auto_reconnect: true,
-    reconnectTries: Number.MAX_VALUE,
+    reconnectTries: Number.MAX_VLUE,
     reconnectInterval: 1000,
   }
 })

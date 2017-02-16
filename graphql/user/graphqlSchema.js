@@ -1,32 +1,32 @@
-import { UserTC,UserListResolver } from './models/user';
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _user = require('./models/user');
 
-// SINGLE SCHEMA ON SERVER
-// import { GQC } from 'graphql-compose';
 
-// MULTI SCHEMA MODE IN ONE SERVER
-// create new GQC from ComposeStorage
-import { ComposeStorage } from 'graphql-compose';
-const GQC = new ComposeStorage();
 
-// create GraphQL Schema with all available resolvers for User Type
+
+
+
+var _graphqlCompose = require('graphql-compose');
+var GQC = new _graphqlCompose.ComposeStorage();
+
+
 GQC.rootQuery().addFields({
-  userById: UserTC.getResolver('findById'),
-  userByIds: UserTC.getResolver('findByIds'),
-  userOne: UserTC.getResolver('findOne'),
-  userMany: UserTC.getResolver('findMany'),
-  userTotal: UserTC.getResolver('count'),
-  userConnection: UserTC.getResolver('connection'),
-});
+  userById: _user.UserTC.getResolver('findById'),
+  userByIds: _user.UserTC.getResolver('findByIds'),
+  userOne: _user.UserTC.getResolver('findOne'),
+  userMany: _user.UserTC.getResolver('findMany'),
+  userTotal: _user.UserTC.getResolver('count'),
+  userConnection: _user.UserTC.getResolver('connection') });
+
 
 GQC.rootMutation().addFields({
-  userCreate: UserTC.getResolver('createOne'),
-  userUpdateById: UserTC.getResolver('updateById'),
-  userUpdateOne: UserTC.getResolver('updateOne'),
-  userUpdateMany: UserTC.getResolver('updateMany'),
-  userRemoveById: UserTC.getResolver('removeById'),
-  userRemoveOne: UserTC.getResolver('removeOne'),
-  userRemoveMany: UserTC.getResolver('removeMany'),
-});
+  userCreate: _user.UserTC.getResolver('createOne'),
+  userUpdateById: _user.UserTC.getResolver('updateById'),
+  userUpdateOne: _user.UserTC.getResolver('updateOne'),
+  userUpdateMany: _user.UserTC.getResolver('updateMany'),
+  userRemoveById: _user.UserTC.getResolver('removeById'),
+  userRemoveOne: _user.UserTC.getResolver('removeOne'),
+  userRemoveMany: _user.UserTC.getResolver('removeMany') });
 
-const graphqlSchema = GQC.buildSchema();
-export default graphqlSchema;
+
+var graphqlSchema = GQC.buildSchema();exports.default =
+graphqlSchema;

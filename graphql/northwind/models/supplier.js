@@ -1,38 +1,36 @@
-import mongoose, { Schema } from 'mongoose';
-import composeWithMongoose from 'graphql-compose-mongoose';
-import composeWithRelay from 'graphql-compose-relay';
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.SupplierTC = exports.Supplier = exports.SupplierSchema = undefined;var _mongoose = require('mongoose');var _mongoose2 = _interopRequireDefault(_mongoose);
+var _graphqlComposeMongoose = require('graphql-compose-mongoose');var _graphqlComposeMongoose2 = _interopRequireDefault(_graphqlComposeMongoose);
+var _graphqlComposeRelay = require('graphql-compose-relay');var _graphqlComposeRelay2 = _interopRequireDefault(_graphqlComposeRelay);
 
-import { AddressSchema } from './addressSchema';
-import { ProductTC } from './product';
+var _addressSchema = require('./addressSchema');
+var _product = require('./product');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
-export const SupplierSchema = new Schema({
+var SupplierSchema = exports.SupplierSchema = new _mongoose.Schema({
   supplierID: {
     type: Number,
     description: 'Supplier unique ID',
-    unique: true,
-  },
+    unique: true },
+
   companyName: {
     type: String,
-    unique: true,
-  },
+    unique: true },
+
   contactName: String,
   contactTitle: String,
-  address: AddressSchema,
-}, {
-  collection: 'northwind_suppliers',
-});
+  address: _addressSchema.AddressSchema },
+{
+  collection: 'northwind_suppliers' });
 
-export const Supplier = mongoose.model('Supplier', SupplierSchema);
 
-export const SupplierTC = composeWithRelay(composeWithMongoose(Supplier));
+var Supplier = exports.Supplier = _mongoose2.default.model('Supplier', SupplierSchema);
+
+var SupplierTC = exports.SupplierTC = (0, _graphqlComposeRelay2.default)((0, _graphqlComposeMongoose2.default)(Supplier));
 
 SupplierTC.addRelation(
-  'productConnection',
-  () => ({
-    resolver: ProductTC.getResolver('connection'),
+'productConnection',
+function () {return {
+    resolver: _product.ProductTC.getResolver('connection'),
     args: {
-      filter: (source) => ({ supplierID: source.supplierID }),
-    },
-    projection: { supplierID: true },
-  })
-);
+      filter: function filter(source) {return { supplierID: source.supplierID };} },
+
+    projection: { supplierID: true } };});

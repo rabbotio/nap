@@ -1,41 +1,41 @@
-import mongoose from 'mongoose';
-import composeWithMongoose from 'graphql-compose-mongoose';
-import composeWithRelay from 'graphql-compose-relay';
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.UserTC = exports.User = exports.UserSchema = undefined;var _mongoose = require('mongoose');var _mongoose2 = _interopRequireDefault(_mongoose);
+var _graphqlComposeMongoose = require('graphql-compose-mongoose');var _graphqlComposeMongoose2 = _interopRequireDefault(_graphqlComposeMongoose);
+var _graphqlComposeRelay = require('graphql-compose-relay');var _graphqlComposeRelay2 = _interopRequireDefault(_graphqlComposeRelay);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 
-const LanguagesSchema = new mongoose.Schema({
+var LanguagesSchema = new _mongoose2.default.Schema({
   language: String,
   skill: {
     type: String,
-    enum: [ 'basic', 'fluent', 'native' ],
-  }
-},
-{
-  _id: false, // disable `_id` field for `Language` schema
-});
+    enum: ['basic', 'fluent', 'native'] } },
 
-export const UserSchema = new mongoose.Schema({
-  name: String, // standard types
+
+{
+  _id: false });
+
+
+var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
+  name: String,
   age: {
     type: Number,
-    index: true,
-  },
+    index: true },
+
   languages: {
-    type: [LanguagesSchema], // you may include other schemas (here included as array of embedded documents)
-    default: [],
-  },
-  contacts: { // another mongoose way for providing embedded documents
+    type: [LanguagesSchema],
+    default: [] },
+
+  contacts: {
     email: String,
-    phones: [String], // array of strings
-  },
-  gender: { // enum field with values
+    phones: [String] },
+
+  gender: {
     type: String,
-    enum: ['male', 'female', 'ladyboy'],
-  },
-}, {
-  collection: 'userForRelay_users',
-});
+    enum: ['male', 'female', 'ladyboy'] } },
 
-export const User = mongoose.model('UserRelay', UserSchema);
+{
+  collection: 'userForRelay_users' });
 
-export const UserTC = composeWithRelay(composeWithMongoose(User));
+
+var User = exports.User = _mongoose2.default.model('UserRelay', UserSchema);
+
+var UserTC = exports.UserTC = (0, _graphqlComposeRelay2.default)((0, _graphqlComposeMongoose2.default)(User));

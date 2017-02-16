@@ -16,7 +16,7 @@ function resolveExamplePath(...args) {
 function getExampleNames() {
   const preferableOrder = ['user', 'userForRelay', 'northwind']
   const dirs = getDirectories(examplesPath)
-  debug.info(`schema : ${dirs}`)
+  console.info(`schema : ${dirs}`)
   const result = []
   preferableOrder.forEach(name => {
     const idx = dirs.indexOf(name)
@@ -29,7 +29,7 @@ function getExampleNames() {
     result.push(name)
   })
 
-  debug.info(`schema : ${result}`)
+  console.info(`schema : ${result}`)
   return result
 }
 

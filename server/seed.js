@@ -10,7 +10,7 @@ async function run() {
 
   const exampleNames = getExampleNames();
   for (let name of exampleNames) {
-    debug.log(`Starting seed '${name}'...`);
+    console.log(`Starting seed '${name}'...`);
     const seedFile = resolveExamplePath(name, 'data/seed.js');
     try {
       fs.accessSync(seedFile, fs.F_OK);
@@ -18,18 +18,18 @@ async function run() {
       await seedFn(db);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
-        debug.log(`  file '${seedFile}' not found. Skipping...`);
+        console.log(`  file '${seedFile}' not found. Skipping...`);
       } else {
-        debug.log(e);
+        console.log(e);
       }
     }
   }
 
-  debug.log('Seed competed!');
+  console.log('Seed competed!');
   db.close();
 }
 
 run().catch(e => {
-  debug.log(e);
+  console.log(e);
   process.exit(0);
 });

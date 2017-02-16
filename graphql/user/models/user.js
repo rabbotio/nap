@@ -1,92 +1,84 @@
-import mongoose from 'mongoose';
-import composeWithMongoose from 'graphql-compose-mongoose';
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.UserTC = exports.User = exports.UserSchema = undefined;var _mongoose = require('mongoose');var _mongoose2 = _interopRequireDefault(_mongoose);
+var _graphqlComposeMongoose = require('graphql-compose-mongoose');var _graphqlComposeMongoose2 = _interopRequireDefault(_graphqlComposeMongoose);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 
-const LanguagesSchema = new mongoose.Schema(
-  {
-    language: String,
-    skill: {
-      type: String,
-      enum: ['basic', 'fluent', 'native'],
-    },
-  },
-  {
-    _id: false, // disable `_id` field for `Language` schema
-  }
-);
+var LanguagesSchema = new _mongoose2.default.Schema(
+{
+  language: String,
+  skill: {
+    type: String,
+    enum: ['basic', 'fluent', 'native'] } },
 
-const AddressSchema = new mongoose.Schema(
-  {
-    street: String,
-    geo: {
-      type: [Number],   // [<longitude>, <latitude>]
-      index: '2dsphere', // create the geospatial index
-    },
-  }
-);
 
-export const UserSchema = new mongoose.Schema({
-  name: String, // standard types
+{
+  _id: false });
+
+
+
+var AddressSchema = new _mongoose2.default.Schema(
+{
+  street: String,
+  geo: {
+    type: [Number],
+    index: '2dsphere' } });
+
+
+
+
+var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
+  name: String,
   age: {
     type: Number,
-    index: true,
-  },
+    index: true },
+
   languages: {
-    type: [LanguagesSchema], // you may include other schemas (also as array of embedded documents)
-    default: [],
-  },
-  contacts: { // another mongoose way for providing embedded documents
+    type: [LanguagesSchema],
+    default: [] },
+
+  contacts: {
     email: String,
-    phones: [String], // array of strings
-  },
-  gender: { // enum field with values
+    phones: [String] },
+
+  gender: {
     type: String,
-    enum: ['male', 'female', 'ladyboy'],
-  },
+    enum: ['male', 'female', 'ladyboy'] },
+
   address: {
-    type: AddressSchema,
-  },
+    type: AddressSchema },
+
   someMixed: {
-    type: mongoose.Schema.Types.Mixed,
-    description: 'Some dynamic data',
-  },
-}, {
-  collection: 'user_users',
-});
+    type: _mongoose2.default.Schema.Types.Mixed,
+    description: 'Some dynamic data' } },
 
-export const User = mongoose.model('User', UserSchema);
-
-export const UserTC = composeWithMongoose(User);
+{
+  collection: 'user_users' });
 
 
-UserTC.setResolver('findMany', UserTC.getResolver('findMany')
-  .addFilterArg({
-    name: 'geoDistance',
-    type: `input GeoDistance {
-      lng: Float!
-      lat: Float!
-      # Distance in meters
-      distance: Float!
-    }`,
-    description: 'Search by distance in meters',
-    query: (rawQuery, value, resolveParams) => {
-      if (!value.lng || !value.lat || !value.distance) return;
-      // read more https://docs.mongodb.com/manual/tutorial/query-a-2dsphere-index/
-      rawQuery['address.geo'] = {
-        $near: {
-          $geometry: {
-            type: 'Point',
-            coordinates: [ value.lng, value.lat ],
-          },
-          $maxDistance: value.distance // <distance in meters>
-        }
-      };
-    },
-  })
-  // /* FOR DEBUG */
-  // .wrapResolve((next) => (rp) => {
-  //   const res = next(rp);
-  //   console.log(rp);
-  //   return res;
-  // })
-);
+var User = exports.User = _mongoose2.default.model('User', UserSchema);
+
+var UserTC = exports.UserTC = (0, _graphqlComposeMongoose2.default)(User);
+
+
+UserTC.setResolver('findMany', UserTC.getResolver('findMany').
+addFilterArg({
+  name: 'geoDistance',
+  type: 'input GeoDistance {\n      lng: Float!\n      lat: Float!\n      # Distance in meters\n      distance: Float!\n    }',
+
+
+
+
+
+  description: 'Search by distance in meters',
+  query: function query(rawQuery, value, resolveParams) {
+    if (!value.lng || !value.lat || !value.distance) return;
+
+    rawQuery['address.geo'] = {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [value.lng, value.lat] },
+
+        $maxDistance: value.distance } };
+
+
+  } }));

@@ -7,11 +7,11 @@
     "_build": "next build",
     "_start": "next start",
     "_serve": "nodemon --harmony index.js",
-    "_serve2": "nodemon --harmony index.js -e js --exec babel-node",
     "_build-front": "next build && next start",
     "_build-back": "next build && npm run _serve",
-    "_seed": "babel-node seed.js",
-    "_buildSchema": "babel-node buildSchema.js",
+    "_graphql-example": "babel ./examples/graphql --out-dir ./graphql --no-comments",
+    "_graphql-build-schema": "babel-node ./server/buildSchema.js",
+    "_graphql-seed": "babel-node ./server/seed.js",
     "dev": "npm run exec -- npm run _dev",
     "build": "npm run exec -- npm run _build",
     "start": "npm run exec -- npm run _start",
@@ -29,8 +29,6 @@
     "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true"
   },
   "dependencies": {
-    "@risingstack/graffiti": "^3.3.0",
-    "@risingstack/graffiti-mongoose": "^6.0.0",
     "apollo-client": "^0.8.6",
     "async-to-gen": "^1.3.2",
     "body-parser": "^1.16.1",
