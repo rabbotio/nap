@@ -18,7 +18,7 @@
     "serve": "npm run exec -- npm run _serve",
     "bi": "docker build -t rabbotio/nap . || true",
     "dive": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh || true",
-    "exec": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) ",
+    "exec": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap)",
     "rmi": "docker rmi -f rabbotio/nap || true",
     "clean": "docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "run": "docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap || true",
