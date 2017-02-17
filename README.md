@@ -108,19 +108,6 @@ SRC_PASSPORT_PROVIDERS=./providers
 
 ## GraphQL
 > https://github.com/nodkz/graphql-compose-examples
-```shell
-# To copy graphql compose examples to ./graphql volume
-npm run example
-
-# TO build schema in container
-npm run schema
-
-# To seed data to monogo container
-npm run seed
-
-# To explore an examples
-open http://localhost:3000/graphql-example
-```
 
 - - -
 

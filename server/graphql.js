@@ -8,39 +8,21 @@ const init = app => {
   app.use(cors())
 
   // Mongoose
+  const mongoUri = process.env.MONGODB_URI || 'mongodb://mongo/graphql'
+  require('./mongoose')(mongoUri)
+
+  // GraphQL
   const graphqlHTTP = require('express-graphql')
-  const { mainPage, addToMainPage } = require('./mainPage')
-  const { getExampleNames, resolveExamplePath } = require('./composer')
-  require('./mongooseConnection')
+  const schema = require('../graphql/clogii')
 
-  const addExample = (example, uri) => {
-    example.uri = `/${uri}`
-    app.use(example.uri, graphqlHTTP(() => ({
-      schema: example.schema,
-      graphiql,
-      formatError: (error) => ({
-        message: error.message,
-        stack: !error.message.match(/for security reason/i) ? error.stack.split('\n') : null,
-      }),
-    })))
-
-    addToMainPage(example)
-  }
-
-  // scan `examples` directory and add
-  // - graphql endpoint by uri /exampleDirName
-  // - links and example queries to index page
-  const exampleNames = getExampleNames()
-  for (let name of exampleNames) {
-    addExample(
-      require(resolveExamplePath(name)).default,
-      name
-    )
-  }
-
-  app.get('/graphql-example', (req, res) => {
-    res.send(mainPage())
-  })
+  app.use('/graphql', graphqlHTTP(() => ({
+    schema,
+    graphiql,
+    formatError: (error) => ({
+      message: error.message,
+      stack: !error.message.match(/for security reason/i) ? error.stack.split('\n') : null,
+    }),
+  })))
 }
 
 module.exports = init
