@@ -90,18 +90,18 @@ npm run dive
 ## Docker volume
 ```shell
 # Next
-SRC_NEXT_PAGES=./pages
-SRC_NEXT_COMPONENTS=./components
-SRC_NEXT_STATIC=./public
-SRC_NEXT_LIB=./lib
-SRC_MONGOOSE_ROUTES=./routes
-SRC_SERVER=./server
+./pages
+./components
+./public
+./lib
+./routes
+./server
 
 # Apollo GraphQL Mongoose
-SRC_GRAPHQL=./graphql
+./graphql
 
 # Passport
-SRC_PASSPORT_PROVIDERS=./providers
+./providers
 ```
 
 - - -
@@ -132,7 +132,7 @@ mutation {
   }
 }
 ```
-
+![screen shot 2017-02-17 at 23 30 27](https://cloud.githubusercontent.com/assets/97060/23073805/3e333828-f569-11e6-96a7-15789523d43f.png)
 - - -
 
 ## Passport

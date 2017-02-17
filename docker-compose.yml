@@ -17,15 +17,15 @@ services:
       - "${HTTP_PORT:-3000}:${HTTP_PORT:-3000}" # HTTP port
     volumes:
       - ./.env:/usr/app/.env
-      - ${SRC_NEXT_PAGES:-./pages}:/usr/app/pages
-      - ${SRC_NEXT_COMPONENTS:-./components}:/usr/app/components
-      - ${SRC_NEXT_STATIC:-./public}:/usr/app/public
-      - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
-      - ${SRC_MONGOOSE_ROUTES:-./routes}:/usr/app/routes
-      - ${SRC_GRAPHQL:-./graphql}:/usr/app/graphql
-      - ${SRC_PASSPORT_PROVIDERS-./providers}:/usr/app/providers # __DEV__
-      - ${SRC_SERVER:-./server}:/usr/app/server # __DEV__
-    build: .
+      - ./pages:/usr/app/pages
+      - ./components:/usr/app/components
+      - ./public:/usr/app/public
+      - ./lib:/usr/app/lib
+      - ./routes:/usr/app/routes
+      - ./graphql:/usr/app/graphql
+      - ./providers:/usr/app/providers # __DEV__
+      - ./server:/usr/app/server # __DEV__
+    build: . # __DEV__
     command: npm run _build-back # Will build next and run express server
     networks:
       - front

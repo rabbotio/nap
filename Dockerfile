@@ -1,15 +1,6 @@
 FROM node:7.5.0-alpine
 MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 
-ARG SRC_NEXT_PAGES=${SRC_NEXT_PAGES:-'./pages'}
-ARG SRC_NEXT_COMPONENTS=${SRC_NEXT_COMPONENTS:-'./components'}
-ARG SRC_NEXT_LIB=${SRC_NEXT_LIB:-'./lib'}
-ARG SRC_NEXT_STATIC=${SRC_NEXT_STATIC:-'./public'}
-ARG SRC_GRAPHQL=${SRC_GRAPHQL:-'./graphql'}
-ARG SRC_MONGOOSE_ROUTES=${SRC_MONGOOSE_ROUTES:-'./routes'}
-ARG SRC_PASSPORT_PROVIDERS=${SRC_PASSPORT_PROVIDERS:-'./providers'}
-ARG SRC_SERVER=${SRC_SERVER:-'./server'}
-
 # Ref : http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/
 # use changes to package.json to force Docker not to use the cache
 # when we change our application's nodejs dependencies:

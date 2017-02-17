@@ -20,7 +20,7 @@ const init = (mongoUri) => {
     debug.log(e)
   })
   connection.once('open', () => {
-    debug.log(`MongoDB successfully connected to ${mongoUri}`)
+    debug.log(`MongoDB : ${mongoUri}`)
   })
 }
 

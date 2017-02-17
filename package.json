@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "apollo-client": "^0.8.6",
-    "async-to-gen": "^1.3.2",
     "body-parser": "^1.16.1",
     "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
@@ -59,6 +58,7 @@
   },
   "author": "katopz@gmail.com",
   "license": "MIT",
+  "repository": "https://github.com/rabbotio/nap",
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-eslint": "^7.1.1",
@@ -72,18 +72,5 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.0",
     "nodemon": "^1.11.0"
-  },
-  "_babel": {
-    "presets": [
-      "es2015",
-      "stage-0",
-      "stage-3"
-    ],
-    "plugins": [
-      "syntax-async-functions",
-      "transform-regenerator"
-    ],
-    "sourceMaps": true,
-    "retainLines": true
   }
 }
