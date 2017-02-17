@@ -108,6 +108,30 @@ SRC_PASSPORT_PROVIDERS=./providers
 
 ## GraphQL
 > https://github.com/nodkz/graphql-compose-examples
+```shell
+# Copy graphql compose examples to ./graphql volume
+cp -r ./examples/graphql .
+
+# Explore an examples
+open http://localhost:3000/graphql-example
+
+# Mutation
+mutation {
+  userCreate(record: {name: "katopz", age: 18}) {
+    record {
+      name
+      age
+    }
+  }
+}
+
+# Query
+{
+  userOne {
+    name
+  }
+}
+```
 
 - - -
 

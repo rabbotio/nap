@@ -13,7 +13,7 @@ const init = app => {
 
   // GraphQL
   const graphqlHTTP = require('express-graphql')
-  const schema = require('../graphql/clogii')
+  const schema = require('../graphql/user')
 
   app.use('/graphql', graphqlHTTP(() => ({
     schema,
