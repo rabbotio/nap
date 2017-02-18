@@ -23,8 +23,6 @@ const init = app => {
 
   graphql_paths.forEach(tc => {
     const graphql_path = path.resolve('/', graphql_uri, tc)
-    debug.log('graphql_path:', graphql_path)
-
     const abs_graphql_path = `${abs_graphql_uri}/${tc}`
     const schema = require(abs_graphql_path)
 
