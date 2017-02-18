@@ -1,3 +1,7 @@
+/*
+An exmple for `graphql-compose`.
+*/
+
 // SINGLE SCHEMA ON SERVER
 // const { GQC } = require('graphql-compose')
 

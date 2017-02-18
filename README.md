@@ -116,7 +116,7 @@ npm run dive
 ./routes
 ./server
 
-# Apollo GraphQL Mongoose
+# GraphQL schema
 ./graphql
 
 # Passport
@@ -130,10 +130,10 @@ npm run dive
 
 ```shell
 # Copy graphql compose examples to ./graphql volume
-cp -r ./examples/graphql .
+cp -r ./examples/schema-graphql-compose/ ./graphql/
 
-# Explore an examples
-open http://localhost:3000/graphql-example
+# Explore
+open http://localhost:3000/graphql/user
 
 # Mutation
 mutation {
@@ -153,6 +153,17 @@ mutation {
 }
 ```
 ![screen shot 2017-02-17 at 23 30 27](https://cloud.githubusercontent.com/assets/97060/23073805/3e333828-f569-11e6-96a7-15789523d43f.png)
+
+### Other examples
+```shell
+# For Apollo style with graphql-tools
+cp -r ./examples/schema-graphql-tools/ ./graphql/
+open http://localhost:3000/graphql/apollo
+
+# For original style
+cp -r ./examples/schema-original/ ./graphql/
+open http://localhost:3000/graphql/original
+```
 - - -
 
 ## Passport
@@ -164,8 +175,6 @@ mutation {
 - - -
 
 ## TODO
-- [ ] Add [graphql-compose](https://github.com/nodkz/graphql-compose) support with authen
-- [ ] https://www.npmjs.com/package/modclean
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
@@ -244,3 +253,4 @@ services:
 - [ ] [how-to-copy-docker-images-from-one-host-to-another-without-via-repository](http://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-via-repository)
 - [ ] [Back up and restore dockerized MongoDB](http://blog.btskyrise.com/posts/back-up-and-restore-dockerized-mongodb)
 - [ ] [Export Docker Mongo Data](https://github.com/wekan/wekan/wiki/Export-Docker-Mongo-Data)
+- [ ] Smaller `node_modules` : https://www.npmjs.com/package/modclean
