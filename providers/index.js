@@ -19,13 +19,13 @@ const init = (providers) => {
 
   // TODO : Test this
   // Twitter
-  if (process.env.TWITTER_KEY && process.env.TWITTER_SECRET) {
+  if (process.env.TWITTER_API_KEY && process.env.TWITTER_API_SECRET) {
     providers.push({
       provider: 'twitter',
       Strategy: require('passport-twitter').Strategy,
       strategyOptions: {
-        consumerKey: process.env.TWITTER_KEY,
-        consumerSecret: process.env.TWITTER_SECRET
+        consumerKey: process.env.TWITTER_API_KEY,
+        consumerSecret: process.env.TWITTER_API_SECRET
       },
       scope: null,
       getUserFromProfile: (profile) => (debug.log(profile) && {
