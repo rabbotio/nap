@@ -18,8 +18,14 @@ const init = app => {
   const path = require('path')
 
   const graphql_uri = `./graphql`
-  const abs_graphql_uri = path.resolve(process.env.PWD, graphql_uri)
-  const graphql_paths = fs.readdirSync(abs_graphql_uri).filter(file => fs.statSync(path.join(abs_graphql_uri, file)).isDirectory())
+  const abs_graphql_uri = path.resolve('../', graphql_uri)
+  const graphql_paths = (() => {
+    try { 
+      return fs.readdirSync(abs_graphql_uri).filter(file => fs.statSync(path.join(abs_graphql_uri, file)).isDirectory())
+    } catch(err) {
+      return []
+    }
+  })()
 
   graphql_paths.forEach(tc => {
     const graphql_path = path.resolve('/', graphql_uri, tc)
