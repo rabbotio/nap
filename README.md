@@ -7,13 +7,26 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 ## Overview
 ```
 Docker
-├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
+├─ Nginx
+│  ├─ ./nginx/certs   : /etc/nginx/certs
+│  ├─ ./nginx/conf.d  : /etc/nginx/conf.d
+│  ├─ ./nginx/log     : /var/log/nginx
+│  └─ ./nginx/www     : /var/www
 ├─ NodeJS 7.5 --harmony, nodemon
-│  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/routes", "/usr/app/server"]
-│  ├─ Apollo GraphQL ["/usr/app/graphql"]
-│  └─ PassportJS ["/usr/app/providers"]
-├─ Redis ["/data"]
-└─ MongoDB ["/data/db"]
+│  ├─ NextJS 2
+│  │  ├─ ./pages      : /usr/app/pages
+│  │  ├─ ./components : /usr/app/components
+│  │  ├─ ./lib        : /usr/app/lib
+│  │  ├─ ./routes     : /usr/app/routes
+│  │  └─ ./server     : /usr/app/server
+│  ├─ Apollo GraphQL, Mongoose, MongoDB
+│  │  └─ ./graphql    : /usr/app/graphql
+│  └─ PassportJS, Redis
+│     └─ ./providers  : /usr/app/providers
+├─ Redis : redis://redis
+│  └─ data            : /data
+└─ MongoDB : mongodb://mongo/graphql
+   └─ data            : /data/db
 ```
 
 ## Stacks
@@ -108,6 +121,7 @@ npm run dive
 
 ## GraphQL
 > https://github.com/nodkz/graphql-compose-examples
+
 ```shell
 # Copy graphql compose examples to ./graphql volume
 cp -r ./examples/graphql .
@@ -221,3 +235,6 @@ services:
 - [ ] Cron with `webtask.io`.
 - [ ] `graffiti` simple API.
 - [ ] [Backing Up and Restoring Data Volumes](http://www.tricksofthetrades.net/2016/03/14/docker-data-volumes/)
+- [ ] [how-to-copy-docker-images-from-one-host-to-another-without-via-repository](http://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-via-repository)
+- [ ] [Back up and restore dockerized MongoDB](http://blog.btskyrise.com/posts/back-up-and-restore-dockerized-mongodb)
+- [ ] [Export Docker Mongo Data](https://github.com/wekan/wekan/wiki/Export-Docker-Mongo-Data)
