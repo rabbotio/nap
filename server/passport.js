@@ -1,6 +1,9 @@
 const init = app => {
+  // Constants
+  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+
   const passport = require('passport')
-  const secret = process.env.EXPRESS_SESSION_SECRET || 'foo'
+  const secret = process.env.EXPRESS_SESSION_SECRET
 
   // Configure Passport authenticated session persistence.
   passport.serializeUser((user, cb) => cb(null, user))
@@ -29,7 +32,7 @@ const init = app => {
       secret,
       resave: false, // do not automatically write to the session store
       saveUninitialized: true,
-      cookie: { httpOnly: true, maxAge: 2419200000 } // configure when sessions expires
+      cookie: { httpOnly: true, maxAge: ONE_WEEK } // configure when sessions expires
     })
   )
 
