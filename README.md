@@ -170,7 +170,7 @@ open http://localhost:3000/graphql/original
 - [x] Facebook :  http://localhost:3000/auth/facebook/
 - [x] Github :  http://localhost:3000/auth/github/
 - [x] Twitter :  http://localhost:3000/auth/twitter/
-- [ ] Google :  http://localhost:3000/auth/google/
+- [x] Google :  http://localhost:3000/auth/google/
 
 - - -
 
@@ -195,7 +195,6 @@ open http://localhost:3000/graphql/original
 - [ ] Custom app, Ensure ES6 with vscode debug working.
 - [ ] Custom `MongoDB` replication `docker exec -it node1 mongo --eval "rs.initiate()"`
 - [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
-- [ ] Add `passport` Google.
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
 - [ ] Container config e.g. restart policy, limits CPU/RAM.
