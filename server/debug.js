@@ -1,13 +1,13 @@
 // Type
-const LOG = '#'
-const INFO = '$'
-const DEBUG = '@'
-const WARN = '!'
-const ERROR = '*'
+const LOG = 'log'
+const INFO = 'info'
+const DEBUG = 'debug'
+const WARN = 'warn'
+const ERROR = 'error'
 
 const debug = class debug extends console.Console { // eslint-disable-line
   constructor() {
-    super();
+    super()
   }
 
   static _toString(any) {
@@ -24,16 +24,19 @@ const debug = class debug extends console.Console { // eslint-disable-line
     return result
   }
 
-  static _print(type, text) {
+  static _print(...args) {
     // No console in prod
     if (process.env.NODE_ENV === 'production') return global.debug
 
     try {
+      const type = args[0]
+      const any = args[1]
+      const text = global.debug._toString(any)
       const at = new Date()
 
-      console.log([ // eslint-disable-line
-        at.toISOString(),
+      console[type]([ // eslint-disable-line
         type,
+        at.toISOString(),
         text
       ].join(' | '))
     } catch (err) {
@@ -44,8 +47,7 @@ const debug = class debug extends console.Console { // eslint-disable-line
   }
 
   static log(...any) {
-    const text = global.debug._toString(any)
-    return global.debug._print(LOG, text)
+    return global.debug._print(LOG, any)
   }
 
   static info(...any) {
