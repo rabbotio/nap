@@ -180,7 +180,7 @@ open http://localhost:3000/graphql/original
 - [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
 - [ ] Add email/pass user.https://github.com/iaincollins/nextjs-starter
 - [ ] Link user with social.
-- [ ] Grateful shutdown.
+- [ ] Grateful shutdown. https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
 - [ ] Don't run as root https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 
 ## TOTEST
