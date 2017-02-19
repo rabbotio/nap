@@ -30,7 +30,7 @@ VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib"
 # Node Inspector port
 EXPOSE 5858
 # HTTP port, default to 3000
-EXPOSE ${HTTP_PORT:-3000}
+EXPOSE ${PORT:-3000}
 
 # Start server (Can't start yet bacause volume is not ready yet, we'll start with compose instead)
 # CMD [ "npm", "start"]

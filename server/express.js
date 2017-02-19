@@ -1,4 +1,4 @@
-const init = (app, nextjs) => {
+const init = (app, config, nextjs) => {
   // Custom routes
   try {
     require('../routes')(app, nextjs)
@@ -12,9 +12,9 @@ const init = (app, nextjs) => {
   app.all('*', (req, res) => handle(req, res))
 
   // Server
-  app.listen(process.env.HTTP_PORT, (err) => {
+  app.listen(config.port, (err) => {
     if (err) throw err
-    debug.log(`NextJS  : http://localhost:${process.env.HTTP_PORT}`)
+    debug.log(`NextJS  : http://localhost:${config.port}`)
   })
 }
 

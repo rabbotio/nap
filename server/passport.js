@@ -1,9 +1,9 @@
-const init = app => {
+const init = (app, {cookie_secret: secret, redis_url: url}) => {
   // Constants
   const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
+  // Passport
   const passport = require('passport')
-  const secret = process.env.EXPRESS_SESSION_SECRET
 
   // Configure Passport authenticated session persistence.
   passport.serializeUser((user, cb) => cb(null, user))
@@ -18,17 +18,15 @@ const init = app => {
   const bodyParser = require('body-parser')
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
-  // POC// app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
   // Passport does not directly manage your session, it only uses the session.
   // So you configure session attributes (e.g. life of your session) via express
   const session = require('express-session')
   const RedisStore = require('connect-redis')(session)
+
   app.use(
     session({
-      store: new RedisStore({
-        url: process.env.REDIS_SESSION_URI || 'redis://redis:6379'
-      }),
+      store: new RedisStore({ url }),
       secret,
       resave: false, // do not automatically write to the session store
       saveUninitialized: true,

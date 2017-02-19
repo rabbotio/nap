@@ -242,6 +242,8 @@ services:
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
 - [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
+- [ ] Cache MongoDB with [`mongoose-cache`](https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L2)
+- [ ] mongoose-timestamp : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L3
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Admin Dashboard with `SSH`.
 - [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)

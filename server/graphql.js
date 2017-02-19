@@ -1,15 +1,13 @@
-const cors = require('cors')
-
-const init = app => {
+const init = (app, {mongo_url, port}) => {
   // Custom config
   const graphiql = process.env.GRAPHIQL_ENABLED === '1' || process.env.NODE_ENV !== 'production'
 
   // Cross Origin
+  const cors = require('cors')
   app.use(cors())
 
   // Mongoose
-  const mongo_uri = process.env.MONGODB_URI
-  require('./mongoose')(mongo_uri)
+  require('./mongoose')(mongo_url)
 
   // GraphQL
   const graphqlHTTP = require('express-graphql')
@@ -40,7 +38,7 @@ const init = app => {
       })
     })))
 
-    debug.log(`GraphQL : http://localhost:${process.env.HTTP_PORT}${route_path} -> ${route_path}`)
+    debug.log(`GraphQL : http://localhost:${port}${route_path} -> ${route_path}`)
   })
 }
 

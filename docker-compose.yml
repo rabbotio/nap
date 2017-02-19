@@ -5,7 +5,7 @@ services:
     container_name: nap
     env_file: .env
     environment:
-      - HTTP_PORT=${HTTP_PORT:-3000}
+      - PORT=${PORT:-3000}
     image: rabbotio/nap
     restart: always
     links:
@@ -14,7 +14,7 @@ services:
     working_dir: /usr/app
     ports:
       - "5858:5858" # Node Inspector port
-      - "${HTTP_PORT:-3000}:${HTTP_PORT:-3000}" # HTTP port
+      - "${PORT:-3000}:${PORT:-3000}" # HTTP port
     volumes:
       - ./.env:/usr/app/.env
       - ./pages:/usr/app/pages

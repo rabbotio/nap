@@ -1,6 +1,9 @@
 require('./debug')
 
 const init = () => {
+  // Config
+  const config = require('./config')
+
   // Next
   const nextjs = require('next')({
     IS_DEVELOPMENT: (process.env.NODE_ENV === 'development')
@@ -16,13 +19,16 @@ const init = () => {
     app.use(express.static('public'))
 
     // Passport
-    process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app)
+    process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app, config)
 
+    // Users
+    require('./users')(app)
+    
     // GraphQL
-    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app)
+    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app, config)
 
     // Express
-    require('./express')(app, nextjs)
+    require('./express')(app, config, nextjs)
   })
 }
 
