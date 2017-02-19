@@ -44,6 +44,7 @@
     "graphql-tools": "^0.10.0",
     "isomorphic-fetch": "^2.2.1",
     "mongoose": "^4.8.3",
+    "mongoose-role": "^2.0.0",
     "morgan": "^1.8.1",
     "next": "^2.0.0-beta",
     "passport": "^0.3.2",

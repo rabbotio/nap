@@ -34,6 +34,18 @@ const UserSchema = new mongoose.Schema({
   },
 })
 
+// User roles
+const role = require('mongoose-role')
+UserSchema.plugin(role, {
+  roles: ['public', 'user', 'admin'],
+  accessLevels: {
+    'public': ['public', 'user', 'admin'],
+    'anon': ['public'],
+    'user': ['user', 'admin'],
+    'admin': ['admin']
+  }
+})
+
 const User = mongoose.model('User', UserSchema)
 const UserTC = composeWithMongoose(User)
 
@@ -47,7 +59,7 @@ UserTC.setResolver('findMany', UserTC.getResolver('findMany')
       distance: Float!
     }`,
     description: 'Search by distance in meters',
-    query: (rawQuery, value, resolveParams) => {
+    query: (rawQuery, value) => {
       if (!value.lng || !value.lat || !value.distance) return
       // read more https://docs.mongodb.com/manual/tutorial/query-a-2dsphere-index/
       rawQuery['address.geo'] = {
@@ -70,9 +82,14 @@ UserTC.setResolver('findMany', UserTC.getResolver('findMany')
 )
 
 // Here's how to restrict access only for logged in users.
-UserTC.extendField('contacts', {
-  description: 'May see only admins',
-  resolve: (source, args, context) => (context.user ? source.contacts : null),
+UserTC.extendField('age', {
+  description: 'May see only logged in user',
+  resolve: (source, args, context) => (context.user ? source.age : null),
 })
+
+// Test user roles (To be remove)
+const testUser = new User({ contacts: { email: 'katopz@gmail.com' }, role: 'user'});
+debug.log('katopz\'s is user  : ', testUser.hasAccess('user')); // true
+debug.log('katopz\'s is admin : ', testUser.hasAccess('admin')); // false
 
 module.exports = { User, UserTC }
