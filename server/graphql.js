@@ -18,21 +18,20 @@ const init = app => {
   const path = require('path')
 
   const graphql_uri = `./graphql`
-  const abs_graphql_uri = path.resolve('../', graphql_uri)
   const graphql_paths = (() => {
-    try { 
-      return fs.readdirSync(abs_graphql_uri).filter(file => fs.statSync(path.join(abs_graphql_uri, file)).isDirectory())
-    } catch(err) {
+    try {
+      return fs.readdirSync(graphql_uri).filter(file => fs.statSync(path.join(graphql_uri, file)).isDirectory())
+    } catch (err) {
       return []
     }
   })()
 
   graphql_paths.forEach(tc => {
-    const graphql_path = path.resolve('/', graphql_uri, tc)
-    const abs_graphql_path = `${abs_graphql_uri}/${tc}`
-    const schema = require(abs_graphql_path)
+    const route_path = path.resolve('/', graphql_uri, tc)
+    const require_path = path.resolve('./', graphql_uri, tc)
+    const schema = require(require_path)
 
-    app.use(graphql_path, graphqlHTTP(() => ({
+    app.use(route_path, graphqlHTTP(() => ({
       schema,
       graphiql,
       formatError: (error) => ({
@@ -41,7 +40,7 @@ const init = app => {
       })
     })))
 
-    debug.log(`GraphQL : http://localhost:${process.env.HTTP_PORT}${graphql_path} -> ${abs_graphql_path}`)
+    debug.log(`GraphQL : http://localhost:${process.env.HTTP_PORT}${route_path} -> ${route_path}`)
   })
 }
 
