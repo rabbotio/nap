@@ -44,6 +44,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [`graphql-compose`](https://github.com/nodkz/graphql-compose) for auto schema `GraphQL` from `MongoDB`.
+- [ ] [`nextjs-starter`](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
 - [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 

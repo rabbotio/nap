@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "scripts": {
     "lint": "eslint .",
     "_dev": "next",
@@ -51,10 +51,13 @@
     "passport-github2": "^0.1.10",
     "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "promise-polyfill": "^6.0.2",
     "react": "^15.4.2",
     "react-apollo": "^0.11.1",
     "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
     "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
     "uuid": "^3.0.1"
   },
   "author": "katopz@gmail.com",
