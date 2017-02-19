@@ -1,4 +1,4 @@
-const init = (app, config, nextjs) => {
+const init = (app, nextjs, { port }) => {
   // Custom routes
   try {
     require('../routes')(app, nextjs)
@@ -8,13 +8,13 @@ const init = (app, config, nextjs) => {
   }
 
   // Default catch-all handler to allow Next.js to handle all other routes
-  const handle = nextjs.getRequestHandler()
-  app.all('*', (req, res) => handle(req, res))
+  const handler = nextjs.getRequestHandler()
+  app.all('*', (req, res) => handler(req, res))
 
   // Server
-  app.listen(config.port, (err) => {
+  app.listen(port, (err) => {
     if (err) throw err
-    debug.log(`NextJS  : http://localhost:${config.port}`)
+    debug.log(`NextJS  : http://localhost:${port}`)
   })
 }
 

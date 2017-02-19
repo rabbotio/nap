@@ -23,12 +23,12 @@ const init = () => {
 
     // Users
     require('./users')(app)
-    
+
     // GraphQL
     process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app, config)
 
     // Express
-    require('./express')(app, config, nextjs)
+    require('./express')(app, nextjs, config)
   })
 }
 
