@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import Head from 'next/head'
-import Link from 'next/prefetch'
+import Link from 'next/link'
 import React from 'react'
 
 import Menu from './menu'

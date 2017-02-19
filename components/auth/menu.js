@@ -1,5 +1,5 @@
 /* global window */
-import Link from 'next/prefetch'
+import Link from 'next/link'
 import React from 'react'
 import Session from './session'
 

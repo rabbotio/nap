@@ -1,4 +1,4 @@
-import Link from 'next/prefetch'
+import Link from 'next/link'
 import React from 'react'
 import Page from '../../components/auth/page'
 import Layout from '../../components/auth/layout'
