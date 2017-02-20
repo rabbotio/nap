@@ -43,8 +43,8 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 ## Extras
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
-- [x] [`graphql-compose`](https://github.com/nodkz/graphql-compose) for auto schema `GraphQL` from `MongoDB`.
-- [x] [`mongoose-role`](https://github.com/ksmithut/mongoose-role) for role access.
+- [x] [`graphql-compose`](https://github.com/nodkz/graphql-compose) for build `GraphQL` types from `Mongoose` with resolvers.
+- [x] [`mongoose-role`](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
 - [x] [`mongoose-timestamp`](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent create/update timestamp.
 - [ ] [`nextjs-starter`](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
@@ -246,12 +246,10 @@ services:
 - [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
 - [ ] Cache MongoDB with [`mongoose-cache`](https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L2)
-- [ ] mongoose-timestamp : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L3
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Admin Dashboard with `SSH`.
 - [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)
 - [ ] Cron with `webtask.io`.
-- [ ] `graffiti` simple API.
 - [ ] [Backing Up and Restoring Data Volumes](http://www.tricksofthetrades.net/2016/03/14/docker-data-volumes/)
 - [ ] [how-to-copy-docker-images-from-one-host-to-another-without-via-repository](http://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-via-repository)
 - [ ] [Back up and restore dockerized MongoDB](http://blog.btskyrise.com/posts/back-up-and-restore-dockerized-mongodb)
