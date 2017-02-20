@@ -44,6 +44,8 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [`graphql-compose`](https://github.com/nodkz/graphql-compose) for auto schema `GraphQL` from `MongoDB`.
+- [x] [`mongoose-role`](https://github.com/ksmithut/mongoose-role) for role access.
+- [x] [`mongoose-timestamp`](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent create/update timestamp.
 - [ ] [`nextjs-starter`](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
 - [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
@@ -138,7 +140,7 @@ open http://localhost:3000/graphql/user
 
 # Mutation
 mutation {
-  userCreate(record: {name: "katopz", age: 18}) {
+  userCreate(record: {name: "katopz", age: 18, role: user}) {
     record {
       name
       age

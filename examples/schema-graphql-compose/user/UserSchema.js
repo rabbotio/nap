@@ -32,8 +32,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ['male', 'female', 'ladyboy'],
   },
+  role: {
+    type: String,
+    default: 'user'
+  }
 })
 
+// - - - - - - Plugins - - - - - -
 // User roles
 const role = require('mongoose-role')
 UserSchema.plugin(role, {
@@ -45,6 +50,10 @@ UserSchema.plugin(role, {
     'admin': ['admin']
   }
 })
+
+// Auto timestamps
+const timestamps = require('mongoose-timestamp')
+UserSchema.plugin(timestamps);
 
 const User = mongoose.model('User', UserSchema)
 const UserTC = composeWithMongoose(User)
@@ -86,10 +95,5 @@ UserTC.extendField('age', {
   description: 'May see only logged in user',
   resolve: (source, args, context) => (context.user ? source.age : null),
 })
-
-// Test user roles (To be remove)
-const testUser = new User({ contacts: { email: 'katopz@gmail.com' }, role: 'user'});
-debug.log('katopz\'s is user  : ', testUser.hasAccess('user')); // true
-debug.log('katopz\'s is admin : ', testUser.hasAccess('admin')); // false
 
 module.exports = { User, UserTC }
