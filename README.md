@@ -170,21 +170,24 @@ open http://localhost:3000/graphql/original
 - - -
 
 ## Passport
-- [x] Facebook :  http://localhost:3000/auth/facebook/
-- [x] Github :  http://localhost:3000/auth/github/
-- [x] Twitter :  http://localhost:3000/auth/twitter/
-- [x] Google :  http://localhost:3000/auth/google/
+- [x] Facebook : http://localhost:3000/auth/facebook/
+- [x] Github : http://localhost:3000/auth/github/
+- [x] Twitter : http://localhost:3000/auth/twitter/
+- [x] Google : http://localhost:3000/auth/google/
+- [ ] SignIn : http://localhost:3000/auth/signin/
 
 - - -
 
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
-- [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
-- [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Add email/pass user.https://github.com/iaincollins/nextjs-starter
+- [ ] Add `Nginx` TLS container : https://github.com/rabbotio/nginx-certbot
+- [ ] Add HTTPS : https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
+- [ ] Add email/pass user : https://github.com/iaincollins/nextjs-starter
+- [ ] Link session user with user collection.
 - [ ] Link user with social.
-- [ ] Grateful shutdown. https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
-- [ ] Don't run as root https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
+- [ ] Grateful shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
+- [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
+- [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 
 ## TOTEST
 - [ ] `Redis` fail test.
@@ -193,6 +196,7 @@ open http://localhost:3000/graphql/original
 - [ ] HTTPS fail test.
 - [ ] Unit test `graphql-compose`.
 - [ ] `Passport` test.
+- [ ] Chaos testing with [pumba](https://github.com/gaia-adm/pumba)
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
