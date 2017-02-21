@@ -1,47 +1,35 @@
 // Type
-const LOG = 'log'
-const INFO = 'info'
-const DEBUG = 'debug'
-const WARN = 'warn'
-const ERROR = 'error'
+const LOG = 'log', INFO = 'info', DEBUG = 'debug', WARN = 'warn', ERROR = 'error'
 
-const debug = class debug extends console.Console { // eslint-disable-line
-  static _print(...args) {
-    // No console in prod
-    if (process.env.NODE_ENV === 'production') return global.debug
+const _print = (type, any) => {
+  // No console in prod
+  if (process.env.NODE_ENV === 'production') return
 
-    try {
-      console[args[0]]([ // eslint-disable-line
-        args[0],
-        new Date().toISOString(),
-        String(args[1])
-      ].join(' | '))
-    } catch (err) {
-      console.error(err) // eslint-disable-line
-    }
-
-    return global.debug
-  }
-
-  static log(...any) {
-    return global.debug._print(LOG, any)
-  }
-
-  static info(...any) {
-    return global.debug._print(INFO, any)
-  }
-
-  static warn(...any) {
-    return global.debug._print(WARN, any)
-  }
-
-  static error(...any) {
-    return global.debug._print(ERROR, any)
-  }
-
-  static debug(...any) {
-    return global.debug._print(DEBUG, any)
+  try {
+    console[type].apply(null, [`${type} | ${new Date().toISOString()} |`, ...any]) // eslint-disable-line
+  } catch (err) {
+    console.error(err) // eslint-disable-line
   }
 }
 
-global.debug = debug
+global.debug = class debug { // eslint-disable-line
+  static log(...any) {
+    return _print(LOG, any)
+  }
+
+  static info(...any) {
+    return _print(INFO, any)
+  }
+
+  static warn(...any) {
+    return _print(WARN, any)
+  }
+
+  static error(...any) {
+    return _print(ERROR, any)
+  }
+
+  static debug(...any) {
+    return _print(DEBUG, any)
+  }
+}
