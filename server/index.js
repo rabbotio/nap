@@ -1,6 +1,7 @@
 require('./debug')
 
 const init = () => {
+
   // Config
   const config = require('./config')
 
@@ -18,17 +19,21 @@ const init = () => {
     // Static
     app.use(express.static('public'))
 
-    // Passport
-    process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app, config)
+    // Store
+    const mongooseInitializer = require('./mongoose')
+    mongooseInitializer(config.mongo_url).then(mongoose => {
+      // Passport
+      process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app, config, mongoose)
 
-    // Users
-    require('./users')(app)
+      // Users
+      require('./users')(app)
 
-    // GraphQL
-    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app, config)
+      // GraphQL
+      process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app, config)
 
-    // Express
-    require('./express')(app, nextjs, config)
+      // Express
+      require('./express')(app, nextjs, config)
+    })
   })
 }
 

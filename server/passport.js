@@ -1,4 +1,4 @@
-const init = (app, {cookie_secret: secret, redis_url: url}) => {
+const init = (app, {cookie_secret: secret, redis_url: url, mongoose}) => {
   // Constants
   const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
@@ -40,7 +40,7 @@ const init = (app, {cookie_secret: secret, redis_url: url}) => {
   app.use(passport.session())
 
   // Initialize providers
-  require('./authen')(app, passport)
+  require('./authen')(app, passport, mongoose)
 }
 
 module.exports = init

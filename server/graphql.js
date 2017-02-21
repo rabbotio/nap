@@ -1,13 +1,10 @@
-const init = (app, {mongo_url, port}) => {
+const init = (app, {port}) => {
   // Custom config
   const graphiql = process.env.GRAPHIQL_ENABLED === '1' || process.env.NODE_ENV !== 'production'
 
   // Cross Origin
   const cors = require('cors')
   app.use(cors())
-
-  // Mongoose
-  require('./mongoose')(mongo_url)
 
   // GraphQL
   const graphqlHTTP = require('express-graphql')
@@ -24,11 +21,9 @@ const init = (app, {mongo_url, port}) => {
     }
   })()
 
-  graphql_paths.forEach(tc => {
-    const route_path = path.resolve('/', graphql_uri, tc)
-    const require_path = path.resolve('./', graphql_uri, tc)
+  // Endpoint
+  const createEndpoint = (route_path, require_path) => {
     const schema = require(require_path)
-
     app.use(route_path, graphqlHTTP(() => ({
       schema,
       graphiql,
@@ -39,7 +34,19 @@ const init = (app, {mongo_url, port}) => {
     })))
 
     debug.log(`GraphQL : http://localhost:${port}${route_path} -> ${route_path}`)
+  }
+
+  // Multiple endpoint
+  graphql_paths.forEach(tc => {
+    const route_path = path.resolve('/', graphql_uri, tc)
+    const require_path = path.resolve('./', graphql_uri, tc)
+    createEndpoint(route_path, require_path)
   })
+
+  // Default endpoint
+  const route_path = path.resolve('/', graphql_uri)
+  const require_path = path.resolve('./', graphql_uri)
+  createEndpoint(route_path, require_path)
 }
 
 module.exports = init

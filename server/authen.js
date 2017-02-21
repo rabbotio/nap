@@ -20,9 +20,9 @@ const init = (app, passport) => {
       try {
         // Normalise the provider specific profile into a User object
         profile = getUserFromProfile(profile)
+
         done(null, profile)
 
-        // TODO nohm
         /*
         // See if we have this oAuth account in the database associated with a user
         User.one({ [provider]: profile.id }, function (err, user) {
