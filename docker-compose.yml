@@ -16,6 +16,7 @@ services:
       - "5858:5858" # Node Inspector port
       - "${PORT:-3000}:${PORT:-3000}" # HTTP port
     volumes:
+      - npm:/root/.npm
       - ./.env:/usr/app/.env
       - ./pages:/usr/app/pages
       - ./components:/usr/app/components
@@ -66,5 +67,6 @@ networks:
   back:
 
 volumes:
+  npm:
   redis_data:
   mongo_data:
