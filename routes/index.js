@@ -4,7 +4,7 @@ const init = (app, nextjs) => {
   app.get('/b', (req, res) => nextjs.render(req, res, '/a', req.query))
 
   app.get('/user', async (req, res) => {
-    const { User } = require('../graphql/UserSchema')
+    const User = require('mongoose').model('User')
     const user = await (async () => User.findOne({ name: 'pignoom' }).exec(user => user))()
     debug.log(user)
     debug.log('render')
