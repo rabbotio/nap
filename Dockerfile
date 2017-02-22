@@ -7,6 +7,8 @@ MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 COPY package.json /tmp/package.json
 RUN npm config set registry https://registry.npmjs.org/
 RUN cd /tmp && npm install
+# Smaller node_modules size
+RUN npm i -g modclean && modclean -r -D /tmp/node_modules && npm r -g modclean && du -ms .
 RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
 WORKDIR /usr/app
 
