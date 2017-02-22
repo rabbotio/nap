@@ -36,19 +36,20 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 ```
 
 ## Stacks
-- [x] [`next`](https://github.com/zeit/next.js/) for SSR `React`.
-- [x] [`apollo`](https://github.com/apollographql) for `GraphQL` client.
-- [x] [`passport`](https://github.com/jaredhanson/passport) for `Express` authentication.
+- [x] [next](https://github.com/zeit/next.js/) for SSR `React`.
+- [x] [apollo](https://github.com/apollographql) for `GraphQL` client.
+- [x] [passport](https://github.com/jaredhanson/passport) for `Express` authentication.
 
 ## Extras
-- [x] [`express`](https://github.com/expressjs/express) for web framework.
-- [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
-- [x] [`graphql-compose`](https://github.com/nodkz/graphql-compose) for build `GraphQL` types from `Mongoose` with resolvers.
-- [x] [`mongoose-role`](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
-- [x] [`mongoose-timestamp`](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent create/update timestamp.
-- [ ] [`nextjs-starter`](https://github.com/iaincollins/nextjs-starter) for basic authentication.
-- [ ] [`nginx`](https://github.com/nginxinc) for proxy.
-- [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
+- [x] [express](https://github.com/expressjs/express) for web framework.
+- [x] [express-session](https://github.com/expressjs/session) for persist session via `Redis`.
+- [x] [graphql-compose](https://github.com/nodkz/graphql-compose) for build `GraphQL` types from `Mongoose` with resolvers.
+- [x] [mongoose-role](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
+- [x] [mongoose-timestamp](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent `createAt`, `updateAt` timestamp.
+- [x] [nextjs-starter](https://github.com/iaincollins/nextjs-starter) for basic authentication.
+- [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
+- [ ] [nginx](https://github.com/nginxinc) for proxy.
+- [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
 - - -
 
@@ -256,13 +257,12 @@ services:
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
 - [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
-- [ ] Cache MongoDB with [`mongoose-cache`](https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L2)
+- [ ] Cache MongoDB with [mongoose-cache](https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L2)
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Admin Dashboard with `SSH`.
-- [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)
+- [ ] Authen with mobile via [Digits](https://docs.fabric.io/web/digits/overview.html)
 - [ ] Cron with `webtask.io`.
 - [ ] [Backing Up and Restoring Data Volumes](http://www.tricksofthetrades.net/2016/03/14/docker-data-volumes/)
 - [ ] [how-to-copy-docker-images-from-one-host-to-another-without-via-repository](http://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-via-repository)
 - [ ] [Back up and restore dockerized MongoDB](http://blog.btskyrise.com/posts/back-up-and-restore-dockerized-mongodb)
 - [ ] [Export Docker Mongo Data](https://github.com/wekan/wekan/wiki/Export-Docker-Mongo-Data)
-- [ ] Smaller `node_modules` : https://www.npmjs.com/package/modclean
