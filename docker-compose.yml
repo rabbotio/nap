@@ -5,7 +5,7 @@ services:
     container_name: nap
     env_file: .env
     environment:
-      - HTTP_PORT=${HTTP_PORT:-3000}
+      - PORT=${PORT:-3000}
     image: rabbotio/nap
     restart: always
     links:
@@ -14,19 +14,19 @@ services:
     working_dir: /usr/app
     ports:
       - "5858:5858" # Node Inspector port
-      - "${HTTP_PORT:-3000}:${HTTP_PORT:-3000}" # HTTP port
+      - "${PORT:-3000}:${PORT:-3000}" # HTTP port
     volumes:
+      - npm:/root/.npm
       - ./.env:/usr/app/.env
-      - ${SRC_NEXT_PAGES:-./pages}:/usr/app/pages
-      - ${SRC_NEXT_COMPONENTS:-./components}:/usr/app/components
-      - ${SRC_NEXT_STATIC:-./public}:/usr/app/public
-      - ${SRC_NEXT_LIB:-./lib}:/usr/app/lib
-      - ${SRC_MONGOOSE_ROUTES:-./routes}:/usr/app/routes
-      - ${SRC_MONGOOSE_MODELS:-./models}:/usr/app/models
-      - ${SRC_MONGOOSE_HOOKS:-./hooks}:/usr/app/hooks
-      - ${SRC_PASSPORT_PROVIDERS-./providers}:/usr/app/providers # __DEV__
-      - ${SRC_SERVER:-./server}:/usr/app/server # __DEV__
-    build: .
+      - ./pages:/usr/app/pages
+      - ./components:/usr/app/components
+      - ./public:/usr/app/public
+      - ./lib:/usr/app/lib
+      - ./routes:/usr/app/routes
+      - ./graphql:/usr/app/graphql
+      - ./providers:/usr/app/providers # __DEV__
+      - ./server:/usr/app/server # __DEV__
+    build: . # __DEV__
     command: npm run _build-back # Will build next and run express server
     networks:
       - front
@@ -67,5 +67,6 @@ networks:
   back:
 
 volumes:
+  npm:
   redis_data:
   mongo_data:

@@ -1,6 +1,11 @@
 require('./debug')
+require('./config')
 
 const init = () => {
+  
+  // Config
+  const config = global.NAP.Config
+
   // Next
   const nextjs = require('next')({
     IS_DEVELOPMENT: (process.env.NODE_ENV === 'development')
@@ -15,14 +20,33 @@ const init = () => {
     // Static
     app.use(express.static('public'))
 
-    // Passport
-    process.env.PASSPORT_DISABLED !== '1' && require('./passport')(app)
+    // Store
+    const mongooseInitializer = require('./mongoose')
+    mongooseInitializer(config.mongo_url).then(() => {
+      // Passport
+      process.env.PASSPORT_DISABLED !== '1' && require('./passport')(config, app, nextjs)
 
-    // Apollo
-    process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(app)
+      // Add CSRF to all POST requests
+      // (If you want to add exceptions to paths you can do that here)
+      const csrf = require('lusca').csrf()
+      app.use((req, res, next) => {
+        csrf(req, res, next)
+      })
 
-    // Express
-    require('./express')(app, nextjs)
+      // Users
+      //TODO//require('./users')(app)
+
+      // GraphQL
+      process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(config, app)
+
+      // Global
+      global.NAP.User = {
+        get User() { return require('mongoose').model('User') }
+      }.User
+
+      // Express
+      require('./express')(config, app, nextjs)
+    })
   })
 }
 

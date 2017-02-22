@@ -6,14 +6,33 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 
 ## Overview
 ```
-Docker
-├─ Nginx ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
-├─ NodeJS 7.5 --harmony, nodemon
-│  ├─ NextJS ["/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/routes", "/usr/app/server"]
-│  ├─ Apollo GraphQL ["/usr/app/models", "/usr/app/hooks"]
-│  └─ PassportJS ["/usr/app/providers"]
-├─ Redis ["/data"]
-└─ MongoDB ["/data/db"]
+○ Docker
+│
+├─ ○ Nginx
+│  ├─ ./nginx/certs   : /etc/nginx/certs
+│  ├─ ./nginx/conf.d  : /etc/nginx/conf.d
+│  ├─ ./nginx/log     : /var/log/nginx
+│  └─ ./nginx/www     : /var/www
+│
+├─ ○ NodeJS 7.5 --harmony, nodemon
+│  ├─ ○ NextJS 2
+│  │  ├─ ./pages      : /usr/app/pages
+│  │  ├─ ./components : /usr/app/components
+│  │  ├─ ./lib        : /usr/app/lib
+│  │  ├─ ./routes     : /usr/app/routes
+│  │  └─ ./server     : /usr/app/server
+│  │
+│  ├─ ○ Apollo GraphQL
+│  │  └─ ./graphql    : /usr/app/graphql
+│  │
+│  └─ ○ PassportJS, Redis
+│     └─ ./providers  : /usr/app/providers
+│
+├─ ○ Redis : redis://redis
+│  └─ data            : /data
+│
+└─ ○ MongoDB : mongodb://mongo/graphql
+   └─ data            : /data/db
 ```
 
 ## Stacks
@@ -24,8 +43,10 @@ Docker
 ## Extras
 - [x] [`express`](https://github.com/expressjs/express) for web framework.
 - [x] [`express-session`](https://github.com/expressjs/session) for persist session via `Redis`.
-- [x] [`graffiti-mongoose`](https://github.com/RisingStack/graffiti-mongoose) for auto schema `GraphQL` from `MongoDB`.
-- [x] Pre/Post [`graffiti-mongoose` hooks](https://github.com/RisingStack/graffiti-mongoose#resolve-hooks) for authentications.
+- [x] [`graphql-compose`](https://github.com/nodkz/graphql-compose) for build `GraphQL` types from `Mongoose` with resolvers.
+- [x] [`mongoose-role`](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
+- [x] [`mongoose-timestamp`](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent create/update timestamp.
+- [ ] [`nextjs-starter`](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [ ] [`nginx`](https://github.com/nginxinc) for proxy.
 - [ ] [`certbot`](https://github.com/rabbotio/nginx-certbot) for TLS.
 
@@ -37,15 +58,15 @@ Docker
 cp .env.example .env
 ```
 
- - [x] Can enable/disable `GraphQL`, `GraphiQL` capabilities.
- - [x] Can enable/disable `Passport` capabilities.
- - [x] Can custom `MongoDB` connection URI, `db` volume.
- - [x] Can custom `Redis` connection URI, `db` volume.
- - [x] Can custom `GraphQL` schema via `Mongoose` models.
- - [x] Can custom `Passport` providers.
- - [x] Can custom `Next` static content.
- - [x] Can custom `Next` dynamic routes.
- - [x] Can custom `Next` pages and components.
+- [x] Can enable/disable `GraphQL`, `GraphiQL` capabilities.
+- [x] Can enable/disable `Passport` capabilities.
+- [x] Can custom `MongoDB` connection URI, `db` volume.
+- [x] Can custom `Redis` connection URI, `db` volume.
+- [x] Can custom `GraphQL` schema via `Mongoose` models.
+- [x] Can custom `Passport` providers `Facebook`, `Twitter`, `Google`, `Github`.
+- [x] Can custom `Next` static content.
+- [x] Can custom `Next` dynamic routes.
+- [x] Can custom `Next` pages and components.
 
 ## Develop
 ### To develop backend
@@ -56,7 +77,7 @@ npm run up
 # Try modify file in ./routes ./server and see the result
 open http://localhost:3000
 
-# Try modify file in ./models and see the result via GraphiQL
+# Try modify file in ./graphql and see the result via GraphiQL
 open http://localhost:3000/graphql
 
 # To trigger frontend next build inside container
@@ -91,87 +112,103 @@ npm run dive
 ## Docker volume
 ```shell
 # Next
-SRC_NEXT_PAGES=./pages
-SRC_NEXT_COMPONENTS=./components
-SRC_NEXT_STATIC=./public
-SRC_NEXT_LIB=./lib
-SRC_MONGOOSE_ROUTES=./routes
-SRC_SERVER=./server
+./pages
+./components
+./public
+./lib
+./routes
+./server
 
-# Apollo GraphQL Mongoose
-SRC_MONGOOSE_MODELS=./models
-SRC_MONGOOSE_HOOKS=./hooks
+# GraphQL schema
+./graphql
 
 # Passport
-SRC_PASSPORT_PROVIDERS=./providers
+./providers
 ```
 
 - - -
 
-## Apollo GraphQL
-```shell
-# This will auto sync via docker volume and auto build by nodemon
-SRC_MONGOOSE_MODELS=./models
-SRC_MONGOOSE_HOOKS=./hooks
+## GraphQL
+> https://github.com/nodkz/graphql-compose-examples
 
-# Query
-{
-  pets(name: "katopz") {
-    id
-    name
-  }
-}
+```shell
+# Copy graphql compose examples to ./graphql volume
+cp -r ./examples/schema-graphql-compose/ ./graphql/
+
+# Explore
+open http://localhost:3000/graphql/user
 
 # Mutation
-mutation{
-  addPet(input:{name:"katopz", type: "B", age: 11}) {
-    viewer {
-      pets(name:"katopz") {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
+mutation {
+  userCreate(record: {name: "katopz", age: 18, role: user}) {
+    record {
+      name
+      age
     }
   }
 }
-```
-More query : https://github.com/RisingStack/graffiti-mongoose#usage
 
+# Query
+{
+  userOne {
+    name
+  }
+}
+```
+![screen shot 2017-02-17 at 23 30 27](https://cloud.githubusercontent.com/assets/97060/23073805/3e333828-f569-11e6-96a7-15789523d43f.png)
+
+### Other examples
+```shell
+# For Apollo style with graphql-tools
+cp -r ./examples/schema-graphql-tools/ ./graphql/
+open http://localhost:3000/graphql/apollo
+
+# For original style
+cp -r ./examples/schema-original/ ./graphql/
+open http://localhost:3000/graphql/original
+```
 - - -
 
 ## Passport
-- [x] Facebook :  http://localhost:3000/auth/facebook/
-- [x] Github :  http://localhost:3000/auth/github/
-- [ ] Twitter :  http://localhost:3000/auth/twitter/
-- [ ] Google :  http://localhost:3000/auth/google/
+- [x] Facebook : http://localhost:3000/auth/facebook/
+- [x] Github : http://localhost:3000/auth/github/
+- [x] Twitter : http://localhost:3000/auth/twitter/
+- [x] Google : http://localhost:3000/auth/google/
+- [ ] SignIn : http://localhost:3000/auth/signin/
 
 - - -
 
+## TOFIX
+- [ ] Signout.
+- [ ] Resend email option.
+- [ ] Link/Unlink user with social.
+- [ ] Style sheet.
+
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
-- [ ] Add `Nginx` TLS container. https://github.com/rabbotio/nginx-certbot
-- [ ] Add HTTPS https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Add email/pass user.https://github.com/iaincollins/nextjs-starter
+- [ ] Add `Nginx` TLS container : https://github.com/rabbotio/nginx-certbot
+- [ ] Add HTTPS : https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
+- [ ] Add email/pass user : https://github.com/iaincollins/nextjs-starter
+- [ ] Link session user with user collection.
 - [ ] Link user with social.
-- [ ] Grateful shutdown.
-- [ ] Don't run as root https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
+- [ ] Grateful shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
+- [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
+- [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 
 ## TOTEST
-- [ ] Redis fail test.
-- [ ] MongoDB fail test.
+- [ ] `Redis` fail test.
+- [ ] `MongoDB` fail test.
 - [ ] HTTP fail test.
 - [ ] HTTPS fail test.
-- [ ] Unit test `graffiti-mongoose` hooks.
-- [ ] Passport test.
+- [ ] Unit test `graphql-compose`.
+- [ ] Basic signin test.
+- [ ] `Passport` test.
+- [ ] Chaos testing with [pumba](https://github.com/gaia-adm/pumba)
 
 ## TOCUSTOM
 - [ ] Custom app, Ensure ES6 with vscode debug working.
-- [ ] Custom MongoDB replication `docker exec -it node1 mongo --eval "rs.initiate()"`
+- [ ] Custom `MongoDB` replication `docker exec -it node1 mongo --eval "rs.initiate()"`
 - [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
-- [ ] Add passport github.
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
 - [ ] Container config e.g. restart policy, limits CPU/RAM.
@@ -206,7 +243,7 @@ services:
 ```
 
 ## TOHAVE
-- [ ] Notifications Support.
+- [ ] Notifications Support : https://pusher.com/docs/push_notifications/reference/architecture
 - [ ] More logs. https://github.com/expressjs/morgan
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] Use yo man gen passport vendors
@@ -219,9 +256,13 @@ services:
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
 - [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
+- [ ] Cache MongoDB with [`mongoose-cache`](https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L2)
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Admin Dashboard with `SSH`.
 - [ ] Authen with mobile via [`Digits`](https://docs.fabric.io/web/digits/overview.html)
 - [ ] Cron with `webtask.io`.
-- [ ] `graffiti` simple API.
 - [ ] [Backing Up and Restoring Data Volumes](http://www.tricksofthetrades.net/2016/03/14/docker-data-volumes/)
+- [ ] [how-to-copy-docker-images-from-one-host-to-another-without-via-repository](http://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-via-repository)
+- [ ] [Back up and restore dockerized MongoDB](http://blog.btskyrise.com/posts/back-up-and-restore-dockerized-mongodb)
+- [ ] [Export Docker Mongo Data](https://github.com/wekan/wekan/wiki/Export-Docker-Mongo-Data)
+- [ ] Smaller `node_modules` : https://www.npmjs.com/package/modclean

@@ -19,13 +19,13 @@ const init = (providers) => {
 
   // TODO : Test this
   // Twitter
-  if (process.env.TWITTER_KEY && process.env.TWITTER_SECRET) {
+  if (process.env.TWITTER_API_KEY && process.env.TWITTER_API_SECRET) {
     providers.push({
       provider: 'twitter',
       Strategy: require('passport-twitter').Strategy,
       strategyOptions: {
-        consumerKey: process.env.TWITTER_KEY,
-        consumerSecret: process.env.TWITTER_SECRET
+        consumerKey: process.env.TWITTER_API_KEY,
+        consumerSecret: process.env.TWITTER_API_SECRET
       },
       scope: null,
       getUserFromProfile: (profile) => (debug.log(profile) && {
@@ -38,13 +38,13 @@ const init = (providers) => {
 
   // TODO : Test this
   // Google
-  if (process.env.GOOGLE_ID && process.env.GOOGLE_SECRET) {
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     providers.push({
       provider: 'google',
       Strategy: require('passport-google-oauth').OAuth2Strategy,
       strategyOptions: {
-        clientID: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET
       },
       scope: 'profile email',
       getUserFromProfile: (profile) => (debug.log(profile) && {

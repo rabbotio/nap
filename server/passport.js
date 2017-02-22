@@ -1,6 +1,9 @@
-const init = app => {
+const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
+  // Constants
+  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+
+  // Passport
   const passport = require('passport')
-  const secret = process.env.EXPRESS_SESSION_SECRET || 'foo'
 
   // Configure Passport authenticated session persistence.
   passport.serializeUser((user, cb) => cb(null, user))
@@ -15,21 +18,19 @@ const init = app => {
   const bodyParser = require('body-parser')
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
-  // POC// app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
   // Passport does not directly manage your session, it only uses the session.
   // So you configure session attributes (e.g. life of your session) via express
   const session = require('express-session')
   const RedisStore = require('connect-redis')(session)
+
   app.use(
     session({
-      store: new RedisStore({
-        url: process.env.EXPRESS_SESSION_REDIS_URI || 'redis://redis:6379'
-      }),
+      store: new RedisStore({ url }),
       secret,
       resave: false, // do not automatically write to the session store
       saveUninitialized: true,
-      cookie: { httpOnly: true, maxAge: 2419200000 } // configure when sessions expires
+      cookie: { httpOnly: true, maxAge: ONE_WEEK } // configure when sessions expires
     })
   )
 
@@ -37,6 +38,9 @@ const init = app => {
   // session.
   app.use(passport.initialize())
   app.use(passport.session())
+
+  // Initialize user/pass authen
+  require('./basic-auth')(app, passport, nextjs)
 
   // Initialize providers
   require('./authen')(app, passport)

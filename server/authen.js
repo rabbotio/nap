@@ -20,30 +20,31 @@ const init = (app, passport) => {
       try {
         // Normalise the provider specific profile into a User object
         profile = getUserFromProfile(profile)
-        done(null, profile)
 
-        // TODO nohm
-        /*
         // See if we have this oAuth account in the database associated with a user
-        User.one({ [provider]: profile.id }, function (err, user) {
+        NAP.User.findOne({
+          socials: {
+            id: profile.id,
+            provider : provider
+          }
+        }).exec((err, user) => {
           if (err) {
             return done(err)
           }
 
+          // If the current session is signed in
           if (req.user) {
-            // If the current session is signed in
 
             // If the oAuth account is not linked to another account, link it and exit
             if (!user) {
-              return User.get(req.user.id, function (err, user) {
+              return NAP.User.findOne({ id: req.user.id }, (err, user) => {
                 if (err) {
                   return done(err)
                 }
+
                 user.name = user.name || profile.name
-                user[provider] = profile.id
-                user.save(function (err) {
-                  return done(err, user)
-                })
+                user.socials[provider].id = profile.id
+                user.save((err) => done(err, user))
               })
             }
 
@@ -66,7 +67,7 @@ const init = (app, passport) => {
 
             // If we don't have the oAuth account in the db, check to see if an account with the
             // same email address as the one associated with their oAuth acccount exists in the db
-            return User.one({ email: profile.email }, function (err, user) {
+            return NAP.User.findOne({ email: profile.email }, (err, user) => {
               if (err) {
                 return done(err)
               }
@@ -79,16 +80,17 @@ const init = (app, passport) => {
               }
 
               // If account does not exist, create one for them and sign the user in
-              User.create({ name: profile.name, email: profile.email, [provider]: profile.id }, function (err, user) {
-                if (err) {
-                  return done(err)
+              NAP.User.create({
+                name: profile.name,
+                email: profile.email,
+                socials: { 
+                  id: profile.id,
+                  provider
                 }
-                return done(null, user)
-              })
+              }, (err, user) => err ? done(err) : done(null, user))
             })
           }
         })
-        */
       } catch (err) {
         done(err)
       }
@@ -107,7 +109,7 @@ const init = (app, passport) => {
       passport.authenticate(provider, { failureRedirect: '/login' }),
       (req, res) => {
         // Redirect to the sign in success, page which will force the client to update it's cache
-        res.redirect('/')
+        res.redirect('/auth/success')
       })
 
     app.get(
@@ -115,7 +117,7 @@ const init = (app, passport) => {
       passport.authenticate(provider, { failureRedirect: '/login' }),
       (req, res) => {
         // Successful authentication, redirect home.ß
-        res.redirect('/')
+        res.redirect('/auth/success')
       })
   })
 }

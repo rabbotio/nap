@@ -1,4 +1,7 @@
-const init = (app, nextjs) => {
+const init = ({ port }, app, nextjs) => {
+  // Constants
+  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+
   // Custom routes
   try {
     require('../routes')(app, nextjs)
@@ -7,15 +10,34 @@ const init = (app, nextjs) => {
     debug.warn(err)
   }
 
+  // Add route to get CSRF token via AJAX
+  app.get('/auth/csrf', (req, res) => {
+    return res.json({csrfToken: res.locals._csrf})
+  })
+
+  // Return session info
+  app.get('/auth/session', (req, res) => {
+    let session = {
+      clientMaxAge: ONE_WEEK,
+      csrfToken: res.locals._csrf
+    }
+
+    // Add user object to session if logged in
+    if (req.user) {
+      session.user = req.user
+    }
+
+    return res.json(session)
+  })
+
   // Default catch-all handler to allow Next.js to handle all other routes
-  const handle = nextjs.getRequestHandler()
-  app.all('*', (req, res) => handle(req, res))
+  const handler = nextjs.getRequestHandler()
+  app.all('*', (req, res) => handler(req, res))
 
   // Server
-  const HTTP_PORT = process.env.HTTP_PORT || 3000
-  app.listen(HTTP_PORT, (err) => {
+  app.listen(port, (err) => {
     if (err) throw err
-    debug.log(`> Ready on http://localhost:${HTTP_PORT}`)
+    debug.log(`NextJS  : http://localhost:${port}`)
   })
 }
 
