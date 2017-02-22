@@ -178,6 +178,12 @@ open http://localhost:3000/graphql/original
 
 - - -
 
+## TOFIX
+- [ ] Signout.
+- [ ] Resend email option.
+- [ ] Link/Unlink user with social.
+- [ ] Style sheet.
+
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container : https://github.com/rabbotio/nginx-certbot
@@ -195,6 +201,7 @@ open http://localhost:3000/graphql/original
 - [ ] HTTP fail test.
 - [ ] HTTPS fail test.
 - [ ] Unit test `graphql-compose`.
+- [ ] Basic signin test.
 - [ ] `Passport` test.
 - [ ] Chaos testing with [pumba](https://github.com/gaia-adm/pumba)
 

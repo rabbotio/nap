@@ -21,12 +21,12 @@ export default class Session {
     this._user = {}
     try {
       if (req) {
-        /*
+        
         // If running on server we can access the server side environment
         this._session = {
           csrfToken: req.connection._httpMessage.locals._csrf
         }
-        */
+        
         // If the session is associated with a user add user object to session
         if (req.user) {
           this._session.user = req.user
