@@ -29,9 +29,7 @@ const init = () => {
       // Add CSRF to all POST requests
       // (If you want to add exceptions to paths you can do that here)
       const csrf = require('lusca').csrf()
-      app.use((req, res, next) => {
-        csrf(req, res, next)
-      })
+      app.use('/auth/*', (req, res, next) => csrf(req, res, next))
 
       // Users
       //TODO//require('./users')(app)
