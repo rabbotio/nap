@@ -1,12 +1,12 @@
 {
   "name": "nap",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "scripts": {
     "lint": "eslint . || true",
     "_dev": "next",
     "_build": "next build",
     "_start": "next start",
-    "_serve": "nodemon --harmony index.js",
+    "_serve": "nodemon index.js",
     "_build-front": "next build && next start",
     "_build-back": "next build && npm run _serve",
     "dev": "npm run exec -- npm run _dev",
