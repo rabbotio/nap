@@ -12,55 +12,32 @@ const init = (app, passport, nextjs) => {
 
     const uuid = require('uuid/v4')
     const token = uuid()
-    const verificationUrl = 'http://' + req.headers.host + path + '/email/signin/' + token
+    const verification_url = 'http://' + req.headers.host + path + '/email/signin/' + token
 
     // Create verification token save it to database
     // @FIXME Improve error handling
-    NAP.User.findOne({ email: email }, function (err, user) {
+    NAP.User.findOne({ email }, (err, user) => {
       if (err) {
         throw err
       }
 
       if (user) {
         user.token = token
-        user.save(function (err) {
+        user.save((err) => {
           if (err) {
             throw err
           }
         })
       } else {
-        NAP.User.create({ email, token, role: 'user'}, function (err) {
+        // Create user with email and token
+        NAP.User.create({ email, token, role: 'user'}, (err) => {
           if (err) {
             throw err
           }
 
-          debug.info('Send verification url :', verificationUrl)
-          
-          const nodemailer = require('nodemailer')
-          nodemailer
-            .createTransport({
-              service: 'Gmail',
-              auth: {
-                user: NAP.Config.email_user,
-                pass: NAP.Config.email_pass
-              },
-              logger: require('bunyan').createLogger({
-                name: 'nodemailer'
-              }),
-              debug: true // include SMTP traffic in the logs
-            })
-            .sendMail({
-              to: email,
-              from: 'noreply@' + req.headers.host.split(':')[0],
-              subject: 'Sign in link',
-              text: 'Use the link below to sign in:\n\n' + verificationUrl + '\n\n'
-            }, function (err) {
-              // @TODO Handle errors
-              if (err) {
-                console.log('Generated sign in link ' + verificationUrl + ' for ' + email)
-                console.log('Error sending email to ' + email, err)
-              }
-            })
+          // Send verification
+          const mailer = require('./mailer')
+          mailer.sendVerification(email, verification_url)
         })
       }
     })
@@ -74,7 +51,7 @@ const init = (app, passport, nextjs) => {
     }
 
     // Look up user by token
-    NAP.User.findOne({ token: req.params.token }, function (err, user) {
+    NAP.User.findOne({ token: req.params.token }, (err, user) => {
       if (err) {
         return res.redirect(path + '/error')
       }
@@ -82,13 +59,13 @@ const init = (app, passport, nextjs) => {
         // Reset token and mark as verified
         user.token = null
         user.verified = true
-        user.save(function (err) {
+        user.save((err) => {
           // @TODO Improve error handling
           if (err) {
             return res.redirect(path + '/error')
           }
           // Having validated to the token, we log the user with Passport
-          req.logIn(user, function (err) {
+          req.logIn(user, (err) => {
             if (err) {
               return res.redirect(path + '/error')
             }

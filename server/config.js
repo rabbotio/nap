@@ -6,8 +6,8 @@ const float = (str) => (!str) ? 0: parseFloat(str, 10)  // eslint-disable-line
 global.NAP = global.NAP ? global.NAP : {}
 global.NAP.Config = {
   // Passport
-  email_user: process.env.EMAIL_USER,
-  email_pass: process.env.EMAIL_PASS,
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: process.env.MAILGUN_DOMAIN,
 
   // Services
   redis_url: process.env.REDIS_URI || 'redis://redis',

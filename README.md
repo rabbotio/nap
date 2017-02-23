@@ -48,6 +48,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [mongoose-timestamp](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent `createAt`, `updateAt` timestamp.
 - [x] [nextjs-starter](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
+- [x] [MailGun](http://www.mailgun.com/) for send email.
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
@@ -175,23 +176,20 @@ open http://localhost:3000/graphql/original
 - [x] Github : http://localhost:3000/auth/github/
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
-- [ ] SignIn : http://localhost:3000/auth/signin/
+- [x] Email : http://localhost:3000/auth/signin/
 
 - - -
 
-## TOFIX
-- [ ] Signout.
-- [ ] Resend email option.
+## DOING
+- [ ] Login from `React` native.
 - [ ] Link/Unlink user with social.
+- [ ] Resend email option.
 - [ ] Style sheet.
 
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container : https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS : https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Add email/pass user : https://github.com/iaincollins/nextjs-starter
-- [ ] Link session user with user collection.
-- [ ] Link user with social.
 - [ ] Grateful shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
@@ -207,7 +205,6 @@ open http://localhost:3000/graphql/original
 - [ ] Chaos testing with [pumba](https://github.com/gaia-adm/pumba)
 
 ## TOCUSTOM
-- [ ] Custom app, Ensure ES6 with vscode debug working.
 - [ ] Custom `MongoDB` replication `docker exec -it node1 mongo --eval "rs.initiate()"`
 - [ ] [Run Multiple Docker Environments (qa, stage, prod) from the Same docker-compose File.](http://staxmanade.com/2016/07/run-multiple-docker-environments--qa--beta--prod--from-the-same-docker-compose-file-/)
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
@@ -247,7 +244,6 @@ services:
 - [ ] Notifications Support : https://pusher.com/docs/push_notifications/reference/architecture
 - [ ] More logs. https://github.com/expressjs/morgan
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
-- [ ] Use yo man gen passport vendors
 - [ ] RabbitMQ?
 - [ ] Notifications or maybe use vendors with webtask.
 - [ ] GraphQL subscriptions :https://github.com/apollographql/graphql-subscriptions
