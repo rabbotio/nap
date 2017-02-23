@@ -2,7 +2,7 @@ require('./debug')
 require('./config')
 
 const init = () => {
-  
+
   // Config
   const config = global.NAP.Config
 
@@ -29,9 +29,7 @@ const init = () => {
       // Add CSRF to all POST requests
       // (If you want to add exceptions to paths you can do that here)
       const csrf = require('lusca').csrf()
-      app.use((req, res, next) => {
-        csrf(req, res, next)
-      })
+      app.use('/auth/*', (req, res, next) => csrf(req, res, next))
 
       // Users
       //TODO//require('./users')(app)
@@ -40,9 +38,9 @@ const init = () => {
       process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(config, app)
 
       // Global
-      global.NAP.User = {
-        get User() { return require('mongoose').model('User') }
-      }.User
+      const mongoose = require('mongoose')
+      NAP.User = mongoose.model('User')
+      NAP.Authen = mongoose.model('Authen')
 
       // Express
       require('./express')(config, app, nextjs)

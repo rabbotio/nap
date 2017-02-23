@@ -14,7 +14,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 │  ├─ ./nginx/log     : /var/log/nginx
 │  └─ ./nginx/www     : /var/www
 │
-├─ ○ NodeJS 7.5 --harmony, nodemon
+├─ ○ NodeJS 7.6, nodemon
 │  ├─ ○ NextJS 2
 │  │  ├─ ./pages      : /usr/app/pages
 │  │  ├─ ./components : /usr/app/components
@@ -151,7 +151,7 @@ mutation {
 
 # Query
 {
-  userOne {
+  userMany {
     name
   }
 }

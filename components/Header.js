@@ -6,7 +6,7 @@ export default ({ pathname }) => (
       <a className={pathname === '/' && 'is-active'}>Home</a>
     </Link>
 
-    <Link prefetch href='/about'>
+    <Link href='/about'>
       <a className={pathname === '/about' && 'is-active'}>About</a>
     </Link>
 

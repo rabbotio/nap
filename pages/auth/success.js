@@ -7,8 +7,8 @@ import Session from '../../components/auth/session'
 export default class extends Page {
 
   async componentDidMount() {
-    // const session = new Session()
-    // await session.getSession(true)
+    const session = new Session()
+    await session.getSession(true)
     // this.props.url.push('/')
   }
 

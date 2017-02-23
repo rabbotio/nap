@@ -5,8 +5,7 @@ const init = (app, nextjs) => {
 
   app.get('/user', async (req, res) => {
     const user = await (async () => NAP.User.findOne({ name: 'pignoom' }).exec(user => user))()
-    debug.log(user)
-    debug.log('render')
+    debug.log( 'user:' + user)
 
     nextjs.render(req, res, '/b', req.query)
   })

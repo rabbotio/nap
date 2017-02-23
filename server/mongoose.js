@@ -14,19 +14,17 @@ const init = (mongo_url) => {
 
     const connection = mongoose.connection
     connection.on('error', (err) => {
-      /* TODO : Handle error
-      if (e.message.code === 'ETIMEDOUT') {
-        debug.log(e)
-        mongoose.createConnection(mongo_url)
+      // TODO : Handle error
+      if (err.message.code === 'ETIMEDOUT') {
+        debug.error(err)
+        // mongoose.createConnection(mongo_url)
       }
-      debug.log(e)
-      */
 
       reject(err)
     })
     
     connection.once('open', () => {
-      debug.log(`MongoDB : ${mongo_url}`)
+      debug.info(`MongoDB : ${mongo_url}`)
       resolve(mongoose)
     })
   })

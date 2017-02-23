@@ -37,7 +37,7 @@ const init = ({ port }, app, nextjs) => {
   // Server
   app.listen(port, (err) => {
     if (err) throw err
-    debug.log(`NextJS  : http://localhost:${port}`)
+    debug.info(`NextJS  : http://localhost:${port}`)
   })
 }
 

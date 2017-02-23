@@ -25,7 +25,7 @@ const init = (app, passport) => {
         NAP.User.findOne({
           socials: {
             id: profile.id,
-            provider : provider
+            provider
           }
         }).exec((err, user) => {
           if (err) {
@@ -43,7 +43,10 @@ const init = (app, passport) => {
                 }
 
                 user.name = user.name || profile.name
-                user.socials[provider].id = profile.id
+                user[provider] = new NAP.Authen({
+                  id : profile.id,
+                  token : accessToken
+                })
                 user.save((err) => done(err, user))
               })
             }
@@ -101,20 +104,20 @@ const init = (app, passport) => {
   providers.forEach(({provider, scope}) => {
     app.get(
       `/auth/${provider}`,
-      passport.authenticate(provider, { scope: scope })
+      passport.authenticate(provider, { scope })
     )
 
     app.get(
       `/auth/${provider}/callback`,
-      passport.authenticate(provider, { failureRedirect: '/login' }),
+      passport.authenticate(provider, { failureRedirect: '/auth/signin' }),
       (req, res) => {
         // Redirect to the sign in success, page which will force the client to update it's cache
-        res.redirect('/auth/success')
+        res.redirect('/about')
       })
 
     app.get(
       `/auth/${provider}/return`,
-      passport.authenticate(provider, { failureRedirect: '/login' }),
+      passport.authenticate(provider, { failureRedirect: '/auth/signin' }),
       (req, res) => {
         // Successful authentication, redirect home.ß
         res.redirect('/auth/success')

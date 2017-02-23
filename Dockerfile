@@ -1,4 +1,4 @@
-FROM node:7.5.0-alpine
+FROM node:7.6.0-alpine
 MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 
 # Ref : http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/
