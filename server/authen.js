@@ -25,7 +25,7 @@ const init = (app, passport) => {
         NAP.User.findOne({
           socials: {
             id: profile.id,
-            provider : provider
+            provider
           }
         }).exec((err, user) => {
           if (err) {
@@ -43,7 +43,11 @@ const init = (app, passport) => {
                 }
 
                 user.name = user.name || profile.name
-                user.socials[provider].id = profile.id
+                user.socials[provider] = {
+                  id : profile.id,
+                  token : accessToken,
+                  provider
+                }
                 user.save((err) => done(err, user))
               })
             }
@@ -65,6 +69,7 @@ const init = (app, passport) => {
               return done(null, user)
             }
 
+            debug.log('NAP.User.findOne :', profile.email)
             // If we don't have the oAuth account in the db, check to see if an account with the
             // same email address as the one associated with their oAuth acccount exists in the db
             return NAP.User.findOne({ email: profile.email }, (err, user) => {
