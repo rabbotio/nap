@@ -2,7 +2,7 @@ require('./debug')
 require('./config')
 
 const init = () => {
-  
+
   // Config
   const config = global.NAP.Config
 
@@ -38,9 +38,9 @@ const init = () => {
       process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(config, app)
 
       // Global
-      global.NAP.User = {
-        get User() { return require('mongoose').model('User') }
-      }.User
+      const mongoose = require('mongoose')
+      NAP.User = mongoose.model('User')
+      NAP.Authen = mongoose.model('Authen')
 
       // Express
       require('./express')(config, app, nextjs)
