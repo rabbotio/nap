@@ -33,7 +33,7 @@ const init = ({ port }, app) => {
       })
     })))
 
-    debug.log(`GraphQL : http://localhost:${port}${route_path} -> ${route_path}`)
+    debug.info(`GraphQL : http://localhost:${port}${route_path} -> ${route_path}`)
   }
 
   // Multiple endpoint

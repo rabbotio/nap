@@ -28,7 +28,7 @@ const init = (providers) => {
         consumerSecret: process.env.TWITTER_API_SECRET
       },
       scope: null,
-      getUserFromProfile: (profile) => (debug.log(profile) && {
+      getUserFromProfile: (profile) => ({
         id: profile.id,
         name: profile.displayName,
         email: profile.username + '@twitter'
@@ -47,7 +47,7 @@ const init = (providers) => {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET
       },
       scope: 'profile email',
-      getUserFromProfile: (profile) => (debug.log(profile) && {
+      getUserFromProfile: (profile) => ({
         id: profile.id,
         name: profile.displayName,
         email: profile.emails[0].value

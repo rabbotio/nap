@@ -14,8 +14,6 @@ const init = (app, passport, nextjs) => {
     const token = uuid()
     const verificationUrl = 'http://' + req.headers.host + path + '/email/signin/' + token
 
-    debug.log('NAP.User.findOne :', email)
-
     // Create verification token save it to database
     // @FIXME Improve error handling
     NAP.User.findOne({ email: email }, function (err, user) {
@@ -24,26 +22,20 @@ const init = (app, passport, nextjs) => {
       }
 
       if (user) {
-        debug.log('NAP.User.found :', email)
         user.token = token
-
-        debug.log('NAP.User.save :', token)
         user.save(function (err) {
           if (err) {
             throw err
           }
         })
       } else {
-
-        debug.log('Create user.email :', email)
-        debug.log('Create user.token :', token)
-
         NAP.User.create({ email, token, role: 'user'}, function (err) {
           if (err) {
             throw err
           }
 
-          debug.log('Send verification url :', verificationUrl)
+          debug.info('Send verification url :', verificationUrl)
+          
           const nodemailer = require('nodemailer')
           nodemailer
             .createTransport({
