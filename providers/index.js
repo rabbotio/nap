@@ -8,7 +8,7 @@ const init = (providers) => {
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET
       },
-      scope: ['email', 'user_location'],
+      scope: process.env.FACEBOOK_SCOPE ? process.env.FACEBOOK_SCOPE.split(',') : ['email', 'user_location'],
       getUserFromProfile: (profile) => ({
         id: profile.id,
         name: profile.displayName,
@@ -17,7 +17,6 @@ const init = (providers) => {
     })
   }
 
-  // TODO : Test this
   // Twitter
   if (process.env.TWITTER_API_KEY && process.env.TWITTER_API_SECRET) {
     providers.push({
@@ -36,7 +35,6 @@ const init = (providers) => {
     })
   }
 
-  // TODO : Test this
   // Google
   if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     providers.push({
