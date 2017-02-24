@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "scripts": {
     "lint": "eslint . || true",
     "_dev": "next",
@@ -53,6 +53,7 @@
     "next": "^2.0.0-beta",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
+    "passport-facebook-token": "^3.3.0",
     "passport-github2": "^0.1.10",
     "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",

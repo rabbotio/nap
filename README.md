@@ -48,7 +48,8 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [mongoose-timestamp](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent `createAt`, `updateAt` timestamp.
 - [x] [nextjs-starter](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
-- [x] [MailGun](http://www.mailgun.com/) for send email.
+- [x] [mailgun](http://www.mailgun.com/) for send email.
+- [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 

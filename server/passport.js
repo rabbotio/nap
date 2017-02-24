@@ -44,6 +44,9 @@ const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
 
   // Initialize providers
   require('./authen')(app, passport)
+
+  // Initialize Facebook
+  require('./passport-facebook')(app, passport)
 }
 
 module.exports = init
