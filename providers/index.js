@@ -17,7 +17,6 @@ const init = (providers) => {
     })
   }
 
-  // TODO : Test this
   // Twitter
   if (process.env.TWITTER_API_KEY && process.env.TWITTER_API_SECRET) {
     providers.push({
@@ -36,7 +35,6 @@ const init = (providers) => {
     })
   }
 
-  // TODO : Test this
   // Google
   if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     providers.push({
