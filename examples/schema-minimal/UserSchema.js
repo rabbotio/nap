@@ -1,15 +1,10 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
-const SocialSchema = new mongoose.Schema(
+const AuthenSchema = new mongoose.Schema(
   {
     id: String,
-    token: String,
-    expire: Date,
-    provider: {
-      type: String,
-      enum: ['facebook', 'twitter', 'google', 'github'],
-    }
+    token: String
   },
   {
     _id: false, // disable `_id` field for `Social` schema
@@ -23,7 +18,10 @@ const UserSchema = new mongoose.Schema({
   token: String,
   verified: { type: 'boolean', default: false },
   phones: String,
-  socials: [SocialSchema],
+  facebook: { type: AuthenSchema },
+  twitter: { type: AuthenSchema },
+  google: { type: AuthenSchema },
+  github: { type: AuthenSchema },
   role: { type: String, default: 'user' }
 })
 
@@ -43,10 +41,8 @@ UserSchema.plugin(role, {
 // Auto timestamps
 const timestamps = require('mongoose-timestamp')
 UserSchema.plugin(timestamps);
-
 const User = mongoose.model('User', UserSchema)
 const UserTC = composeWithMongoose(User)
 
-debug.log('UserSchema')
-
-module.exports = { User, UserTC }
+const Authen = mongoose.model('Authen', AuthenSchema)
+module.exports = { User, UserTC, Authen }
