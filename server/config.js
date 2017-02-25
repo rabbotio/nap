@@ -5,6 +5,9 @@ const float = (str) => (!str) ? 0: parseFloat(str, 10)  // eslint-disable-line
 
 global.NAP = global.NAP ? global.NAP : {}
 global.NAP.Config = {
+  // Environments
+  dev : process.env.NODE_ENV !== 'production',
+
   // Passport
   apiKey: process.env.MAILGUN_API_KEY,
   domain: process.env.MAILGUN_DOMAIN,
