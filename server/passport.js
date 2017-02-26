@@ -34,8 +34,7 @@ const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
     })
   )
 
-  // Initialize Passport and restore authentication state, if any, from the
-  // session.
+  // Initialize Passport and restore authentication state, if any, from the session.
   app.use(passport.initialize())
   app.use(passport.session())
 

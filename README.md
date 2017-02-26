@@ -72,33 +72,16 @@ cp .env.example .env
 - [x] Can custom `Next` pages and components.
 
 ## Develop
-### To develop backend
+### To develop (via Docker Container)
 ```shell
-# To build and run docker compose (it take sometime to build)
+# To build and run docker compose (it take sometime for first build)
 npm run up
 
-# Try modify file in ./routes ./server and see the result
+# Try modify files and see the HMR result
 open http://localhost:3000
 
 # Try modify file in ./graphql and see the result via GraphiQL
 open http://localhost:3000/graphql
-
-# To trigger frontend next build inside container
-npm run build
-```
-
-### To develop frontend
-```shell
-# Change docker-compose from
-    command: npm run _build-back
-# to
-    command: npm run _build-front
-
-# To build and run docker compose (it take sometime to build)
-npm run up
-
-# Try modify file in ./pages ./component ./lib and see the result (will need refresh)
-open http://localhost:3000
 ```
 
 ### Addition
@@ -107,7 +90,7 @@ open http://localhost:3000
 npm run down
 
 # To dive in container
-npm run dive
+npm run in
 ```
 
 - - -
@@ -136,10 +119,10 @@ npm run dive
 
 ```shell
 # Copy graphql compose examples to ./graphql volume
-cp -r ./examples/schema-graphql-compose/ ./graphql/
+cp -r ./examples/schema-minimal/ ./graphql
 
 # Explore
-open http://localhost:3000/graphql/user
+open http://localhost:3000/graphql
 
 # Mutation
 mutation {
@@ -162,6 +145,10 @@ mutation {
 
 ### Other examples
 ```shell
+# For original graphql-compose examples
+cp -r ./examples/schema-graphql-compose/ ./graphql/
+open http://localhost:3000/graphql/user
+
 # For Apollo style with graphql-tools
 cp -r ./examples/schema-graphql-tools/ ./graphql/
 open http://localhost:3000/graphql/apollo
@@ -182,8 +169,9 @@ open http://localhost:3000/graphql/original
 - - -
 
 ## DOING
-- [ ] Login from `React` native.
-- [ ] Link/Unlink user with social.
+- [x] Login from `React` native.
+- [ ] Link user with social.
+- [ ] Unlink user with social.
 - [ ] Resend email option.
 - [ ] Style sheet.
 

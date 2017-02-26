@@ -7,9 +7,7 @@ const init = () => {
   const config = global.NAP.Config
 
   // Next
-  const nextjs = require('next')({
-    IS_DEVELOPMENT: (process.env.NODE_ENV === 'development')
-  })
+  const nextjs = require('next')({ dev: config.dev })
 
   nextjs.prepare().then(() => {
     const express = require('express')
