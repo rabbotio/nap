@@ -26,7 +26,7 @@ const init = (app, passport) => {
           id: profile.id,
           token: accessToken
         }
-      }, (error, user) =>  {
+      }, (error, user) => {
         debug.log('findOneAndUpdate:', user)
         done(error, user)
       })
@@ -34,10 +34,10 @@ const init = (app, passport) => {
 
   // Route
   app.all('/auth/facebook/token', passport.authenticate('facebook-token'), (req, res) => {
-      // do something with req.user
-      res.json(req.user)
-    }
-  )
+    req.user && debug.log('req.user:', req.user)
+    // do something with req.user
+    res.json(req.user)
+  })
 }
 
 module.exports = init
