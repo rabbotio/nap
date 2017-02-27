@@ -50,6 +50,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
 - [x] [mailgun](http://www.mailgun.com/) for send email.
 - [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
+- [x] [lusca](https://github.com/krakenjs/lusca) for web application security middleware.
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
@@ -182,6 +183,7 @@ open http://localhost:3000/graphql/original
 - [ ] Grateful shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
+- [ ] More [lusca](https://github.com/krakenjs/lusca)
 
 ## TOTEST
 - [ ] `Redis` fail test.
