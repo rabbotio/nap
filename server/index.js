@@ -33,12 +33,20 @@ const init = () => {
       //TODO//require('./users')(app)
 
       // GraphQL
-      process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(config, app)
+      try {
+        process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(config, app)
+      } catch(err) {
+        debug.warn('GraphQL error :', err)
+      }
 
       // Global
-      const mongoose = require('mongoose')
-      NAP.User = mongoose.model('User')
-      NAP.Authen = mongoose.model('Authen')
+      try {
+        const mongoose = require('mongoose')
+        NAP.User = mongoose.model('User')
+        NAP.Authen = mongoose.model('Authen')
+      } catch(err) {
+        debug.warn('Mongoose error :', err)
+      }
 
       // Express
       require('./express')(config, app, nextjs)
