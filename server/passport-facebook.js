@@ -33,7 +33,7 @@ const init = (app, passport) => {
   }))
 
   // Route
-  app.all('/auth/facebook/token', passport.authenticate('facebook-token'), (req, res) => {
+  app.post('/auth/facebook/token', passport.authenticate('facebook-token'), (req, res) => {
     req.user && debug.log('req.user:', req.user)
     // do something with req.user
     res.json(req.user)
