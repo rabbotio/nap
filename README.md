@@ -51,6 +51,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [mailgun](http://www.mailgun.com/) for send email.
 - [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
 - [x] [lusca](https://github.com/krakenjs/lusca) for web application security middleware.
+- [x] [platform](https://github.com/bestiejs/platform.js) for detect client platform.
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
