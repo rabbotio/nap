@@ -19,4 +19,5 @@ global.NAP.Config = {
 
   // Security
   cookie_secret: process.env.COOKIE_SECRET || 'foo',
+  jwt_secret: process.env.JWT_SECRET || 'foo',
 }

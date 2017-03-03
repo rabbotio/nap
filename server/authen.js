@@ -43,7 +43,7 @@ const init = (app, passport) => {
                 }
 
                 user.name = user.name || profile.name
-                user[provider] = new NAP.Authen({
+                user[provider] = new NAP.Provider({
                   id : profile.id,
                   token : accessToken
                 })

@@ -8,17 +8,15 @@ const Installation = ({ init }) => {
   if(typeof(window) !== 'undefined') {
     init(platform.description)
     .then(result => {
-      console.log(result.data.init.record.deviceInfo)
+      console.log(result.data.init.record.sessionToken)
     }, error => {
       console.log(error)
     }).catch(err => {
       console.error(err)
     })
-
-    return (<div>Installed</div>)
-  } else {
-    return (<div>Installing...</div>)
   }
+
+  return <div></div>
 }
 
 Installation.propTypes = {
@@ -29,7 +27,7 @@ const withInstallation = gql`
 mutation init($info:CreateOneInstallationInput!){
   init(record: $info) {
     record {
-      deviceInfo
+      sessionToken
     }
   }
 }

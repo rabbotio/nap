@@ -16,12 +16,12 @@ const init = (app, passport) => {
     debug.log('profile:', profile)
     profile && debug.log('profile.email:', email)
 
-    // Will find someone that has this email and upsert token 
+    // Will find someone that has this email and update token 
     NAP.User.findOneAndUpdate({
       // Find someone that has this email
       email
     }, {
-        // Upsert with current accessToken
+        // Update with current accessToken
         facebook: {
           id: profile.id,
           token: accessToken

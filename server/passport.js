@@ -38,13 +38,13 @@ const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  // Initialize user/pass authen
-  require('./basic-auth')(app, passport, nextjs)
+  // Initialize email authen
+  require('./email-auth')(app, passport, nextjs)
 
   // Initialize providers
   require('./authen')(app, passport)
 
-  // Initialize Facebook
+  // Will accept Facebook token
   require('./passport-facebook')(app, passport)
 }
 

@@ -1,11 +1,3 @@
-/*
-An exmple for `graphql-compose`.
-*/
-
-// SINGLE SCHEMA ON SERVER
-// const { GQC } = require('graphql-compose')
-
-// MULTI SCHEMA MODE IN ONE SERVER
 // create new GQC from ComposeStorage
 const { ComposeStorage } = require('graphql-compose')
 const GQC = new ComposeStorage()

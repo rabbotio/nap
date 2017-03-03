@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
-const AuthenSchema = new mongoose.Schema(
+const ProviderSchema = new mongoose.Schema(
   {
     id: String,
     token: String
@@ -18,10 +18,10 @@ const UserSchema = new mongoose.Schema({
   token: String,
   verified: { type: 'boolean', default: false },
   phones: String,
-  facebook: { type: AuthenSchema },
-  twitter: { type: AuthenSchema },
-  google: { type: AuthenSchema },
-  github: { type: AuthenSchema },
+  facebook: { type: ProviderSchema },
+  twitter: { type: ProviderSchema },
+  google: { type: ProviderSchema },
+  github: { type: ProviderSchema },
   role: { type: String, default: 'user' }
 })
 
@@ -45,5 +45,5 @@ UserSchema.plugin(timestamps)
 const User = mongoose.model('User', UserSchema)
 const UserTC = composeWithMongoose(User)
 
-const Authen = mongoose.model('Authen', AuthenSchema)
-module.exports = { User, UserTC, Authen }
+const Provider = mongoose.model('Provider', ProviderSchema)
+module.exports = { User, UserTC, Provider }
