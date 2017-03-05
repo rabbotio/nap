@@ -10,11 +10,10 @@ const Installation = ({ init }) => {
     init(platform.description)
       .then(result => {
         NAPClient.sessionToken = result.data.init.record.sessionToken
-        console.info('w-NAPClient.sessionToken:', NAPClient.sessionToken)
       }, error => {
-        console.log(error)
+        debug.error(error)
       }).catch(err => {
-        console.error(err)
+        debug.error(err)
       })
   }
 
