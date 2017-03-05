@@ -19,19 +19,17 @@ const InstallationSchema = new mongoose.Schema({
   deviceToken: String,
   badge: String,
   channels: String,
+},
+{
+  timestamps: true,
 })
 
 // - - - - - - Plugins - - - - - -
-
-// Auto timestamps
-const timestamps = require('mongoose-timestamp')
-InstallationSchema.plugin(timestamps)
 
 const Installation = mongoose.model('Installation', InstallationSchema)
 const InstallationTC = composeWithMongoose(Installation)
 
 // - - - - - - Extras - - - - - -
-
 InstallationTC.setResolver('createOne', InstallationTC.getResolver('createOne')
   .wrapResolve((next) => (resolveParams) => {
     // CAPTURING PHASE

@@ -45,7 +45,6 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [express-session](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [graphql-compose](https://github.com/nodkz/graphql-compose) for build `GraphQL` types from `Mongoose` with resolvers.
 - [x] [mongoose-role](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
-- [x] [mongoose-timestamp](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent `createAt`, `updateAt` timestamp.
 - [x] [nextjs-starter](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
 - [x] [mailgun](http://www.mailgun.com/) for send email.

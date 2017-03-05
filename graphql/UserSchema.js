@@ -23,6 +23,9 @@ const UserSchema = new mongoose.Schema({
   google: { type: ProviderSchema },
   github: { type: ProviderSchema },
   role: { type: String, default: 'user' }
+},
+{
+  timestamps: true,
 })
 
 // - - - - - - Plugins - - - - - -
@@ -37,10 +40,6 @@ UserSchema.plugin(role, {
     'admin': ['admin']
   }
 })
-
-// Auto timestamps
-const timestamps = require('mongoose-timestamp')
-UserSchema.plugin(timestamps)
 
 const User = mongoose.model('User', UserSchema)
 const UserTC = composeWithMongoose(User)

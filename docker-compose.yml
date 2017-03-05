@@ -7,7 +7,7 @@ services:
     environment:
       - PORT=${PORT:-3000}
     image: rabbotio/nap
-    restart: always
+    restart: on-failure
     links:
       - redis
       - mongo
@@ -37,7 +37,7 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-    restart: always
+    restart: on-failure
     volumes:
       - redis_data:/data
     networks:
@@ -57,7 +57,7 @@ services:
       - mongo_data:/data/db
     ports:
       - "27017:27017"
-    restart: always
+    restart: on-failure
     command: --smallfiles --rest
     networks:
       - back
