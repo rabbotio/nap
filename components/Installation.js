@@ -2,18 +2,20 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import React from 'react'
 import platform from 'platform'
+import NAPClient from '../lib/NAPClient'
 
 const Installation = ({ init }) => {
   // Install this device
-  if(typeof(window) !== 'undefined') {
+  if (typeof (window) !== 'undefined') {
     init(platform.description)
-    .then(result => {
-      console.log(result.data.init.record.sessionToken)
-    }, error => {
-      console.log(error)
-    }).catch(err => {
-      console.error(err)
-    })
+      .then(result => {
+        NAPClient.sessionToken = result.data.init.record.sessionToken
+        console.info('w-NAPClient.sessionToken:', NAPClient.sessionToken)
+      }, error => {
+        console.log(error)
+      }).catch(err => {
+        console.error(err)
+      })
   }
 
   return <div></div>

@@ -21,10 +21,35 @@ const init = ({ port }, app) => {
     }
   })()
 
+  // JWT Token
+  const authenticate = (req, res, next) => {
+    // New commer
+    if(!req.token) {
+      next()
+      return
+    }
+
+    const jwt = require('jsonwebtoken')
+    jwt.verify(req.token, NAP.Config.jwt_secret, (err, decoded) => {
+      // err
+      if (err) {
+        res.status(403).send('Forbidden')
+        return
+      }
+
+      // decoded undefined
+      if (decoded) {
+        debug.info('decoded:', decoded)
+        next()
+        return
+      }
+    })
+  }
+
   // Endpoint
   const createEndpoint = (route_path, require_path) => {
     const schema = require(require_path)
-    app.use(route_path, graphqlHTTP(() => ({
+    app.use(route_path, authenticate, graphqlHTTP(() => ({
       schema,
       graphiql,
       formatError: (error) => ({

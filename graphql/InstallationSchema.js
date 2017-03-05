@@ -36,7 +36,7 @@ InstallationTC.setResolver('createOne', InstallationTC.getResolver('createOne')
     const jwt = require('jsonwebtoken')
     const sessionToken = jwt.sign({
       deviceInfo: resolveParams.args.record.deviceInfo,
-      createdAt: +new Date
+      createdAt: new Date().toISOString()
     }, NAP.Config.jwt_secret)
 
     resolveParams.args.record.sessionToken = sessionToken

@@ -38,6 +38,10 @@ const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
   app.use(passport.initialize())
   app.use(passport.session())
 
+  // Accept bearer token as req.token
+  const bearerToken = require('express-bearer-token')
+  app.use(bearerToken())
+
   // Initialize email authen
   require('./email-auth')(app, passport, nextjs)
 
