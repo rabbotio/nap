@@ -23,9 +23,8 @@ const init = (app, passport) => {
 
         // See if we have this oAuth account in the database associated with a user
         NAP.User.findOne({
-          socials: {
-            id: profile.id,
-            provider
+          [provider]: {
+            id: profile.id
           }
         }).exec((err, user) => {
           if (err) {
@@ -86,10 +85,10 @@ const init = (app, passport) => {
               NAP.User.create({
                 name: profile.name,
                 email: profile.email,
-                socials: { 
-                  id: profile.id,
-                  provider
-                }
+                provider: new NAP.Provider({
+                  id : profile.id,
+                  token : accessToken
+                })
               }, (err, user) => err ? done(err) : done(null, user))
             })
           }
