@@ -29,9 +29,20 @@
       "cwd": "${workspaceRoot}",
       "program": "${workspaceRoot}/node_modules/.bin/nodemon",
       "args": [
-        "--harmony", 
+        "--harmony",
         "${workspaceRoot}/index.js"
       ]
+    },
+    {
+      "name": "Attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5858,
+      "address": "localhost",
+      "restart": false,
+      "sourceMaps": false,
+      "localRoot": "${workspaceRoot}/",
+      "remoteRoot": "/usr/app"
     }
   ]
 }

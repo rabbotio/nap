@@ -6,7 +6,7 @@
     "_dev": "next",
     "_build": "next build",
     "_start": "next start",
-    "_serve": "nodemon --debug index.js",
+    "_serve": "nodemon --debug=0.0.0.0:5858 index.js",
     "_build-front": "next build && next start",
     "_build-back": "next build && npm run _serve",
     "dev": "npm run exec -- npm run _dev",
