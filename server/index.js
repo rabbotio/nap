@@ -19,10 +19,10 @@ const init = () => {
     app.use(express.static('public'))
 
     // Store
-    const mongooseInitializer = require('./mongoose')
+    const mongooseInitializer = require('./initMongoose')
     mongooseInitializer(config.mongo_url).then(() => {
       // Passport
-      process.env.PASSPORT_DISABLED !== '1' && require('./passport')(config, app, nextjs)
+      process.env.PASSPORT_DISABLED !== '1' && require('./initPassport')(config, app, nextjs)
 
       // Add CSRF to all POST requests
       // (If you want to add exceptions to paths you can do that here)
@@ -34,7 +34,7 @@ const init = () => {
 
       // GraphQL
       try {
-        process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(config, app)
+        process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphql')(config, app)
       } catch(err) {
         debug.warn('GraphQL error :', err)
       }
@@ -49,7 +49,7 @@ const init = () => {
       }
 
       // Express
-      require('./express')(config, app, nextjs)
+      require('./initExpress')(config, app, nextjs)
     })
   })
 }
