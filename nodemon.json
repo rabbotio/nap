@@ -1,3 +1,18 @@
 {
-  "watch": ["server", "graphql", "providers", "routes"]
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    ".next"
+  ],
+  "events": {
+    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+  },
+  "watch": [
+    "server",
+    "graphql",
+    "providers",
+    "routes"
+  ],
+  "ext": "js json"
 }
