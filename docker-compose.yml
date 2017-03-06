@@ -27,6 +27,7 @@ services:
       - ./graphql:/usr/app/graphql
       - ./providers:/usr/app/providers # __DEV__
       - ./server:/usr/app/server # __DEV__
+      - ./nodemon.json:/usr/app/nodemon.json # __DEV__
     build: . # __DEV__
     command: npm run _build-back # Will build next and run express server
     networks:
