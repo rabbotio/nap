@@ -9,27 +9,46 @@ const init = (app, passport) => {
     clientSecret: process.env.FACEBOOK_APP_SECRET
   }, (accessToken, refreshToken, profile, done) => {
 
-    // TODO : Handle no email
-    const email = profile.emails[0].value
+    // Upsert data
+    const payload = {
+      email: profile.emails[0].value,
+      name: profile.displayName,
+      facebook: {
+        id: profile.id,
+        token: accessToken
+      }
+    }
 
-    debug.log('accessToken:', accessToken)
-    debug.log('profile:', profile)
-    profile && debug.log('profile.email:', email)
+    // Will upsert
+    const options = {
+      upsert: true
+    }
 
     // Will find someone that has this email and update token 
     NAP.User.findOneAndUpdate({
-      // Find someone that has this email
-      email
-    }, {
-        // Update with current accessToken
-        facebook: {
-          id: profile.id,
-          token: accessToken
-        }
-      }, (error, user) => {
-        debug.log('findOneAndUpdate:', user)
+      email: payload.email
+    }, payload, options, (error, user) => {
+      // Error?
+      error && debug.error(error)
+
+      // User is exist
+      if (user) {
         done(error, user)
+        return
+      }
+
+      // User just get upsert, find them!
+      NAP.User.findOne({
+        email: payload.email
+      }, (error, user) => {
+        // Error?
+        error && debug.error(error)
+
+        // User is exist
+        done(error, user)
+        return
       })
+    })
   }))
 
   // Route
