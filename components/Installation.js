@@ -5,9 +5,15 @@ import platform from 'platform'
 import NAPClient from '../lib/NAPClient'
 
 const Installation = ({ init }) => {
+  //
+  const info = {
+    // Devices
+    deviceInfo: platform.description,
+  }
+  
   // Install this device
   if (typeof (window) !== 'undefined') {
-    init(platform.description)
+    init(info)
       .then(result => {
         NAPClient.sessionToken = result.data.init.record.sessionToken
       }, error => {
@@ -36,8 +42,8 @@ mutation init($info:CreateOneInstallationInput!){
 
 export default graphql(withInstallation, {
   props: ({ mutate }) => ({
-    init: (deviceInfo) => mutate({
-      variables: { info: { deviceInfo } },
+    init: info => mutate({
+      variables: { info },
     })
   })
 })(Installation)
