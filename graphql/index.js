@@ -3,6 +3,7 @@ const { ComposeStorage } = require('graphql-compose')
 const GQC = new ComposeStorage()
 
 const { InstallationTC } = require('./InstallationSchema')
+const { AuthenTC } = require('./AuthenSchema')
 const { UserTC } = require('./UserSchema')
 
 // create GraphQL Schema with all available resolvers for User Type
@@ -25,6 +26,7 @@ GQC.rootMutation().addFields({
   userRemoveMany: UserTC.getResolver('removeMany'),
 
   init: InstallationTC.getResolver('createOne'),
+  login: AuthenTC.getResolver('updateOne'),
 })
 
 module.exports = GQC.buildSchema()
