@@ -34,7 +34,7 @@ const init = () => {
 
       // GraphQL
       try {
-        process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphql')(config, app)
+        process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphQL')(config, app)
       } catch(err) {
         debug.warn('GraphQL error :', err)
       }
