@@ -25,6 +25,10 @@ COPY server /usr/app/server
 COPY package.json /usr/app/
 COPY index.js /usr/app/
 
+# This will use `nodemon` to watch `/graphql` folder and else while dev
+# Will need to use `node` instead in prod
+COPY nodemon.json /usr/app/
+
 # Make volume path
 VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/graphql", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
 
