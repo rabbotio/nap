@@ -60,7 +60,7 @@ AuthenTC.addRelation(
 
 // - - - - - - Extras - - - - - -
 
-const { InstallationSchema, install } = require('./InstallationSchema')
+const { install } = require('./InstallationSchema')
 const { createUser } = require('./UserSchema')
 
 // TODO : Dependency Injection
@@ -86,15 +86,13 @@ const authen = (installationId, userId, provider) => new Promise((resolve, rejec
     loggedInAt: new Date().toISOString(),
     loggedInWith: provider,
     sessionToken: createSessionToken(installationId, userId)
-  }, { upsert: true },  (error, result) => {
+  }, { new: true, upsert: true }, (error, result) => {
     // Error?
     error && debug.error(error) && reject(error)
     // Succeed
     resolve(result)
   })
 })
-
-debug.info('AuthenTC.addResolver')
 
 AuthenTC.addResolver({
   name: 'loginWithFacebook',
@@ -109,81 +107,29 @@ AuthenTC.addResolver({
     isEmulater: 'Boolean',
     isTablet: 'Boolean',
 
-    // App
-    bundleId: 'String',
-    appVersion: 'String',
-
-    // Notifications
-    GCMSenderId: 'String',
-    deviceToken: 'String',
-    badge: 'String',
-    channels: 'String',
-
     // Facebook
     accessToken: 'String'
   },
   type: AuthenTC,
-  resolve: ({ context, args }) => new Promise( (resolve, reject) => {
-      (async () => {
+  resolve: ({ context, args }) => new Promise(async (resolve, reject) => (async () => {
       // Installation
       const installation = await install(args)
       const user = await context.loginWithFacebook(args.accessToken).then(createUser)
       context.authen = await authen(installation.id, user.id, 'facebook')
 
+      // Fail
+      if (!context.authen) {
+        debug.error('No authen') && reject(null)
+        return
+      }
+
+      // Succeed
       debug.info(' * context.authen :', context.authen)
-
       resolve(context)
-    })()}) /*{
-
-    // Already logged in, we should throw warning
-    if (context.authen) {
-      debug.warn('Already logged in.')
-      return
-    }
-
-    // Will install and authen
-    (async () => {
-      // Installation
-      const installation = await install(args)
-      context.authen = await authen(installation._id, context.user._id, 'facebook')
-
-      return context.authen
     })()
-  }*/
+  )
 })
 
-AuthenTC.setResolver('loginWithFacebook', AuthenTC.getResolver('loginWithFacebook')
-  .wrapResolve(next => resolveParams => {
-    // CAPTURING PHASE : resolveParams = { source, args, context, info }
-    const { args, context } = resolveParams
-
-    // debug.log(' * resolveParams.context :', resolveParams.context)
-
-    // Already logged in, we should throw warning
-    if (context.authen) {
-      debug.warn('Already logged in.')
-      return next(resolveParams)
-    }
-    const resultPromise = next(resolveParams);
-
-    // BUBBLING PHASE
-    resultPromise.then(payload => { console.log(payload); return payload; })
-    /*
-    resultPromise.then(payload => new Promise( (resolve, reject) => {
-      (async () => {
-      // Installation
-      const installation = await install(args)
-      context.authen = await authen(installation._id, context.user._id, 'facebook')
-
-      debug.info(' * context.authen :', context.authen)
-
-      resolve(payload)
-    })()
-  }))
-  */
-
-    return resultPromise;
-  }))
 // - - - - - - Exports - - - - - -
 
 module.exports = { Authen, AuthenTC }

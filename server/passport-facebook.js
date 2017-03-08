@@ -22,27 +22,15 @@ const init = (app, passport) => {
     // Will find someone that has this email and update token 
     NAP.User.findOneAndUpdate({
       email: payload.email
-    }, payload, { upsert: true }, (error, user) => {
+    }, payload, { new: true, upsert: true }, (error, user) => {
       // Error?
       error && debug.error(error)
 
-      // User is exist
+      // Return existing user
       if (user) {
         done(error, user)
         return
       }
-
-      // User just get upsert, find them!
-      NAP.User.findOne({
-        email: payload.email
-      }, (error, user) => {
-        // Error?
-        error && debug.error(error)
-
-        // User is exist
-        done(error, user)
-        return
-      })
     })
   }))
 
