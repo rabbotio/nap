@@ -7,28 +7,29 @@ const ProviderSchema = new mongoose.Schema(
     token: String
   },
   {
-    _id: false, // disable `_id` field for `Authen` schema
+    _id: false, // disable `_id` field for `Provider` schema
   }
 )
 
-const UserSchema = new mongoose.Schema({
-  id: String,
-  name: String,
-  last_name: String,
-  first_name: String,
-  email: String,
-  token: String,
-  verified: { type: 'boolean', default: false },
-  phones: String,
-  facebook: { type: ProviderSchema },
-  twitter: { type: ProviderSchema },
-  google: { type: ProviderSchema },
-  github: { type: ProviderSchema },
-  role: { type: String, default: 'user' }
-},
-{
-  timestamps: true,
-})
+const UserSchema = new mongoose.Schema(
+  {
+    name: String,
+    last_name: String,
+    first_name: String,
+    email: String,
+    token: String,
+    verified: { type: 'boolean', default: false },
+    phones: String,
+    facebook: { type: ProviderSchema },
+    twitter: { type: ProviderSchema },
+    google: { type: ProviderSchema },
+    github: { type: ProviderSchema },
+    role: { type: String, default: 'user' }
+  },
+  {
+    timestamps: true,
+  }
+)
 
 // - - - - - - Plugins - - - - - -
 // User roles
@@ -48,6 +49,31 @@ const UserTC = composeWithMongoose(User)
 
 const Provider = mongoose.model('Provider', ProviderSchema)
 
+const createUser = userData => new Promise((resolve, reject) => {
+  userData = Object.assign(userData, { role: 'user' })
+  debug.log(' * createUser :', userData)
+
+  User.create(userData, (error, result) => {
+    // Error?
+    error && debug.error(error) && reject(error)
+    // Succeed
+    resolve(result)
+  })
+})
+/*
+const loginWithFacebook = accessToken => new Promise((resolve, reject) => {
+  debug.log(' * loginWithFacebook :', accessToken)
+
+  User.create({name: 'foo'}, (error, result) => {
+    // Error?
+    error && debug.error(error) && reject(error)
+    // Succeed
+    resolve(result)
+  })
+  
+  createUser.then(resolve)
+})
+*/
 // - - - - - - Exports - - - - - -
 
-module.exports = { User, UserTC, Provider }
+module.exports = { User, UserTC, Provider, createUser }

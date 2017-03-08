@@ -19,15 +19,10 @@ const init = (app, passport) => {
       }
     }
 
-    // Will upsert
-    const options = {
-      upsert: true
-    }
-
     // Will find someone that has this email and update token 
     NAP.User.findOneAndUpdate({
       email: payload.email
-    }, payload, options, (error, user) => {
+    }, payload, { upsert: true }, (error, user) => {
       // Error?
       error && debug.error(error)
 
