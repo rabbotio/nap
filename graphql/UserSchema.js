@@ -47,4 +47,7 @@ const User = mongoose.model('User', UserSchema)
 const UserTC = composeWithMongoose(User)
 
 const Provider = mongoose.model('Provider', ProviderSchema)
+
+// - - - - - - Exports - - - - - -
+
 module.exports = { User, UserTC, Provider }
