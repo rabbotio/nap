@@ -41,48 +41,6 @@ const init = ({ port }, app) => {
     // Inject passport validator
     req.loginWithFacebook = accessToken => (req.body.access_token = accessToken) && loginWithFacebook(req)
     next()
-    return
-
-    // req.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyIkX18iOnsic3RyaWN0TW9kZSI6dHJ1ZSwiaW5zZXJ0aW5nIjp0cnVlLCJnZXR0ZXJzIjp7fSwid2FzUG9wdWxhdGVkIjpmYWxzZSwiYWN0aXZlUGF0aHMiOnsicGF0aHMiOnsiY3JlYXRlZEF0IjoibW9kaWZ5In0sInN0YXRlcyI6eyJpZ25vcmUiOnt9LCJkZWZhdWx0Ijp7fSwiaW5pdCI6e30sIm1vZGlmeSI6eyJjcmVhdGVkQXQiOnRydWV9LCJyZXF1aXJlIjp7fX0sInN0YXRlTmFtZXMiOlsicmVxdWlyZSIsIm1vZGlmeSIsImluaXQiLCJkZWZhdWx0IiwiaWdub3JlIl19LCJlbWl0dGVyIjp7ImRvbWFpbiI6bnVsbCwiX2V2ZW50cyI6e30sIl9ldmVudHNDb3VudCI6MCwiX21heExpc3RlbmVycyI6MH19LCJpc05ldyI6ZmFsc2UsIl9kb2MiOnsiX2lkIjoiNThiZWIwZDFmODZmYjEwMzU2NWExNjQ3IiwiYXBwVmVyc2lvbiI6IjEuMC4xIiwiYnVuZGxlSWQiOiJpby5yYWJib3QubmFwIiwiaXNUYWJsZXQiOmZhbHNlLCJpc0VtdWxhdGVyIjp0cnVlLCJkZXZpY2VOYW1lIjoi4oCLRGlnaXRodW7igJlzIGlNYWMiLCJ0aW1lem9uZSI6IkFzaWEvQmFuZ2tvayIsImNvdW50cnkiOiJVUyIsImxvY2FsZSI6ImVuIiwiZGV2aWNlSW5mbyI6IkFwcGxlIFNpbXVsYXRvciBpT1MiLCJjcmVhdGVkQXQiOiIyMDE3LTAzLTA3VDEzOjA4OjMzLjcyOFoiLCJ1cGRhdGVkQXQiOiIyMDE3LTAzLTA3VDEzOjA4OjMzLjY5N1oiLCJfX3YiOjB9LCJpbnN0YWxsdGlvbklkIjoiNThiZWIwZDFmODZmYjEwMzU2NWExNjQ3IiwiaWF0IjoxNDg4ODkyMTEzfQ.PE2UbzH3OR1EqiroJVkWackMAIHp4icueL6dZlva4Uk"
-    // TODO : white list only for mutation `init`
-    // New commer
-    if (!req.token) {
-      next()
-      return
-    }
-
-    // Valid sessionToken?
-    const jwt = require('jsonwebtoken')
-    jwt.verify(req.token, NAP.Config.jwt_secret, (err, decoded) => {
-      // err
-      if (err) {
-        res.status(403).send('Forbidden')
-        return
-      }
-
-      // decoded undefined
-      if (decoded) {
-        debug.info('decoded:', decoded._doc._id)
-
-        // Hack acccessToken from GraphQL query
-        // This is not ideal, will find some other way.
-        // req.body.access_token = "EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD" //req.query.record.access_token
-
-        loginWithFacebook(req, res, next).then(user => {
-          if (user) {
-            // For later use inside GraphQL
-            req.authen = {
-              installationId: decoded.installationId,
-              userId: user._id,
-              loggedInAt: new Date().toISOString(),
-              loggedInWith: 'facebook' // TODO : const FACEBOOK
-            }
-            next()
-            return
-          }
-        })
-      }
-    })
   }
 
   // Endpoint
