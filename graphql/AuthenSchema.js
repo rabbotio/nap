@@ -125,7 +125,7 @@ AuthenTC.addResolver({
 
       // Succeed
       debug.info(' * context.authen :', context.authen)
-      resolve(context)
+      resolve(context.authen)
     })()
   )
 })
