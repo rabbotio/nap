@@ -62,16 +62,6 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 cp .env.example .env
 ```
 
-- [x] Can enable/disable `GraphQL`, `GraphiQL` capabilities.
-- [x] Can enable/disable `Passport` capabilities.
-- [x] Can custom `MongoDB` connection URI, `db` volume.
-- [x] Can custom `Redis` connection URI, `db` volume.
-- [x] Can custom `GraphQL` schema via `Mongoose` models.
-- [x] Can custom `Passport` providers `Facebook`, `Twitter`, `Google`, `Github`.
-- [x] Can custom `Next` static content.
-- [x] Can custom `Next` dynamic routes.
-- [x] Can custom `Next` pages and components.
-
 ## Develop
 ### To develop (via Docker Container)
 ```shell
@@ -84,6 +74,10 @@ open http://localhost:3000
 # Try modify file in ./graphql and see the result via GraphiQL
 open http://localhost:3000/graphql
 ```
+
+## Debug
+- Server side : Use `VSCode` and press F5 to `attach` with nodejs
+- Client side : Use `Chrome Dev Tool`
 
 ### Addition
 ```shell
@@ -119,18 +113,14 @@ npm run in
 > https://github.com/nodkz/graphql-compose-examples
 
 ```shell
-# Copy graphql compose examples to ./graphql volume
-cp -r ./examples/schema-minimal/ ./graphql
-
 # Explore
 open http://localhost:3000/graphql
 
 # Mutation
 mutation {
-  userCreate(record: {name: "katopz", age: 18, role: user}) {
+  userCreate(record: {name: "katopz", role: user}) {
     record {
       name
-      age
     }
   }
 }
