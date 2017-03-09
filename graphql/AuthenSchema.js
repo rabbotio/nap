@@ -11,6 +11,7 @@ const AuthenSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
+    isLoggedIn: { type: Boolean, default: false },
     loggedInAt: Date,
     loggedInWith: String,
     loggedOutAt: Date,
@@ -69,6 +70,7 @@ const willAuthen = (installationId, userId, provider) => new Promise((resolve, r
   Authen.findOneAndUpdate({ installationId }, {
     installationId,
     userId,
+    isLoggedIn: true,
     loggedInAt: new Date().toISOString(),
     loggedInWith: provider,
     sessionToken: NAP.Security.createSessionToken(installationId, userId)
@@ -105,7 +107,50 @@ AuthenTC.addResolver({
 
     // Fail
     if (!authen) {
-      debug.error('No authen') && reject(null)
+      reject(new Error('Authen error'))
+      return
+    }
+
+    // Succeed
+    debug.info(' * authen :', authen)
+    resolve(authen)
+  })
+})
+
+const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
+  debug.log(' * logout :', installationId, userId, sessionToken)
+
+  Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
+    loggedOutAt: new Date().toISOString(),
+    isLoggedIn: false
+  }, { new: true, upsert: false }, (error, result) => {
+    // Error?
+    error && debug.error(error) && reject(error)
+    // Succeed
+    resolve(result)
+  })
+})
+
+AuthenTC.addResolver({
+  name: 'logout',
+  kind: 'mutation',
+  args: {
+    sessionToken: 'String'
+  },
+  type: AuthenTC,
+  resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
+    // Guard
+    if(!context.currentUser) {
+      reject(new Error('No session found'))
+      return
+    }
+
+    // Logout
+    const authen = await willLogout(context.currentUser.installationId, context.currentUser.userId, args.sessionToken)
+
+    // Fail
+    if (!authen) {
+      reject(new Error('No session found'))
       return
     }
 

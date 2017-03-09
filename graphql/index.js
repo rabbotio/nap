@@ -46,6 +46,7 @@ GQC.rootMutation().addFields({
 
   init: InstallationTC.getResolver('createOne'),
   loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
+  logout: AuthenTC.getResolver('logout'),
 })
 
 module.exports = GQC.buildSchema()

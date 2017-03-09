@@ -15,7 +15,7 @@ const willLoginWithFacebook = req => new Promise((resolve, reject) => {
 
 const jwt = require('jsonwebtoken')
 // Validate and decode sessionToken
-const willVerifyAndDecodeSessionTokenAsAuthen = req => new Promise((resolve, reject) => {
+const createCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
   if (!req.token) {
     reject(new Error('User has no session provide'))
     return
@@ -38,7 +38,7 @@ const willVerifyAndDecodeSessionTokenAsAuthen = req => new Promise((resolve, rej
 const authenticate = (req, res, next) => {
   (async () => {
     // Validate and decode sessionToken
-    await willVerifyAndDecodeSessionTokenAsAuthen(req).catch(err => debug.warn(err.message))
+    await createCurrentUserFromSessionToken(req).catch(err => debug.warn(err.message))
 
     // Inject passport validator
     req.willLoginWithFacebook = accessToken => (req.body.access_token = accessToken) && willLoginWithFacebook(req)
