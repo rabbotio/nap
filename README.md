@@ -134,6 +134,26 @@ mutation {
 ```
 ![screen shot 2017-02-17 at 23 30 27](https://cloud.githubusercontent.com/assets/97060/23073805/3e333828-f569-11e6-96a7-15789523d43f.png)
 
+### Authen
+```shell
+mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
+  loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
+    sessionToken
+    user {
+      _id
+      name
+    }
+  }
+}
+
+mutation {
+  logout {
+    sessionToken
+  }
+}
+```
+
+
 ### Other examples
 ```shell
 # For original graphql-compose examples
