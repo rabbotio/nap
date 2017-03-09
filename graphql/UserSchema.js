@@ -60,20 +60,7 @@ const createUser = userData => new Promise((resolve, reject) => {
     resolve(result)
   })
 })
-/*
-const loginWithFacebook = accessToken => new Promise((resolve, reject) => {
-  debug.log(' * loginWithFacebook :', accessToken)
 
-  User.create({name: 'foo'}, (error, result) => {
-    // Error?
-    error && debug.error(error) && reject(error)
-    // Succeed
-    resolve(result)
-  })
-  
-  createUser.then(resolve)
-})
-*/
 // - - - - - - Exports - - - - - -
 
 module.exports = { User, UserTC, Provider, createUser }
