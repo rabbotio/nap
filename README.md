@@ -7,6 +7,9 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 ## Overview
 ```
 ○ Docker
+├─ ○ Docker Compose 3.1
+│  ├─ Docker Swarm Stack
+│  └─ Docker Flow Proxy
 │
 ├─ ○ Nginx
 │  ├─ ./nginx/certs   : /etc/nginx/certs
@@ -45,12 +48,12 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [express-session](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [graphql-compose](https://github.com/nodkz/graphql-compose) for build `GraphQL` types from `Mongoose` with resolvers.
 - [x] [mongoose-role](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
-- [x] [mongoose-timestamp](https://github.com/drudge/mongoose-timestamp) for auto-assigned to the most recent `createAt`, `updateAt` timestamp.
 - [x] [nextjs-starter](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
 - [x] [mailgun](http://www.mailgun.com/) for send email.
 - [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
 - [x] [lusca](https://github.com/krakenjs/lusca) for web application security middleware.
+- [x] [platform](https://github.com/bestiejs/platform.js) for detect client platform.
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
@@ -61,16 +64,6 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 ```shell
 cp .env.example .env
 ```
-
-- [x] Can enable/disable `GraphQL`, `GraphiQL` capabilities.
-- [x] Can enable/disable `Passport` capabilities.
-- [x] Can custom `MongoDB` connection URI, `db` volume.
-- [x] Can custom `Redis` connection URI, `db` volume.
-- [x] Can custom `GraphQL` schema via `Mongoose` models.
-- [x] Can custom `Passport` providers `Facebook`, `Twitter`, `Google`, `Github`.
-- [x] Can custom `Next` static content.
-- [x] Can custom `Next` dynamic routes.
-- [x] Can custom `Next` pages and components.
 
 ## Develop
 ### To develop (via Docker Container)
@@ -84,6 +77,10 @@ open http://localhost:3000
 # Try modify file in ./graphql and see the result via GraphiQL
 open http://localhost:3000/graphql
 ```
+
+## Debug
+- Server side : Use `VSCode` and press F5 to `attach` with nodejs
+- Client side : Use `Chrome Dev Tool`
 
 ### Addition
 ```shell
@@ -119,18 +116,14 @@ npm run in
 > https://github.com/nodkz/graphql-compose-examples
 
 ```shell
-# Copy graphql compose examples to ./graphql volume
-cp -r ./examples/schema-minimal/ ./graphql
-
 # Explore
 open http://localhost:3000/graphql
 
 # Mutation
 mutation {
-  userCreate(record: {name: "katopz", age: 18, role: user}) {
+  userCreate(record: {name: "katopz", role: user}) {
     record {
       name
-      age
     }
   }
 }
@@ -143,6 +136,28 @@ mutation {
 }
 ```
 ![screen shot 2017-02-17 at 23 30 27](https://cloud.githubusercontent.com/assets/97060/23073805/3e333828-f569-11e6-96a7-15789523d43f.png)
+
+### Authen
+```shell
+# Login with Facebook access_token and device's info
+mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
+  loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
+    sessionToken
+    user {
+      _id
+      name
+    }
+  }
+}
+
+# Logout with current bearer session token
+mutation {
+  logout {
+    isLoggedIn
+  }
+}
+```
+
 
 ### Other examples
 ```shell
@@ -160,21 +175,25 @@ open http://localhost:3000/graphql/original
 ```
 - - -
 
-## Passport
+## Passport - cookie base
+> Will need test after refactoring
+
 - [x] Facebook : http://localhost:3000/auth/facebook/
 - [x] Github : http://localhost:3000/auth/github/
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
 - [x] Email : http://localhost:3000/auth/signin/
 
+## Passport - token base via GraphQL
+- [x] Facebook
+
 - - -
 
 ## DOING
-- [x] Login from `React` native.
-- [ ] Link user with social.
-- [ ] Unlink user with social.
-- [ ] Resend email option.
-- [ ] Style sheet.
+- [ ] Login with `Facebook` from `React` web.
+- [ ] Logout from `React` web.
+- [ ] Link `Facebook` via `React` web.
+- [ ] Unlink `Facebook` via `React` web.
 
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
@@ -183,7 +202,7 @@ open http://localhost:3000/graphql/original
 - [ ] Grateful shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
-- [ ] More [lusca](https://github.com/krakenjs/lusca)
+- [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
 
 ## TOTEST
 - [ ] `Redis` fail test.
@@ -193,6 +212,7 @@ open http://localhost:3000/graphql/original
 - [ ] Unit test `graphql-compose`.
 - [ ] Basic signin test.
 - [ ] `Passport` test.
+- [ ] Sessions expire test.
 - [ ] Chaos testing with [pumba](https://github.com/gaia-adm/pumba)
 
 ## TOCUSTOM
@@ -242,7 +262,6 @@ services:
 - [ ] yarn? https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
 - [ ] Fallback for `Redis` session store.
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
-- [ ] GraphQL MongoDB query projection https://github.com/RisingStack/graphql-server
 - [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
 - [ ] Cache MongoDB with [mongoose-cache](https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L2)
 - [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)

@@ -15,14 +15,17 @@ const init = () => {
     // Create a new Express application.
     const app = express()
 
+    // NAP as First class
+    app.use(require('./initNAP'))
+
     // Static
     app.use(express.static('public'))
 
     // Store
-    const mongooseInitializer = require('./mongoose')
+    const mongooseInitializer = require('./initMongoose')
     mongooseInitializer(config.mongo_url).then(() => {
       // Passport
-      process.env.PASSPORT_DISABLED !== '1' && require('./passport')(config, app, nextjs)
+      process.env.PASSPORT_DISABLED !== '1' && require('./initPassport')(config, app, nextjs)
 
       // Add CSRF to all POST requests
       // (If you want to add exceptions to paths you can do that here)
@@ -34,7 +37,7 @@ const init = () => {
 
       // GraphQL
       try {
-        process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./graphql')(config, app)
+        process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphQL')(config, app)
       } catch(err) {
         debug.warn('GraphQL error :', err)
       }
@@ -42,14 +45,16 @@ const init = () => {
       // Global
       try {
         const mongoose = require('mongoose')
+        NAP.Installation = mongoose.model('Installation')
         NAP.User = mongoose.model('User')
         NAP.Authen = mongoose.model('Authen')
+        NAP.Provider = mongoose.model('Provider')
       } catch(err) {
         debug.warn('Mongoose error :', err)
       }
 
       // Express
-      require('./express')(config, app, nextjs)
+      require('./initExpress')(config, app, nextjs)
     })
   })
 }

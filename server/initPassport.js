@@ -38,13 +38,17 @@ const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  // Initialize user/pass authen
-  require('./basic-auth')(app, passport, nextjs)
+  // Accept bearer token as req.token
+  const bearerToken = require('express-bearer-token')
+  app.use(bearerToken())
+
+  // Initialize email authen
+  require('./passport-email')(app, passport, nextjs)
 
   // Initialize providers
-  require('./authen')(app, passport)
+  require('./passport-providers')(app, passport)
 
-  // Initialize Facebook
+  // Will accept Facebook token
   require('./passport-facebook')(app, passport)
 }
 

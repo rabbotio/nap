@@ -24,7 +24,8 @@ const init = ({ port }, app) => {
   // Endpoint
   const createEndpoint = (route_path, require_path) => {
     const schema = require(require_path)
-    app.use(route_path, graphqlHTTP(() => ({
+    const { authenticate } = require('./authen')
+    app.use(route_path, authenticate, graphqlHTTP(() => ({
       schema,
       graphiql,
       formatError: (error) => ({
