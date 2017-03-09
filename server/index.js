@@ -6,9 +6,6 @@ const init = () => {
   // Config
   const config = global.NAP.Config
 
-  // Secure
-  NAP.Security = require('./security')
-
   // Next
   const nextjs = require('next')({ dev: config.dev })
 
@@ -17,6 +14,9 @@ const init = () => {
 
     // Create a new Express application.
     const app = express()
+
+    // NAP as First class
+    app.use(require('./initNAP'))
 
     // Static
     app.use(express.static('public'))

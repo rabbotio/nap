@@ -64,24 +64,6 @@ AuthenTC.addRelation(
 const { willInstall } = require('./InstallationSchema')
 const { createUser } = require('./UserSchema')
 
-const willAuthen = (installationId, userId, provider) => new Promise((resolve, reject) => {
-  debug.log(' * authen :', installationId, userId)
-
-  Authen.findOneAndUpdate({ installationId }, {
-    installationId,
-    userId,
-    isLoggedIn: true,
-    loggedInAt: new Date().toISOString(),
-    loggedInWith: provider,
-    sessionToken: NAP.Security.createSessionToken(installationId, userId)
-  }, { new: true, upsert: true }, (error, result) => {
-    // Error?
-    error && debug.error(error) && reject(error)
-    // Succeed
-    resolve(result)
-  })
-})
-
 AuthenTC.addResolver({
   name: 'loginWithFacebook',
   kind: 'mutation',
@@ -102,8 +84,9 @@ AuthenTC.addResolver({
   resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
     // Installation
     const installation = await willInstall(args)
-    const user = await context.willLoginWithFacebook(args.accessToken).then(createUser)
-    const authen = await willAuthen(installation.id, user.id, 'facebook')
+    const user = await context.nap.willLoginWithFacebook(context, args.accessToken)
+    await createUser(user)
+    const authen = await context.nap.willAuthen(installation.id, user.id, 'facebook')
 
     // Fail
     if (!authen) {
@@ -134,11 +117,8 @@ const willLogout = (installationId, userId, sessionToken) => new Promise((resolv
 AuthenTC.addResolver({
   name: 'logout',
   kind: 'mutation',
-  args: {
-    sessionToken: 'String'
-  },
   type: AuthenTC,
-  resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
+  resolve: ({ context }) => new Promise(async (resolve, reject) => {
     // Guard
     if(!context.currentUser) {
       reject(new Error('No session found'))
@@ -146,7 +126,7 @@ AuthenTC.addResolver({
     }
 
     // Logout
-    const authen = await willLogout(context.currentUser.installationId, context.currentUser.userId, args.sessionToken)
+    const authen = await willLogout(context.currentUser.installationId, context.currentUser.userId, context.token)    
 
     // Fail
     if (!authen) {

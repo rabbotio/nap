@@ -13,7 +13,7 @@ const userAccess = (resolvers) => {
   Object.keys(resolvers).forEach((k) => {
     resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
       // rp = resolveParams = { source, args, context, info }
-      if (!NAP.Security.isLoggedIn(rp.context)) {
+      if (!rp.context.currentUser) {
         throw new Error('You should be logged in, to have access to this action.');
       }
       return next(rp);
