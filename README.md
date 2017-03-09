@@ -7,6 +7,9 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 ## Overview
 ```
 ○ Docker
+├─ ○ Docker Compose 3.1
+│  ├─ Docker Swarm Stack
+│  └─ Docker Flow Proxy
 │
 ├─ ○ Nginx
 │  ├─ ./nginx/certs   : /etc/nginx/certs
@@ -136,6 +139,7 @@ mutation {
 
 ### Authen
 ```shell
+# Login with Facebook access_token and device's info
 mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
   loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
     sessionToken
@@ -146,9 +150,10 @@ mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
   }
 }
 
+# Logout with current bearer session token
 mutation {
   logout {
-    sessionToken
+    isLoggedIn
   }
 }
 ```
@@ -170,21 +175,25 @@ open http://localhost:3000/graphql/original
 ```
 - - -
 
-## Passport
+## Passport - cookie base
+> Will need test after refactoring
+
 - [x] Facebook : http://localhost:3000/auth/facebook/
 - [x] Github : http://localhost:3000/auth/github/
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
 - [x] Email : http://localhost:3000/auth/signin/
 
+## Passport - token base via GraphQL
+- [x] Facebook
+
 - - -
 
 ## DOING
-- [x] Login from `React` native.
-- [ ] Link user with social.
-- [ ] Unlink user with social.
-- [ ] Resend email option.
-- [ ] Style sheet.
+- [ ] Login with `Facebook` from `React` web.
+- [ ] Logout from `React` web.
+- [ ] Link `Facebook` via `React` web.
+- [ ] Unlink `Facebook` via `React` web.
 
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
@@ -193,7 +202,7 @@ open http://localhost:3000/graphql/original
 - [ ] Grateful shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
-- [ ] More [lusca](https://github.com/krakenjs/lusca)
+- [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
 
 ## TOTEST
 - [ ] `Redis` fail test.
@@ -203,6 +212,7 @@ open http://localhost:3000/graphql/original
 - [ ] Unit test `graphql-compose`.
 - [ ] Basic signin test.
 - [ ] `Passport` test.
+- [ ] Sessions expire test.
 - [ ] Chaos testing with [pumba](https://github.com/gaia-adm/pumba)
 
 ## TOCUSTOM
