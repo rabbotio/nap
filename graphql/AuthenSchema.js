@@ -60,24 +60,10 @@ AuthenTC.addRelation(
 
 // - - - - - - Extras - - - - - -
 
-const { install } = require('./InstallationSchema')
+const { willInstall } = require('./InstallationSchema')
 const { createUser } = require('./UserSchema')
 
-// TODO : Dependency Injection
-const createSessionToken = (installationId, userId) => {
-  const jwt = require('jsonwebtoken')
-  const sessionToken = jwt.sign({
-    installationId,
-    userId,
-    createdAt: new Date().toISOString()
-  },
-    NAP.Config.jwt_secret
-  )
-
-  return sessionToken
-}
-
-const authen = (installationId, userId, provider) => new Promise((resolve, reject) => {
+const willAuthen = (installationId, userId, provider) => new Promise((resolve, reject) => {
   debug.log(' * authen :', installationId, userId)
 
   Authen.findOneAndUpdate({ installationId }, {
@@ -85,7 +71,7 @@ const authen = (installationId, userId, provider) => new Promise((resolve, rejec
     userId,
     loggedInAt: new Date().toISOString(),
     loggedInWith: provider,
-    sessionToken: createSessionToken(installationId, userId)
+    sessionToken: NAP.Security.createSessionToken(installationId, userId)
   }, { new: true, upsert: true }, (error, result) => {
     // Error?
     error && debug.error(error) && reject(error)
@@ -111,23 +97,22 @@ AuthenTC.addResolver({
     accessToken: 'String'
   },
   type: AuthenTC,
-  resolve: ({ context, args }) => new Promise(async (resolve, reject) => (async () => {
-      // Installation
-      const installation = await install(args)
-      const user = await context.loginWithFacebook(args.accessToken).then(createUser)
-      context.authen = await authen(installation.id, user.id, 'facebook')
+  resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
+    // Installation
+    const installation = await willInstall(args)
+    const user = await context.willLoginWithFacebook(args.accessToken).then(createUser)
+    const authen = await willAuthen(installation.id, user.id, 'facebook')
 
-      // Fail
-      if (!context.authen) {
-        debug.error('No authen') && reject(null)
-        return
-      }
+    // Fail
+    if (!authen) {
+      debug.error('No authen') && reject(null)
+      return
+    }
 
-      // Succeed
-      debug.info(' * context.authen :', context.authen)
-      resolve(context.authen)
-    })()
-  )
+    // Succeed
+    debug.info(' * authen :', authen)
+    resolve(authen)
+  })
 })
 
 // - - - - - - Exports - - - - - -

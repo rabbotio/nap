@@ -6,6 +6,9 @@ const init = () => {
   // Config
   const config = global.NAP.Config
 
+  // Secure
+  NAP.Security = require('./security')
+
   // Next
   const nextjs = require('next')({ dev: config.dev })
 

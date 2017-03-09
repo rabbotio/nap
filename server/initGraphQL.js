@@ -21,32 +21,10 @@ const init = ({ port }, app) => {
     }
   })()
 
-  // Valid acccessToken?
-  const loginWithFacebook = req => new Promise((resolve, reject) => {
-    // Validate facebook token
-    const passport = require('passport')
-    passport.authenticate('facebook-token', (error, user) => {
-      if (user) {
-        debug.log('user:', user)
-        resolve(user)
-      } else {
-        debug.warn('No facebook access_token provide')
-        reject(null)
-      }
-    })(req)
-  })
-
-  // JWT Token
-  const authenticate = (req, res, next) => {
-    // Inject passport validator
-    req.loginWithFacebook = accessToken => (req.body.access_token = accessToken) && loginWithFacebook(req)
-    next()
-  }
-
   // Endpoint
   const createEndpoint = (route_path, require_path) => {
     const schema = require(require_path)
-    app.use(route_path, authenticate, graphqlHTTP(() => ({
+    app.use(route_path, NAP.Security.authenticate, graphqlHTTP(() => ({
       schema,
       graphiql,
       formatError: (error) => ({
