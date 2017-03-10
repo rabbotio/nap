@@ -14,7 +14,9 @@ const userAccess = (resolvers) => {
     resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
       // rp = resolveParams = { source, args, context, info }
       if (!rp.context.nap.currentUser) {
-        throw new Error('[NOSTACK] Permission denied')
+        // throw new Error('[NOSTACK] Permission denied')
+        rp.context.nap.error = { code: 403, message: 'No session found' }
+        return null
       }
 
       return next(rp)
@@ -25,18 +27,20 @@ const userAccess = (resolvers) => {
 
 // create GraphQL Schema with all available resolvers for User Type
 GQC.rootQuery().addFields(Object.assign(
-  // let add restriction for owner only
   userAccess({
-    userById: UserTC.getResolver('findById'),
+    // let add restriction for owner only
+    user: UserTC.getResolver('user'),
   }), {
     error: ErrorTC.getResolver('error'),
   })
 )
 
-GQC.rootMutation().addFields({
-  loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
-  logout: AuthenTC.getResolver('logout'),
-  error: ErrorTC.getResolver('error'),
-})
+GQC.rootMutation().addFields(
+  {
+    logout: AuthenTC.getResolver('logout'),
+    loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
+    error: ErrorTC.getResolver('error'),
+  }
+)
 
 module.exports = GQC.buildSchema()

@@ -61,16 +61,6 @@ AuthenTC.addRelation(
   })
 )
 
-/*
-AuthenTC.addFields({
-  error: {
-    type: 'JSON',
-    description: 'Context data of current client',
-    resolve: (source, args, context) => context.error,
-  }
-})
-*/
-
 // - - - - - - Extras - - - - - -
 
 const { willInstall } = require('./InstallationSchema')
@@ -94,7 +84,7 @@ AuthenTC.addResolver({
   },
   type: AuthenTC,
   resolve: ({ context, args }) => new Promise(async (resolve) => {
-
+    // Error
     const onError = err => {
       context.nap.error = { code: 403, message: err.message }
       resolve(null)

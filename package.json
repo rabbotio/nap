@@ -24,7 +24,8 @@
     "stop": "docker stop $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "clear": "docker rm $(docker ps -aq) -f || true && docker rmi -f rabbotio/nap && docker system prune -f && docker images && docker ps -a || true",
     "down": "docker-compose kill || true && docker-compose down || true",
-    "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true"
+    "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
+    "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql"
   },
   "dependencies": {
     "apollo-client": "^0.10.1",

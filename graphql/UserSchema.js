@@ -61,6 +61,45 @@ const createUser = userData => new Promise((resolve, reject) => {
   })
 })
 
+UserTC.addResolver({
+  name: 'user',
+  kind: 'query',
+  type: UserTC,
+  resolve: ({ context }) => new Promise(async (resolve) => {
+    // Guard
+    if (context.nap.error) {
+      return
+    }
+
+    // Error
+    const onError = err => {
+      context.nap.error = { code: 403, message: err.message }
+      resolve(null)
+    }
+
+    const user = await new Promise((reslove, reject) => User.findById(context.nap.currentUser.userId, (err, result) => {
+      // Fail
+      if (err) {
+        reject(err)
+        return
+      }
+
+      // Succeed
+      reslove(result)
+    }))
+
+    // Fail
+    if (!user) {
+      onError(new Error('Authen error'))
+      return
+    }
+
+    // Succeed
+    debug.info(' * user :', user)
+    resolve(user)
+  })
+})
+
 // - - - - - - Exports - - - - - -
 
 module.exports = { User, UserTC, Provider, createUser }
