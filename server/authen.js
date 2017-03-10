@@ -40,7 +40,7 @@ const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) 
 
     // Succeed
     debug.info('User :', decoded)
-    req.currentUser = decoded
+    req.nap.currentUser = decoded
     resolve(req)
   })
 })

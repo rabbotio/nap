@@ -13,7 +13,7 @@ const userAccess = (resolvers) => {
   Object.keys(resolvers).forEach((k) => {
     resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
       // rp = resolveParams = { source, args, context, info }
-      if (!rp.context.currentUser) {
+      if (!rp.context.nap.currentUser) {
         throw new Error('[NOSTACK] Permission denied')
       }
 

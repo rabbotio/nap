@@ -148,6 +148,10 @@ mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
       name
     }
   }
+  error {
+    code
+    message
+  }
 }
 
 # Logout with current bearer session token
