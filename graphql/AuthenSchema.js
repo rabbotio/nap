@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
+// const { ErrorTC } = require('./ErrorSchema')
 
 const AuthenSchema = new mongoose.Schema(
   {
+    // Common
     installationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Installation'
@@ -59,6 +61,16 @@ AuthenTC.addRelation(
   })
 )
 
+/*
+AuthenTC.addFields({
+  error: {
+    type: 'JSON',
+    description: 'Context data of current client',
+    resolve: (source, args, context) => context.error,
+  }
+})
+*/
+
 // - - - - - - Extras - - - - - -
 
 const { willInstall } = require('./InstallationSchema')
@@ -84,8 +96,7 @@ AuthenTC.addResolver({
   resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
     // Installation
     const installation = await willInstall(args)
-    const user = await context.nap.willLoginWithFacebook(context, args.accessToken)
-    await createUser(user)
+    const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(createUser)
     const authen = await context.nap.willAuthen(installation.id, user.id, 'facebook')
 
     // Fail

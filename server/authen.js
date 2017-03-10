@@ -48,7 +48,10 @@ const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) 
 const authenticate = (req, res, next) => {
   (async () => {
     // Validate and decode sessionToken
-    await _attachCurrentUserFromSessionToken(req).catch(err => debug.warn(err.message))
+    await _attachCurrentUserFromSessionToken(req).catch(err => {
+      debug.warn(err.message)
+      req.nap.error = { code: 401, message: err.message }
+    })
 
     // Done
     next()

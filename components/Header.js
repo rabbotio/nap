@@ -1,7 +1,9 @@
 import Link from 'next/link'
+import UserProfile from './UserProfile'
 
 export default ({ pathname }) => (
   <header>
+    <UserProfile />
     <Link href='/'>
       <a className={pathname === '/' && 'is-active'}>Home</a>
     </Link>
