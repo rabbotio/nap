@@ -61,16 +61,6 @@ const createUser = userData => new Promise((resolve, reject) => {
   })
 })
 
-/*
-UserTC.addFields({
-  error: {
-    type: 'JSON',
-    description: 'Error',
-    resolve: (source, args, context) => ({ foo: 'bar'}),
-  }
-})
-*/
-
 // - - - - - - Exports - - - - - -
 
 module.exports = { User, UserTC, Provider, createUser }
