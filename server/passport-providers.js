@@ -88,7 +88,8 @@ const init = (app, passport) => {
                 provider: new NAP.Provider({
                   id : profile.id,
                   token : accessToken
-                })
+                }), 
+                role: 'user'
               }, (err, user) => err ? done(err) : done(null, user))
             })
           }
