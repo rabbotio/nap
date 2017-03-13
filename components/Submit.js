@@ -1,4 +1,5 @@
 import { gql, graphql } from 'react-apollo'
+import NAPClient from '../lib/NAPClient'
 
 function Submit({ loginWithFacebook }) {
   function handleSubmit(e) {
@@ -64,7 +65,13 @@ export default graphql(loginWithFacebook, {
     loginWithFacebook: (deviceInfo, accessToken) => mutate({
       variables: { deviceInfo, accessToken },
       updateQueries: {
-        userProfile: (previousResult, { mutationResult }) => mutationResult.data.loginWithFacebook
+        userProfile: (previousResult, { mutationResult }) => {
+          // Keep session
+          NAPClient.sessionToken = mutationResult.data.loginWithFacebook.sessionToken
+
+          // Provide user
+          return mutationResult.data.loginWithFacebook
+        }
       }
     })
   })
