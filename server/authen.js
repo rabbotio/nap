@@ -50,7 +50,7 @@ const authenticate = (req, res, next) => {
     // Validate and decode sessionToken
     await _attachCurrentUserFromSessionToken(req).catch(err => {
       debug.warn(err.message)
-      req.nap.error = { code: 401, message: err.message }
+      req.nap.errors.push({ code: 401, message: err.message })
     })
 
     // Done

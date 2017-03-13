@@ -73,7 +73,7 @@ UserTC.addResolver({
 
     // Error
     const onError = err => {
-      context.nap.error = { code: 403, message: err.message }
+      context.nap.errors.push({ code: 403, message: err.message })
       resolve(null)
     }
 

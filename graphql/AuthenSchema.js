@@ -86,7 +86,7 @@ AuthenTC.addResolver({
   resolve: ({ context, args }) => new Promise(async (resolve) => {
     // Error
     const onError = err => {
-      context.nap.error = { code: 403, message: err.message }
+      context.nap.errors.push({ code: 403, message: err.message })
       resolve(null)
     }
 
@@ -103,7 +103,6 @@ AuthenTC.addResolver({
 
     // Succeed
     debug.info(' * authen :', authen)
-    context.nap.error = null
     resolve(authen)
   })
 })

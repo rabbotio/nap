@@ -1,4 +1,5 @@
 const { TypeComposer } = require('graphql-compose')
+const { GraphQLList } = require('graphql')
 
 const ErrorTC = TypeComposer.create(`
   type Error {
@@ -10,8 +11,8 @@ const ErrorTC = TypeComposer.create(`
 ErrorTC.addResolver({
   name: 'error',
   kind: 'query',
-  type: ErrorTC,
-  resolve: ({ context }) => context.nap.error
+  type: new GraphQLList(ErrorTC.getType()),
+  resolve: ({ context }) => context.nap.errors
 })
 
 // - - - - - - Exports - - - - - -

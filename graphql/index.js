@@ -15,7 +15,7 @@ const userAccess = (resolvers) => {
       // rp = resolveParams = { source, args, context, info }
       if (!rp.context.nap.currentUser) {
         // throw new Error('[NOSTACK] Permission denied')
-        rp.context.nap.error = { code: 403, message: 'No session found' }
+        rp.context.nap.errors.push({ code: 403, message: 'No session found' })
         return null
       }
 
@@ -31,7 +31,7 @@ GQC.rootQuery().addFields(Object.assign(
     // let add restriction for owner only
     user: UserTC.getResolver('user'),
   }), {
-    error: ErrorTC.getResolver('error'),
+    errors: ErrorTC.getResolver('error'),
   })
 )
 
@@ -39,7 +39,7 @@ GQC.rootMutation().addFields(
   {
     logout: AuthenTC.getResolver('logout'),
     loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
-    error: ErrorTC.getResolver('error'),
+    errors: ErrorTC.getResolver('error'),
   }
 )
 

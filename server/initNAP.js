@@ -6,6 +6,8 @@ const init = (req, res, next) => {
     willLoginWithFacebook
   }
 
+  req.nap.errors = []
+
   next()
 }
 
