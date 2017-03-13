@@ -30,7 +30,7 @@ const init = ({ port }, app) => {
       graphiql,
       formatError: (error) => ({
         message: error.message,
-        stack: !error.message.match(/for security reason/i) ? error.stack.split('\n') : null,
+        stack: !error.message.match(/[NOSTACK]/i) ? error.stack.split('\n') : null,
       })
     })))
 

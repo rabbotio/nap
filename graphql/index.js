@@ -4,7 +4,7 @@
 const { ComposeStorage } = require('graphql-compose')
 const GQC = new ComposeStorage()
 
-const { InstallationTC } = require('./InstallationSchema')
+const { ErrorTC } = require('./ErrorSchema')
 const { UserTC } = require('./UserSchema')
 const { AuthenTC } = require('./AuthenSchema')
 
@@ -13,40 +13,34 @@ const userAccess = (resolvers) => {
   Object.keys(resolvers).forEach((k) => {
     resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
       // rp = resolveParams = { source, args, context, info }
-      if (!rp.context.currentUser) {
-        throw new Error('You should be logged in, to have access to this action.');
+      if (!rp.context.nap.currentUser) {
+        // throw new Error('[NOSTACK] Permission denied')
+        rp.context.nap.errors.push({ code: 403, message: 'No session found' })
+        return null
       }
-      return next(rp);
-    });
-  });
-  return resolvers;
+
+      return next(rp)
+    })
+  })
+  return resolvers
 }
 
 // create GraphQL Schema with all available resolvers for User Type
-GQC.rootQuery().addFields(
-  // let add restriction for owner only
+GQC.rootQuery().addFields(Object.assign(
   userAccess({
-    userById: UserTC.getResolver('findById'),
-    userByIds: UserTC.getResolver('findByIds'),
-    userOne: UserTC.getResolver('findOne'),
-    userMany: UserTC.getResolver('findMany'),
-    userTotal: UserTC.getResolver('count'),
-    userConnection: UserTC.getResolver('connection'),
+    // let add restriction for owner only
+    user: UserTC.getResolver('user'),
+  }), {
+    errors: ErrorTC.getResolver('error'),
   })
 )
 
-GQC.rootMutation().addFields({
-  userCreate: UserTC.getResolver('createOne'),
-  userUpdateById: UserTC.getResolver('updateById'),
-  userUpdateOne: UserTC.getResolver('updateOne'),
-  userUpdateMany: UserTC.getResolver('updateMany'),
-  userRemoveById: UserTC.getResolver('removeById'),
-  userRemoveOne: UserTC.getResolver('removeOne'),
-  userRemoveMany: UserTC.getResolver('removeMany'),
-
-  init: InstallationTC.getResolver('createOne'),
-  loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
-  logout: AuthenTC.getResolver('logout'),
-})
+GQC.rootMutation().addFields(
+  {
+    logout: AuthenTC.getResolver('logout'),
+    loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
+    errors: ErrorTC.getResolver('error'),
+  }
+)
 
 module.exports = GQC.buildSchema()

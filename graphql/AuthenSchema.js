@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
+// const { ErrorTC } = require('./ErrorSchema')
 
 const AuthenSchema = new mongoose.Schema(
   {
+    // Common
     installationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Installation'
@@ -81,16 +83,21 @@ AuthenTC.addResolver({
     accessToken: 'String'
   },
   type: AuthenTC,
-  resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
+  resolve: ({ context, args }) => new Promise(async (resolve) => {
+    // Error
+    const onError = err => {
+      context.nap.errors.push({ code: 403, message: err.message })
+      resolve(null)
+    }
+
     // Installation
-    const installation = await willInstall(args)
-    const user = await context.nap.willLoginWithFacebook(context, args.accessToken)
-    await createUser(user)
-    const authen = await context.nap.willAuthen(installation.id, user.id, 'facebook')
+    const installation = await willInstall(args).catch(onError)
+    const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(createUser).catch(onError)
+    const authen = await context.nap.willAuthen(installation.id, user.id, 'facebook').catch(onError)
 
     // Fail
     if (!authen) {
-      reject(new Error('Authen error'))
+      onError(new Error( 'Authen error'))
       return
     }
 
@@ -120,13 +127,13 @@ AuthenTC.addResolver({
   type: AuthenTC,
   resolve: ({ context }) => new Promise(async (resolve, reject) => {
     // Guard
-    if(!context.currentUser) {
+    if(!context.nap.currentUser) {
       reject(new Error('No session found'))
       return
     }
 
     // Logout
-    const authen = await willLogout(context.currentUser.installationId, context.currentUser.userId, context.token)    
+    const authen = await willLogout(context.nap.currentUser.installationId, context.nap.currentUser.userId, context.token)    
 
     // Fail
     if (!authen) {

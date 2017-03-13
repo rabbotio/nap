@@ -6,7 +6,8 @@ const init = (providers) => {
       Strategy: require('passport-facebook').Strategy,
       strategyOptions: {
         clientID: process.env.FACEBOOK_APP_ID,
-        clientSecret: process.env.FACEBOOK_APP_SECRET
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        profileFields: ['id', 'emails', 'name']
       },
       scope: process.env.FACEBOOK_SCOPE ? process.env.FACEBOOK_SCOPE.split(',') : ['email', 'user_location'],
       getUserFromProfile: (profile) => ({

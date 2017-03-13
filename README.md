@@ -148,6 +148,10 @@ mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
       name
     }
   }
+  error {
+    code
+    message
+  }
 }
 
 # Logout with current bearer session token
@@ -203,6 +207,7 @@ open http://localhost:3000/graphql/original
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 - [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
+- [ ] [Securing a Containerized Instance of MongoD](http://rancher.com/securing-containerized-instance-mongodb/)
 
 ## TOTEST
 - [ ] `Redis` fail test.
