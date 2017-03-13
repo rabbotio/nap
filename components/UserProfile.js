@@ -1,50 +1,40 @@
 import { gql, graphql } from 'react-apollo'
 
-function UserProfile({ data: { loading, currentUser }, errors }) {
-  if (errors) {
-    return <div>Error!</div>
+function UserProfile({ loading, user, errors }) {
+
+  if (errors && errors.length > 0) {
+    console.log(JSON.stringify(errors))
   }
 
   if (loading) {
     return <div>Loading</div>
   }
 
-  if (currentUser) {
-    return <div>Hi!</div>
+  // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0YWxsYXRpb25JZCI6IjU4YzYzMjc3MWNmZTQ2MDEwMzJlMDI1MyIsInVzZXJJZCI6IjU4YzE0MzE5ZjU2MGRiNzJlOGIxMmQ4NSIsImNyZWF0ZWRBdCI6IjIwMTctMDMtMTNUMDU6NDc6MzYuMDgwWiIsImlhdCI6MTQ4OTM4NDA1Nn0.rrcZZAnkagACx8LEKsfLkeV5bEfxeAQcdB1wduONj5U
+  if (user) {
+    return <div>{user.name}</div>
   }
 
-  // Not loggedIn
-  return (
-    <div>
-      <form onSubmit={this.submitForm}>
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-control"
-            name="accessToken"
-            value="EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD"
-            onChange={this.handleChange}
-          />
-          <button type="submit">
-            log in with Facebook
-          </button>
-        </div>
-      </form>
-    </div>
-  )
+  console.log(user)
+
+  return <div>Hmm?</div>
 }
 
-const PROFILE_QUERY = gql`
-query {
-  userOne {
+const userProfile = gql`
+query userProfile {
+  user {
     name
+  }
+  errors {
+    code
+    message
   }
 }
 `;
 
-export default graphql(PROFILE_QUERY, {
-  options: { forceFetch: true },
-  props: ({ data: { loading, currentUser }, errors }) => (
-    { loading, currentUser, errors }
+export default graphql(userProfile, {
+  options: { fetchPolicy: 'cache-and-network' },
+  props: ({ data: { loading, user, errors } }) => (
+    { loading, user, errors }
   ),
 })(UserProfile);

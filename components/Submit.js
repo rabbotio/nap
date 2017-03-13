@@ -1,34 +1,29 @@
 import { gql, graphql } from 'react-apollo'
 
-function Submit ({ createPost }) {
-  function handleSubmit (e) {
+function Submit({ loginWithFacebook }) {
+  function handleSubmit(e) {
     e.preventDefault()
 
-    let title = e.target.elements.title.value
-    let url = e.target.elements.url.value
+    let deviceInfo = e.target.elements.deviceInfo.value
+    let accessToken = e.target.elements.accessToken.value
 
-    if (title === '' || url === '') {
+    if (deviceInfo === '' || accessToken === '') {
       window.alert('Both fields are required.')
       return false
     }
 
-    // prepend http if missing from url
-    if (!url.match(/^[a-zA-Z]+:\/\//)) {
-      url = `http://${url}`
-    }
-
-    createPost(title, url)
+    loginWithFacebook(deviceInfo, accessToken)
 
     // reset form
-    e.target.elements.title.value = ''
-    e.target.elements.url.value = ''
+    e.target.elements.deviceInfo.value = ''
+    e.target.elements.accessToken.value = ''
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <h1>Submit</h1>
-      <input placeholder='title' name='title' />
-      <input placeholder='url' name='url' />
+      <input placeholder='deviceInfo' name='deviceInfo' defaultValue='foo' />
+      <input placeholder='accessToken' name='accessToken' defaultValue='EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD' />
       <button type='submit'>Submit</button>
       <style jsx>{`
         form {
@@ -48,30 +43,28 @@ function Submit ({ createPost }) {
   )
 }
 
-const createPost = gql`
-  mutation createPost($title: String!, $url: String!) {
-    createPost(title: $title, url: $url) {
-      id
-      title
-      votes
-      url
-      createdAt
+const loginWithFacebook = gql`
+mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
+  loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
+    sessionToken
+    user {
+      _id
+      name
     }
   }
+  errors {
+    code
+    message
+  }
+}
 `
 
-export default graphql(createPost, {
+export default graphql(loginWithFacebook, {
   props: ({ mutate }) => ({
-    createPost: (title, url) => mutate({
-      variables: { title, url },
+    loginWithFacebook: (deviceInfo, accessToken) => mutate({
+      variables: { deviceInfo, accessToken },
       updateQueries: {
-        allPosts: (previousResult, { mutationResult }) => {
-          const newPost = mutationResult.data.createPost
-          return Object.assign({}, previousResult, {
-            // Append the new post
-            allPosts: [newPost, ...previousResult.allPosts]
-          })
-        }
+        userProfile: (previousResult, { mutationResult }) => mutationResult.data.loginWithFacebook
       }
     })
   })
