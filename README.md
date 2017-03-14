@@ -148,7 +148,18 @@ mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
       name
     }
   }
-  error {
+  errors {
+    code
+    message
+  }
+}
+
+# To get user profile
+{
+  user {
+    name
+  }
+  errors {
     code
     message
   }
