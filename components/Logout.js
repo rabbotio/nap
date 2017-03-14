@@ -30,7 +30,7 @@ export default graphql(loginWithFacebook, {
       updateQueries: {
         userProfile: () => {
           // Clear session
-          NAPSession.clearSessionToken()
+          NAPSession.willClearSessionToken()
 
           // Provide no user
           return { user: null, errors: [] }

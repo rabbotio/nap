@@ -72,7 +72,7 @@ export default graphql(loginWithFacebook, {
       updateQueries: {
         userProfile: (previousResult, { mutationResult }) => {
           // Keep session
-          NAPSession.setSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
+          NAPSession.willSetSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
 
           // Provide user
           return mutationResult.data.loginWithFacebook
