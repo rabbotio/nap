@@ -1,5 +1,5 @@
 import { gql, graphql } from 'react-apollo'
-import NAPClient from '../lib/NAPClient'
+import NAPSession from '../lib/NAPSession'
 import React from 'react'
 
 const Login = ({ loginWithFacebook }) => {
@@ -72,7 +72,7 @@ export default graphql(loginWithFacebook, {
       updateQueries: {
         userProfile: (previousResult, { mutationResult }) => {
           // Keep session
-          NAPClient.sessionToken = mutationResult.data.loginWithFacebook.sessionToken
+          NAPSession.setSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
 
           // Provide user
           return mutationResult.data.loginWithFacebook
