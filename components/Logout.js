@@ -33,7 +33,7 @@ export default graphql(loginWithFacebook, {
           NAPSession.clearSessionToken()
 
           // Provide no user
-          return null
+          return { user: null, errors: [] }
         }
       }
     })
