@@ -23,10 +23,8 @@ const init = (app, passport) => {
 
         // See if we have this oAuth account in the database associated with a user
         NAP.User.findOne({
-          [provider]: {
-            id: _profile.id
-          }
-        }).exec((err, user) => {
+          [[provider] + '.id'] : _profile.id
+        }, (err, user) => {
           if (err) {
             return done(err)
           }
@@ -36,7 +34,7 @@ const init = (app, passport) => {
 
             // If the oAuth account is not linked to another account, link it and exit
             if (!user) {
-              return NAP.User.findOneAndUpdate({ id: req.user.id }, {
+              return NAP.User.findOneAndUpdate({ _id: req.user.id }, {
                 name: (user && user.name) || _profile.name,
                 [provider]: new NAP.Provider({
                   id: _profile.id,
