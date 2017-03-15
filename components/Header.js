@@ -1,7 +1,11 @@
+import React from 'react'
 import Link from 'next/link'
+import UserProfile from '../components/UserProfile'
 
-export default ({ pathname }) => (
+const Header = ({ pathname, sessionToken }) => (
   <header>
+    <UserProfile sessionToken={sessionToken}/>
+
     <Link href='/'>
       <a className={pathname === '/' && 'is-active'}>Home</a>
     </Link>
@@ -9,7 +13,7 @@ export default ({ pathname }) => (
     <Link href='/about'>
       <a className={pathname === '/about' && 'is-active'}>About</a>
     </Link>
-
+    
     <style jsx>{`
       header {
         margin-bottom: 25px;
@@ -25,3 +29,10 @@ export default ({ pathname }) => (
     `}</style>
   </header>
 )
+
+Header.propTypes = () => ({
+  pathname: React.PropTypes.string.isRequired,
+  sessionToken: React.PropTypes.string.isRequired
+})
+
+export default Header

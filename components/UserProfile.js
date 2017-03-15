@@ -1,10 +1,12 @@
 import { gql, graphql } from 'react-apollo'
 import React from 'react'
+import Login from '../components/Login'
+import Logout from '../components/Logout'
 
 const UserProfile = ({ loading, user, errors }) => {
 
   if (errors && errors.length > 0) {
-    console.log(JSON.stringify(errors))
+    console.log(JSON.stringify(errors)) // eslint-disable-line
   }
 
   if (loading) {
@@ -12,10 +14,10 @@ const UserProfile = ({ loading, user, errors }) => {
   }
 
   if (user) {
-    return <div>{user.name}</div>
+    return <div>{user.name}<Logout/></div>
   }
 
-  return <div>Hmm?</div>
+  return <Login/>
 }
 
 const userProfile = gql`
