@@ -19,6 +19,7 @@ export default ({ children }) => (
       article {
         margin: 0 auto;
         max-width: 650px;
+        text-align: center;
       }
       button {
         align-items: center;
@@ -27,6 +28,7 @@ export default ({ children }) => (
         color: white;
         display: flex;
         padding: 5px 7px;
+        float: right;
       }
       button:active {
         background-color: #1B9DB7;

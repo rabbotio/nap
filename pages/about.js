@@ -6,19 +6,10 @@ export default withData((props) => (
   <App>
     <Header pathname={props.url.pathname} />
     <article>
-      <h1>The Idea Behind This Example</h1>
-      <p>
-        <a href='http://dev.apollodata.com'>Apollo</a> is a GraphQL client that allows you to easily query the exact data you need from a GraphQL server. In addition to fetching and mutating data, Apollo analyzes your queries and their results to construct a client-side cache of your data, which is kept up to date as further queries and mutations are run, fetching more results from the server.
-      </p>
-      <p>
-        In this simple example, we integrate Apollo seamlessly with <a href='https://github.com/zeit/next.js'>Next</a> by wrapping our pages inside a <a href='https://facebook.github.io/react/docs/higher-order-components.html'>higher-order component (HOC)</a>. Using the HOC pattern we're able to pass down a central store of query result data created by Apollo into our React component hierarchy defined inside each page of our Next application.
-      </p>
-      <p>
-        On initial page load, while on the server and inside getInitialProps, we invoke the Apollo method, <a href='http://dev.apollodata.com/react/server-side-rendering.html#getDataFromTree'>getDataFromTree</a>. This method returns a promise; at the point in which the promise resolves, our Apollo Client store is completely initialized.
-      </p>
-      <p>
-        This example relies on <a href='http://graph.cool'>graph.cool</a> for its GraphQL backend.
-      </p>
+      <div>
+        TLDR <a href='https://github.com/rabbotio/nap'>https://github.com/rabbotio/nap</a><br/><div>/</div>
+      </div>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAHz0lEQVR4nO3bb2zdZRUH8M+9/XfbdVu7buv+lZWug7KOTc0msgRGgjHTmCqSydARjELQGOO/bAtv7Hwhi3slGIgBRRnuxSJgHAIzRrIuIVGYZQwr3VahFbbStdu6ttva3j8/Xzz3pitBnfeWN3LPm19+93fO9zn393yfc85z7nMpSlGK8mGWWL6GO3fuvCK9Ty8fiuCFvvl5jbV9/uNbobv6M3tgf++i+OXP29vbQSyW31eJ/3eV/28p/aCAv9L0RgTJkjkF4RyfaHwSapZUg29/tmkcHvz9m4nCPAxSZMBMA95b/8e/gRX3gnOv7QcbN37pEnR0dFReCU7btRMRNCz5XMAZLwElJaUVM+lvkQEzBfS9BXsfheHEda0Qm9cSBih9Djy88+sJWDo3FsG5i2lQVZmIoC6RjsHi2jDT9as3gPM1m8J9dApEY/3RTPlMkQEzx4CzVa33Quk1nweVLoCf/PYQmD+rFrwzOAJWLKkJ90MjMZhXUQVuaKkHibpGUFIe8DOjYyD15oHJ8MmGGfG7yIBCAbbcvDwN1YPHwMCfHwEH3wwzPXoprPWNa0Pa/sOr58C3bgrvfsdTE6C6ojKCVXOHYzB65BcRTMR/E4PyyrLgcOXsGc1cRQYUDND3fBwymSGQKp0LXukPM7u+ZSFYszTU6isXLAI9g2Ep37o6xIK2TyyLwcjwO2BMiBlVsYAzkQquJpLJkkJ9vlyKDMjX8Oaa409BOvsOk2OBAYsXfQRsu+MqMDk6AGriIYpXjL8dAOpWg/VRiBHxyeGAk4366Uw6gnjZnBhEUUj/Y9GsfF1+XykyIF/D+eWjt0M8Fd5hpiSU6AvveDJcF4a1v655HljVFPL7N25qBivu+B24ZlmIAR9tng82XB1c+uL6kggysXD/l9f/AS5msluJhR/P1/VpUmRAvoan+0Nt3tIc1npU0Zh9chjUV4Uo/9N7WsHEmbdAyvQ1PJoOM/rA3R8DidQZkEyFaP/iq/0gkw7B4frV14Kes/l6Pl2KDMjX8I3ed8GLnWFmf9D+Q3Dq1+H55IVQ8aXioYK77/Gg99hXAzNOPnZr1oMQO+Zc/ymw97EHwWs9IXvMmxXqh+b6wJTOo2+AjS0hRuzevTvvviZFBuTfFe7+5dYIKkf/Dt56ZxAsv2YNePC5XvBKd2DKzs1Xgz0HT4KOrrCIj/zoOpCKh91geXlgTDxbH/T0hrqhdzjM1dLG0GeIKmrfgo7RtU2wY8eOvL5HkQH5Gh792e0TUJMeKIeqkksgkY0qqShAJ4U1HqXTKSiJR6UwGYWZLo9Nhu5xVBYqvnSo/ceGA6N6BkMFeGlWE6hdtSmCjuPjcaisDLGhyIA8Je8s8My711fAprnjY5Aa6JsFc7Ld+qa6AD2RCpu3iuqaUiiRAWXZDlHyXF8MMpnAiJ53A5O6+0MM+Ot42DOcS4ffF55Y9HA9dPga2L59O4oMyFsK7gccOL++Gp5/9mgED3x5FTg30AeisPRd+GfYLUbxUNFNpEPPsLwiUKakegE4djLYdfQE1w4cfhHUzqsDP15132ChPl8uRQYUCvD0009H0H085PtvPhHy+TM/fwAsa7khXK9qimA8Gda2WHwcuru7T0NfX1817Nu/rQ6GRwNDJiaTYGhoqFBX31eKDCgUoLe3F1Mdm9z17u/uAnv27AHjqWgY0pkoA6+/fqQOlrxwSyMcX/HoETg/drEOysrKCnXtiqTIgEIBRkdHMTVj72XC0NBQP6TT6VnZz5MQi8UmYeuzoUN0z3ecudwuHo9Pw/mgpMiAQgFyM5WTs2fDLm/evNALrK2tzUAmk+nJqiSgpKTk9OV2p06dOs3UWZ+LFy9iilnl5aF+6O8Pvw53dnZegpdffjl33iCvfU2RAYUCVFSE3V4yGfJ1aWmAzGRCzT8wMPBIVvWT2Wt5Vu8oPHUgVHo33njjF/7TOA0NDeDtt0N/oLOzMw2NjY3JQvwvMqBQgNyaTadDhXfmTOjq5pjQ2Ni4FRoaGmqgoqLiEjQ1NZ2D3t7eX0FNTU355fa56N/SEjpAu3fvBlu2bMmNF4OhoaHJQvwvMqBQgHXr1oGXXnoJU1khVx9cuHChGfbt2/cn2LBhw3Y4dOjQ97N6NzBVUS5duhRTnZ4777wTPPTQQxHU19dnYGRk5AIkk8n5hfj/oWdAwWeFV65cGcG2bdvAyMjINL1cbMhlhRxDampqUtlrMvu8EtasWTNNLxf1Dx8+nIK5c+fGYHBwMAkNDQ3lWb28zg186BlQcAw4ceJEDMrKyqYV7bkssHz58giOHTuWhmQymZvBCPr7+y9Ca2trJVNMOXHiBKiqCv2F2bNnj8PZs2ers/gxWLBgQZwppvyvUmTATAHlOjbNzWF3d9ttt11RfNmZDSbJZLIdNm/eDO666y6wfv16kEgkMrB27dqcaRy6uroKOjVeZMBMAVVXV+dll2PA/v3722Hv3r1g2bJl0/Tq6+un/fGgq6trDrS2tk5AZ2dnXuMXGTBTQLk9weDgzLTt/10nqKurazbcf//9Y9De3n5LdvyD+YxTZMBMAS1cuDCCoaGhgk5snDwZzg/kOkrj4+Ng0aJFNdDW1jZ2uX4ikThYyHhFBswUUK77u3jx4vp87Nva2qYxZ9euXdF7np9/P7scQ4r/GyxKUfKSfwGdE6I3/IpzfwAAAABJRU5ErkJggg=="/>
     </article>
   </App>
 ))
