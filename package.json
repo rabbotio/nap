@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.8.2",
+  "version": "0.8.4",
   "scripts": {
     "lint": "eslint . || true",
     "_dev": "next",
@@ -49,7 +49,7 @@
     "jsonwebtoken": "^7.3.0",
     "lusca": "^1.4.1",
     "mailgun-js": "^0.8.2",
-    "mongoose": "^4.8.7",
+    "mongoose": "^4.9.0",
     "mongoose-role": "^2.0.0",
     "morgan": "^1.8.1",
     "next": "^2.0.0-beta",

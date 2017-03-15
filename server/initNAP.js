@@ -1,5 +1,5 @@
 const { willAuthen, willLoginWithFacebook } = require('./authen')
-const NAPSession = require('../lib/NAPSession')
+const persist = require('../lib/persist')
 
 const init = (req, res, next) => {
   req.nap = req.nap || {
@@ -11,7 +11,7 @@ const init = (req, res, next) => {
   req.nap.errors = []
 
   // To keep compatible both client/server
-  NAPSession.nap = req.nap
+  persist.nap = req.nap
 
   next()
 }

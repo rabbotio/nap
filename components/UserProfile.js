@@ -1,21 +1,23 @@
 import { gql, graphql } from 'react-apollo'
 import React from 'react'
+import Login from '../components/Login'
+import Logout from '../components/Logout'
 
 const UserProfile = ({ loading, user, errors }) => {
 
   if (errors && errors.length > 0) {
-    console.log(JSON.stringify(errors))
+    console.log(JSON.stringify(errors)) // eslint-disable-line
   }
 
   if (loading) {
-    return <div>Loading</div>
+    return <div>Loading<hr/></div>
   }
 
   if (user) {
-    return <div>{user.name}</div>
+    return <div>Welcome : {user.name}<Logout/><hr/></div>
   }
 
-  return <div>Hmm?</div>
+  return <div><Login/><hr/></div>
 }
 
 const userProfile = gql`
@@ -30,11 +32,6 @@ query userProfile {
 }
 `
 
-UserProfile.propTypes = () => ({
-  loading: React.PropTypes.boolean.isRequired,
-  user: React.PropTypes.object.isRequired,
-  errors: React.PropTypes.object.isRequired,
-})
 
 export default graphql(userProfile, {
   options: { fetchPolicy: 'cache-and-network' },
