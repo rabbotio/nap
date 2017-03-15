@@ -10,7 +10,7 @@ export default ({ children }) => (
         padding: 25px 50px;
       }
       a {
-        color: #22BAD9;
+        color: #455A64;
       }
       p {
         font-size: 14px;
@@ -23,7 +23,7 @@ export default ({ children }) => (
       }
       button {
         align-items: center;
-        background-color: #22BAD9;
+        background-color: #455A64;
         border: 0;
         color: white;
         display: flex;
@@ -31,7 +31,7 @@ export default ({ children }) => (
         float: right;
       }
       button:active {
-        background-color: #1B9DB7;
+        background-color: #455A64;
         transition: background-color .3s
       }
       button:focus {

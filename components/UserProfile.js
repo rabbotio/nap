@@ -1,4 +1,4 @@
-import { gql, graphql, withApollo } from 'react-apollo'
+import { gql, graphql } from 'react-apollo'
 import React from 'react'
 import Login from '../components/Login'
 import Logout from '../components/Logout'
@@ -10,14 +10,14 @@ const UserProfile = ({ loading, user, errors }) => {
   }
 
   if (loading) {
-    return <div>Loading</div>
+    return <div>Loading<hr/></div>
   }
 
   if (user) {
-    return <div>{user.name}<Logout/></div>
+    return <div>Welcome : {user.name}<Logout/><hr/></div>
   }
 
-  return <Login/>
+  return <div><Login/><hr/></div>
 }
 
 const userProfile = gql`
@@ -33,9 +33,9 @@ query userProfile {
 `
 
 
-export default withApollo(graphql(userProfile, {
+export default graphql(userProfile, {
   options: { fetchPolicy: 'cache-and-network' },
   props: ({ data: { loading, user, errors } }) => (
     { loading, user, errors }
   ),
-})(UserProfile))
+})(UserProfile)
