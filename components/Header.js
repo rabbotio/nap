@@ -2,9 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import UserProfile from '../components/UserProfile'
 
-const Header = ({ pathname, sessionToken }) => (
+const Header = ({ pathname }) => (
   <header>
-    <UserProfile sessionToken={sessionToken}/>
+    <UserProfile/>
 
     <Link href='/'>
       <a className={pathname === '/' && 'is-active'}>Home</a>
@@ -31,8 +31,8 @@ const Header = ({ pathname, sessionToken }) => (
 )
 
 Header.propTypes = () => ({
-  pathname: React.PropTypes.string.isRequired,
-  sessionToken: React.PropTypes.string.isRequired
+  pathname: React.PropTypes.string,
+  sessionToken: React.PropTypes.string
 })
 
 export default Header

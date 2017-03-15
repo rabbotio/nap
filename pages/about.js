@@ -1,7 +1,8 @@
 import App from '../components/App'
 import Header from '../components/Header'
+import withData from '../lib/withData'
 
-export default (props) => (
+export default withData((props) => (
   <App>
     <Header pathname={props.url.pathname} />
     <article>
@@ -20,4 +21,4 @@ export default (props) => (
       </p>
     </article>
   </App>
-)
+))
