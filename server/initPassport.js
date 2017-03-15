@@ -10,7 +10,7 @@ const init = ({ cookie_secret: secret, redis_url: url }, app, nextjs) => {
   passport.deserializeUser((id, done) => {
     NAP.User.findOne({
       _id: id
-    }, done)
+    }, (err, { id, name }) => done(err, { id, name }))
   })
 
   // Use application-level middleware for common functionality, including
