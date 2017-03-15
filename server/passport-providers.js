@@ -37,7 +37,6 @@ const init = (app, passport) => {
             // If the oAuth account is not linked to another account, link it and exit
             if (!user) {
               return NAP.User.findOneAndUpdate({ id: req.user.id }, {
-                id: req.user.id,
                 name: (user && user.name) || _profile.name,
                 [provider]: new NAP.Provider({
                   id: _profile.id,
