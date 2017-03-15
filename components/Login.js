@@ -1,6 +1,7 @@
+import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import persist from '../lib/persist'
-import React from 'react'
+import device from '../lib/device'
 
 const Login = ({ loginWithFacebook }) => {
   const handleSubmit = (e) => {
@@ -24,7 +25,7 @@ const Login = ({ loginWithFacebook }) => {
   return (
     <form onSubmit={handleSubmit}>
       <h1>LogIn</h1>
-      <input placeholder='deviceInfo' name='deviceInfo' defaultValue='foo' />
+      <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='accessToken' name='accessToken' defaultValue='EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD' />
       <button type='submit'>LogIn</button>
       <style jsx>{`
