@@ -12,19 +12,19 @@ const init = (app, passport) => {
   }
 
   // Define a Passport strategy for provider
-  providers.forEach(({provider, Strategy, strategyOptions, getUserFromProfile}) => {
+  providers.forEach(({ provider, Strategy, strategyOptions, getUserFromProfile }) => {
     strategyOptions.callbackURL = `http://localhost:${NAP.Config.port}/auth/${provider}/callback`
     strategyOptions.passReqToCallback = true
 
     passport.use(new Strategy(strategyOptions, (req, accessToken, refreshToken, profile, done) => {
       try {
         // Normalise the provider specific profile into a User object
-        profile = getUserFromProfile(profile)
+        const _profile = getUserFromProfile(profile)
 
         // See if we have this oAuth account in the database associated with a user
         NAP.User.findOne({
           [provider]: {
-            id: profile.id
+            id: _profile.id
           }
         }).exec((err, user) => {
           if (err) {
@@ -36,17 +36,19 @@ const init = (app, passport) => {
 
             // If the oAuth account is not linked to another account, link it and exit
             if (!user) {
-              return NAP.User.findOne({ id: req.user.id }, (err, user) => {
+              return NAP.User.findOneAndUpdate({ id: req.user.id }, {
+                id: req.user.id,
+                name: (user && user.name) || _profile.name,
+                [provider]: new NAP.Provider({
+                  id: _profile.id,
+                  token: accessToken
+                })
+              }, { new: true, upsert: true }, (err, user) => {
                 if (err) {
                   return done(err)
                 }
 
-                user.name = user.name || profile.name
-                user[provider] = new NAP.Provider({
-                  id : profile.id,
-                  token : accessToken
-                })
-                user.save((err) => done(err, user))
+                return done(null, user)
               })
             }
 
@@ -69,7 +71,7 @@ const init = (app, passport) => {
 
             // If we don't have the oAuth account in the db, check to see if an account with the
             // same email address as the one associated with their oAuth acccount exists in the db
-            return NAP.User.findOne({ email: profile.email }, (err, user) => {
+            return NAP.User.findOne({ email: _profile.email }, (err, user) => {
               if (err) {
                 return done(err)
               }
@@ -83,12 +85,12 @@ const init = (app, passport) => {
 
               // If account does not exist, create one for them and sign the user in
               NAP.User.create({
-                name: profile.name,
-                email: profile.email,
-                provider: new NAP.Provider({
-                  id : profile.id,
-                  token : accessToken
-                }), 
+                name: _profile.name,
+                email: _profile.email,
+                [provider]: new NAP.Provider({
+                  id: _profile.id,
+                  token: accessToken
+                }),
                 role: 'user'
               }, (err, user) => err ? done(err) : done(null, user))
             })
@@ -101,7 +103,7 @@ const init = (app, passport) => {
   })
 
   // Add routes for provider
-  providers.forEach(({provider, scope}) => {
+  providers.forEach(({ provider, scope }) => {
     app.get(
       `/auth/${provider}`,
       passport.authenticate(provider, { scope })

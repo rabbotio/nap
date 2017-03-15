@@ -1,3 +1,5 @@
+const { createSessionToken } = require('./authen')
+
 const init = ({ port }, app, nextjs) => {
   // Constants
   const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
@@ -12,7 +14,7 @@ const init = ({ port }, app, nextjs) => {
 
   // Add route to get CSRF token via AJAX
   app.get('/auth/csrf', (req, res) => {
-    return res.json({csrfToken: res.locals._csrf})
+    return res.json({ csrfToken: res.locals._csrf })
   })
 
   // Return session info
@@ -25,6 +27,10 @@ const init = ({ port }, app, nextjs) => {
     // Add user object to session if logged in
     if (req.user) {
       session.user = req.user
+
+      if (req.user.facebook.token) {
+        session.sessionToken = createSessionToken(req.user.facebook.token)
+      }
     }
 
     return res.json(session)

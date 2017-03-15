@@ -13,6 +13,7 @@ const ProviderSchema = new mongoose.Schema(
 
 const UserSchema = new mongoose.Schema(
   {
+    id: String,
     name: String,
     last_name: String,
     first_name: String,
