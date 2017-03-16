@@ -7,7 +7,7 @@ const init = (providers) => {
       strategyOptions: {
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
-        profileFields: ['id', 'emails', 'name']
+        profileFields: ['id', 'displayName', 'emails', 'name']
       },
       scope: process.env.FACEBOOK_SCOPE ? process.env.FACEBOOK_SCOPE.split(',') : ['email', 'user_location'],
       getUserFromProfile: (profile) => ({

@@ -126,6 +126,9 @@ AuthenTC.addResolver({
   kind: 'mutation',
   type: AuthenTC,
   resolve: ({ context }) => new Promise(async (resolve, reject) => {
+    // Logout from cookie
+    context.logout()
+
     // Guard
     if(!context.nap.currentUser) {
       reject(new Error('No session found'))
