@@ -1,4 +1,4 @@
-const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
+const init = ({ cookie_secret: secret, redis_url: url }, app, nextjs) => {
   // Constants
   const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
@@ -6,8 +6,12 @@ const init = ({cookie_secret: secret, redis_url: url}, app, nextjs) => {
   const passport = require('passport')
 
   // Configure Passport authenticated session persistence.
-  passport.serializeUser((user, cb) => cb(null, user))
-  passport.deserializeUser((sessionUser, cb) => cb(null, sessionUser))
+  passport.serializeUser((user, done) => done(null, user.id))
+  passport.deserializeUser((id, done) => {
+    NAP.User.findOne({
+      _id: id
+    }, (err, { id, name }) => done(err, { id, name }))
+  })
 
   // Use application-level middleware for common functionality, including
   // logging, parsing, and session handling.
