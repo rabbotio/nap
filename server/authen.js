@@ -2,6 +2,12 @@
 const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject) => {
   debug.info('willLoginWithFacebook:', accessToken)
 
+  // Guard
+  if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) {
+    reject(new Error('Required : FACEBOOK_APP_ID, FACEBOOK_APP_SECRET'))
+    return
+  }
+
   // To let passport facebook consume
   req.body.access_token = accessToken
 

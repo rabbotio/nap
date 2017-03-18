@@ -205,10 +205,10 @@ open http://localhost:3000/graphql/original
 - - -
 
 ## DOING
-- [ ] Login with `Facebook` from `React` web.
-- [ ] Logout from `React` web.
-- [ ] Link `Facebook` via `React` web.
+- [x] Login with `Facebook` from [React Native](https://github.com/rabbotio/nap-react-native).
+- [x] Login with `Facebook` from `React` web.
 - [ ] Unlink `Facebook` via `React` web.
+- [ ] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
 
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
@@ -268,6 +268,7 @@ services:
 ```
 
 ## TOHAVE
+- [ ] Docker driver [`lvm-direct`](https://hackernoon.com/how-to-properly-run-docker-on-rhel-and-friends-d055754414e5#.1z2ps9ycr)
 - [ ] Notifications Support : https://pusher.com/docs/push_notifications/reference/architecture
 - [ ] More logs. https://github.com/expressjs/morgan
 - [ ] Use base-image? https://github.com/phusion/passenger-docker

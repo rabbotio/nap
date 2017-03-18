@@ -76,8 +76,6 @@ AuthenTC.addResolver({
     country: 'String',
     timezone: 'String',
     deviceName: 'String',
-    isEmulater: 'Boolean',
-    isTablet: 'Boolean',
 
     // Facebook
     accessToken: 'String'
