@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
     "lint": "eslint . || true",
@@ -29,7 +29,7 @@
     "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql"
   },
   "dependencies": {
-    "apollo-client": "^1.0.0-rc.2",
+    "apollo-client": "^1.0.0-rc.3",
     "body-parser": "^1.17.1",
     "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
@@ -40,9 +40,9 @@
     "express-session": "^1.15.1",
     "express-bearer-token": "^2.1.0",
     "graphql": "^0.9.1",
-    "graphql-compose": "^1.17.1",
+    "graphql-compose": "^1.17.2",
     "graphql-compose-connection": "^2.1.3",
-    "graphql-compose-mongoose": "^1.4.8",
+    "graphql-compose-mongoose": "^1.4.9",
     "graphql-compose-relay": "^1.0.11",
     "graphql-tag": "^1.3.1",
     "graphql-tools": "^0.10.1",
@@ -63,7 +63,7 @@
     "platform": "^1.3.3",
     "promise-polyfill": "^6.0.2",
     "react": "^15.4.2",
-    "react-apollo": "^1.0.0-rc.2",
+    "react-apollo": "^1.0.0-rc.3",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
@@ -81,7 +81,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0",
     "babel-register": "^6.24.0",
-    "eslint": "^3.17.1",
+    "eslint": "^3.18.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.0",
