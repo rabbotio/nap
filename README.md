@@ -205,8 +205,8 @@ open http://localhost:3000/graphql/original
 - - -
 
 ## DOING
-- [ ] Login with `Facebook` from `React` web.
-- [ ] Link `Facebook` via `React` web.
+- [x] Login with `Facebook` from [React Native](https://github.com/rabbotio/nap-react-native).
+- [x] Login with `Facebook` from `React` web.
 - [ ] Unlink `Facebook` via `React` web.
 - [ ] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
 
