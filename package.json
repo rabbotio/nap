@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
     "lint": "eslint . || true",
@@ -26,7 +26,8 @@
     "clear": "docker rm $(docker ps -aq) -f || true && docker rmi -f rabbotio/nap && docker system prune -f && docker images && docker ps -a || true",
     "down": "docker-compose kill || true && docker-compose down || true",
     "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
-    "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql"
+    "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql",
+    "test": "jest"
   },
   "dependencies": {
     "apollo-client": "^1.0.0-rc.3",
@@ -76,15 +77,21 @@
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-eslint": "^7.1.1",
+    "babel-jest": "^19.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0",
     "babel-register": "^6.24.0",
+    "enzyme": "^2.7.1",
     "eslint": "^3.18.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.0",
-    "nodemon": "^1.11.0"
+    "jest": "^19.0.2",
+    "jest-cli": "^19.0.2",
+    "nodemon": "^1.11.0",
+    "react-addons-test-utils": "^15.4.2",
+    "react-test-renderer": "^15.4.2"
   }
 }

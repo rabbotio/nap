@@ -54,6 +54,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
 - [x] [lusca](https://github.com/krakenjs/lusca) for web application security middleware.
 - [x] [platform](https://github.com/bestiejs/platform.js) for detect client platform.
+- [x] [commitizen](https://github.com/commitizen/cz-cli) for commit formatting
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
@@ -208,7 +209,7 @@ open http://localhost:3000/graphql/original
 - [x] Login with `Facebook` from [React Native](https://github.com/rabbotio/nap-react-native).
 - [x] Login with `Facebook` from `React` web.
 - [ ] Unlink `Facebook` via `React` web.
-- [ ] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
+- [x] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
 
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
