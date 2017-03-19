@@ -1,8 +1,10 @@
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 # nap
 [WIP] NextJS/ApolloJS/PassportJS
 Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authentication, Docker for development and production.
 
-![](art/nap-logo.png)
+![](https://raw.githubusercontent.com/rabbotio/nap/master/art/nap-logo.png)
 
 ## Overview
 ```
