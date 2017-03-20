@@ -94,6 +94,11 @@ npm run down
 npm run in
 ```
 
+## Test
+```
+npm run test
+```
+
 - - -
 
 ## Docker volume
@@ -114,68 +119,6 @@ npm run in
 ```
 
 - - -
-
-## GraphQL
-> https://github.com/nodkz/graphql-compose-examples
-
-```shell
-# Explore
-open http://localhost:3000/graphql
-
-# Mutation
-mutation {
-  userCreate(record: {name: "katopz", role: user}) {
-    record {
-      name
-    }
-  }
-}
-
-# Query
-{
-  userMany {
-    name
-  }
-}
-```
-![screen shot 2017-02-17 at 23 30 27](https://cloud.githubusercontent.com/assets/97060/23073805/3e333828-f569-11e6-96a7-15789523d43f.png)
-
-### Authen
-```shell
-# Login with Facebook access_token and device's info
-mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
-  loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
-    sessionToken
-    user {
-      _id
-      name
-    }
-  }
-  errors {
-    code
-    message
-  }
-}
-
-# To get user profile
-{
-  user {
-    name
-  }
-  errors {
-    code
-    message
-  }
-}
-
-# Logout with current bearer session token
-mutation {
-  logout {
-    isLoggedIn
-  }
-}
-```
-
 
 ### Other examples
 ```shell
@@ -201,16 +144,52 @@ open http://localhost:3000/graphql/original
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
 - [x] Email : http://localhost:3000/auth/signin/
+- [x] Sign Out : http://localhost:3000/auth/signout/
 
 ## Passport - token base via GraphQL
 - [x] Facebook
+  > Use with `Ract Native` after get `access_token` form `Facebook`, See [nap-react-native](https://github.com/rabbotio/nap-react-native)
+  ```shell
+  # Login with Facebook access_token and device's info
+  mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
+    loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
+      sessionToken
+      user {
+        _id
+        name
+      }
+    }
+    errors {
+      code
+      message
+    }
+  }
 
+  # To get user profile
+  {
+    user {
+      name
+    }
+    errors {
+      code
+      message
+    }
+  }
+
+  # Logout with current bearer session token
+  mutation {
+    logout {
+      isLoggedIn
+    }
+  }
+  ```
 - - -
 
 ## DOING
 - [x] Login with `Facebook` from [React Native](https://github.com/rabbotio/nap-react-native).
 - [x] Login with `Facebook` from `React` web.
 - [ ] Unlink `Facebook` via `React` web.
+- [ ] Handle cookies via [React Native](https://mockingbot.com/posts/287)
 - [x] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
 
 ## TODO
