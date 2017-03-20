@@ -30,7 +30,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "apollo-client": "^1.0.0-rc.3",
+    "apollo-client": "^1.0.0-rc.5",
     "body-parser": "^1.17.1",
     "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
@@ -51,7 +51,7 @@
     "jsonwebtoken": "^7.3.0",
     "lusca": "^1.4.1",
     "mailgun-js": "^0.8.2",
-    "mongoose": "^4.9.0",
+    "mongoose": "^4.9.1",
     "mongoose-role": "^2.0.0",
     "morgan": "^1.8.1",
     "next": "^2.0.0-beta",
@@ -87,7 +87,7 @@
     "eslint": "^3.18.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-react": "^6.10.0",
+    "eslint-plugin-react": "^6.10.2",
     "jest": "^19.0.2",
     "jest-cli": "^19.0.2",
     "nodemon": "^1.11.0",
