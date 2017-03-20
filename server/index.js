@@ -32,9 +32,6 @@ const init = () => {
       const csrf = require('lusca').csrf()
       app.use('/auth/*', (req, res, next) => csrf(req, res, next))
 
-      // Users
-      //TODO//require('./users')(app)
-
       // GraphQL
       try {
         process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphQL')(config, app)
