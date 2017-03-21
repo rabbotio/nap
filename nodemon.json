@@ -3,7 +3,9 @@
   "ignore": [
     ".git",
     "node_modules/**/node_modules",
-    ".next"
+    ".next",
+    "__test__",
+    "__mocks__"
   ],
   "events": {
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
