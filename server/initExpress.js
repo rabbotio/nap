@@ -1,9 +1,4 @@
-const { createSessionToken } = require('./authen')
-
 const init = ({ port }, app, nextjs) => {
-  // Constants
-  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
-
   // Custom routes
   try {
     require('../routes')(app, nextjs)
@@ -11,30 +6,6 @@ const init = ({ port }, app, nextjs) => {
     // Never mind.
     debug.warn(err)
   }
-
-  // Add route to get CSRF token via AJAX
-  app.get('/auth/csrf', (req, res) => {
-    return res.json({ csrfToken: res.locals._csrf })
-  })
-
-  // Return session info
-  app.get('/auth/session', (req, res) => {
-    let session = {
-      clientMaxAge: ONE_WEEK,
-      csrfToken: res.locals._csrf
-    }
-
-    // Add user object to session if logged in
-    if (req.user) {
-      session.user = req.user
-
-      if (req.user.facebook.token) {
-        session.sessionToken = createSessionToken(req.user.facebook.token)
-      }
-    }
-
-    return res.json(session)
-  })
 
   // Default catch-all handler to allow Next.js to handle all other routes
   const handler = nextjs.getRequestHandler()

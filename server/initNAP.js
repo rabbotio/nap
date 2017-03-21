@@ -2,6 +2,7 @@ const { willAuthen, willLoginWithFacebook } = require('./authen')
 const persist = require('../lib/persist')
 
 const init = (req, res, next) => {
+  // Inject req
   req.nap = req.nap || {
     willAuthen,
     willLoginWithFacebook
