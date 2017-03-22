@@ -1,5 +1,4 @@
 const { willAuthen, willLoginWithFacebook } = require('./authen')
-const persist = require('../lib/persist')
 
 const init = (req, res, next) => {
   // Inject req
@@ -10,9 +9,6 @@ const init = (req, res, next) => {
 
   // No errors
   req.nap.errors = []
-
-  // To keep compatible both client/server
-  persist.nap = req.nap
 
   next()
 }
