@@ -1,5 +1,6 @@
 /* eslint-env jest */
 require('../debug')
+
 const { SESSION_EMPTY } = require('../errors')
 
 describe('index', () => {
@@ -21,7 +22,7 @@ describe('index', () => {
     })
   })
 
-  let sessionToken = ""
+  let sessionToken = ''
 
   it('can log user in with Facebook token', async () => {
     const loginWithFacebook = {
@@ -48,6 +49,7 @@ describe('index', () => {
 
     await fetcher(query).then(result => {
       sessionToken = result.data.loginWithFacebook.sessionToken
+      // console.log(JSON.stringify(result))
       expect(result).toMatchObject({
         "data": {
           "loginWithFacebook": {
@@ -65,7 +67,8 @@ describe('index', () => {
 
   it('can log user out', async () => {
     const logout = {
-      query: `mutation {
+      query: `
+      mutation {
         logout {
           loggedOutAt
           isLoggedIn
