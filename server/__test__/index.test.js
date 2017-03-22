@@ -4,16 +4,16 @@ const { SESSION_EMPTY } = require('../errors')
 
 describe('index', () => {
 
-  const fetcher = async (body) => {
+  const fetcher = async (body, authorization) => {
     const fetch = require('isomorphic-fetch')
     return await fetch('http://localhost:3000/graphql', {
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', authorization },
       body
     }).then(response => response.json())
   }
 
-  test('is has GraphQL', async () => {
+  it('has GraphQL', async () => {
     await fetcher().catch(err => {
       expect(err).toMatchObject({
         "errors": [{ "message": "Must provide query string.", "stack": null }]
@@ -21,7 +21,9 @@ describe('index', () => {
     })
   })
 
-  test('is can log user in with Facebook token', async () => {
+  let sessionToken = ""
+
+  it('can log user in with Facebook token', async () => {
     const loginWithFacebook = {
       operationName: 'loginWithFacebook',
       query: `
@@ -45,6 +47,7 @@ describe('index', () => {
     const query = JSON.stringify(loginWithFacebook)
 
     await fetcher(query).then(result => {
+      sessionToken = result.data.loginWithFacebook.sessionToken
       expect(result).toMatchObject({
         "data": {
           "loginWithFacebook": {
@@ -55,6 +58,37 @@ describe('index', () => {
             }
           },
           "errors": [SESSION_EMPTY]
+        }
+      })
+    })
+  })
+
+  it('can log user out', async () => {
+    const logout = {
+      query: `mutation {
+        logout {
+          loggedOutAt
+          isLoggedIn
+        }
+        errors {
+          code
+          message
+        }
+      }`,
+      variables: null
+    }
+
+    const query = JSON.stringify(logout)
+    const authorization = `Bearer ${sessionToken}`
+
+    await fetcher(query, authorization).then(result => {
+      expect(result).toMatchObject({
+        "data": {
+          "logout": {
+            "loggedOutAt": expect.any(String),
+            "isLoggedIn": false,
+          },
+          "errors": []
         }
       })
     })
