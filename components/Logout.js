@@ -8,7 +8,7 @@ const Logout = ({ logout }) => {
   )
 }
 
-const loginWithFacebook = gql`
+const logout = gql`
 mutation logout {
   logout {
     loggedOutAt
@@ -24,13 +24,13 @@ Logout.propTypes = () => ({
   logout: React.PropTypes.func.isRequired
 })
 
-export default graphql(loginWithFacebook, {
+export default graphql(logout, {
   props: ({ mutate }) => ({
     logout: () => mutate({
       updateQueries: {
         userProfile: () => {
           // Clear session
-          persist.willClearSessionToken()
+          persist.willRemoveSessionToken()
 
           // Provide no user
           return { user: null, errors: [] }

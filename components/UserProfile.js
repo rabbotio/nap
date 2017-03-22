@@ -32,7 +32,6 @@ query userProfile {
 }
 `
 
-
 export default graphql(userProfile, {
   options: { fetchPolicy: 'cache-and-network' },
   props: ({ data: { loading, user, errors } }) => (

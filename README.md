@@ -1,8 +1,10 @@
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 # nap
 [WIP] NextJS/ApolloJS/PassportJS
 Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authentication, Docker for development and production.
 
-![](art/nap-logo.png)
+![](https://raw.githubusercontent.com/rabbotio/nap/master/art/nap-logo.png)
 
 ## Overview
 ```
@@ -54,6 +56,7 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
 - [x] [lusca](https://github.com/krakenjs/lusca) for web application security middleware.
 - [x] [platform](https://github.com/bestiejs/platform.js) for detect client platform.
+- [x] [commitizen](https://github.com/commitizen/cz-cli) for commit formatting
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
@@ -91,6 +94,11 @@ npm run down
 npm run in
 ```
 
+## Test
+```
+npm run test
+```
+
 - - -
 
 ## Docker volume
@@ -111,68 +119,6 @@ npm run in
 ```
 
 - - -
-
-## GraphQL
-> https://github.com/nodkz/graphql-compose-examples
-
-```shell
-# Explore
-open http://localhost:3000/graphql
-
-# Mutation
-mutation {
-  userCreate(record: {name: "katopz", role: user}) {
-    record {
-      name
-    }
-  }
-}
-
-# Query
-{
-  userMany {
-    name
-  }
-}
-```
-![screen shot 2017-02-17 at 23 30 27](https://cloud.githubusercontent.com/assets/97060/23073805/3e333828-f569-11e6-96a7-15789523d43f.png)
-
-### Authen
-```shell
-# Login with Facebook access_token and device's info
-mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
-  loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
-    sessionToken
-    user {
-      _id
-      name
-    }
-  }
-  errors {
-    code
-    message
-  }
-}
-
-# To get user profile
-{
-  user {
-    name
-  }
-  errors {
-    code
-    message
-  }
-}
-
-# Logout with current bearer session token
-mutation {
-  logout {
-    isLoggedIn
-  }
-}
-```
-
 
 ### Other examples
 ```shell
@@ -198,17 +144,53 @@ open http://localhost:3000/graphql/original
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
 - [x] Email : http://localhost:3000/auth/signin/
+- [x] Sign Out : http://localhost:3000/auth/signout/
 
 ## Passport - token base via GraphQL
 - [x] Facebook
+  > Use with `Ract Native` after get `access_token` form `Facebook`, See [nap-react-native](https://github.com/rabbotio/nap-react-native)
+  ```shell
+  # Login with Facebook access_token and device's info
+  mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
+    loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
+      sessionToken
+      user {
+        _id
+        name
+      }
+    }
+    errors {
+      code
+      message
+    }
+  }
 
+  # To get user profile
+  {
+    user {
+      name
+    }
+    errors {
+      code
+      message
+    }
+  }
+
+  # Logout with current bearer session token
+  mutation {
+    logout {
+      isLoggedIn
+    }
+  }
+  ```
 - - -
 
 ## DOING
 - [x] Login with `Facebook` from [React Native](https://github.com/rabbotio/nap-react-native).
 - [x] Login with `Facebook` from `React` web.
 - [ ] Unlink `Facebook` via `React` web.
-- [ ] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
+- [ ] Handle cookies via [React Native](https://mockingbot.com/posts/287)
+- [x] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
 
 ## TODO
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)

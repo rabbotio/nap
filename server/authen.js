@@ -32,7 +32,8 @@ const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject
 
 const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
   if (!req.token) {
-    reject(new Error('User has no session provide'))
+    const { SESSION_EMPTY } = require('./errors')
+    reject(SESSION_EMPTY)
     return
   }
 
@@ -56,7 +57,7 @@ const authenticate = (req, res, next) => {
     // Validate and decode sessionToken
     await _attachCurrentUserFromSessionToken(req).catch(err => {
       debug.warn(err.message)
-      req.nap.errors.push({ code: 401, message: err.message })
+      req.nap.errors.push({ code: err.code || 0, message: err.message })
     })
 
     // Done
