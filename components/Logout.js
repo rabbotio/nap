@@ -30,7 +30,7 @@ export default graphql(loginWithFacebook, {
       updateQueries: {
         userProfile: () => {
           // Clear session
-          persist.willClearSessionToken()
+          persist.willRemoveSessionToken()
 
           // Provide no user
           return { user: null, errors: [] }
