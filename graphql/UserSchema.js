@@ -51,11 +51,10 @@ const Provider = mongoose.model('Provider', ProviderSchema)
 
 const createUser = userData => new Promise((resolve, reject) => {
   userData = Object.assign(userData, { role: 'user' })
-  debug.log(' * createUser :', userData)
 
-  User.create(userData, (error, result) => {
+  User.create(userData, (err, result) => {
     // Error?
-    error && debug.error(error) && reject(error)
+    err && debug.error(err) && reject(err)
     // Succeed
     resolve(result)
   })
@@ -95,7 +94,6 @@ UserTC.addResolver({
     }
 
     // Succeed
-    debug.info(' * user :', user)
     resolve(user)
   })
 })

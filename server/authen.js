@@ -1,7 +1,5 @@
 // Valid acccessToken?
 const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject) => {
-  debug.info('willLoginWithFacebook:', accessToken)
-
   // Guard
   if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) {
     reject(new Error('Required : FACEBOOK_APP_ID, FACEBOOK_APP_SECRET'))
@@ -21,7 +19,6 @@ const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject
     }
 
     if (user) {
-      debug.log('user:', user)
       resolve(user)
       return
     }
@@ -46,7 +43,6 @@ const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) 
     }
 
     // Succeed
-    debug.info('User :', decoded)
     req.nap.currentUser = decoded
     resolve(req)
   })
@@ -79,8 +75,6 @@ const createSessionToken = (installationId, userId) => {
 }
 
 const willAuthen = (installationId, userId, provider) => new Promise((resolve, reject) => {
-  debug.log(' * authen :', installationId, userId)
-
   NAP.Authen.findOneAndUpdate({ installationId }, {
     installationId,
     userId,
@@ -88,9 +82,9 @@ const willAuthen = (installationId, userId, provider) => new Promise((resolve, r
     loggedInAt: new Date().toISOString(),
     loggedInWith: provider,
     sessionToken: createSessionToken(installationId, userId)
-  }, { new: true, upsert: true }, (error, result) => {
+  }, { new: true, upsert: true }, (err, result) => {
     // Error?
-    error && debug.error(error) && reject(error)
+    err && debug.error(err) && reject(err)
     // Succeed
     resolve(result)
   })

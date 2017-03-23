@@ -100,20 +100,17 @@ AuthenTC.addResolver({
     }
 
     // Succeed
-    debug.info(' * authen :', authen)
     resolve(authen)
   })
 })
 
 const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
-  debug.log(' * logout :', installationId, userId, sessionToken)
-
-  Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
+Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
     loggedOutAt: new Date().toISOString(),
     isLoggedIn: false
-  }, { new: true, upsert: false }, (error, result) => {
+  }, { new: true, upsert: false }, (err, result) => {
     // Error?
-    error && debug.error(error) && reject(error)
+    err && debug.error(err) && reject(err)
     // Succeed
     resolve(result)
   })
@@ -143,7 +140,6 @@ AuthenTC.addResolver({
     }
 
     // Succeed
-    debug.info(' * authen :', authen)
     resolve(authen)
   })
 })

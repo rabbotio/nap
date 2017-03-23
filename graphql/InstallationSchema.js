@@ -35,11 +35,9 @@ const InstallationTC = composeWithMongoose(Installation)
 // - - - - - - Extras - - - - - -
 
 const willInstall = (device) => new Promise((resolve, reject) => {
-  debug.log(' * install :', device)
-
-  Installation.create(device, (error, result) => {
+Installation.create(device, (err, result) => {
     // Error?
-    error && debug.error(error) && reject(error)
+    err && debug.error(err) && reject(err)
     // Succeed
     resolve(result)
   })
