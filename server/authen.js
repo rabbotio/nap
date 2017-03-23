@@ -32,8 +32,8 @@ const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject
 
 const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
   if (!req.token) {
-    const { SESSION_EMPTY } = require('./errors')
-    reject(SESSION_EMPTY)
+    const { SESSION_EMPTY_ERROR } = require('./errors')
+    reject(SESSION_EMPTY_ERROR)
     return
   }
 

@@ -95,6 +95,9 @@ npm run in
 
 ## Test
 ```
+# Will need to run server for integration test (WIP)
+npm run up
+
 # To test all with Jest
 npm run test
 
