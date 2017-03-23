@@ -1,7 +1,7 @@
 /* eslint-env jest */
 require('../debug')
 
-const { SESSION_EMPTY } = require('../errors')
+const { SESSION_EMPTY_ERROR } = require('../errors')
 
 describe('index', () => {
 
@@ -59,7 +59,7 @@ describe('index', () => {
               "name": "Katopz Todsaporn"
             }
           },
-          "errors": [SESSION_EMPTY]
+          "errors": [SESSION_EMPTY_ERROR]
         }
       })
     })

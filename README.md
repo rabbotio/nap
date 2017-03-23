@@ -69,7 +69,6 @@ cp .env.example .env
 ```
 
 ## Develop
-### To develop (via Docker Container)
 ```shell
 # To build and run docker compose (it take sometime for first build)
 npm run up
@@ -85,7 +84,7 @@ open http://localhost:3000/graphql
 - Server side : Use `VSCode` and press F5 to `attach` with nodejs
 - Client side : Use `Chrome Dev Tool`
 
-### Addition
+## Addition
 ```shell
 # To kill all and tear down
 npm run down
@@ -96,31 +95,19 @@ npm run in
 
 ## Test
 ```
+# Will need to run server for integration test (WIP)
+npm run up
+
+# To test all with Jest
 npm run test
+
+# To see coverage
+npm run cover
 ```
 
 - - -
 
-## Docker volume
-```shell
-# Next
-./pages
-./components
-./public
-./lib
-./routes
-./server
-
-# GraphQL schema
-./graphql
-
-# Passport
-./providers
-```
-
-- - -
-
-### Other examples
+## GraphQL examples
 ```shell
 # For original graphql-compose examples
 cp -r ./examples/schema-graphql-compose/ ./graphql/
@@ -136,7 +123,7 @@ open http://localhost:3000/graphql/original
 ```
 - - -
 
-## Passport - cookie base
+## Passport (cookie)
 > Will need test after refactoring
 
 - [x] Facebook : http://localhost:3000/auth/facebook/
@@ -146,7 +133,7 @@ open http://localhost:3000/graphql/original
 - [x] Email : http://localhost:3000/auth/signin/
 - [x] Sign Out : http://localhost:3000/auth/signout/
 
-## Passport - token base via GraphQL
+## Passport (token via GraphQL)
 - [x] Facebook
   > Use with `Ract Native` after get `access_token` form `Facebook`, See [nap-react-native](https://github.com/rabbotio/nap-react-native)
   ```shell
@@ -185,9 +172,11 @@ open http://localhost:3000/graphql/original
   ```
 - - -
 
+## Client example
+- [x] Login/Logout with `Facebook` from [React Native](https://github.com/rabbotio/nap-react-native).
+- [x] Login/Logout with `Facebook` from [NextJS](#passport---cookie).
+
 ## DOING
-- [x] Login with `Facebook` from [React Native](https://github.com/rabbotio/nap-react-native).
-- [x] Login with `Facebook` from `React` web.
 - [ ] Unlink `Facebook` via `React` web.
 - [ ] Handle cookies via [React Native](https://mockingbot.com/posts/287)
 - [x] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
@@ -219,35 +208,35 @@ open http://localhost:3000/graphql/original
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
 - [ ] Container config e.g. restart policy, limits CPU/RAM.
-```
-version: "3"
-services:
-  web:
-    image: web
-    labels:
-      com.example.description: "This label will appear on all containers for the web service"
-    deploy:
+  ```
+  version: "3"
+  services:
+    web:
+      image: web
       labels:
-        com.example.description: "This label will appear on the web service"
-      resources:
-        limits:
-          cpus: '0.001'
-          memory: 50M
-        reservations:
-          cpus: '0.0001'
-          memory: 20M
-      mode: replicated
-      replicas: 6
-      update_config:
-        parallelism: 2
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-      placement:
-        constraints:
-          - node.role == manager
-          - engine.labels.operatingsystem == ubuntu 14.04
-```
+        com.example.description: "This label will appear on all containers for the web service"
+      deploy:
+        labels:
+          com.example.description: "This label will appear on the web service"
+        resources:
+          limits:
+            cpus: '0.001'
+            memory: 50M
+          reservations:
+            cpus: '0.0001'
+            memory: 20M
+        mode: replicated
+        replicas: 6
+        update_config:
+          parallelism: 2
+          delay: 10s
+        restart_policy:
+          condition: on-failure
+        placement:
+          constraints:
+            - node.role == manager
+            - engine.labels.operatingsystem == ubuntu 14.04
+  ```
 
 ## TOHAVE
 - [ ] Docker driver [`lvm-direct`](https://hackernoon.com/how-to-properly-run-docker-on-rhel-and-friends-d055754414e5#.1z2ps9ycr)
