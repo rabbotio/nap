@@ -95,7 +95,7 @@ AuthenTC.addResolver({
 
     // Fail
     if (!authen) {
-      onError(new Error( 'Authen error'))
+      onError(new Error('Authen error'))
       return
     }
 
@@ -105,7 +105,7 @@ AuthenTC.addResolver({
 })
 
 const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
-Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
+  Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
     loggedOutAt: new Date().toISOString(),
     isLoggedIn: false
   }, { new: true, upsert: false }, (err, result) => {
@@ -125,13 +125,13 @@ AuthenTC.addResolver({
     context.logout()
 
     // Guard
-    if(!context.nap.currentUser) {
+    if (!context.nap.currentUser) {
       reject(new Error('No session found'))
       return
     }
 
     // Logout
-    const authen = await willLogout(context.nap.currentUser.installationId, context.nap.currentUser.userId, context.token)    
+    const authen = await willLogout(context.nap.currentUser.installationId, context.nap.currentUser.userId, context.token)
 
     // Fail
     if (!authen) {
