@@ -22,13 +22,13 @@ const init = (app, passport) => {
     // Will find someone that has this email and update token 
     NAP.User.findOneAndUpdate({
       email: payload.email
-    }, payload, { new: true, upsert: true }, (error, user) => {
+    }, payload, { new: true, upsert: true }, (err, user) => {
       // Error?
-      error && debug.error(error)
+      err && debug.error(err)
 
       // Return existing user
       if (user) {
-        done(error, user)
+        done(err, user)
         return
       }
     })
@@ -36,7 +36,6 @@ const init = (app, passport) => {
 
   // Route
   app.post('/auth/facebook/token', passport.authenticate('facebook-token'), (req, res) => {
-    req.user && debug.log('req.user:', req.user)
     // do something with req.user
     res.json(req.user)
   })

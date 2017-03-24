@@ -95,25 +95,22 @@ AuthenTC.addResolver({
 
     // Fail
     if (!authen) {
-      onError(new Error( 'Authen error'))
+      onError(new Error('Authen error'))
       return
     }
 
     // Succeed
-    debug.info(' * authen :', authen)
     resolve(authen)
   })
 })
 
 const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
-  debug.log(' * logout :', installationId, userId, sessionToken)
-
   Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
     loggedOutAt: new Date().toISOString(),
     isLoggedIn: false
-  }, { new: true, upsert: false }, (error, result) => {
+  }, { new: true, upsert: false }, (err, result) => {
     // Error?
-    error && debug.error(error) && reject(error)
+    err && debug.error(err) && reject(err)
     // Succeed
     resolve(result)
   })
@@ -128,13 +125,13 @@ AuthenTC.addResolver({
     context.logout()
 
     // Guard
-    if(!context.nap.currentUser) {
+    if (!context.nap.currentUser) {
       reject(new Error('No session found'))
       return
     }
 
     // Logout
-    const authen = await willLogout(context.nap.currentUser.installationId, context.nap.currentUser.userId, context.token)    
+    const authen = await willLogout(context.nap.currentUser.installationId, context.nap.currentUser.userId, context.token)
 
     // Fail
     if (!authen) {
@@ -143,7 +140,6 @@ AuthenTC.addResolver({
     }
 
     // Succeed
-    debug.info(' * authen :', authen)
     resolve(authen)
   })
 })

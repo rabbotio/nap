@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
+let _extraUserSchema = {}
+try {
+  const { extraUserSchema } = require('./custom')
+  _extraUserSchema = extraUserSchema
+} catch (err) { err }
+
 const ProviderSchema = new mongoose.Schema(
   {
     id: String,
@@ -11,22 +17,26 @@ const ProviderSchema = new mongoose.Schema(
   }
 )
 
+const UserSchemaObject = {
+  name: String,
+  last_name: String,
+  first_name: String,
+  email: String,
+  token: String,
+  verified: { type: 'boolean', default: false },
+  phones: String,
+  facebook: { type: ProviderSchema },
+  twitter: { type: ProviderSchema },
+  google: { type: ProviderSchema },
+  github: { type: ProviderSchema },
+  role: { type: String, default: 'user' },
+}
+
 const UserSchema = new mongoose.Schema(
-  {
-    name: String,
-    last_name: String,
-    first_name: String,
-    email: String,
-    token: String,
-    verified: { type: 'boolean', default: false },
-    phones: String,
-    facebook: { type: ProviderSchema },
-    twitter: { type: ProviderSchema },
-    google: { type: ProviderSchema },
-    github: { type: ProviderSchema },
-    role: { type: String, default: 'user' }
-  },
-  {
+  Object.assign(
+    UserSchemaObject,
+    _extraUserSchema
+  ), {
     timestamps: true,
   }
 )
@@ -51,11 +61,10 @@ const Provider = mongoose.model('Provider', ProviderSchema)
 
 const createUser = userData => new Promise((resolve, reject) => {
   userData = Object.assign(userData, { role: 'user' })
-  debug.log(' * createUser :', userData)
 
-  User.create(userData, (error, result) => {
+  User.create(userData, (err, result) => {
     // Error?
-    error && debug.error(error) && reject(error)
+    err && debug.error(err) && reject(err)
     // Succeed
     resolve(result)
   })
@@ -95,7 +104,6 @@ UserTC.addResolver({
     }
 
     // Succeed
-    debug.info(' * user :', user)
     resolve(user)
   })
 })
