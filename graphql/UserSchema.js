@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
+let _extraUserSchema = {}
+try {
+  const { extraUserSchema } = require('./ExtraUserSchema')
+  _extraUserSchema = extraUserSchema
+} catch (err) { err }
+
 const ProviderSchema = new mongoose.Schema(
   {
     id: String,
@@ -11,22 +17,26 @@ const ProviderSchema = new mongoose.Schema(
   }
 )
 
+const UserSchemaObject = {
+  name: String,
+  last_name: String,
+  first_name: String,
+  email: String,
+  token: String,
+  verified: { type: 'boolean', default: false },
+  phones: String,
+  facebook: { type: ProviderSchema },
+  twitter: { type: ProviderSchema },
+  google: { type: ProviderSchema },
+  github: { type: ProviderSchema },
+  role: { type: String, default: 'user' },
+}
+
 const UserSchema = new mongoose.Schema(
-  {
-    name: String,
-    last_name: String,
-    first_name: String,
-    email: String,
-    token: String,
-    verified: { type: 'boolean', default: false },
-    phones: String,
-    facebook: { type: ProviderSchema },
-    twitter: { type: ProviderSchema },
-    google: { type: ProviderSchema },
-    github: { type: ProviderSchema },
-    role: { type: String, default: 'user' }
-  },
-  {
+  Object.assign(
+    UserSchemaObject,
+    _extraUserSchema
+  ), {
     timestamps: true,
   }
 )
@@ -100,4 +110,4 @@ UserTC.addResolver({
 
 // - - - - - - Exports - - - - - -
 
-module.exports = { User, UserTC, UserSchema, Provider, createUser }
+module.exports = { User, UserTC, Provider, createUser }

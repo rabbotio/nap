@@ -1,0 +1,3 @@
+exports.extraUserSchema = {
+  score: Number
+}
