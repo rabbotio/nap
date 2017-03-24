@@ -78,7 +78,7 @@
   "repository": "https://github.com/rabbotio/nap",
   "devDependencies": {
     "babel-cli": "^6.24.0",
-    "babel-eslint": "^7.2.0",
+    "babel-eslint": "^7.2.1",
     "babel-jest": "^19.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
