@@ -100,4 +100,4 @@ UserTC.addResolver({
 
 // - - - - - - Exports - - - - - -
 
-module.exports = { User, UserTC, Provider, createUser }
+module.exports = { User, UserTC, UserSchema, Provider, createUser }
