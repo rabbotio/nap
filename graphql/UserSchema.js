@@ -3,7 +3,7 @@ const { composeWithMongoose } = require('graphql-compose-mongoose')
 
 let _extraUserSchema = {}
 try {
-  const { extraUserSchema } = require('./ExtraUserSchema')
+  const { extraUserSchema } = require('./custom')
   _extraUserSchema = extraUserSchema
 } catch (err) { err }
 

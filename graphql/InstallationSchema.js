@@ -1,28 +1,38 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
+let _extraInstallationSchema = {}
+try {
+  const { extraInstallationSchema } = require('./custom')
+  _extraInstallationSchema = extraInstallationSchema
+} catch (err) { err }
+
+const InstallationSchemaObject = {
+  // Devices
+  deviceInfo: String,
+  locale: String,
+  country: String,
+  timezone: String,
+  deviceName: String,
+  isEmulater: Boolean,
+  isTablet: Boolean,
+
+  // App
+  bundleId: String,
+  appVersion: String,
+
+  // Notifications
+  GCMSenderId: String,
+  deviceToken: String,
+  badge: String,
+  channels: String,
+}
+
 const InstallationSchema = new mongoose.Schema(
-  {
-    // Devices
-    deviceInfo: String,
-    locale: String,
-    country: String,
-    timezone: String,
-    deviceName: String,
-    isEmulater: Boolean,
-    isTablet: Boolean,
-
-    // App
-    bundleId: String,
-    appVersion: String,
-
-    // Notifications
-    GCMSenderId: String,
-    deviceToken: String,
-    badge: String,
-    channels: String,
-  },
-  {
+  Object.assign(
+    InstallationSchemaObject,
+    _extraInstallationSchema
+  ), {
     timestamps: true,
   }
 )

@@ -1,3 +1,0 @@
-exports.extraUserSchema = {
-  score: Number
-}

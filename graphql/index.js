@@ -1,3 +1,7 @@
+// - - - - - - Extras - - - - - -
+
+require('./custom')
+
 // - - - - - - GraphQL - - - - - -
 
 // create new GQC from ComposeStorage
@@ -42,4 +46,5 @@ GQC.rootMutation().addFields(
     errors: ErrorTC.getResolver('error'),
   }
 )
+
 module.exports = GQC.buildSchema()
