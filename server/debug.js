@@ -1,18 +1,24 @@
 // Type
 const LOG = 'log', INFO = 'info', DEBUG = 'debug', WARN = 'warn', ERROR = 'error'
 
+let _console = console
 const _print = (type, any) => {
   // No console in prod
   if (process.env.NODE_ENV === 'production') return
 
   try {
-    console[type].apply(null, [`${type} | ${new Date().toISOString()} |`, ...any]) // eslint-disable-line
+    return _console[type].apply(null, [`${type} | ${new Date().toISOString()} |`, ...any])
   } catch (err) {
     console.error(err) // eslint-disable-line
+    return
   }
 }
 
-global.debug = class debug { // eslint-disable-line
+global.debug = class debug {
+  static set logger(value) {
+    _console = value
+  }
+
   static log(...any) {
     return _print(LOG, any)
   }
