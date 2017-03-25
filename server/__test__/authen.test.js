@@ -42,4 +42,22 @@ describe('authen', () => {
 
     expect(sessionToken).toBe('FOO_BAR_SESSION_TOKEN')
   })
+
+  it('should authen and return user', async () => {
+    // stub
+    NAP.Authen = {
+      findOneAndUpdate: (find, update, options, callback) => callback(null, { _id: '58d0e20e7ff032b39c2a9a18', name: 'bar' })
+    }
+
+    const authen = require('../authen')
+    const installationId = 'FOO_INSTALLATION_ID'
+    const userId = 'FOO_USER_ID'
+    const provider = 'facebook'
+    const user = await authen.willAuthen(installationId, userId, provider)
+
+    expect(user).toMatchObject({
+      _id: expect.any(String),
+      name: expect.any(String),
+    })
+  })
 })
