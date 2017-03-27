@@ -1,26 +1,39 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
-// const { ErrorTC } = require('./ErrorSchema')
+
+// - - - - - - Extras fields - - - - - -
+
+let _extraAuthenSchema = {}
+try {
+  const { extraAuthenSchema } = require('./custom')
+  _extraAuthenSchema = extraAuthenSchema
+} catch (err) { err }
+
+// - - - - - - Default fields - - - - - -
+
+const AuthenSchemaObject = {
+  // Common
+  installationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Installation'
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  isLoggedIn: { type: Boolean, default: false },
+  loggedInAt: Date,
+  loggedInWith: String,
+  loggedOutAt: Date,
+  sessionToken: String,
+  accessToken: String,
+}
 
 const AuthenSchema = new mongoose.Schema(
-  {
-    // Common
-    installationId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Installation'
-    },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    isLoggedIn: { type: Boolean, default: false },
-    loggedInAt: Date,
-    loggedInWith: String,
-    loggedOutAt: Date,
-    sessionToken: String,
-    accessToken: String,
-  },
-  {
+  Object.assign(
+    AuthenSchemaObject,
+    _extraAuthenSchema
+  ), {
     timestamps: true,
   }
 )
