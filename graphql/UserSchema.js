@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
+// - - - - - - Extra fields - - - - - -
+
 let _extraUserSchema = {}
 try {
   const { extraUserSchema } = require('./custom')
   _extraUserSchema = extraUserSchema
 } catch (err) { err }
+
+// - - - - - - Default fields - - - - - -
 
 const ProviderSchema = new mongoose.Schema(
   {

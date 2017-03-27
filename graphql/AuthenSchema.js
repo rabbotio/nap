@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
-// - - - - - - Extras fields - - - - - -
+// - - - - - - Extra fields - - - - - -
 
 let _extraAuthenSchema = {}
 try {
