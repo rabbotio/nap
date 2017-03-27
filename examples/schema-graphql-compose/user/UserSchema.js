@@ -31,10 +31,6 @@ UserSchema.plugin(role, {
   }
 })
 
-// Auto timestamps
-const timestamps = require('mongoose-timestamp')
-UserSchema.plugin(timestamps);
-
 const User = mongoose.model('User', UserSchema)
 const UserTC = composeWithMongoose(User)
 
