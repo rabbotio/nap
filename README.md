@@ -122,7 +122,7 @@ exports.extraInstallationSchema = {
 
 // To add `isVerified` field as `Boolean` to `Installation` collection
 exports.extraInstallationSchema = {
-  badge: String
+  isVerified: Boolean
 }
 ```
 
