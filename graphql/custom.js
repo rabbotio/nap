@@ -5,3 +5,7 @@ exports.extraUserSchema = {
 exports.extraInstallationSchema = {
   badge: String
 }
+
+exports.extraAuthenSchema = {
+  isVerified: Boolean
+}

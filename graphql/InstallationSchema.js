@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
+// - - - - - - Extra fields - - - - - -
+
 let _extraInstallationSchema = {}
 try {
   const { extraInstallationSchema } = require('./custom')
   _extraInstallationSchema = extraInstallationSchema
 } catch (err) { err }
+
+// - - - - - - Default fields - - - - - -
 
 const InstallationSchemaObject = {
   // Devices
