@@ -60,4 +60,20 @@ describe('authen', () => {
       name: expect.any(String),
     })
   })
+
+  it('should not attach current user from wrong session token after authenticate', async () => {
+    const authen = require('../authen')
+    const sessionToken = 'WRONG_TOKEN'
+    const req = { token: sessionToken, nap: { errors: [] } }
+    await authen.authenticate(req, {}, () => {
+      // No user
+      expect(req.nap.currentUser).toBeUndefined()
+
+      // Expected : JsonWebTokenError { name: 'JsonWebTokenError', message: 'jwt malformed' }
+      expect(req.nap.errors[0]).toMatchObject({
+        code: 0,
+        message: 'jwt malformed'
+      })
+    })
+  })
 })
