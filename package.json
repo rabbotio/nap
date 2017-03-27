@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.8.10",
+  "version": "0.8.11",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
     "lint": "eslint . || true",
@@ -55,7 +55,7 @@
     "mongoose": "^4.9.2",
     "mongoose-role": "^2.0.0",
     "morgan": "^1.8.1",
-    "next": "^2.0.0-beta",
+    "next": "^2.0.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-facebook-token": "^3.3.0",
