@@ -12,7 +12,7 @@ module.exports = async (config, nextjs) => {
   app.use(express.static('public'))
 
   // Mongoose
-  await require('./initMongoose')(config.mongo_url)
+  const mongoose = await require('./initMongoose')(config.mongo_url)
 
   // Passport
   process.env.PASSPORT_DISABLED !== '1' && require('./initPassport')(config, app, nextjs)
@@ -21,7 +21,7 @@ module.exports = async (config, nextjs) => {
   process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphQL')(config, app)
 
   // Store
-  await require('./initStore')(config)
+  require('./initStore')(mongoose)
 
   // Authen
   require('./initAuthen')(config, app)
