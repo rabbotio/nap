@@ -117,6 +117,44 @@ AuthenTC.addResolver({
   })
 })
 
+AuthenTC.addResolver({
+  name: 'loginWithEmail',
+  kind: 'mutation',
+  args: {
+    // Devices
+    deviceInfo: 'String',
+    locale: 'String',
+    country: 'String',
+    timezone: 'String',
+    deviceName: 'String',
+
+    // Email
+    email: 'String'
+  },
+  type: AuthenTC,
+  resolve: ({ context, args }) => new Promise(async (resolve) => {
+    // Error
+    const onError = err => {
+      context.nap.errors.push({ code: 403, message: err.message })
+      resolve(null)
+    }
+
+    // Installation
+    const installation = await willInstall(args).catch(onError)
+    const user = await context.nap.willLoginWithEmail(context, args.email).then(createUser).catch(onError)
+    const authen = await context.nap.willAuthen(installation.id, user.id, 'email').catch(onError)
+
+    // Fail
+    if (!authen) {
+      onError(new Error('Authen error'))
+      return
+    }
+
+    // Succeed
+    resolve(authen)
+  })
+})
+
 const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
   Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
     loggedOutAt: new Date().toISOString(),

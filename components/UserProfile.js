@@ -1,6 +1,7 @@
 import { gql, graphql } from 'react-apollo'
 import React from 'react'
 import Login from '../components/Login'
+import LoginWithEmail from '../components/LoginWithEmail'
 import Logout from '../components/Logout'
 
 const UserProfile = ({ loading, user, errors }) => {
@@ -17,7 +18,7 @@ const UserProfile = ({ loading, user, errors }) => {
     return <div>Welcome : {user.name}<Logout/><hr/></div>
   }
 
-  return <div><Login/><hr/></div>
+  return <div><Login/><hr/><LoginWithEmail/></div>
 }
 
 const userProfile = gql`

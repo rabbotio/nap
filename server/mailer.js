@@ -1,5 +1,9 @@
 const sendVerification = (email, verification_url) => {
     debug.info('Send verification url :', verification_url)
+    // Guard
+    if(!NAP.Config.apiKey){
+      throw ('Required MAILGUN_API_KEY, MAILGUN_DOMAIN')
+    }
 
     // TODO : Custom from external
     const Mailgun = require('mailgun-js')

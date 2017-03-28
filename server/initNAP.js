@@ -1,10 +1,11 @@
-const { willAuthen, willLoginWithFacebook } = require('./authen')
+const { willAuthen, willLoginWithFacebook, willLoginWithEmail } = require('./authen')
 
 const init = (req, res, next) => {
   // Inject req
   req.nap = req.nap || {
     willAuthen,
-    willLoginWithFacebook
+    willLoginWithFacebook,
+    willLoginWithEmail,
   }
 
   // No errors

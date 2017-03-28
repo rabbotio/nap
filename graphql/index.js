@@ -43,6 +43,7 @@ GQC.rootMutation().addFields(
   {
     logout: AuthenTC.getResolver('logout'),
     loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
+    loginWithEmail: AuthenTC.getResolver('loginWithEmail'),
     errors: ErrorTC.getResolver('error'),
   }
 )
