@@ -189,6 +189,22 @@ open http://localhost:3000/graphql/original
     }
   }
   ```
+- [ ] Log in with email
+  ```
+mutation loginWithEmail($deviceInfo: String!, $email: String!) {
+  loginWithEmail(deviceInfo: $deviceInfo, email: $email) {
+    sessionToken
+    user {
+      _id
+      status
+    }
+  }
+  errors {
+    code
+    message
+  }
+}
+  ```
 - - -
 
 ## Client example

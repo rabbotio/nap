@@ -1,3 +1,29 @@
+// Log in with email
+const willLoginWithEmail = async (req, email) => new Promise( async (resolve, reject) => {
+  // Guard
+  if (!email ) {
+    reject(new Error('Required : email'))
+    return
+  }
+
+  // To let passport-email consume
+  req.body.email = email
+
+  // Will send email verification
+  const { willSendVerificationEmail } = require('./passport-email')
+  const verification_url = await willSendVerificationEmail(req).catch(err => {
+    reject(err)
+  })
+
+  // Got verification_url?
+  if (verification_url) {
+    resolve(verification_url)
+  } else {
+    reject(new Error('Something wrong'))
+  }
+})
+
+
 // Valid acccessToken?
 const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject) => {
   // Guard
@@ -90,4 +116,4 @@ const willAuthen = (installationId, userId, provider) => new Promise((resolve, r
   })
 })
 
-module.exports = { createSessionToken, authenticate, willAuthen, willLoginWithFacebook }
+module.exports = { createSessionToken, authenticate, willAuthen, willLoginWithFacebook, willLoginWithEmail }

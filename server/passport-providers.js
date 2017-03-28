@@ -124,5 +124,5 @@ const init = (app, passport) => {
   })
 }
 
-exports.providers = providers
 module.exports = init
+module.exports.providers = providers
