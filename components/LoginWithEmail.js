@@ -52,7 +52,7 @@ mutation loginWithEmail($deviceInfo: String!, $email: String!) {
     sessionToken
     user {
       _id
-      name
+      status
     }
   }
   errors {
