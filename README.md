@@ -190,20 +190,27 @@ open http://localhost:3000/graphql/original
   }
   ```
 - [ ] Log in with email
+  > Will to setup `MailGun` bofore use.
+  ```shell
+  MAILGUN_API_KEY=key-SOME_RANDOM_NUMBER_HERE
+  MAILGUN_DOMAIN=foo.bar
   ```
-mutation loginWithEmail($deviceInfo: String!, $email: String!) {
-  loginWithEmail(deviceInfo: $deviceInfo, email: $email) {
-    sessionToken
-    user {
-      _id
-      status
+  > Then log in with `GraphQL`  
+  > Status should return as `WAIT_FOR_EMAIL_VERIFICATION` and `VERIFIED_BY_EMAIL` after visit verified link.
+  ```
+  mutation loginWithEmail($deviceInfo: String!, $email: String!) {
+    loginWithEmail(deviceInfo: $deviceInfo, email: $email) {
+      sessionToken
+      user {
+        _id
+        status
+      }
+    }
+    errors {
+      code
+      message
     }
   }
-  errors {
-    code
-    message
-  }
-}
   ```
 - - -
 
