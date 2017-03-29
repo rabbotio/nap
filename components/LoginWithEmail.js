@@ -24,7 +24,7 @@ const Login = ({ loginWithEmail }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Log in email</h1>
+      <h1>Log in with email</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
       <button type='submit'>Log in with email</button>
