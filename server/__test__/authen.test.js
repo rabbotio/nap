@@ -17,6 +17,17 @@ describe('authen', () => {
     })
   })
 
+  it('should not login with Facebook and return error for wrong token', async () => {
+    process.env.FACEBOOK_APP_ID = 'FOO'
+    process.env.FACEBOOK_APP_SECRET = 'BAR'
+
+    const authen = require('../authen')
+    const accessToken = 'WRONG_ACCESS_TOKEN'
+    await authen.willLoginWithFacebook({ body: {} }, accessToken).catch(err => {
+      expect(() => { throw err }).toThrow('Failed to fetch user profile')
+    })
+  })
+
   it('should attach current user from session token after authenticate', async () => {
     const authen = require('../authen')
     const sessionToken = 'FOO_BAR_TOKEN'
