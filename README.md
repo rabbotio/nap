@@ -189,7 +189,7 @@ open http://localhost:3000/graphql/original
     }
   }
   ```
-- [ ] Log in with email
+- [x] Log in with email
   > Will to setup `MailGun` bofore use.
   ```shell
   MAILGUN_API_KEY=key-SOME_RANDOM_NUMBER_HERE
