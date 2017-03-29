@@ -1,0 +1,19 @@
+{
+  "name": "fcm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "subscription.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "jest --watchAll --runInBand"
+  },
+  "dependencies": {
+    "es6-promise": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "json": "^9.0.6"
+  },
+  "devDependencies": {
+    "jest": "^19.0.2"
+  }
+}
