@@ -18,8 +18,6 @@ const InstallationSchemaObject = {
   country: String,
   timezone: String,
   deviceName: String,
-  isEmulater: Boolean,
-  isTablet: Boolean,
 
   // App
   bundleId: String,
