@@ -55,6 +55,52 @@ const willInstall = (device) => new Promise((resolve, reject) => {
   })
 })
 
+const willUpdateField = (installationId, fieldObject) => new Promise((resolve, reject) => {
+  Installation.findOneAndUpdate(
+    // Find
+    { installationId },
+    // Update
+    fieldObject,
+    // Options
+    { new: true, upsert: false },
+    // Callback
+    (err, result) => {
+      // Error?
+      err && debug.error(err) && reject(err)
+      // Succeed
+      resolve(result)
+    })
+})
+
+const fields = ['GCMSenderId', 'deviceToken']
+fields.map(field => InstallationTC.addResolver({
+  name: `update_${field}`,
+  kind: 'mutation',
+  args: {
+    [field]: 'String',
+  },
+  type: InstallationTC,
+  resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
+    // Guard
+    if (!context.nap.currentUser) {
+      reject(new Error('No session found'))
+      return
+    }
+
+    // Update
+    const installation = await willUpdateField(context.nap.currentUser.installationId, { [field]: args[field] })
+
+    // Fail
+    if (!installation) {
+      reject(new Error('No installation found'))
+      return
+    }
+
+    // Succeed
+    resolve(installation)
+  })
+}))
+
 // - - - - - - Exports - - - - - -
 
 module.exports = { Installation, InstallationTC, InstallationSchema, willInstall }

@@ -9,6 +9,7 @@ const { ComposeStorage } = require('graphql-compose')
 const GQC = new ComposeStorage()
 
 const { ErrorTC } = require('./ErrorSchema')
+const { InstallationTC } = require('./InstallationSchema')
 const { UserTC } = require('./UserSchema')
 const { AuthenTC } = require('./AuthenSchema')
 
@@ -44,6 +45,8 @@ GQC.rootMutation().addFields(
     logout: AuthenTC.getResolver('logout'),
     loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
     loginWithEmail: AuthenTC.getResolver('loginWithEmail'),
+    update_GCMSenderId: InstallationTC.getResolver('update_GCMSenderId'),
+    update_deviceToken: InstallationTC.getResolver('update_deviceToken'),
     errors: ErrorTC.getResolver('error'),
   }
 )
