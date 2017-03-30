@@ -115,9 +115,9 @@ exports.extraUserSchema = {
   score: Number
 }
 
-// To add `badge` field as `String` to `Installation` collection
+// To add `FCMToken` field as `String` to `Installation` collection
 exports.extraInstallationSchema = {
-  badge: String
+  FCMToken: String
 }
 
 // To add `isVerified` field as `Boolean` to `Installation` collection
