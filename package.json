@@ -28,7 +28,7 @@
     "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql",
     "test": "jest --watchAll --runInBand",
-    "cover": "jest --coverage"
+    "cover": "jest --coverage --no-cache"
   },
   "dependencies": {
     "apollo-client": "^1.0.0",

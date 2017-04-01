@@ -1,4 +1,7 @@
 /* eslint-env jest */
+process.env.FACEBOOK_APP_ID = 'FOO'
+process.env.FACEBOOK_APP_SECRET = 'BAR'
+
 require('../debug')
 require('../config')
 
@@ -64,4 +67,14 @@ describe('authen', () => {
       expect(req.nap).toMatchSnapshot()
     })
   })
+
+  /* TODO
+  it('should allow to login with email', async () => {
+    const authen = require('../authen')
+    const req = { body: {} }
+    const email = 'x@x.com'
+    const result = await authen.willLoginWithEmail(req, email)
+    expect(result).toMatchSnapshot()
+  })
+  */
 })

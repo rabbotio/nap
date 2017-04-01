@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 describe('errors', () => {
-  it('should return error', async () => {
+  it('should return error', () => {
     const { GenericError } = require('../errors')
     const customError = {
       code: 500,
@@ -12,7 +12,7 @@ describe('errors', () => {
     expect(err).toMatchObject(customError)
   })
 
-  it('should return SESSION_EMPTY_ERROR', async () => {
+  it('should return SESSION_EMPTY_ERROR', () => {
     const { SESSION_EMPTY_ERROR } = require('../errors')
     const SNAP_SESSION_EMPTY_ERROR = {
       code: 190,
