@@ -1,9 +1,11 @@
 /* eslint-env jest */
-process.env.FACEBOOK_APP_ID = 'FOO'
-process.env.FACEBOOK_APP_SECRET = 'BAR'
+process.env.FACEBOOK_APP_ID = 'FOO_FACEBOOK_APP_ID'
+process.env.FACEBOOK_APP_SECRET = 'BAR_FACEBOOK_APP_SECRET'
+process.env.MAILGUN_API_KEY = 'FOO_MAILGUN_API_KEY'
+process.env.MAILGUN_DOMAIN = 'BAR_MAILGUN_DOMAIN'
 
-require('../debug')
 require('../config')
+require('../debug')
 
 describe('authen', () => {
   it('should login with Facebook and return user', async () => {
@@ -68,13 +70,19 @@ describe('authen', () => {
     })
   })
 
-  /* TODO
   it('should allow to login with email', async () => {
+    // stub
+    NAP.User = {
+      findOne: (find, callback) => callback(null, null),
+      create: (data, callback) => callback(null, null),
+    }
+
+    // const { willCreateUserWithVerificationURL } = require.requireMock('.././passport-email')
     const authen = require('../authen')
-    const req = { body: {} }
-    const email = 'x@x.com'
+
+    const req = { headers: { host: 'localhost:3000' }, body: {} }
+    const email = 'katopz@gmail.com'
     const result = await authen.willLoginWithEmail(req, email)
-    expect(result).toMatchSnapshot()
+    expect(result).toEqual(expect.stringContaining('http://localhost:3000/auth/email/signin/'))
   })
-  */
 })
