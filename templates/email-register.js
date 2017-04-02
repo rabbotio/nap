@@ -1,3 +1,5 @@
+// Will send this to sign in with email user via MailGun
+// @see https://github.com/mailgun/mailgun-js#messages
 module.exports = (email, verification_url) => ({
   from: 'noreply@' + NAP.Config.MAILGUN_DOMAIN,
   to: [email],
