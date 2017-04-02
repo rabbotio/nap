@@ -26,6 +26,7 @@ services:
       - ./routes:/usr/app/routes
       - ./graphql:/usr/app/graphql
       - ./providers:/usr/app/providers # __DEV__
+      - ./templates:/usr/app/templates # __DEV__
       - ./server:/usr/app/server # __DEV__
     build: . # __DEV__
     command: npm run _build-back # Will build next and run express server

@@ -77,7 +77,6 @@ describe('authen', () => {
       create: (data, callback) => callback(null, null),
     }
 
-    // const { willCreateUserWithVerificationURL } = require.requireMock('.././passport-email')
     const authen = require('../authen')
 
     const req = { headers: { host: 'localhost:3000' }, body: {} }

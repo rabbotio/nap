@@ -149,7 +149,7 @@ open http://localhost:3000/graphql/original
 - [x] Github : http://localhost:3000/auth/github/
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
-- [x] Email : http://localhost:3000/auth/signin/
+- [x] Email : http://localhost:3000/auth/signin
 - [x] Sign Out : http://localhost:3000/auth/signout/
 
 ## Passport (token via GraphQL)
