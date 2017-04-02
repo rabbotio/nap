@@ -15,19 +15,12 @@ describe('index', () => {
   }
 
   it('has GraphQL', async () => {
-    await fetcher().catch(err => {
-      expect(err).toMatchObject({
-        "errors": [{ "message": "Must provide query string.", "stack": null }]
-      })
-    })
+    await fetcher().then(res => expect(res).toMatchSnapshot())
   })
 
-  let sessionToken = ''
-
-  it('can log user in with Facebook token', async () => {
-    const loginWithFacebook = {
-      operationName: 'loginWithFacebook',
-      query: `
+  const loginWithFacebook = {
+    operationName: 'loginWithFacebook',
+    query: `
       mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
         loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
           sessionToken
@@ -42,18 +35,19 @@ describe('index', () => {
         }
       }
       `,
-      variables: `{"deviceInfo": "foo", "accessToken": "EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD"}`
-    }
+    variables: `{"deviceInfo": "foo", "accessToken": "EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD"}`
+  }
 
+  it('can log user in with Facebook token', async () => {
     const query = JSON.stringify(loginWithFacebook)
 
     await fetcher(query).then(result => {
-      sessionToken = result.data.loginWithFacebook.sessionToken
+      const sessionToken = result.data.loginWithFacebook.sessionToken
       // console.log(JSON.stringify(result))
       expect(result).toMatchObject({
         "data": {
           "loginWithFacebook": {
-            "sessionToken": expect.any(String),
+            sessionToken,
             "user": {
               "_id": expect.any(String),
               "name": "Katopz Todsaporn"
@@ -66,6 +60,11 @@ describe('index', () => {
   })
 
   it('can log user out', async () => {
+    // Login first
+    const loginWithFacebook_query = JSON.stringify(loginWithFacebook)
+    const sessionToken = await fetcher(loginWithFacebook_query).then(result => result.data.loginWithFacebook.sessionToken)
+
+    // Then logout
     const logout = {
       query: `
       mutation {

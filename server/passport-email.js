@@ -1,4 +1,4 @@
-const willSendVerificationEmail = (req) => new Promise((resolve, reject) => {
+const willCreateUserWithVerificationURL = (req) => new Promise((resolve, reject) => {
   const email = req.body.email || null
 
   if (!email || email.trim() === '') {
@@ -29,19 +29,13 @@ const willSendVerificationEmail = (req) => new Promise((resolve, reject) => {
       })
     } else {
       // Create user with email and token
-      NAP.User.create({ email, token, role: 'user', status: 'WAIT_FOR_EMAIL_VERIFICATION' }, (err, user) => {
+      NAP.User.create({ email, token, role: 'user', status: 'WAIT_FOR_EMAIL_VERIFICATION' }, (err) => {
         if (err) {
           reject(err)
         }
 
-        // Send verification
-        try {
-          const mailer = require('./mailer')
-          mailer.sendVerification(email, verification_url)
-          resolve(user)
-        } catch (err) {
-          reject(err)
-        }
+        // Return verification URL
+        resolve(verification_url)
       })
     }
   })
@@ -52,7 +46,7 @@ const init = (app, passport, nextjs) => {
 
   // On post request, redirect to page with instrutions to check email for link
   app.post(path + '/email/signin', (req, res) => async () => {
-    await willSendVerificationEmail(req)
+    await willCreateUserWithVerificationURL(req)
 
     return nextjs.render(req, res, 'auth/check-email', req.params)
   })
@@ -99,4 +93,4 @@ const init = (app, passport, nextjs) => {
 }
 
 module.exports = init
-module.exports.willSendVerificationEmail = willSendVerificationEmail
+module.exports.willCreateUserWithVerificationURL = willCreateUserWithVerificationURL

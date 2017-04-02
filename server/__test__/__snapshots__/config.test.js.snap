@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config should return config 1`] = `
+Object {
+  "cookie_secret": "foo",
+  "dev": true,
+  "jwt_secret": "foo",
+  "mailgun_api_key": "FOO_MAILGUN_API_KEY",
+  "mailgun_domain": "BAR_MAILGUN_DOMAIN",
+  "mongo_url": "mongodb://mongo/graphql",
+  "port": 3000,
+  "redis_url": "redis://redis",
+}
+`;

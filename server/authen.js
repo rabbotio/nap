@@ -1,5 +1,5 @@
 // Log in with email
-const willLoginWithEmail = async (req, email) => new Promise( async (resolve, reject) => {
+const willLoginWithEmail = (req, email) => new Promise( async (resolve, reject) => {
   // Guard
   if (!email ) {
     reject(new Error('Required : email'))
@@ -10,19 +10,19 @@ const willLoginWithEmail = async (req, email) => new Promise( async (resolve, re
   req.body.email = email
 
   // Will send email verification
-  const { willSendVerificationEmail } = require('./passport-email')
-  const verification_url = await willSendVerificationEmail(req).catch(err => {
-    reject(err)
-  })
+  const { willCreateUserWithVerificationURL } = require('./passport-email')
+  const verification_url = await willCreateUserWithVerificationURL(req).catch(reject)
 
-  // Got verification_url?
-  if (verification_url) {
+  const mailer = require('./mailer')
+  const payload = await mailer.willSendVerification(email, verification_url).catch(reject)
+
+  // Got verification_url and payload?
+  if (verification_url && payload) {
     resolve(verification_url)
   } else {
-    reject(new Error('Something wrong'))
+    reject(new Error('Something wrong :', verification_url, payload))
   }
 })
-
 
 // Valid acccessToken?
 const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject) => {

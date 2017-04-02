@@ -1,31 +1,25 @@
-const sendVerification = (email, verification_url) => {
-    debug.info('Send verification url :', verification_url)
-    // Guard
-    if(!NAP.Config.apiKey){
-      throw ('Required MAILGUN_API_KEY, MAILGUN_DOMAIN')
-    }
+const willSendVerification = (email, verification_url) => new Promise(resolve => {
 
-    // TODO : Custom from external
-    const Mailgun = require('mailgun-js')
-    const mailgun = new Mailgun({
-      apiKey: NAP.Config.apiKey,
-      domain: NAP.Config.domain
-    })
+  // Guard
+  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_api_key) {
+    throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
+  }
 
-    const data = {
-      from: 'noreply@' + NAP.Config.MAILGUN_DOMAIN,
-      to: email,
-      subject: 'Hello from Mailgun',
-      text: 'Use the link below to sign in:\n\n' + verification_url + '\n\n'
-    }
+  // Client
+  const MailGun = require('mailgun.js')
+  const mailgunClient = MailGun.client({
+    username: 'api',
+    key: NAP.Config.mailgun_api_key
+  })
 
-    mailgun.messages().send(data, (err, body) => {
-      if (err) {
-        debug.error('Error sending email to ' + email, err)
-      } else {
-        debug.info('MailGun :', body)
-      }
-    })
-}
+  // Template
+  const builder = require('../templates/email-register')
+  const data = builder(email, verification_url)
 
-module.exports = { sendVerification }
+  // Send
+  return mailgunClient.messages
+    .create(NAP.Config.mailgun_domain, data)
+    .then(msg => resolve(msg))
+})
+
+module.exports = { willSendVerification }

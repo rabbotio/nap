@@ -9,8 +9,8 @@ global.NAP.Config = {
   dev : process.env.NODE_ENV !== 'production',
 
   // Passport
-  apiKey: process.env.MAILGUN_API_KEY,
-  domain: process.env.MAILGUN_DOMAIN,
+  mailgun_api_key: process.env.MAILGUN_API_KEY,
+  mailgun_domain: process.env.MAILGUN_DOMAIN,
 
   // Services
   redis_url: process.env.REDIS_URI || 'redis://redis',

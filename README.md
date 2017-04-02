@@ -115,9 +115,9 @@ exports.extraUserSchema = {
   score: Number
 }
 
-// To add `badge` field as `String` to `Installation` collection
+// To add `FCMToken` field as `String` to `Installation` collection
 exports.extraInstallationSchema = {
-  badge: String
+  FCMToken: String
 }
 
 // To add `isVerified` field as `Boolean` to `Installation` collection
@@ -149,7 +149,7 @@ open http://localhost:3000/graphql/original
 - [x] Github : http://localhost:3000/auth/github/
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
-- [x] Email : http://localhost:3000/auth/signin/
+- [x] Email : http://localhost:3000/auth/signin
 - [x] Sign Out : http://localhost:3000/auth/signout/
 
 ## Passport (token via GraphQL)
@@ -189,12 +189,13 @@ open http://localhost:3000/graphql/original
     }
   }
   ```
-- [ ] Log in with email
+- [x] Log in with email
   > Will to setup `MailGun` bofore use.
   ```shell
   MAILGUN_API_KEY=key-SOME_RANDOM_NUMBER_HERE
   MAILGUN_DOMAIN=foo.bar
   ```
+  > And optional modify email template at `./template/email-register.js`
   > Then log in with `GraphQL`  
   > Status should return as `WAIT_FOR_EMAIL_VERIFICATION` and `VERIFIED_BY_EMAIL` after visit verified link.
   ```
@@ -223,7 +224,6 @@ open http://localhost:3000/graphql/original
 - [ ] Link `facebook-token` with `auth/email` user.
 - [ ] Unlink `Facebook` via `React` web.
 - [ ] Handle cookies via [React Native](https://mockingbot.com/posts/287)
-- [ ] Test, Debug with [Jest](http://www.markuseliasson.se/article/debugging-jest-code/)
 
 ## TODO
 - [ ] Add [HOC](https://github.com/bosung90/HOCExample) to [nap-react-native](https://github.com/rabbotio/nap-react-native)
@@ -235,7 +235,7 @@ open http://localhost:3000/graphql/original
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 - [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
-- [ ] [Securing a Containerized Instance of MongoD](http://rancher.com/securing-containerized-instance-mongodb/)
+- [ ] [Securing a Containerized Instance of MongoDB](http://rancher.com/securing-containerized-instance-mongodb/)
 
 ## TOTEST
 - [ ] `Redis` fail test.

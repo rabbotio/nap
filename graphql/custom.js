@@ -3,7 +3,7 @@ exports.extraUserSchema = {
 }
 
 exports.extraInstallationSchema = {
-  badge: String
+  FCMToken: String
 }
 
 exports.extraAuthenSchema = {

@@ -16,6 +16,10 @@ WORKDIR /usr/app
 RUN mkdir -p /usr/app/providers
 COPY providers /usr/app/providers
 
+# Templates layer
+RUN mkdir -p /usr/app/templates
+COPY server /usr/app/templates
+
 # Server layer
 RUN mkdir -p /usr/app/server
 COPY server /usr/app/server
@@ -30,7 +34,7 @@ COPY index.js /usr/app/
 COPY nodemon.json /usr/app/
 
 # Make volume path
-VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/graphql", "/usr/app/routes", "/usr/app/providers", "/usr/app/server"]
+VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/graphql", "/usr/app/routes", "/usr/app/providers", "/usr/app/templates", "/usr/app/server"]
 
 # Port
 # Node Inspector port
