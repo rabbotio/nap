@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mailer should return error if no API_KEY or DOMAIN provide 1`] = `[ReferenceError: NAP is not defined]`;

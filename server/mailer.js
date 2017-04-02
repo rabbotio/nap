@@ -1,8 +1,8 @@
-const willSendVerification = (email, verification_url) => new Promise((resolve, reject) => {
+const willSendVerification = (email, verification_url) => new Promise(resolve => {
 
   // Guard
-  if (!NAP.Config.mailgun_api_key) {
-    throw ('Required MAILGUN_API_KEY, MAILGUN_DOMAIN')
+  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_api_key) {
+    throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
   // Client
@@ -19,8 +19,7 @@ const willSendVerification = (email, verification_url) => new Promise((resolve, 
   // Send
   return mailgunClient.messages
     .create(NAP.Config.mailgun_domain, data)
-    .then(msg => resolve(msg)) // logs response data
-    .catch(err => reject(err)); // logs any error
+    .then(msg => resolve(msg))
 })
 
 module.exports = { willSendVerification }
