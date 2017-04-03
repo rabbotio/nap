@@ -29,7 +29,7 @@ module.exports.extendModel = (name, schema) => {
   result[name] = require(`./${name}`)({
     extendSchema: schema,
   });
-  return result[name].model;
+  return result[name];
 }
 
 module.exports.getModel = getModel;
