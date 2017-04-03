@@ -42,6 +42,8 @@ module.exports.buildSchema = (config) => {
     }
   );
 
-  // return { GQC, User };
+  if (config.buildGraphqlSchema) {
+    return config.buildGraphqlSchema({ GQC, models })
+  }
   return defaultBuildSchema({ GQC });
 };

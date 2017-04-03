@@ -1,6 +1,6 @@
 require('./debug')
 
-const init = (config = {
+const defaultConfig = {
   dev: true,
   mailgun_api_key: '',
   mailgun_domain: '',
@@ -12,14 +12,21 @@ const init = (config = {
   passportEnabled: true,
   graphqlEnabled: true,
   graphqliqlEnabled: true,
-}) => {
+};
+
+const init = (config = {}) => {
+  let _config = Object.assign(
+    {},
+    defaultConfig,
+    config
+  );
   global.NAP = {};
   // Next
-  const nextjs = require('next')({ dev: config.dev })
+  const nextjs = require('next')({ dev: _config.dev })
 
   // Will apply middleware
   const initializer = require('./initializer')
-  return nextjs.prepare().then(() => initializer(config, nextjs))
+  return nextjs.prepare().then(() => initializer(_config, nextjs))
 }
 
 module.exports = init
