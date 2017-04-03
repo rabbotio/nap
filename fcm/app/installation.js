@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-require('es6-promise').polyfill();
+// require('es6-promise').polyfill();
 require('isomorphic-fetch');
 const JSON = require('json');
 const DEBUG = false;
@@ -9,7 +9,7 @@ const headers = {
   'Authorization': 'key=' + serverKey
 };
 
-sub = (topicString, FCMToken) => fetch('https://iid.googleapis.com/iid/v1/' + FCMToken + '/rel/topics/' + topicString, {
+let sub = (topicString, FCMToken) => fetch('https://iid.googleapis.com/iid/v1/' + FCMToken + '/rel/topics/' + topicString, {
   method: 'POST',
   headers
 }).then((callback) => {
@@ -17,7 +17,7 @@ sub = (topicString, FCMToken) => fetch('https://iid.googleapis.com/iid/v1/' + FC
   return callback.ok;
 });
 
-subList = (topicStringList, FCMToken) => new Promise(async(resolve, reject) => {
+let subList = (topicStringList, FCMToken) => new Promise(async(resolve, reject) => {
   let isOk = false;
 
   for (let i = 0; i < topicStringList.length; i++) {
@@ -28,7 +28,7 @@ subList = (topicStringList, FCMToken) => new Promise(async(resolve, reject) => {
   resolve(isOk);
 });
 
-unSub = (topicString, FCMToken) => fetch('https://iid.googleapis.com/iid/v1/' + FCMToken + '/rel/topics/' + topicString, {
+let unSub = (topicString, FCMToken) => fetch('https://iid.googleapis.com/iid/v1/' + FCMToken + '/rel/topics/' + topicString, {
   method: 'DELETE',
   headers
 }).then((callback) => {
@@ -36,7 +36,7 @@ unSub = (topicString, FCMToken) => fetch('https://iid.googleapis.com/iid/v1/' + 
   return (callback.ok);
 });
 
-unSubList = (topicStringList, FCMToken) => new Promise(async(resolve, reject) => {
+let unSubList = (topicStringList, FCMToken) => new Promise(async(resolve, reject) => {
   let isOk = false;
 
   for (let i = 0; i < topicStringList.length; i++) {
@@ -47,7 +47,7 @@ unSubList = (topicStringList, FCMToken) => new Promise(async(resolve, reject) =>
   resolve(isOk);
 });
 
-pubTopic = (topicString, message, data) => fetch('https://fcm.googleapis.com/fcm/send', {
+let pubTopic = (topicString, message, data) => fetch('https://fcm.googleapis.com/fcm/send', {
   method: 'POST',
   headers,
   body: JSON.stringify({
@@ -61,7 +61,7 @@ pubTopic = (topicString, message, data) => fetch('https://fcm.googleapis.com/fcm
   })
 });
 
-pubToken = (FCMToken, message, data) => fetch('https://fcm.googleapis.com/fcm/send', {
+let pubToken = (FCMToken, message, data) => fetch('https://fcm.googleapis.com/fcm/send', {
   method: 'POST',
   headers,
   body: JSON.stringify({
@@ -75,7 +75,7 @@ pubToken = (FCMToken, message, data) => fetch('https://fcm.googleapis.com/fcm/se
   })
 });
 
-getSubList = (FCMToken) => fetch('https://iid.googleapis.com/iid/info/' + FCMToken + '?details=true', {
+let getSubList = (FCMToken) => fetch('https://iid.googleapis.com/iid/info/' + FCMToken + '?details=true', {
   method: 'GET',
   headers
 }).then(async(callback) => {
@@ -86,9 +86,20 @@ getSubList = (FCMToken) => fetch('https://iid.googleapis.com/iid/info/' + FCMTok
   return (Object.keys(topics));
 });
 
-isSub = (topicString, FCMToken) => new Promise(async(resolve, reject) => {
+let isSub = (topicString, FCMToken) => new Promise(async(resolve, reject) => {
   const subList = await getSubList(FCMToken);
   const hasSub = subList.indexOf(topicString) >= 0;
   DEBUG && console.log('isSub', FCMToken.substring(0, 5), topicString, hasSub);
   resolve(hasSub);
 });
+
+module.exports = {
+  sub,
+  subList,
+  unSub,
+  unSubList,
+  pubTopic,
+  pubToken,
+  getSubList,
+  isSub
+}

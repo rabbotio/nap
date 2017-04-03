@@ -1,6 +1,14 @@
-require('./installation');
 const token = 'fHq40U8zP-k:APA91bGV0Pg5bRwlp33Tr2P3U77W7LZCPvV_lXKokmxDl8OTT-l2gH8H4qYOxCTyTJlAqpxrUxJnnCUHJTxd8WwhIErY3IvmwXL03tm1Z_neZQYOWqpzlmGrR0w_VkHxYuDpf44HPN-C'
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+const {
+  sub,
+  subList,
+  unSub,
+  unSubList,
+  pubTopic,
+  pubToken,
+  getSubList,
+  isSub
+} = require('./installation');
 
 test('When all sub removed count must be sub count equals 0', async() => {
     //remove all subs by list
