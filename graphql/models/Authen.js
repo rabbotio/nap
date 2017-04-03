@@ -1,4 +1,6 @@
-module.exports = () => {
+const { buildMongooseSchema } = require('./helpers');
+
+module.exports = (config) => {
   const mongoose = require('mongoose')
   const { composeWithMongoose } = require('graphql-compose-mongoose')
 
@@ -21,7 +23,7 @@ module.exports = () => {
 
   const AuthenSchema = new mongoose.Schema(
     Object.assign(
-      AuthenSchemaObject
+      buildMongooseSchema(AuthenSchemaObject, config)
     ), {
       timestamps: true,
     }

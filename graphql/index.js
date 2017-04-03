@@ -3,10 +3,11 @@ const defaultBuildSchema = ({ GQC }) => {
 }
 
 module.exports = {};
+module.exports.extendModel = require('./models').extendModel;
 module.exports.buildSchema = (config) => {
   const { ComposeStorage } = require('graphql-compose')
   const GQC = new ComposeStorage()
-  const models = require('./models')(config);
+  const models = require('./models')();
   require('./resolvers')(models, config);
 
   const userAccess = (resolvers) => {

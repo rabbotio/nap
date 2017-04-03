@@ -26,7 +26,7 @@ const init = (config = {}) => {
 
   // Will apply middleware
   const initializer = require('./initializer')
-  return nextjs.prepare().then(() => initializer(_config, nextjs))
+  return nextjs.prepare().then(() => initializer(_config, nextjs)).catch(console.log)
 }
 
 module.exports = init

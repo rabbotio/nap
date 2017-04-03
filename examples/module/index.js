@@ -1,9 +1,10 @@
 const nap = require('../..');
 
+nap.extendModel('User', {
+  ggwp: 'String',
+});
+
 nap.start({
-  extendUserSchema: {
-    testAdd: String,
-  },
   buildGraphqlSchema: ({ GQC, models }) => {
     models.UserTC.addFields({
       extendedFeild: {
