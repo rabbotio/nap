@@ -15,10 +15,10 @@ module.exports = async (config, nextjs) => {
   const mongoose = await require('./initMongoose')(config.mongo_url)
 
   // Passport
-  process.env.PASSPORT_DISABLED !== '1' && require('./initPassport')(config, app, nextjs)
+  config.passportEnabled && require('./initPassport')(config, app, nextjs)
 
   // GraphQL
-  process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphQL')(config, app)
+  config.graphqlEnabled && require('./initGraphQL')(config, app)
 
   // Store
   require('./initStore')(mongoose)

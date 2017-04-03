@@ -1,54 +1,47 @@
-// - - - - - - Extras - - - - - -
-
-require('./custom')
-
-// - - - - - - GraphQL - - - - - -
-
-// create new GQC from ComposeStorage
-const { ComposeStorage } = require('graphql-compose')
-const GQC = new ComposeStorage()
-
-const { ErrorTC } = require('./ErrorSchema')
-const { InstallationTC } = require('./InstallationSchema')
-const { UserTC } = require('./UserSchema')
-const { AuthenTC } = require('./AuthenSchema')
-
-// ACL
-const userAccess = (resolvers) => {
-  Object.keys(resolvers).forEach((k) => {
-    resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
-      // rp = resolveParams = { source, args, context, info }
-      if (!rp.context.nap.currentUser) {
-        // throw new Error('[NOSTACK] Permission denied')
-        rp.context.nap.errors.push({ code: 403, message: 'No session found' })
-        return null
-      }
-
-      return next(rp)
-    })
-  })
-  return resolvers
+const defaultBuildSchema = ({ GQC }) => {
+  return GQC.buildSchema();
 }
 
-// create GraphQL Schema with all available resolvers for User Type
-GQC.rootQuery().addFields(Object.assign(
-  userAccess({
-    // let add restriction for owner only
-    user: UserTC.getResolver('user'),
-  }), {
-    errors: ErrorTC.getResolver('error'),
-  })
-)
+module.exports = {};
+module.exports.buildSchema = (config) => {
+  const { ComposeStorage } = require('graphql-compose')
+  const GQC = new ComposeStorage()
+  const models = require('./models')(config);
+  require('./resolvers')(models, config);
 
-GQC.rootMutation().addFields(
-  {
-    logout: AuthenTC.getResolver('logout'),
-    loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
-    loginWithEmail: AuthenTC.getResolver('loginWithEmail'),
-    update_GCMSenderId: InstallationTC.getResolver('update_GCMSenderId'),
-    update_deviceToken: InstallationTC.getResolver('update_deviceToken'),
-    errors: ErrorTC.getResolver('error'),
+  const userAccess = (resolvers) => {
+    Object.keys(resolvers).forEach((k) => {
+      resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
+        if (!rp.context.nap.currentUser) {
+          rp.context.nap.errors.push({ code: 403, message: 'No session found' })
+          return null
+        }
+
+        return next(rp)
+      })
+    })
+    return resolvers
   }
-)
 
-module.exports = GQC.buildSchema()
+  GQC.rootQuery().addFields(Object.assign(
+    userAccess({
+      user: models.UserTC.getResolver('user'),
+    }), {
+      errors: models.ErrorTC.getResolver('error'),
+    })
+  )
+
+  GQC.rootMutation().addFields(
+    {
+      logout: models.AuthenTC.getResolver('logout'),
+      loginWithFacebook: models.AuthenTC.getResolver('loginWithFacebook'),
+      loginWithEmail: models.AuthenTC.getResolver('loginWithEmail'),
+      update_GCMSenderId: models.InstallationTC.getResolver('update_GCMSenderId'),
+      update_deviceToken: models.InstallationTC.getResolver('update_deviceToken'),
+      errors: models.ErrorTC.getResolver('error'),
+    }
+  );
+
+  // return { GQC, User };
+  return defaultBuildSchema({ GQC });
+};

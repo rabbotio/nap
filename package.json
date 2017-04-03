@@ -1,6 +1,7 @@
 {
   "name": "nap",
   "version": "0.9.3",
+  "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
     "lint": "eslint . || true",

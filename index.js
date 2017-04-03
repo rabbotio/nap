@@ -1,2 +1,5 @@
-require('dotenv').config()
-require("./server")()
+module.exports = {
+  start: (config) => {
+    require("./server")(config);
+  },
+};
