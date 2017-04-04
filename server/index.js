@@ -13,5 +13,6 @@ const start = () => {
 
 module.exports = {
   start,
-  extendModel: require('./graphql/models').extendModel,
+  extendModel: require('./graphql').extendModel,
+  setBuildGraphqlSchema: require('./graphql').setBuildGraphqlSchema,
 };

@@ -2,8 +2,11 @@ const defaultBuildSchema = ({ GQC }) => {
   return GQC.buildSchema();
 }
 
+let buildGraphqlSchema = null;
+
 module.exports = {};
 module.exports.extendModel = require('./models').extendModel;
+module.exports.setBuildGraphqlSchema = (builder) => buildGraphqlSchema = builder;
 module.exports.buildSchema = () => {
   const { ComposeStorage } = require('graphql-compose')
   const GQC = new ComposeStorage()
@@ -43,8 +46,8 @@ module.exports.buildSchema = () => {
     }
   );
 
-  if (NAP.buildGraphqlSchema) {
-    return NAP.buildGraphqlSchema({ GQC, models })
+  if (buildGraphqlSchema) {
+    return buildGraphqlSchema({ GQC, models })
   }
   return defaultBuildSchema({ GQC });
 };
