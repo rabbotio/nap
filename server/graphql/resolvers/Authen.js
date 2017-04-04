@@ -34,6 +34,7 @@ module.exports = (models) => {
       country: 'String',
       timezone: 'String',
       deviceName: 'String',
+      deviceToken: 'String',
 
       accessToken: 'String'
     },
