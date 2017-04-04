@@ -29,7 +29,11 @@
     "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql",
     "test": "jest --watchAll --runInBand",
-    "cover": "jest --coverage --no-cache"
+    "cover": "jest --coverage --no-cache",
+    "gen-seed": "node ./scripts/seeds/gen-seed.js",
+    "import-seed": "node ./scripts/seeds/import.js",
+    "remove-seed": "node ./scripts/seeds/remove.js",
+    "re-gen-seed": "npm run gen-seed && npm run remove-seed && npm run import-seed"
   },
   "dependencies": {
     "apollo-client": "^1.0.0",
@@ -86,6 +90,8 @@
     "babel-preset-stage-0": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0",
     "babel-register": "^6.24.0",
+    "caporal": "^0.4.1",
+    "casual": "^1.5.12",
     "enzyme": "^2.8.0",
     "eslint": "^3.18.0",
     "eslint-plugin-babel": "^4.1.1",
@@ -94,6 +100,7 @@
     "jest": "^19.0.2",
     "jest-cli": "^19.0.2",
     "nodemon": "^1.11.0",
+    "promise-sequential": "^1.1.1",
     "react-addons-test-utils": "^15.4.2",
     "react-test-renderer": "^15.4.2"
   }
