@@ -1,7 +1,9 @@
+const config = require('./config');
+
 const willSendVerification = (email, verification_url) => new Promise(resolve => {
 
   // Guard
-  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_api_key) {
+  if (!config.mailgun_api_key || !config.mailgun_api_key) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
@@ -9,7 +11,7 @@ const willSendVerification = (email, verification_url) => new Promise(resolve =>
   const MailGun = require('mailgun.js')
   const mailgunClient = MailGun.client({
     username: 'api',
-    key: NAP.Config.mailgun_api_key
+    key: config.mailgun_api_key
   })
 
   // Template
@@ -18,7 +20,7 @@ const willSendVerification = (email, verification_url) => new Promise(resolve =>
 
   // Send
   return mailgunClient.messages
-    .create(NAP.Config.mailgun_domain, data)
+    .create(config.mailgun_domain, data)
     .then(msg => resolve(msg))
 })
 

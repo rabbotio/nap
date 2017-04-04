@@ -3,8 +3,7 @@ const bool = (str) => (str == void 0) ? false : str.toLowerCase() === 'true' // 
 const int = (str) => (!str) ? 0 : parseInt(str, 10) // eslint-disable-line
 const float = (str) => (!str) ? 0: parseFloat(str, 10)  // eslint-disable-line
 
-global.NAP = global.NAP ? global.NAP : {}
-global.NAP.Config = {
+module.exports = {
   // Environments
   dev : process.env.NODE_ENV !== 'production',
 
@@ -20,4 +19,8 @@ global.NAP.Config = {
   // Security
   cookie_secret: process.env.COOKIE_SECRET || 'foo',
   jwt_secret: process.env.JWT_SECRET || 'foo',
+  
+  passportEnabled: int(process.env.PASSPORT_DISABLED || '0') !== 0,
+  graphqlEnabled: int(process.env.PASSPORT_DISABLED || '0') !== 0,
+  graphqliqlEnabled: true,
 }

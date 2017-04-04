@@ -1,3 +1,5 @@
+const config = require('./config');
+
 // Log in with email
 const willLoginWithEmail = (req, email) => new Promise( async (resolve, reject) => {
   // Guard
@@ -61,7 +63,7 @@ const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) 
   }
 
   const jwt = require('jsonwebtoken')
-  jwt.verify(req.token, NAP.Config.jwt_secret, (err, decoded) => {
+  jwt.verify(req.token, config.jwt_secret, (err, decoded) => {
     // Error?
     if (err) {
       reject(err)
@@ -94,7 +96,7 @@ const createSessionToken = (installationId, userId) => {
     userId,
     createdAt: new Date().toISOString()
   },
-    NAP.Config.jwt_secret
+    config.jwt_secret
   )
 
   return sessionToken

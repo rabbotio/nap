@@ -4,11 +4,11 @@ const defaultBuildSchema = ({ GQC }) => {
 
 module.exports = {};
 module.exports.extendModel = require('./models').extendModel;
-module.exports.buildSchema = (config) => {
+module.exports.buildSchema = () => {
   const { ComposeStorage } = require('graphql-compose')
   const GQC = new ComposeStorage()
   const models = require('./models')();
-  require('./resolvers')(models, config);
+  require('./resolvers')(models);
 
   const userAccess = (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
@@ -43,8 +43,8 @@ module.exports.buildSchema = (config) => {
     }
   );
 
-  if (config.buildGraphqlSchema) {
-    return config.buildGraphqlSchema({ GQC, models })
+  if (NAP.buildGraphqlSchema) {
+    return NAP.buildGraphqlSchema({ GQC, models })
   }
   return defaultBuildSchema({ GQC });
 };
