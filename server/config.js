@@ -20,7 +20,7 @@ module.exports = {
   cookie_secret: process.env.COOKIE_SECRET || 'foo',
   jwt_secret: process.env.JWT_SECRET || 'foo',
   
-  passportEnabled: int(process.env.PASSPORT_DISABLED || '0') !== 0,
-  graphqlEnabled: int(process.env.PASSPORT_DISABLED || '0') !== 0,
+  passportEnabled: int(process.env.PASSPORT_DISABLED || '0') === 0,
+  graphqlEnabled: true,
   graphqliqlEnabled: true,
 }

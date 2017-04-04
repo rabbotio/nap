@@ -1,4 +1,3 @@
-require('dotenv/config')
 require('./debug')
 const config = require('./config');
 
@@ -14,4 +13,5 @@ const start = () => {
 
 module.exports = {
   start,
+  extendModel: require('./graphql/models').extendModel,
 };

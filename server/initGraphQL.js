@@ -4,9 +4,9 @@ const init = (config, app) => {
 
   const graphqlHTTP = require('express-graphql')
 
-  const { buildSchema } = require('../graphql')
+  const { buildSchema } = require('./graphql')
   const { authenticate } = require('./authen')
-  const schema = buildSchema(config);
+  const schema = buildSchema();
   app.use('/graphql', authenticate, graphqlHTTP(() => ({
     schema,
     graphiql: config.graphqliqlEnabled,

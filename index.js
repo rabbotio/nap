@@ -1,6 +1,7 @@
-module.exports = {
-  start: (config) => {
-    require("./server")(config);
-  },
-  extendModel: require('./graphql/models').extendModel,
-};
+require('dotenv/config')
+const nap = require('./server');
+global.nap = nap;
+
+require('./graphql/setup');
+
+nap.start();
