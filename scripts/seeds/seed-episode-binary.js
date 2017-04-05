@@ -1,9 +1,13 @@
-import 'dotenv/config';
-import mongoose from 'mongoose';
-import fs from 'fs';
-import path from 'path';
+require('dotenv/config');
+const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 
-import { models } from './models';
+mongoose.Promise = Promise;
+
+mongoose.connect(process.env.DATABASE_URI_FOR_SEED);
+
+const { models } = require('./models');
 
 const clogHTML = fs.readFileSync(path.resolve(__dirname, 'mock-clog-with-scroll-ratio.html'));
 

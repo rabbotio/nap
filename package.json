@@ -33,7 +33,8 @@
     "gen-seed": "node ./scripts/seeds/gen-seed.js",
     "import-seed": "node ./scripts/seeds/import.js",
     "remove-seed": "node ./scripts/seeds/remove.js",
-    "re-gen-seed": "npm run gen-seed && npm run remove-seed && npm run import-seed"
+    "re-gen-seed": "npm run gen-seed && npm run remove-seed && npm run import-seed",
+    "seed-episode-binary": "node ./scripts/seeds/seed-episode-binary.js"
   },
   "dependencies": {
     "apollo-client": "^1.0.0",
