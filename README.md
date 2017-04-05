@@ -1,5 +1,12 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
+# Clogii Start Server
+
+```
+npm run import-seed
+npm run up
+```
+
 # nap
 [WIP] NextJS/ApolloJS/PassportJS
 Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authentication, Docker for development and production.
