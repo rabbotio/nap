@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  nap:
+    container_name: nap
+    env_file: .env
+    environment:
+      - PORT=${PORT:-3000}
+    image: digithun/clogii
+    restart: on-failure
+    links:
+      - redis
+      - mongo
+    working_dir: /usr/app
+    ports:
+      - "5858:5858" # Node Inspector port
+      - "9222:9222" # Node V8 Inspector port
+      - "${PORT:-3000}:${PORT:-3000}" # HTTP port
+    build: . # __DEV__
+    command: npm run _build-back # Will build next and run express server
+    networks:
+      - front
+      - back
+
+  redis:
+    image: redis:3.2.6-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: on-failure
+    volumes:
+      - redis_data:/data
+    networks:
+      - back
+
+  mongo_data:  
+    image: mongo:3.4
+    container_name: mongo_data
+    command: bin/true
+    networks:
+      - back
+
+  mongo:  
+    image: mongo:3.4
+    container_name: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    restart: on-failure
+    command: --smallfiles --rest
+    networks:
+      - back
+
+networks:
+  front:
+  back:
+
+volumes:
+  npm:
+  redis_data:
+  mongo_data:
