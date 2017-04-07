@@ -17,7 +17,7 @@
     "serve": "npm run exec -- npm run _serve",
     "local": "npm run stop && REDIS_URI=redis://localhost MONGODB_URI=mongodb://localhost/graphql npm run _serve",
     "bi": "docker build -t rabbotio/nap . || true",
-    "bi-clogii": "docker build -t digithun/clogii . -f Dockerfile.dev",
+    "bi-clogii": "docker build -t hub.clogii.com/clogii . -f Dockerfile.dev",
     "in": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh || true",
     "exec": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap)",
     "rmi": "docker rmi -f rabbotio/nap || true",
