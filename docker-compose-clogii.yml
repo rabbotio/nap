@@ -3,7 +3,6 @@ version: "3"
 services:
   nap:
     container_name: nap
-    env_file: .env
     environment:
       - PORT=${PORT:-3000}
     image: digithun/clogii
