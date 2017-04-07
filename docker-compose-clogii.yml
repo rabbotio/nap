@@ -5,7 +5,7 @@ services:
     container_name: nap
     environment:
       - PORT=${PORT:-3000}
-    image: digithun/clogii
+    image: hub.clogii.com/clogii
     restart: on-failure
     links:
       - redis
