@@ -7,7 +7,8 @@ module.exports = (config = {}) => {
   const ProviderSchema = new mongoose.Schema(
     {
       id: String,
-      token: String
+      token: String,
+      profile: {},
     },
     {
       _id: false, // disable `_id` field for `Provider` schema
