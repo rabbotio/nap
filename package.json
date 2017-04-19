@@ -79,7 +79,8 @@
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "validator": "^7.0.0"
   },
   "author": "katopz@gmail.com",
   "license": "MIT",
