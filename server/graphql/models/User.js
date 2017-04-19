@@ -9,6 +9,7 @@ module.exports = (config = {}) => {
       id: String,
       token: String,
       profile: {},
+      isUnlink: Boolean,
     },
     {
       _id: false, // disable `_id` field for `Provider` schema
@@ -51,6 +52,19 @@ module.exports = (config = {}) => {
 
   const User = mongoose.model('User', UserSchema)
   const UserTC = composeWithMongoose(User)
+
+  UserTC.addFields({
+    isLinkedWithFacebook: {
+      type: 'Boolean!',
+      resolve: (source) => {
+        if (source.facebook && !source.facebook.isUnlink) {
+          return true;
+        }
+        return false;
+      },
+      projection: { facebook: true },
+    },
+  });
 
   const Provider = mongoose.model('Provider', ProviderSchema)
 

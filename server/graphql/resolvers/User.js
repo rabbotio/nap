@@ -29,5 +29,45 @@ module.exports = (models) => {
 
       resolve(user)
     })
-  })
+  });
+
+  models.UserTC.addResolver({
+    name: 'unlinkFacebook',
+    kind: 'query',
+    type: models.UserTC,
+    resolve: async ({ context }) => {
+      const user = await models.User.findById(context.nap.currentUser.userId);
+      if (!user) {
+        throw new Error('Authen error');
+      }
+
+      if (user.facebook) {
+        user.facebook.isUnlink = true;
+      }
+
+      await user.save();
+      return user;
+    },
+  });
+
+  models.UserTC.addResolver({
+    name: 'linkFacebook',
+    kind: 'query',
+    type: models.UserTC,
+    args: {
+      accessToken: 'String!'
+    },
+    resolve: async ({ args, context }) => {
+      const user = await models.User.findById(context.nap.currentUser.userId);
+      if (!user) {
+        throw new Error('Authen error');
+      }
+
+      const userData = await context.nap.willLoginWithFacebook(context, args.accessToken);
+      user.facebook = userData.facebook;
+
+      await user.save();
+      return user;
+    },
+  });
 }

@@ -39,6 +39,8 @@ module.exports.buildSchema = () => {
     {
       logout: models.AuthenTC.getResolver('logout'),
       loginWithFacebook: models.AuthenTC.getResolver('loginWithFacebook'),
+      unlinkFacebook: models.UserTC.getResolver('unlinkFacebook'),
+      linkFacebook: models.UserTC.getResolver('linkFacebook'),
       loginWithEmail: models.AuthenTC.getResolver('loginWithEmail'),
       update_GCMSenderId: models.InstallationTC.getResolver('update_GCMSenderId'),
       update_deviceToken: models.InstallationTC.getResolver('update_deviceToken'),
