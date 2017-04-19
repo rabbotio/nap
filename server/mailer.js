@@ -1,8 +1,12 @@
-const willSendVerification = (email, verification_url) => new Promise(resolve => {
-
+const willSendVerification = (email, verification_url) => new Promise((resolve, reject) => {
   // Guard
   if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_api_key) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
+  }
+
+  // Guard
+  if (!verification_url) {
+    reject(new Error('No verification URL'))
   }
 
   // Client
