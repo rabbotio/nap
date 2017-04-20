@@ -1,5 +1,4 @@
 // - - - - Config - - - -
-//TODO
 const DEBUG = false
 
 // - - - - Mongoose - - - -
@@ -11,13 +10,14 @@ let isMongoConected = false;
 
 /**
  * Connect to mongoose server. Required before donig anything
- * @param {string} host 255.255.255.255 
+ * @param {string} host 255.255.255.255 or Domain
  */
 const connectMongoose = (host) => new Promise((resolve, reject) => {
   mongoose.connect(`mongodb://${host}/graphql`); //TODO
   const db = mongoose.connection;
   db.on('error', (err) => {
     isMongoConected = false;
+    mubsub
     DEBUG && console.log('mongoose connection err', err);
   });
   db.once('open', () => {
@@ -27,6 +27,36 @@ const connectMongoose = (host) => new Promise((resolve, reject) => {
     resolve(true);
   });
 })
+
+// - - - - mubsub - - -  -
+const mubsub = require('mubsub');
+/**
+ * Connect to mongo MubSub, this will trigger pub and sub for each user
+ * @param {string} host 255.255.255.255 or Domain
+ */
+const connectMubSub = (host) => new Promise((resolve, reject) => {
+  const client = mubsub(`mongodb://${host}/mubsub_example`);
+  const channel = client.channel('test');
+
+  client.on('error', console.error);
+  channel.on('error', console.error);
+
+  channel.subscribe('bar', function (message) {
+    console.log(message.foo); // => 'bar'
+  });
+
+  channel.subscribe('baz', function (message) {
+    console.log(message); // => 'baz'
+  });
+
+  channel.publish('bar', {
+    foo: 'bar'
+  });
+  channel.publish('baz', 'baz');
+
+  resolve(true)
+})
+
 
 // - - - - Schema - - - - TODO MOVE TO DOCKER VOLUME
 const Authens = require('./Schema.Authen').genModel(null)
@@ -136,11 +166,21 @@ const pubUID = async(UID, title, body, data) => {
   return resultList
 }
 
+/**
+ * TODO
+ * Will mark inactive device
+ * @param {string} UID 
+ */
+const markInactiveDevice = (UID) => {
+  return false;
+}
+
 module.exports = {
   sub,
   unSub,
   pubTopic,
   pubUID,
   connectMongoose,
+  connectMubSub,
   findDeviceTokenByUID
 }

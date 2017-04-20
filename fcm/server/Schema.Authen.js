@@ -1,33 +1,6 @@
 const mongoose = require('mongoose')
-//   Schema = mongoose.Schema;
 
-// const AuthenSchemaObject = Schema({
-//   installationId: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'Installation'
-//   },
-//   userId: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'User'
-//   },
-//   isLoggedIn: {
-//     type: Boolean,
-//     default: false
-//   },
-//   loggedInAt: Date,
-//   loggedInWith: String,
-//   loggedOutAt: Date,
-//   sessionToken: String,
-//   accessToken: String,
-// })
-
-// const Authens = mongoose.model('Authens', AuthenSchemaObject)
-
-// module.exports = {
-//   AuthenSchemaObject,
-//   Authens
-// }
-
+//TODO move to docker volume
 
 const genModel = (config) => {
   return mongoose.model('Authen', genSchema(config))

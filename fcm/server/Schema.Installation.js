@@ -1,32 +1,6 @@
 const mongoose = require('mongoose')
-//   Schema = mongoose.Schema;
 
-// const InstallationSchemaObject = Schema({
-//    deviceInfo: String,
-//    locale: String,
-//    country: String,
-//    timezone: String,
-//    deviceName: String,
-
-//    // App
-//    bundleId: String,
-//    appVersion: String,
-
-//    // Notifications
-//    GCMSenderId: String,
-//    deviceToken: String,
-//    badge: String,
-//    channels: String,
-// });
-
-// const Installation = mongoose.model('Installation', InstallationSchemaObject);
-
-// module.exports = {
-//    InstallationSchemaObject,
-//    Installation
-// }
-
-
+//TODO move to docker volume
 
 const genModel = (config) => {
   return mongoose.model('Installation', genSchema(config))
