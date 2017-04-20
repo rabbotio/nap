@@ -28,36 +28,6 @@ const connectMongoose = (host) => new Promise((resolve, reject) => {
   });
 })
 
-// - - - - mubsub - - -  -
-const mubsub = require('mubsub');
-/**
- * Connect to mongo MubSub, this will trigger pub and sub for each user
- * @param {string} host 255.255.255.255 or Domain
- */
-const connectMubSub = (host) => new Promise((resolve, reject) => {
-  const client = mubsub(`mongodb://${host}/mubsub_example`);
-  const channel = client.channel('test');
-
-  client.on('error', console.error);
-  channel.on('error', console.error);
-
-  channel.subscribe('bar', function (message) {
-    console.log(message.foo); // => 'bar'
-  });
-
-  channel.subscribe('baz', function (message) {
-    console.log(message); // => 'baz'
-  });
-
-  channel.publish('bar', {
-    foo: 'bar'
-  });
-  channel.publish('baz', 'baz');
-
-  resolve(true)
-})
-
-
 // - - - - Schema - - - - TODO MOVE TO DOCKER VOLUME
 const Authens = require('./Schema.Authen').genModel(null)
 const Installation = require('./Schema.Installation').genModel(null)
@@ -69,7 +39,7 @@ const Installation = require('./Schema.Installation').genModel(null)
  * @param {string} UID 
  * @return {array<string>} deviceTokenList
  */
-const findDeviceTokenByUID = (UID) => new Promise((resolve, reject) => {
+const findDeviceTokenByUID = ({UID}) => new Promise((resolve, reject) => {
   console.log('finding', UID);
   Authens.find({
       userId: new ObjectId(UID),
@@ -108,39 +78,39 @@ const installation = require('./installation');
 
 /**
  * Subscribe user devices on single topic
- * @param {string} topicString 
+ * @param {string} topic 
  * @param {string} UID 
  */
-const sub = async(topicString, UID) => {
+const sub = async({topic, UID}) => {
   DEBUG && console.log('subing..')
-  const deviceList = await findDeviceTokenByUID(UID);
+  const deviceList = await findDeviceTokenByUID({UID});
 
-  const result = await installation.subDeviceList(topicString, deviceList)
+  const result = await installation.subDeviceList(topic, deviceList)
   return result
 }
 
 /**
  * Unsubscribe user devices on single topic
- * @param {string} topicString 
+ * @param {string} topic 
  * @param {string} UID 
  */
-const unSub = async(topicString, UID) => {
+const unSub = async({topic, UID}) => {
   DEBUG && console.log('unsubing..')
-  const deviceList = await findDeviceTokenByUID(UID);
+  const deviceList = await findDeviceTokenByUID({UID});
 
-  const result = await installation.unSubDeviceList(topicString, deviceList)
+  const result = await installation.unSubDeviceList(topic, deviceList)
   return result
 }
 
 /**
  * Publish to devices that subscribes to topic
- * @param {string} topicString 
+ * @param {string} topic 
  * @param {string} title 
  * @param {string} body 
  * @param {object} data 
  */
-const pubTopic = async(topicString, title, body, data) => {
-  const result = await installation.pubTopic(topicString, title, body, data)
+const pubTopic = async({topic, title, body, data}) => {
+  const result = await installation.pubTopic(topic, title, body, data)
 
   return result
 }
@@ -152,9 +122,9 @@ const pubTopic = async(topicString, title, body, data) => {
  * @param {string} body 
  * @param {object} data 
  */
-const pubUID = async(UID, title, body, data) => {
+const pubUID = async({UID, title, body, data}) => {
   DEBUG && console.log('pub to devices..')
-  const deviceList = await findDeviceTokenByUID(UID);
+  const deviceList = await findDeviceTokenByUID({UID});
 
   let resultList = []
   for (let i = 0; i < deviceList.length; i++) {
@@ -170,7 +140,7 @@ const pubUID = async(UID, title, body, data) => {
  * Will mark inactive device
  * @param {string} UID 
  */
-const markInactiveDevice = (UID) => {
+const markInactiveDevice = ({UID}) => {
   return false;
 }
 
@@ -180,6 +150,5 @@ module.exports = {
   pubTopic,
   pubUID,
   connectMongoose,
-  connectMubSub,
   findDeviceTokenByUID
 }

@@ -8,10 +8,10 @@ const {
    pubUID,
    connectMongoose,
    findDeviceTokenByUID
-} = require('./subscription');
+} = require('../subscription');
 
 
-const installation = require('./installation');
+const installation = require('../installation');
 
 test('mongoose connection', async() => {
    //remove all subs by list
@@ -27,7 +27,7 @@ test('mongoose connection', async() => {
 test('sub user', async() => {
    //remove all subs by list
    const topic = 'ffff'
-   const result = await sub(topic, UID);
+   const result = await sub({topic, UID});
    //console.log('result', result)
    expect(result.length).toBeGreaterThan(0)
 });
@@ -35,7 +35,7 @@ test('sub user', async() => {
 test('Verify sub count on users device', async() => {
    //remove all subs by list
    const topic = 'ffff'
-   const deviceTokenList = await findDeviceTokenByUID(UID);
+   const deviceTokenList = await findDeviceTokenByUID({UID});
 
    for (let i = 0; i < deviceTokenList.length; i++) {
       const deviceToken = deviceTokenList[i]
@@ -52,9 +52,12 @@ test('Verify sub count on users device', async() => {
 test('Send user using UID', async() => {
    //remove all subs by list
    const topic = 'ffff'
-   const result = await pubUID(UID, 'Jest Unit test', 'Test Jing jung', {
+   const title = 'Jest Unit test'
+   const body = 'Test Jing jung'
+   const data = {
       test: 'jest'
-   });
+   }
+   const result = await pubUID({UID, title, body, data});
 
    //console.log('send result', result)
    expect(result.length).toBeGreaterThan(0)
@@ -75,9 +78,12 @@ test('Send user using UID', async() => {
 test('Send user using Topic', async() => {
    //remove all subs by list
    const topic = 'ffff'
-   const result = await pubTopic(topic, 'Jest Unit test', 'Test Jing jung', {
+   const title = 'Jest Unit test'
+   const body = 'Test Jing jung'
+   const data = {
       test: 'jest'
-   });
+   }
+   const result = await pubTopic({topic, title, body, data});
 
    console.log('send topic result', result)
    expect(result.message_id).toBeTruthy()
@@ -86,7 +92,7 @@ test('Send user using Topic', async() => {
 test('unsub user', async() => {
    //remove all subs by list
    const topic = 'ffff'
-   const result = await unSub(topic, UID);
+   const result = await unSub({topic, UID});
    console.log('result', result)
    expect(result.length).toBeGreaterThan(0)
 });
@@ -94,7 +100,7 @@ test('unsub user', async() => {
 test('Verify unSub count on users device', async() => {
    //remove all subs by list
    const topic = 'ffff'
-   const deviceTokenList = await findDeviceTokenByUID(UID);
+   const deviceTokenList = await findDeviceTokenByUID({UID});
 
    for (let i = 0; i < deviceTokenList.length; i++) {
       const deviceToken = deviceTokenList[i]

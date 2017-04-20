@@ -15,7 +15,7 @@ const {
     pubDevice,
     getSubList,
     isSub
-} = require('./installation');
+} = require('../installation');
 
 test('When all sub removed count must be sub count equals 0', async() => {
     //remove all subs by list
