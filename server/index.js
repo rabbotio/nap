@@ -15,4 +15,6 @@ module.exports = {
   start,
   extendModel: require('./graphql').extendModel,
   setBuildGraphqlSchema: require('./graphql').setBuildGraphqlSchema,
+  FileType: require('./graphql/types/File'),
+  getFile: require('./graphql').getFile,
 };

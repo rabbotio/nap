@@ -5,6 +5,14 @@ const defaultBuildSchema = ({ GQC }) => {
 let buildGraphqlSchema = null;
 
 module.exports = {};
+module.exports.getFile = (fileInput, context) => {
+  if (!fileInput || !fileInput.mapKey) {
+    return null;
+  }
+  return context.files.find(file => {
+    return file.originalname === fileInput.mapKey;
+  });
+};
 module.exports.extendModel = require('./models').extendModel;
 module.exports.setBuildGraphqlSchema = (builder) => buildGraphqlSchema = builder;
 module.exports.buildSchema = () => {
