@@ -5,14 +5,15 @@
   "main": "server.js",
   "author": "",
   "scripts": {
-    "test": "jest --watchAll --runInBand"
+    "test": "jest"
   },
   "dependencies": {
     "dotenv": "^4.0.0",
     "es6-promise": "^4.1.0",
     "isomorphic-fetch": "^2.2.1",
     "json": "^9.0.6",
-    "mongoose": "^4.9.2"
+    "mongoose": "^4.9.2",
+    "node-fetch": "^1.6.3"
   },
   "devDependencies": {
     "jest": "^19.0.2"

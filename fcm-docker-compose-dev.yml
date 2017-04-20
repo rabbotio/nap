@@ -1,0 +1,19 @@
+version: "3"
+
+services:            
+    fcm_node1:
+        container_name: fcmservice
+        build:
+            context: .
+            dockerfile: ./fcm/Dockerfile
+        environment:
+            NODE_ENV: development
+        env_file: .env
+        networks:
+        - back
+
+networks:
+    back:
+
+volumes:
+  Schema: ./Schema

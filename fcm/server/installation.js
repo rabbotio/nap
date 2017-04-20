@@ -1,12 +1,15 @@
-const fetch = require('isomorphic-fetch');
+require('isomorphic-fetch');
+require('es6-promise').polyfill();
 const DEBUG = false;
+
 const serverKey = 'AIzaSyCndkHRvCS_TmAS7cdFMC_dtCxKVkJb5WQ';
 const headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'key=' + serverKey
-};
-console.log('json...',JSON)
+  'Authorization': `key=${serverKey}`
+}
+
 /**
+ * Device sub single topic
  * @param {string} topicString 
  * @param {string} FCMToken 
  */
@@ -19,6 +22,7 @@ const sub = (topicString, FCMToken) => fetch(`https://iid.googleapis.com/iid/v1/
 });
 
 /**
+ * Single device unsub multiple topic
  * @param {array<string>} topicStringList 
  * @param {string} FCMToken 
  */
@@ -34,6 +38,7 @@ const subList = (topicStringList, FCMToken) => new Promise(async(resolve, reject
 });
 
 /**
+ * Group of device sub single topic
  * @param {string} topicString 
  * @param {array<string>} FCMTokenList 
  */
@@ -44,12 +49,16 @@ const subDeviceList = (topicString, FCMTokenList) => fetch('https://iid.googleap
     to: `/topics/${topicString}`,
     registration_tokens: FCMTokenList
   })
-}).then((callback) => {
-  DEBUG && console.log('fcm sub', FCMToken.substring(0, 5), topicString, callback.results);
-  return callback.ok;
+}).then(async(callback) => {
+
+  const callbackObject = await callback.json();
+  DEBUG && console.log('fcm sub', FCMTokenList, topicString, callbackObject);
+
+  return callbackObject.results;
 });
 
 /**
+ * Device unsub single topic
  * @param {string} topicString 
  * @param {string} FCMToken 
  */
@@ -57,11 +66,12 @@ const unSub = (topicString, FCMToken) => fetch(`https://iid.googleapis.com/iid/v
   method: 'DELETE',
   headers
 }).then((callback) => {
-  DEBUG && console.log('fcm unSub', FCMToken.substring(0, 5), topicString, callback.ok);
+  DEBUG && console.log('fcm unSub', FCMToken.substring(0, 5), topicString, callback);
   return (callback.ok);
 });
 
 /**
+ * Single device unsub multiple topic
  * @param {array<string>} topicStringList 
  * @param {string} FCMToken 
  */
@@ -75,8 +85,9 @@ const unSubList = (topicStringList, FCMToken) => new Promise(async(resolve, reje
 
   resolve(isOk);
 });
+
 /**
- * 
+ * Group of device unsub single topic
  * @param {string} topicString 
  * @param {array<string>} FCMTokenList 
  */
@@ -87,11 +98,20 @@ const unSubDeviceList = (topicString, FCMTokenList) => fetch('https://iid.google
     to: `/topics/${topicString}`,
     registration_tokens: FCMTokenList
   })
-}).then((callback) => {
-  DEBUG && console.log('fcm sub', FCMToken.substring(0, 5), topicString, callback.results);
-  return callback.ok;
+}).then(async(callback) => {
+  const callbackObject = await callback.json();
+  DEBUG && console.log('fcm unsub', FCMTokenList, topicString, callbackObject);
+
+  return callbackObject.results;
 });
 
+/**
+ * Publish single topic
+ * @param {string} topicString 
+ * @param {string} title 
+ * @param {string} body 
+ * @param {object} data 
+ */
 const pubTopic = (topicString, title, body, data) => fetch('https://fcm.googleapis.com/fcm/send', {
   method: 'POST',
   headers,
@@ -106,6 +126,13 @@ const pubTopic = (topicString, title, body, data) => fetch('https://fcm.googleap
   })
 });
 
+/**
+ * Publish directly to single device
+ * @param {stirng} deviceToken 
+ * @param {string} title 
+ * @param {string} body 
+ * @param {object} data 
+ */
 const pubDevice = (deviceToken, title, body, data) => fetch('https://fcm.googleapis.com/fcm/send', {
   method: 'POST',
   headers,
@@ -120,21 +147,37 @@ const pubDevice = (deviceToken, title, body, data) => fetch('https://fcm.googlea
   })
 });
 
+/**
+ * Get list of subscription on single device
+ * @param {string} FCMToken 
+ * @return {*} Array when device is active, String when error (InvalidToken/No information found about this instance id.)
+ */
 const getSubList = (FCMToken) => fetch(`https://iid.googleapis.com/iid/info/${FCMToken}?details=true`, {
   method: 'GET',
   headers
 }).then(async(callback) => {
   const data = await callback.json();
-  const topics = data.hasOwnProperty('rel') ? data.rel.topics : {};
+  if (data.hasOwnProperty('error')) {
+    DEBUG && console.log(data.error);
 
-  DEBUG && console.log('getSubList', FCMToken.substring(0, 5), topics);
-  return (Object.keys(topics));
+    return data.error + '' //InvalidToken
+  } else {
+    const topics = data.hasOwnProperty('rel') ? data.rel.topics : {};
+
+    DEBUG && console.log('getSubList', FCMToken.substring(0, 5), ' topic=', topics, data);
+    return (Object.keys(topics));
+  }
 });
 
+/**
+ * Check if device has subbed this topic
+ * @param {string} topicString 
+ * @param {string} FCMToken 
+ */
 const isSub = (topicString, FCMToken) => new Promise(async(resolve, reject) => {
   const subList = await getSubList(FCMToken);
   const hasSub = subList.indexOf(topicString) >= 0;
-  DEBUG && console.log('isSub', FCMToken.substring(0, 5), topicString, hasSub);
+  DEBUG && console.log('isSub', FCMToken.substring(0, 5), ' topic=', topicString, 'hasSub', hasSub);
   resolve(hasSub);
 });
 

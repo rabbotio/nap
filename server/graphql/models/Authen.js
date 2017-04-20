@@ -1,9 +1,8 @@
-const { buildMongooseSchema } = require('./helpers');
+const {
+  buildMongooseSchema
+} = require('./helpers');
 
-module.exports = (config) => {
-  const mongoose = require('mongoose')
-  const { composeWithMongoose } = require('graphql-compose-mongoose')
-
+const genSchema = (config) => {
   const AuthenSchemaObject = {
     installationId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -13,7 +12,10 @@ module.exports = (config) => {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
-    isLoggedIn: { type: Boolean, default: false },
+    isLoggedIn: {
+      type: Boolean,
+      default: false
+    },
     loggedInAt: Date,
     loggedInWith: String,
     loggedOutAt: Date,
@@ -29,8 +31,25 @@ module.exports = (config) => {
     }
   )
 
+  return AuthenSchema;
+}
+
+module.exports = (config) => {
+  const mongoose = require('mongoose')
+  const {
+    composeWithMongoose
+  } = require('graphql-compose-mongoose')
+
+
+  const AuthenSchema = genSchema(config);
+
   const Authen = mongoose.model('Authen', AuthenSchema)
   const AuthenTC = composeWithMongoose(Authen)
 
-  return { Authen, AuthenTC };
+  return {
+    Authen,
+    AuthenTC
+  };
 }
+
+module.exports.genSchema = genSchema;
