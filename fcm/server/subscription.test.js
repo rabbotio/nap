@@ -21,11 +21,14 @@ test('mongoose connection', async() => {
    expect(isConnected).toBeTruthy()
 });
 
+/////////////////////////////////////
+// - - - - User Subscription - - - -
+////////////////////////////////////
 test('sub user', async() => {
    //remove all subs by list
    const topic = 'ffff'
    const result = await sub(topic, UID);
-   console.log('result', result)
+   //console.log('result', result)
    expect(result.length).toBeGreaterThan(0)
 });
 
@@ -40,10 +43,44 @@ test('Verify sub count on users device', async() => {
       const listOfTopic = await installation.getSubList(deviceToken) //some device token may not be active or InvalidToken/No information found about this instance id.
 
       if (listOfTopic instanceof Array) {
-         console.log('listOfTopic=', listOfTopic)
+        // console.log('listOfTopic=', listOfTopic)
          expect(listOfTopic.length).toBe(1)
       }
    }
+});
+
+test('Send user using UID', async() => {
+   //remove all subs by list
+   const topic = 'ffff'
+   const result = await pubUID(UID, 'Jest Unit test', 'Test Jing jung', {
+      test: 'jest'
+   });
+
+   //console.log('send result', result)
+   expect(result.length).toBeGreaterThan(0)
+   //at least one must be success
+   let isSuccess = false
+   result.forEach((resultFragment) => {
+      // { multicast_id: 8643288081659583000,
+      //   success: 0,
+      //   failure: 1,
+      //   canonical_ids: 0,
+      //   results: [ [Object] ] }
+      isSuccess = isSuccess || resultFragment.success
+   }, this);
+
+   expect(isSuccess).toBeTruthy()
+});
+
+test('Send user using Topic', async() => {
+   //remove all subs by list
+   const topic = 'ffff'
+   const result = await pubTopic(topic, 'Jest Unit test', 'Test Jing jung', {
+      test: 'jest'
+   });
+
+   console.log('send topic result', result)
+   expect(result.message_id).toBeTruthy()
 });
 
 test('unsub user', async() => {

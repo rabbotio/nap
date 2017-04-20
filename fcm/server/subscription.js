@@ -158,8 +158,7 @@ const pubUID = async(UID, title, body, data) => {
 
   let resultList = []
   for (let i = 0; i < deviceList.length; i++) {
-    let deviceToken = deviceList[i];
-    const result = await installation.pubDevice(deviceToken, title, body, data)
+    const result = await installation.pubDevice(deviceList[i], title, body, data)
     resultList.push(result)
   }
 

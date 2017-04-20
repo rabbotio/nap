@@ -112,28 +112,16 @@ const unSubDeviceList = (topicString, FCMTokenList) => fetch('https://iid.google
  * @param {string} body 
  * @param {object} data 
  */
-const pubTopic = (topicString, title, body, data) => fetch('https://fcm.googleapis.com/fcm/send', {
-  method: 'POST',
-  headers,
-  body: JSON.stringify({
-    to: "/topics/" + topicString,
-    notification: {
-      title,
-      body,
-      click_action: "fcm.ACTION.DEFAULT"
-    },
-    data
-  })
-});
+const pubTopic = (topicString, title, body, data) => pubDevice("/topics/" + topicString, title, body, data)
 
 /**
  * Publish directly to single device
- * @param {stirng} deviceToken 
+ * @param {stirng} FCMToken 
  * @param {string} title 
  * @param {string} body 
  * @param {object} data 
  */
-const pubDevice = (deviceToken, title, body, data) => fetch('https://fcm.googleapis.com/fcm/send', {
+const pubDevice = (FCMToken, title, body, data) => fetch('https://fcm.googleapis.com/fcm/send', {
   method: 'POST',
   headers,
   body: JSON.stringify({
@@ -145,6 +133,9 @@ const pubDevice = (deviceToken, title, body, data) => fetch('https://fcm.googlea
     },
     data
   })
+}).then(async(callback) => {
+  const data = await callback.json()
+  return data
 });
 
 /**
