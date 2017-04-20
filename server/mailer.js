@@ -6,7 +6,7 @@ const willSendVerification = (email, verification_url) => new Promise((resolve, 
 
   // Guard
   if (!verification_url) {
-    reject(new Error('No verification URL'))
+    return reject(new Error('No verification URL'))
   }
 
   // Client
