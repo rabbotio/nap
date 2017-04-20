@@ -1,5 +1,5 @@
 // - - - - CONFIG - - -  -
-const DEBUG = false
+const DEBUG = true
 
 // - - - - mubsub - - -  -
 const mubsub = require('mubsub');
@@ -50,7 +50,6 @@ const connectMubSub = (host) => new Promise((resolve, reject) => {
 
 const mapSub = (channel, action, customFunc) => {
    const split = action.split('.')
-   console.log('instance', instance)
    const func = customFunc ? customFunc : instance[split[0]][split[1]];
    channel.subscribe(action, func)
 }
@@ -92,6 +91,7 @@ const instance = {
       }
    }
 }
+
 module.exports = {
    connectMubSub
 }
