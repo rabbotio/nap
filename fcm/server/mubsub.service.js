@@ -1,24 +1,31 @@
 // - - - - CONFIG - - -  -
 const DEBUG = true
+const logger = require('./util/logger')
+logger.info('Initialize')
 
 // - - - - mubsub - - -  -
 const mubsub = require('mubsub');
-let client = null;
 /**
  * Connect to mongo MubSub, this will trigger pub and sub for each user
  * @param {string} host 255.255.255.255 or Domain
+ * @param {string} channelName
  */
-const connectMubSub = (host) => new Promise((resolve, reject) => {
+const connectMubSub = (host, channelName) => new Promise((resolve, reject) => {
    const client = mubsub(`mongodb://${host}/fcm-notification`);
-   const channel = client.channel('dev');
+   const channel = client.channel(channelName);
 
-   client.on('error', console.error)
-   channel.on('error', console.error)
-   const Id = Math.random();
+   client.on('error', onError)
+   channel.on('error', onError)
+
+   const Id = Date.now();
 
    mapSub(channel, 'service.ready', (data) => {
-      DEBUG && console.log('service.ready', data.Id);
-      resolve(data.Id == Id)
+      if (data.Id == Id) {
+         DEBUG && console.log(`service.ready id: ${data.Id} channel: ${channelName}`);
+
+         resolve()
+         logger.info('service.ready')
+      }
    })
 
    //self test init
@@ -27,7 +34,6 @@ const connectMubSub = (host) => new Promise((resolve, reject) => {
    })
 
    // - - - - FCM - - - -
-
    /**
     * @param {string} topic
     * @param {string} title
@@ -48,9 +54,10 @@ const connectMubSub = (host) => new Promise((resolve, reject) => {
 
 })
 
+
 const mapSub = (channel, action, customFunc) => {
    const split = action.split('.')
-   const func = customFunc ? customFunc : instance[split[0]][split[1]];
+   const func = customFunc ? customFunc : operation[split[0]][split[1]];
    channel.subscribe(action, func)
 }
 
@@ -64,7 +71,7 @@ const {
    findDeviceTokenByUID
 } = require('./subscription')
 
-const instance = {
+const operation = {
    publish: {
       UID: (data) => {
          DEBUG && console.log('publish.UID', data)
@@ -88,8 +95,21 @@ const instance = {
    service: {
       ready: (data) => {
 
+      },
+      kill: (data) => {
+
+      },
+      revive: (data) => {
+
       }
    }
+}
+const onError = (err) => {
+   console.error(err)
+   logger.error(err)
+
+   //check for type?
+   process.exit(1);
 }
 
 module.exports = {

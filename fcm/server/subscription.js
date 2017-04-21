@@ -3,7 +3,6 @@ const DEBUG = false
 
 // - - - - Mongoose - - - -
 const mongoose = require('mongoose'),
-  //   Schema = mongoose.Schema,
   ObjectId = mongoose.Types.ObjectId;
 
 let isMongoConected = false;
@@ -39,7 +38,9 @@ const Installation = require('./Schema.Installation').genModel(null)
  * @param {string} UID 
  * @return {array<string>} deviceTokenList
  */
-const findDeviceTokenByUID = ({UID}) => new Promise((resolve, reject) => {
+const findDeviceTokenByUID = ({
+  UID
+}) => new Promise((resolve, reject) => {
   console.log('finding', UID);
   Authens.find({
       userId: new ObjectId(UID),
@@ -81,9 +82,14 @@ const installation = require('./installation');
  * @param {string} topic 
  * @param {string} UID 
  */
-const sub = async({topic, UID}) => {
+const sub = async({
+  topic,
+  UID
+}) => {
   DEBUG && console.log('subing..')
-  const deviceList = await findDeviceTokenByUID({UID});
+  const deviceList = await findDeviceTokenByUID({
+    UID
+  });
 
   const result = await installation.subDeviceList(topic, deviceList)
   return result
@@ -94,9 +100,14 @@ const sub = async({topic, UID}) => {
  * @param {string} topic 
  * @param {string} UID 
  */
-const unSub = async({topic, UID}) => {
+const unSub = async({
+  topic,
+  UID
+}) => {
   DEBUG && console.log('unsubing..')
-  const deviceList = await findDeviceTokenByUID({UID});
+  const deviceList = await findDeviceTokenByUID({
+    UID
+  });
 
   const result = await installation.unSubDeviceList(topic, deviceList)
   return result
@@ -109,7 +120,12 @@ const unSub = async({topic, UID}) => {
  * @param {string} body 
  * @param {object} data 
  */
-const pubTopic = async({topic, title, body, data}) => {
+const pubTopic = async({
+  topic,
+  title,
+  body,
+  data
+}) => {
   const result = await installation.pubTopic(topic, title, body, data)
 
   return result
@@ -122,9 +138,16 @@ const pubTopic = async({topic, title, body, data}) => {
  * @param {string} body 
  * @param {object} data 
  */
-const pubUID = async({UID, title, body, data}) => {
+const pubUID = async({
+  UID,
+  title,
+  body,
+  data
+}) => {
   DEBUG && console.log('pub to devices..')
-  const deviceList = await findDeviceTokenByUID({UID});
+  const deviceList = await findDeviceTokenByUID({
+    UID
+  });
 
   let resultList = []
   for (let i = 0; i < deviceList.length; i++) {
@@ -140,7 +163,9 @@ const pubUID = async({UID, title, body, data}) => {
  * Will mark inactive device
  * @param {string} UID 
  */
-const markInactiveDevice = ({UID}) => {
+const markInactiveDevice = ({
+  UID
+}) => {
   return false;
 }
 
