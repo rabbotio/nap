@@ -49,8 +49,19 @@ const connectMubSub = (host, channelName) => new Promise((resolve, reject) => {
     * @param {object} data
     */
    mapSub(channel, 'publish.UID', null)
+
+   /**
+    * @param {string} authen ObjectId
+    */
    mapSub(channel, 'authen.login', null)
    mapSub(channel, 'authen.logout', null)
+   /**
+    * @param {string} user ObjectId
+    * @param {string} topic ObjectId or string
+    */
+   mapSub(channel, 'user.sub', null)
+   mapSub(channel, 'user.unsub', null)
+
 
 })
 
@@ -92,14 +103,18 @@ const operation = {
          //TODO sync subscription to new deviceToken
       },
    },
+   user: {
+      sub: (data) => {
+         DEBUG && console.log('user.sub', data);
+
+      },
+      unsub: (data) => {
+         DEBUG && console.log('user.unsub', data);
+
+      }
+   },
    service: {
       ready: (data) => {
-
-      },
-      kill: (data) => {
-
-      },
-      revive: (data) => {
 
       }
    }
