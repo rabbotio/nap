@@ -28,6 +28,7 @@ const UserSchemaObject = {
   email: String,
   token: String,
   status: String,
+  hashed_password: String,
   verified: { type: 'boolean', default: false },
   phones: String,
   facebook: { type: ProviderSchema },

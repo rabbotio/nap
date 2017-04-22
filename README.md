@@ -189,7 +189,7 @@ open http://localhost:3000/graphql/original
     }
   }
   ```
-- [x] Log in with email
+- [x] Log in with email only
   > Will to setup `MailGun` bofore use.
   ```shell
   MAILGUN_API_KEY=key-SOME_RANDOM_NUMBER_HERE
@@ -201,6 +201,23 @@ open http://localhost:3000/graphql/original
   ```
   mutation loginWithEmail($deviceInfo: String!, $email: String!) {
     loginWithEmail(deviceInfo: $deviceInfo, email: $email) {
+      sessionToken
+      user {
+        _id
+        status
+      }
+    }
+    errors {
+      code
+      message
+    }
+  }
+  ```
+- [x] Log in with email and password
+  > Status should return as `VERIFIED_BY_EMAIL_AND_PASSWORD` after logged in with password.
+  ```
+  mutation loginWithEmail($deviceInfo: String!, $email: String!, $password: String) {
+    loginWithEmail(deviceInfo: $deviceInfo, email: $email, password: $password) {
       sessionToken
       user {
         _id
@@ -227,7 +244,7 @@ open http://localhost:3000/graphql/original
 
 ## TODO
 - [ ] Add [HOC](https://github.com/bosung90/HOCExample) to [nap-react-native](https://github.com/rabbotio/nap-react-native)
-- [ ] Create doc saparated from this `README`
+- [ ] Create doc separated from this `README`
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
 - [ ] Add `Nginx` TLS container : https://github.com/rabbotio/nginx-certbot
 - [ ] Add HTTPS : https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md

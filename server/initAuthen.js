@@ -26,9 +26,11 @@ const init = ({ port }, app) => {
       session.user = req.user
 
       // TODO : More vendor
+      /*
       if (req.user.facebook && req.user.facebook.token) {
         session.sessionToken = createSessionToken(req.user.facebook.token)
       }
+      */
     }
 
     return res.json(session)

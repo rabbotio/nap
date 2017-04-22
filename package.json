@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "apollo-client": "^1.0.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",

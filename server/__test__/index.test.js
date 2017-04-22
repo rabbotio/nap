@@ -1,8 +1,6 @@
 /* eslint-env jest */
 require('../debug')
 
-const { SESSION_EMPTY_ERROR } = require('../errors')
-
 describe('index', () => {
 
   const fetcher = async (body, authorization) => {
@@ -43,7 +41,6 @@ describe('index', () => {
 
     await fetcher(query).then(result => {
       const sessionToken = result.data.loginWithFacebook.sessionToken
-      // console.log(JSON.stringify(result))
       expect(result).toMatchObject({
         "data": {
           "loginWithFacebook": {
@@ -53,7 +50,7 @@ describe('index', () => {
               "name": "Katopz Todsaporn"
             }
           },
-          "errors": [SESSION_EMPTY_ERROR]
+          "errors": []
         }
       })
     })

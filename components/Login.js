@@ -24,7 +24,7 @@ const Login = ({ loginWithFacebook }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>LogIn</h1>
+      <h1>LogIn (Token base)</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='accessToken' name='accessToken' defaultValue='EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD' />
       <button type='submit'>LogIn</button>
@@ -53,6 +53,7 @@ mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
     user {
       _id
       name
+      status
     }
   }
   errors {

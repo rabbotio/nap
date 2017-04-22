@@ -104,7 +104,7 @@ AuthenTC.addResolver({
     // Installation
     const installation = await willInstall(args).catch(onError)
     const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(createUser).catch(onError)
-    const authen = await context.nap.willAuthen(installation.id, user.id, 'facebook').catch(onError)
+    const authen = await context.nap.willAuthen(installation.id, user, 'facebook').catch(onError)
 
     // Fail
     if (!authen) {
@@ -128,8 +128,9 @@ AuthenTC.addResolver({
     timezone: 'String',
     deviceName: 'String',
 
-    // Email
-    email: 'String'
+    // Email, Password
+    email: 'String',
+    password: 'String'
   },
   type: AuthenTC,
   resolve: ({ context, args }) => new Promise(async (resolve) => {
@@ -141,8 +142,8 @@ AuthenTC.addResolver({
 
     // Installation
     const installation = await willInstall(args).catch(onError)
-    const user = await context.nap.willLoginWithEmail(context, args.email).then(createUser).catch(onError)
-    const authen = await context.nap.willAuthen(installation.id, user.id, 'email').catch(onError)
+    const user = await context.nap.willLoginWithEmail(context, args.email, args.password).then(createUser).catch(onError)
+    const authen = await context.nap.willAuthen(installation.id, user, 'email').catch(onError)
 
     // Fail
     if (!authen) {

@@ -14,10 +14,16 @@ const UserProfile = ({ loading, user, errors }) => {
     return <div>Loading<hr/></div>
   }
 
-  if (user) {
-    return <div>Welcome : {user.name}<Logout/><hr/></div>
+  if (user){
+    switch(user.status) {
+      case 'WAIT_FOR_EMAIL_VERIFICATION':
+      return <div>Please check your email</div>
+      case 'VERIFIED_BY_EMAIL':
+      return <div><div>Please enter your email</div><hr/><LoginWithEmail/></div>
+      case 'VERIFIED_BY_EMAIL_AND_PASSWORD':
+      return <div>Welcome : {user.name}<Logout/><hr/></div>
+    }
   }
-
   return <div><Login/><hr/><LoginWithEmail/></div>
 }
 
@@ -25,6 +31,7 @@ const userProfile = gql`
 query userProfile {
   user {
     name
+    status
   }
   errors {
     code

@@ -1,30 +1,44 @@
 // Log in with email
-const willLoginWithEmail = (req, email) => new Promise( async (resolve, reject) => {
+const willLoginWithEmail = (req, email, password) => new Promise(async (resolve, reject) => {
   // Guard
-  if (!email ) {
-    reject(new Error('Required : email'))
-    return
+  if (!email) {
+    return reject(new Error('Required : email'))
   }
 
   // To let passport-email consume
   req.body.email = email
+  req.body.password = password
 
   // Will send email verification
   const { willCreateUserWithVerificationURL } = require('./passport-email')
-  const verification_url = await willCreateUserWithVerificationURL(req).catch(reject)
+  const { user, verification_url } = await willCreateUserWithVerificationURL(req).catch(reject)
 
-  const mailer = require('./mailer')
-  const payload = await mailer.willSendVerification(email, verification_url).catch(reject)
-
-  // Got verification_url and payload?
-  if (verification_url && payload) {
-    resolve(verification_url)
-  } else {
-    reject(new Error('Something wrong :', verification_url, payload))
+  // Guard
+  if (!user) {
+    return reject(new Error('No user'))
   }
+
+  // Guard
+  if (!verification_url) {
+    switch (user.status) {
+      case 'VERIFIED_BY_EMAIL':
+        return resolve(user)
+      case 'VERIFIED_BY_EMAIL_AND_PASSWORD':
+        return resolve(user)
+      default :
+        return reject(new Error(`Can't create verification url`))
+    }
+  }
+
+  // New user, will need verification by email
+  const mailer = require('./mailer')
+  const msg = await mailer.willSendVerification(email, verification_url).catch(reject)
+
+  // Got verification_url and msg?
+  return msg ? resolve(user) : reject(new Error(`Can't send email: `, user, verification_url))
 })
 
-// Valid acccessToken?
+// Valid accessToken?
 const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject) => {
   // Guard
   if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) {
@@ -55,22 +69,20 @@ const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject
 
 const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
   if (!req.token) {
-    const { SESSION_EMPTY_ERROR } = require('./errors')
-    reject(SESSION_EMPTY_ERROR)
-    return
+    // Ignore empty token
+    return resolve(req)
   }
 
   const jwt = require('jsonwebtoken')
   jwt.verify(req.token, NAP.Config.jwt_secret, (err, decoded) => {
     // Error?
     if (err) {
-      reject(err)
-      return
+      return reject(err)
     }
 
     // Succeed
     req.nap.currentUser = decoded
-    resolve(req)
+    return resolve(req)
   })
 })
 
@@ -100,20 +112,56 @@ const createSessionToken = (installationId, userId) => {
   return sessionToken
 }
 
-const willAuthen = (installationId, userId, provider) => new Promise((resolve, reject) => {
-  NAP.Authen.findOneAndUpdate({ installationId }, {
+const _validateUserVerificationState = (provider, status, hashed_password) => {
+  // Use email as provider
+  if (provider === 'email') {
+    switch (status) {
+      case 'WAIT_FOR_EMAIL_VERIFICATION':
+        // User need to be verified by emailed link 
+        return false
+      case 'VERIFIED_BY_EMAIL':
+        // User need to be verified by emailed link if not provided password
+        return hashed_password ? false : true
+      case 'VERIFIED_BY_EMAIL_AND_PASSWORD':
+        // User need to be verified by emailed link then logged with provided password
+        return true
+    }
+  } else {
+    // TODO : Revisit this for more secure
+    return true
+  }
+}
+
+const willAuthen = (installationId, { id: userId, status, hashed_password }, provider) => new Promise(async (resolve, reject) => {
+  // Base data
+  let authenData = {
+    isLoggedIn: false,
     installationId,
     userId,
-    isLoggedIn: true,
-    loggedInAt: new Date().toISOString(),
-    loggedInWith: provider,
-    sessionToken: createSessionToken(installationId, userId)
-  }, { new: true, upsert: true }, (err, result) => {
-    // Error?
-    err && debug.error(err) && reject(err)
-    // Succeed
-    resolve(result)
-  })
+  }
+
+  // Guard by user status
+  const isVerified = _validateUserVerificationState(provider, status, hashed_password)
+  if (isVerified) {
+    authenData = Object.assign(authenData, {
+      isLoggedIn: isVerified,
+      loggedInAt: new Date().toISOString(),
+      loggedInWith: provider,
+      sessionToken: createSessionToken(installationId, userId)
+    })
+  }
+
+  // Allow to authen
+  NAP.Authen.findOneAndUpdate(
+    { installationId },
+    authenData,
+    { new: true, upsert: true },
+    (err, result) => {
+      // Error?
+      err && debug.error(err) && reject(err)
+      // Succeed
+      resolve(result)
+    })
 })
 
 module.exports = { createSessionToken, authenticate, willAuthen, willLoginWithFacebook, willLoginWithEmail }
