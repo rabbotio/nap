@@ -42,9 +42,10 @@ GQC.rootQuery().addFields(Object.assign(
 
 GQC.rootMutation().addFields(
   {
+    signup: AuthenTC.getResolver('signup'),
+    login: AuthenTC.getResolver('login'),
     logout: AuthenTC.getResolver('logout'),
     loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
-    loginWithEmail: AuthenTC.getResolver('loginWithEmail'),
     update_GCMSenderId: InstallationTC.getResolver('update_GCMSenderId'),
     update_deviceToken: InstallationTC.getResolver('update_deviceToken'),
     errors: ErrorTC.getResolver('error'),

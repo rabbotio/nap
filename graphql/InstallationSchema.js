@@ -83,8 +83,7 @@ fields.map(field => InstallationTC.addResolver({
   resolve: ({ context, args }) => new Promise(async (resolve, reject) => {
     // Guard
     if (!context.nap.currentUser) {
-      reject(new Error('No session found'))
-      return
+      return reject(new Error('No session found'))
     }
 
     // Update
@@ -92,12 +91,11 @@ fields.map(field => InstallationTC.addResolver({
 
     // Fail
     if (!installation) {
-      reject(new Error('No installation found'))
-      return
+      return reject(new Error('No installation found'))
     }
 
     // Succeed
-    resolve(installation)
+    return resolve(installation)
   })
 }))
 

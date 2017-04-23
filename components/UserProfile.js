@@ -1,8 +1,9 @@
 import { gql, graphql } from 'react-apollo'
 import React from 'react'
-import Login from '../components/Login'
-import LoginWithEmail from '../components/LoginWithEmail'
-import Logout from '../components/Logout'
+import LoginWithFacebook from '../components/auth/LoginWithFacebook'
+import SignUp from '../components/auth/SignUp'
+import Login from '../components/auth/Login'
+import Logout from '../components/auth/Logout'
 
 const UserProfile = ({ loading, user, errors }) => {
 
@@ -10,21 +11,32 @@ const UserProfile = ({ loading, user, errors }) => {
     console.log(JSON.stringify(errors)) // eslint-disable-line
   }
 
+  console.log(loading, user, errors)
+
   if (loading) {
-    return <div>Loading<hr/></div>
+    return <div>Loading<hr /></div>
   }
 
   if (user) {
-    return <div>Welcome : {user.name}<Logout/><hr/></div>
+    switch (user.status) {
+      case 'VERIFIED_BY_EMAIL_AND_PASSWORD':
+        return <div>Welcome : {user.name}<Logout /><hr /></div>
+      default:
+        if(user.name){
+          return <div>Welcome : {user.name}<Logout /><hr /></div>
+        }
+      break
+    }
   }
-
-  return <div><Login/><hr/><LoginWithEmail/></div>
+  return <div><LoginWithFacebook /><hr /><SignUp /><hr /><Login /></div>
 }
 
 const userProfile = gql`
 query userProfile {
   user {
+    _id
     name
+    status
   }
   errors {
     code

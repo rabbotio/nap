@@ -1,76 +1,101 @@
-// Log in with email
-const willLoginWithEmail = (req, email) => new Promise( async (resolve, reject) => {
+// Register with email and password
+const willSignup = (req, email, password) => new Promise(async (resolve, reject) => {
   // Guard
-  if (!email ) {
-    reject(new Error('Required : email'))
-    return
+  const { willValidateEmailAndPassword } = require('./passport-local')
+  const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password).catch(reject)
+  if (!isValidEmailAndPassword) {
+    return reject(new Error('Not valid email and/or password'))
   }
 
-  // To let passport-email consume
-  req.body.email = email
+  // Token
+  const token = require('uuid/v4')()
+
+  // Validate receiver
+  const { willRegisterNewUser } = require('./passport-local')
+  const user = await willRegisterNewUser(email, password, token).catch(reject)
+
+  // Guard
+  if (!user) {
+    return reject(new Error(`Can't register : ${email}`))
+  }
 
   // Will send email verification
-  const { willCreateUserWithVerificationURL } = require('./passport-email')
-  const verification_url = await willCreateUserWithVerificationURL(req).catch(reject)
+  const { createVerificationURL } = require('./passport-local')
+  const verificationURL = createVerificationURL(`${req.protocol}://${req.headers.host}`, token)
 
+  // New user, will need verification by email
   const mailer = require('./mailer')
-  const payload = await mailer.willSendVerification(email, verification_url).catch(reject)
+  const msg = await mailer.willSendVerification(email, verificationURL).catch(reject)
 
-  // Got verification_url and payload?
-  if (verification_url && payload) {
-    resolve(verification_url)
-  } else {
-    reject(new Error('Something wrong :', verification_url, payload))
-  }
+  // Got verificationURL and msg?
+  return msg ? resolve(user) : reject(new Error(`Can't send email: `, verificationURL))
 })
 
-// Valid acccessToken?
+const _willAuthenticateWithPassport = (strategy, req) => new Promise((resolve, reject) => {
+  const passport = require('passport')
+  passport.authenticate(strategy, (err, user) => {
+    // Error?
+    if (err) {
+      return reject(err)
+    }
+
+    return user ? resolve(user) : reject(new Error('User not exist'))
+  })(req)
+})
+
+// Login with email
+const willLogin = (req, email, password) => new Promise(async (resolve, reject) => {
+  // Guard
+  const { willValidateEmailAndPassword } = require('./passport-local')
+  const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password).catch(reject)
+  if (!isValidEmailAndPassword) {
+    return reject(new Error('Not valid email and/or password'))
+  }
+
+  // To let passport-local consume
+  req.body.email = email
+  req.body.password = password
+
+  // Validate local
+  return _willAuthenticateWithPassport('local', req).then(resolve).catch(reject)
+})
+
+// Valid accessToken?
 const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject) => {
   // Guard
   if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) {
-    reject(new Error('Required : FACEBOOK_APP_ID, FACEBOOK_APP_SECRET'))
-    return
+    return reject(new Error('Required : FACEBOOK_APP_ID, FACEBOOK_APP_SECRET'))
   }
 
-  // To let passport facebook consume
+  // Guard
+  const { isEmpty } = require('validator')
+  if (isEmpty(accessToken)) {
+    return reject(new Error('Required : accessToken'))
+  }
+
+  // To let passport-facebook-token consume
   req.body.access_token = accessToken
 
   // Validate facebook token
-  const passport = require('passport')
-  passport.authenticate('facebook-token', (err, user) => {
-    // Error?
-    if (err) {
-      reject(err)
-      return
-    }
-
-    if (user) {
-      resolve(user)
-      return
-    }
-
-    reject(null)
-  })(req)
+  return _willAuthenticateWithPassport('facebook-token', req).then(resolve).catch(reject)
 })
 
 const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
   if (!req.token) {
-    const { SESSION_EMPTY_ERROR } = require('./errors')
-    reject(SESSION_EMPTY_ERROR)
-    return
+    // Ignore empty token
+    return resolve(req)
   }
 
   const jwt = require('jsonwebtoken')
   jwt.verify(req.token, NAP.Config.jwt_secret, (err, decoded) => {
     // Error?
     if (err) {
-      reject(err)
-      return
+      return reject(err)
     }
 
     // Succeed
     req.nap.currentUser = decoded
-    resolve(req)
+    return resolve(req)
   })
 })
 
@@ -100,20 +125,36 @@ const createSessionToken = (installationId, userId) => {
   return sessionToken
 }
 
-const willAuthen = (installationId, userId, provider) => new Promise((resolve, reject) => {
-  NAP.Authen.findOneAndUpdate({ installationId }, {
+const willAuthen = (installationId, { id: userId, verified }, provider) => new Promise(async (resolve, reject) => {
+  // Base data
+  let authenData = {
+    isLoggedIn: false,
     installationId,
     userId,
-    isLoggedIn: true,
-    loggedInAt: new Date().toISOString(),
-    loggedInWith: provider,
-    sessionToken: createSessionToken(installationId, userId)
-  }, { new: true, upsert: true }, (err, result) => {
-    // Error?
-    err && debug.error(err) && reject(err)
-    // Succeed
-    resolve(result)
-  })
+  }
+
+  // Guard by user local verification if has
+  const isVerified = (provider === 'local') ? verified : true
+  if (isVerified) {
+    authenData = Object.assign(authenData, {
+      isLoggedIn: isVerified,
+      loggedInAt: new Date().toISOString(),
+      loggedInWith: provider,
+      sessionToken: createSessionToken(installationId, userId)
+    })
+  }
+
+  // Allow to authen
+  NAP.Authen.findOneAndUpdate(
+    { installationId },
+    authenData,
+    { new: true, upsert: true },
+    (err, result) => {
+      // Error?
+      err && debug.error(err) && reject(err)
+      // Succeed
+      resolve(result)
+    })
 })
 
-module.exports = { createSessionToken, authenticate, willAuthen, willLoginWithFacebook, willLoginWithEmail }
+module.exports = { createSessionToken, authenticate, willAuthen, willLoginWithFacebook, willSignup, willLogin }

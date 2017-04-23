@@ -1,4 +1,4 @@
-const init = ({ cookie_secret: secret, redis_url: url }, app, nextjs) => {
+const init = ({ cookie_secret: secret, redis_url: url }, app) => {
   // Constants
   const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
@@ -12,7 +12,7 @@ const init = ({ cookie_secret: secret, redis_url: url }, app, nextjs) => {
       _id: id
     }, (err, user) => {
       // Guard
-      if(!user) {
+      if (!user) {
         done(null, null)
         return
       }
@@ -41,7 +41,7 @@ const init = ({ cookie_secret: secret, redis_url: url }, app, nextjs) => {
       store: new RedisStore({ url }),
       secret,
       resave: false, // do not automatically write to the session store
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: { httpOnly: true, maxAge: ONE_WEEK } // configure when sessions expires
     })
   )
@@ -54,8 +54,8 @@ const init = ({ cookie_secret: secret, redis_url: url }, app, nextjs) => {
   const bearerToken = require('express-bearer-token')
   app.use(bearerToken())
 
-  // Initialize email authen
-  require('./passport-email')(app, passport, nextjs)
+  // Initialize local
+  require('./passport-local')(app, passport)
 
   // Initialize providers
   require('./passport-providers')(app, passport)
