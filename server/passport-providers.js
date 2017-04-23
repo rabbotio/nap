@@ -23,7 +23,7 @@ const init = (app, passport) => {
 
         // See if we have this oAuth account in the database associated with a user
         NAP.User.findOne({
-          [[provider] + '.id'] : _profile.id
+          [[provider] + '.id']: _profile.id
         }, (err, user) => {
           if (err) {
             return done(err)
@@ -108,18 +108,18 @@ const init = (app, passport) => {
 
     app.get(
       `/auth/${provider}/callback`,
-      passport.authenticate(provider, { failureRedirect: '/auth/signin' }),
+      passport.authenticate(provider, { failureRedirect: '/auth/error' }),
       (req, res) => {
         // Redirect to the sign in success, page which will force the client to update it's cache
-        res.redirect('/about')
+        res.redirect('/auth/welcome')
       })
 
     app.get(
       `/auth/${provider}/return`,
-      passport.authenticate(provider, { failureRedirect: '/auth/signin' }),
+      passport.authenticate(provider, { failureRedirect: '/auth/error' }),
       (req, res) => {
         // Successful authentication, redirect home.ß
-        res.redirect('/auth/success')
+        res.redirect('/auth/welcome')
       })
   })
 }

@@ -15,7 +15,7 @@ module.exports = async (config, nextjs) => {
   const mongoose = await require('./initMongoose')(config.mongo_url)
 
   // Passport
-  process.env.PASSPORT_DISABLED !== '1' && require('./initPassport')(config, app, nextjs)
+  process.env.PASSPORT_DISABLED !== '1' && require('./initPassport')(config, app)
 
   // GraphQL
   process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphQL')(config, app)
@@ -23,9 +23,9 @@ module.exports = async (config, nextjs) => {
   // Store
   require('./initStore')(mongoose)
 
-  // Authen
-  require('./initAuthen')(config, app)
-
   // Express
-  require('./initExpress')(config, app, nextjs)
+  await require('./initExpress')(config, app, nextjs)
+
+  // Ready
+  debug.info('NAP is ready to use, enjoy! [^._.^]ﾉ彡')
 }

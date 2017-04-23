@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
     "lint": "eslint . || true",
@@ -31,7 +31,7 @@
     "cover": "jest --coverage --no-cache"
   },
   "dependencies": {
-    "apollo-client": "^1.0.3",
+    "apollo-client": "^1.0.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "connect-redis": "^3.2.0",
@@ -62,23 +62,25 @@
     "passport-facebook-token": "^3.3.0",
     "passport-github2": "^0.1.10",
     "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "platform": "^1.3.4",
     "promise-polyfill": "^6.0.2",
     "react": "^15.5.4",
-    "react-apollo": "^1.0.1",
+    "react-apollo": "^1.1.0",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "validator": "^7.0.0"
   },
   "author": "katopz@gmail.com",
   "license": "MIT",
   "repository": "https://github.com/rabbotio/nap",
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-eslint": "^7.2.2",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "^19.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",

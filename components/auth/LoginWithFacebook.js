@@ -1,9 +1,9 @@
 import React from 'react'
 import { gql, graphql } from 'react-apollo'
-import persist from '../lib/persist'
-import device from '../lib/device'
+import persist from '../../lib/persist'
+import device from '../../lib/device'
 
-const Login = ({ loginWithFacebook }) => {
+const LoginWithFacebook = ({ loginWithFacebook }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -24,7 +24,7 @@ const Login = ({ loginWithFacebook }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>LogIn (Token base)</h1>
+      <h1>Login with Facebook accessToken</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='accessToken' name='accessToken' defaultValue='EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD' />
       <button type='submit'>LogIn</button>
@@ -49,6 +49,7 @@ const Login = ({ loginWithFacebook }) => {
 const loginWithFacebook = gql`
 mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
   loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
+    isLoggedIn
     sessionToken
     user {
       _id
@@ -63,7 +64,7 @@ mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
 }
 `
 
-Login.propTypes = () => ({
+LoginWithFacebook.propTypes = () => ({
   loginWithFacebook: React.PropTypes.func.isRequired
 })
 
@@ -82,4 +83,4 @@ export default graphql(loginWithFacebook, {
       }
     })
   })
-})(Login)
+})(LoginWithFacebook)

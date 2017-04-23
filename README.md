@@ -50,7 +50,6 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [express-session](https://github.com/expressjs/session) for persist session via `Redis`.
 - [x] [graphql-compose](https://github.com/nodkz/graphql-compose) for build `GraphQL` types from `Mongoose` with resolvers.
 - [x] [mongoose-role](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
-- [x] [nextjs-starter](https://github.com/iaincollins/nextjs-starter) for basic authentication.
 - [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
 - [x] [mailgun](http://www.mailgun.com/) for send email.
 - [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
@@ -143,93 +142,16 @@ open http://localhost:3000/graphql/original
 - - -
 
 ## Passport (cookie)
-> Will need test after refactoring
-
 - [x] Facebook : http://localhost:3000/auth/facebook/
 - [x] Github : http://localhost:3000/auth/github/
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
-- [x] Email : http://localhost:3000/auth/signin
-- [x] Sign Out : http://localhost:3000/auth/signout/
+- [x] Local
 
 ## Passport (token via GraphQL)
-- [x] Facebook
-  > Use with `Ract Native` after get `access_token` form `Facebook`, See [nap-react-native](https://github.com/rabbotio/nap-react-native)
-  ```shell
-  # Login with Facebook access_token and device's info
-  mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
-    loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
-      sessionToken
-      user {
-        _id
-        name
-      }
-    }
-    errors {
-      code
-      message
-    }
-  }
+- [x] Facebook : [nap-react-native](https://github.com/rabbotio/nap-react-native)
+- [x] Login with email and password
 
-  # To get user profile
-  {
-    user {
-      name
-    }
-    errors {
-      code
-      message
-    }
-  }
-
-  # Logout with current bearer session token
-  mutation {
-    logout {
-      isLoggedIn
-    }
-  }
-  ```
-- [x] Log in with email only
-  > Will to setup `MailGun` bofore use.
-  ```shell
-  MAILGUN_API_KEY=key-SOME_RANDOM_NUMBER_HERE
-  MAILGUN_DOMAIN=foo.bar
-  ```
-  > And optional modify email template at `./template/email-register.js`
-  > Then log in with `GraphQL`  
-  > Status should return as `WAIT_FOR_EMAIL_VERIFICATION` and `VERIFIED_BY_EMAIL` after visit verified link.
-  ```
-  mutation loginWithEmail($deviceInfo: String!, $email: String!) {
-    loginWithEmail(deviceInfo: $deviceInfo, email: $email) {
-      sessionToken
-      user {
-        _id
-        status
-      }
-    }
-    errors {
-      code
-      message
-    }
-  }
-  ```
-- [x] Log in with email and password
-  > Status should return as `VERIFIED_BY_EMAIL_AND_PASSWORD` after logged in with password.
-  ```
-  mutation loginWithEmail($deviceInfo: String!, $email: String!, $password: String) {
-    loginWithEmail(deviceInfo: $deviceInfo, email: $email, password: $password) {
-      sessionToken
-      user {
-        _id
-        status
-      }
-    }
-    errors {
-      code
-      message
-    }
-  }
-  ```
 - - -
 
 ## Client example
@@ -253,6 +175,7 @@ open http://localhost:3000/graphql/original
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 - [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
 - [ ] [Securing a Containerized Instance of MongoDB](http://rancher.com/securing-containerized-instance-mongodb/)
+- [ ] helmet : https://github.com/helmetjs/helmet
 
 ## TOTEST
 - [ ] `Redis` fail test.
@@ -271,35 +194,6 @@ open http://localhost:3000/graphql/original
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
 - [ ] Container config e.g. restart policy, limits CPU/RAM.
-  ```
-  version: "3"
-  services:
-    web:
-      image: web
-      labels:
-        com.example.description: "This label will appear on all containers for the web service"
-      deploy:
-        labels:
-          com.example.description: "This label will appear on the web service"
-        resources:
-          limits:
-            cpus: '0.001'
-            memory: 50M
-          reservations:
-            cpus: '0.0001'
-            memory: 20M
-        mode: replicated
-        replicas: 6
-        update_config:
-          parallelism: 2
-          delay: 10s
-        restart_policy:
-          condition: on-failure
-        placement:
-          constraints:
-            - node.role == manager
-            - engine.labels.operatingsystem == ubuntu 14.04
-  ```
 
 ## TOHAVE
 - [ ] Docker driver [`lvm-direct`](https://hackernoon.com/how-to-properly-run-docker-on-rhel-and-friends-d055754414e5#.1z2ps9ycr)

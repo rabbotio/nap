@@ -1,0 +1,1 @@
+export default () => <div>welcome! let's go <a href='/'>home</a></div>

@@ -1,5 +1,5 @@
 import { gql, graphql } from 'react-apollo'
-import persist from '../lib/persist'
+import persist from '../../lib/persist'
 import React from 'react'
 
 const Logout = ({ logout }) => {

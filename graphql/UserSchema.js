@@ -30,6 +30,7 @@ const UserSchemaObject = {
   status: String,
   hashed_password: String,
   verified: { type: 'boolean', default: false },
+  verifiedAt: { type: Date },
   phones: String,
   facebook: { type: ProviderSchema },
   twitter: { type: ProviderSchema },
@@ -80,10 +81,10 @@ UserTC.addResolver({
   name: 'user',
   kind: 'query',
   type: UserTC,
-  resolve: ({ context }) => new Promise(async (resolve) => {
+  resolve: ({ context }) => new Promise(async (resolve, reject) => {
     // Guard
-    if (context.nap.error) {
-      return
+    if (!context.nap.currentUser) {
+      return reject(new Error('No session found'))
     }
 
     // Error
@@ -92,25 +93,14 @@ UserTC.addResolver({
       resolve(null)
     }
 
-    const user = await new Promise((reslove, reject) => User.findById(context.nap.currentUser.userId, (err, result) => {
-      // Fail
-      if (err) {
-        reject(err)
-        return
-      }
-
-      // Succeed
-      reslove(result)
-    }))
-
+    const user = await new Promise((resolve, reject) => User.findById(context.nap.currentUser.userId, (err, result) => err ? reject(err) : resolve(result)))
     // Fail
     if (!user) {
-      onError(new Error('Authen error'))
-      return
+      return onError(new Error('User not exist'))      
     }
 
     // Succeed
-    resolve(user)
+    return resolve(user)
   })
 })
 

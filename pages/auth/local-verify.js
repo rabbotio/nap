@@ -1,0 +1,1 @@
+export default () => <div>local-verify, let's go <a href='/'>home</a></div>

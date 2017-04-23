@@ -101,9 +101,16 @@ AuthenTC.addResolver({
       resolve(null)
     }
 
-    // Installation
-    const installation = await willInstall(args).catch(onError)
+    // User
     const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(createUser).catch(onError)
+    
+    // Guard
+    if (!user) {
+      return onError(new Error('User not exist'))
+    }
+
+    // Link
+    const installation = await willInstall(args).catch(onError)
     const authen = await context.nap.willAuthen(installation.id, user, 'facebook').catch(onError)
 
     // Fail
@@ -118,7 +125,30 @@ AuthenTC.addResolver({
 })
 
 AuthenTC.addResolver({
-  name: 'loginWithEmail',
+  name: 'signup',
+  kind: 'mutation',
+  args: {
+    email: 'String',
+    password: 'String'
+  },
+  type: AuthenTC,
+  resolve: ({ context, args }) => new Promise(async (resolve) => {
+    // Error
+    const onError = err => {
+      context.nap.errors.push({ code: 403, message: err.message })
+      resolve(null)
+    }
+
+    // Installation
+    const user = await context.nap.willSignup(context, args.email, args.password).then(createUser).catch(onError)
+
+    // Succeed
+    resolve(user)
+  })
+})
+
+AuthenTC.addResolver({
+  name: 'login',
   kind: 'mutation',
   args: {
     // Devices
@@ -137,22 +167,28 @@ AuthenTC.addResolver({
     // Error
     const onError = err => {
       context.nap.errors.push({ code: 403, message: err.message })
-      resolve(null)
+      return resolve(null)
     }
 
-    // Installation
+    // User
+    const user = await context.nap.willLogin(context, args.email, args.password).catch(onError)
+
+    // Guard
+    if (!user) {
+      return onError(new Error('User not exist'))
+    }
+
+    // Link
     const installation = await willInstall(args).catch(onError)
-    const user = await context.nap.willLoginWithEmail(context, args.email, args.password).then(createUser).catch(onError)
-    const authen = await context.nap.willAuthen(installation.id, user, 'email').catch(onError)
+    const authen = await context.nap.willAuthen(installation.id, user, 'local').catch(onError)
 
     // Fail
     if (!authen) {
-      onError(new Error('Authen error'))
-      return
+      return onError(new Error('Authen error'))
     }
 
     // Succeed
-    resolve(authen)
+    return resolve(authen)
   })
 })
 
@@ -160,12 +196,7 @@ const willLogout = (installationId, userId, sessionToken) => new Promise((resolv
   Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
     loggedOutAt: new Date().toISOString(),
     isLoggedIn: false
-  }, { new: true, upsert: false }, (err, result) => {
-    // Error?
-    err && debug.error(err) && reject(err)
-    // Succeed
-    resolve(result)
-  })
+  }, { new: true, upsert: false }, (err, result) => err ? reject(err) : resolve(result))
 })
 
 AuthenTC.addResolver({
@@ -178,8 +209,7 @@ AuthenTC.addResolver({
 
     // Guard
     if (!context.nap.currentUser) {
-      reject(new Error('No session found'))
-      return
+      return reject(new Error('No session found'))
     }
 
     // Logout
@@ -187,12 +217,11 @@ AuthenTC.addResolver({
 
     // Fail
     if (!authen) {
-      reject(new Error('No session found'))
-      return
+      return reject(new Error('No session found'))
     }
 
     // Succeed
-    resolve(authen)
+    return resolve(authen)
   })
 })
 
