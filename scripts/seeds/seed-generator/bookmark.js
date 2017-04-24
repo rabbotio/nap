@@ -10,7 +10,7 @@ module.exports = async function generate() {
   users.forEach((user) => {
     genArray(episodes, 30).forEach((ep) => {
       user.bookmarks.push({
-        url: `player?id=${ep._id}`,
+        url: `player/${ep._id}`,
         clogId: ep.clogId,
         episodeId: ep._id,
       });
@@ -19,7 +19,7 @@ module.exports = async function generate() {
   users.forEach((user) => {
     genArray(clogs, 5).forEach((clog) => {
       user.bookmarks.push({
-        url: `book?id=${clog._id}`,
+        url: `book/${clog._id}`,
         clogId: clog._id,
       });
     });
