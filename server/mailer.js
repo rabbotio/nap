@@ -17,8 +17,8 @@ const willSendVerification = (email, verification_url) => new Promise((resolve, 
   })
 
   // Template
-  const builder = require('../templates/email-register')
-  const data = builder(email, verification_url)
+  const builder = require('../templates/email-signin')
+  const data = builder(NAP.Config.mailgun_domain, email, verification_url)
 
   // Send
   return mailgunClient.messages
