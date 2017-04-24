@@ -3,7 +3,12 @@ describe('NAP Server', () => {
 
   test('initNAP', () => {
     // Setup
-    const { willAuthen, willLoginWithFacebook, willLoginWithEmailAndPassword } = require('../authen')
+    const {
+      willAuthen,
+      willLoginWithFacebook,
+      willSignup,
+      willLogin,
+    } = require('../authen')
     const req = {}
 
     // Run
@@ -13,9 +18,10 @@ describe('NAP Server', () => {
         errors: [],
         willAuthen,
         willLoginWithFacebook,
-        willLoginWithEmailAndPassword
+        willSignup,
+        willLogin,
       },
     })
   })
-  
+
 })
