@@ -40,8 +40,11 @@ COPY lib /usr/app/lib
 RUN mkdir -p /usr/app/routes
 COPY routes /usr/app/routes
 
-# .env
-COPY .env /usr/app/
+RUN mkdir -p /usr/app/pages
+COPY pages /usr/app/pages
+
+RUN mkdir -p /usr/app/components
+COPY components /usr/app/components
 
 ###### END DEV
 
