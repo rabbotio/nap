@@ -11,8 +11,8 @@ const Login = ({ login }) => {
     let email = e.target.elements.email.value
     let password = e.target.elements.password.value
 
-    if (deviceInfo === '' || email === '') {
-      window.alert('Both fields are required.')
+    if (deviceInfo === '' || email === '' || password === '') {
+      window.alert('All fields are required.')
       return false
     }
 

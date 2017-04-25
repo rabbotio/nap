@@ -45,6 +45,7 @@ GQC.rootMutation().addFields(
     signup: AuthenTC.getResolver('signup'),
     login: AuthenTC.getResolver('login'),
     logout: AuthenTC.getResolver('logout'),
+    forget: AuthenTC.getResolver('forget'),
     loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
     update_GCMSenderId: InstallationTC.getResolver('update_GCMSenderId'),
     update_deviceToken: InstallationTC.getResolver('update_deviceToken'),

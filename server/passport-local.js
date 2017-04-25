@@ -1,21 +1,25 @@
-const createVerificationURL = (base_url, token) => `${base_url}/auth/local/${token}`
+const createVerificationURL = (baseURL, token) => `${baseURL}/auth/local/${token}`
+const createPasswordResetURL = (baseURL, token) => `${baseURL}/auth/reset/${token}`
+const createNewPasswordResetURL = (baseURL) => `${baseURL}/auth/reset`
 
-const willValidateEmailAndPassword = (email, password) => new Promise(async (resolve, reject) => {
-  const { isEmpty, isEmail, isLength } = require('validator')
+const willValidateEmail = (email) => new Promise(async (resolve, reject) => {
+  const { isEmpty, isEmail } = require('validator')
 
   if (isEmpty(email)) {
     return reject(new Error('Required : email'))
-  }
-
-  if (isEmpty(password)) {
-    return reject(new Error('Required : password'))
   }
 
   if (!isEmail(email)) {
     return reject(new Error('Invalid email'))
   }
 
-  if (!password || password.trim() === '') {
+  return resolve(true)
+})
+
+const willValidatePassword = (password) => new Promise(async (resolve, reject) => {
+  const { isEmpty, isLength } = require('validator')
+
+  if (isEmpty(password)) {
     return reject(new Error('Required : password'))
   }
 
@@ -26,21 +30,40 @@ const willValidateEmailAndPassword = (email, password) => new Promise(async (res
   return resolve(true)
 })
 
-const createNewUserData = (email, password, token) => {
+
+const willValidateEmailAndPassword = (email, password) => new Promise(async (resolve, reject) => {
+  let isValid = await willValidateEmail(email).catch(reject)
+  isValid = await willValidatePassword(password).catch(reject)
+
+  return isValid
+})
+
+const _withHashedPassword = (user, password) => {
   const bcrypt = require('bcryptjs')
   const salt = bcrypt.genSaltSync(10)
 
-  return {
-    email,
-    name: email.split('@')[0],
-    token,
-    role: 'user',
-    status: 'WAIT_FOR_EMAIL_VERIFICATION',
-    hashed_password: bcrypt.hashSync(password, salt)
-  }
+  user.hashed_password = bcrypt.hashSync(password, salt)
+
+  return user
 }
 
-const willRegisterNewUser = (email, password, token) => new Promise((resolve, reject) => {
+const _withVerifiedByEmail = (user) => {
+  user.token = null
+  user.verified = true
+  user.verifiedAt = new Date().toISOString()
+  user.status = 'VERIFIED_BY_EMAIL'
+  return user
+}
+
+const _createNewUserData = (email, password, token) => _withHashedPassword({
+  email,
+  name: email.split('@')[0],
+  token,
+  role: 'user',
+  status: 'WAIT_FOR_EMAIL_VERIFICATION',
+})
+
+const willSignUpNewUser = (email, password, token) => new Promise((resolve, reject) => {
   // Guard existing user
   NAP.User.findOne({ email }, (err, user) => {
     if (err) {
@@ -53,14 +76,31 @@ const willRegisterNewUser = (email, password, token) => new Promise((resolve, re
   })
 
   // Create user with email and token, password if any
-  const userData = createNewUserData(email, password, token)
+  const userData = _createNewUserData(email, password, token)
   NAP.User.create(userData, (err, user) => err ? reject(err) : resolve(user))
+})
+
+const willResetPasswordExistingUser = (email, token) => new Promise((resolve, reject) => {
+  // Guard existing user
+  NAP.User.findOne({ email }, (err, user) => {
+    if (err) {
+      return reject(err)
+    }
+
+    if (!user) {
+      return reject(new Error('User not exist'))
+    }
+
+    user.token = token
+    user.status = 'WAIT_FOR_EMAIL_RESET'
+    user.save((err, user) => err ? reject(err) : resolve(user))
+  })
 })
 
 const _willMarkUserAsVerifiedByToken = token => new Promise((resolve, reject) => {
   // Guard
   if (!token) {
-    return reject(new Error('Need token'))
+    return reject(new Error('Required : token'))
   }
 
   // Look up user by token
@@ -76,18 +116,8 @@ const _willMarkUserAsVerifiedByToken = token => new Promise((resolve, reject) =>
     }
 
     // Reset token and mark as verified
-    user.token = null
-    user.verified = true
-    user.verifiedAt = new Date().toISOString()
-    user.status = 'VERIFIED_BY_EMAIL'
-    user.save((err, user) => {
-      // Guard
-      if (err) {
-        return reject(err)
-      }
-
-      return resolve(user)
-    })
+    user = _withVerifiedByEmail(user)
+    user.save((err, user) => err ? reject(err) : resolve(user))
   })
 })
 
@@ -113,13 +143,13 @@ const init = (app, passport) => {
     // Guard
     const token = req.params.token
     if (!token || token.trim() === '') {
-      return res.redirect('/local-error-token')
+      return res.redirect('/auth/error/token-not-provided')
     }
 
     // Verify
-    _willMarkUserAsVerifiedByToken(token).catch(() => res.redirect('/auth/local-error-token'))
+    _willMarkUserAsVerifiedByToken(token).catch(() => res.redirect('/auth/error/token-not-exist'))
 
-    return res.redirect('/auth/local-verify')
+    return res.redirect('/auth/verified')
   })
 
   // After verify
@@ -149,11 +179,36 @@ const init = (app, passport) => {
     })
   }))
 
+  // reset-password-by-token
+  app.post('/reset-password-by-token', (req, res) => {
+    const token = req.body.token
+    const password = req.body.password
+
+    const isValid = willValidatePassword(password).catch(err => res.json({ errors: [err.message] }))
+    if (!isValid) { return res.json({ errors: ['token-invalid'] }) }
+
+    NAP.User.findOne({ token }, (err, user) => {
+      // Guard
+      if (err) { return res.json({ errors: [err.message] }) }
+      if (!user) { return res.json({ errors: ['user-not-exist'] }) }
+
+      user = _withHashedPassword(user, password)
+      user = _withVerifiedByEmail(user)
+
+      user.save(err => err ? res.json({ errors: [err.message] }) : res.json({ data: { isReset: true } }))
+    })
+  })
+
   // Route
   app.post('/auth/local', passport.authenticate('local', { failureRedirect: '/auth/error' }), (req, res) => res.redirect('/auth/welcome'))
 }
 
 module.exports = init
 module.exports.createVerificationURL = createVerificationURL
-module.exports.willRegisterNewUser = willRegisterNewUser
+module.exports.createPasswordResetURL = createPasswordResetURL
+module.exports.createNewPasswordResetURL = createNewPasswordResetURL
+module.exports.willSignUpNewUser = willSignUpNewUser
+module.exports.willValidateEmail = willValidateEmail
+module.exports.willValidatePassword = willValidatePassword
 module.exports.willValidateEmailAndPassword = willValidateEmailAndPassword
+module.exports.willResetPasswordExistingUser = willResetPasswordExistingUser

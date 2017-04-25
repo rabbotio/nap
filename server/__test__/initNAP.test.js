@@ -6,7 +6,7 @@ describe('NAP Server', () => {
     const {
       willAuthen,
       willLoginWithFacebook,
-      willSignup,
+      willSignUp,
       willLogin,
     } = require('../authen')
     const req = {}
@@ -18,7 +18,7 @@ describe('NAP Server', () => {
         errors: [],
         willAuthen,
         willLoginWithFacebook,
-        willSignup,
+        willSignUp,
         willLogin,
       },
     })

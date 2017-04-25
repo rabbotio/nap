@@ -4,15 +4,9 @@ import LoginWithFacebook from '../components/auth/LoginWithFacebook'
 import SignUp from '../components/auth/SignUp'
 import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
+import Forget from '../components/auth/Forget'
 
-const UserProfile = ({ loading, user, errors }) => {
-
-  if (errors && errors.length > 0) {
-    console.log(JSON.stringify(errors)) // eslint-disable-line
-  }
-
-  console.log(loading, user, errors)
-
+const UserProfile = ({ loading, user }) => {
   if (loading) {
     return <div>Loading<hr /></div>
   }
@@ -22,13 +16,13 @@ const UserProfile = ({ loading, user, errors }) => {
       case 'VERIFIED_BY_EMAIL_AND_PASSWORD':
         return <div>Welcome : {user.name}<Logout /><hr /></div>
       default:
-        if(user.name){
+        if (user.name) {
           return <div>Welcome : {user.name}<Logout /><hr /></div>
         }
-      break
+        break
     }
   }
-  return <div><LoginWithFacebook /><hr /><SignUp /><hr /><Login /></div>
+  return <div><LoginWithFacebook /><hr /><SignUp /><hr /><Login /> <Forget /></div>
 }
 
 const userProfile = gql`
