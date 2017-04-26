@@ -32,5 +32,5 @@ module.exports = (config) => {
   const Authen = mongoose.model('Authen', AuthenSchema)
   const AuthenTC = composeWithMongoose(Authen)
 
-  return { Authen, AuthenTC };
+  return { Authen, AuthenTC, model: Authen, typeComposer: AuthenTC };
 }
