@@ -6,27 +6,36 @@ import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
 import Forget from '../components/auth/Forget'
 
-const UserProfile = ({ loading, user }) => {
+const UserProfile = ({ loading, user, errors, authen }) => {
   if (loading) {
     return <div>Loading<hr /></div>
   }
 
+  // Logged in
+  if (authen && authen.isLoggedIn) {
+    if (user) {
+      return <div>Welcome : {user.name}<Logout /><hr /></div>
+    }
+  }
+
+  // Not logged in  
+  let info = errors[0] ? errors[0].message : ''
   if (user) {
     switch (user.status) {
-      case 'VERIFIED_BY_EMAIL_AND_PASSWORD':
-        return <div>Welcome : {user.name}<Logout /><hr /></div>
-      default:
-        if (user.name) {
-          return <div>Welcome : {user.name}<Logout /><hr /></div>
-        }
+      case 'WAIT_FOR_EMAIL_VERIFICATION':
+      case 'WAIT_FOR_EMAIL_RESET':
+        info = 'Please check you email'
         break
     }
   }
-  return <div><LoginWithFacebook /><hr /><SignUp /><hr /><Login /> <Forget /></div>
+  return <div><p>{info}</p><LoginWithFacebook /><hr /><SignUp /><hr /><Login /> <Forget /></div>
 }
 
-const userProfile = gql`
+export const userProfile = gql`
 query userProfile {
+  authen {
+    isLoggedIn
+  }
   user {
     _id
     name
@@ -41,7 +50,7 @@ query userProfile {
 
 export default graphql(userProfile, {
   options: { fetchPolicy: 'cache-and-network' },
-  props: ({ data: { loading, user, errors } }) => (
-    { loading, user, errors }
+  props: ({ data: { loading, user, errors, authen } }) => (
+    { loading, user, errors, authen }
   ),
 })(UserProfile)

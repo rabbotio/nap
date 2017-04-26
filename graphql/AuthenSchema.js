@@ -109,7 +109,7 @@ AuthenTC.addResolver({
 
     // Guard
     if (!user) {
-      return onError(new Error('User not exist'))
+      return onError(new Error('Authen error'))
     }
 
     // Link
@@ -170,7 +170,11 @@ AuthenTC.addResolver({
     const user = await context.nap.willResetPassword(context, args.email).catch(onError)
 
     // Succeed
-    return resolve(user)
+    return resolve({
+      user: {
+        status: user.status
+      }
+    })
   })
 })
 
@@ -203,7 +207,7 @@ AuthenTC.addResolver({
 
     // Guard
     if (!user) {
-      return onError(new Error('User not exist'))
+      return onError(new Error('Authen error'))
     }
 
     // Link
@@ -238,7 +242,8 @@ AuthenTC.addResolver({
 
     // Guard
     if (!context.nap.currentUser) {
-      return reject(new Error('No session found'))
+      context.nap.errors.push({ code: 403, message: 'No session found' })
+      return resolve(null)
     }
 
     // Logout
@@ -251,6 +256,28 @@ AuthenTC.addResolver({
 
     // Succeed
     return resolve(authen)
+  })
+})
+
+// login
+AuthenTC.addResolver({
+  name: 'authen',
+  kind: 'query',
+  type: AuthenTC,
+  resolve: ({ context }) => new Promise(async (resolve) => {
+    // Guard
+    if (!context.nap.currentUser) {
+      return resolve(null)
+    }
+
+    const authen = await new Promise((resolve) => Authen.findOne(
+      {
+        userId: context.nap.currentUser.userId
+      },
+      (err, result) => err ? resolve(null) : resolve(result)
+    ))
+
+    return authen ? resolve(authen) : resolve(null)
   })
 })
 

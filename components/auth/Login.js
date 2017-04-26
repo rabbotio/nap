@@ -74,7 +74,7 @@ export default graphql(login, {
         userProfile: (previousResult, { mutationResult }) => {
           // Guard
           if (mutationResult.data.errors.length > 0) {
-            console.error(mutationResult.data.errors[0].message)
+            alert(mutationResult.data.errors[0].message)
             return mutationResult.data.login
           }
 
@@ -84,6 +84,19 @@ export default graphql(login, {
           // Provide user
           return mutationResult.data.login
         }
+      },
+      update: (proxy, { data }) => {
+        // Target query
+        const { userProfile } = require('../UserProfile') // Didn't work?
+
+        // Read the data from our cache for this query.
+        let cached = proxy.readQuery({ query: userProfile })
+
+        // Modify it
+        cached.authen = data.login
+
+        // Write our data back to the cache.
+        proxy.writeQuery({ query: userProfile, data: cached })
       }
     })
   })

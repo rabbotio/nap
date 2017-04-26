@@ -1,28 +1,25 @@
 import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
-import device from '../../lib/device'
 
 const SignUp = ({ signup }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let deviceInfo = e.target.elements.deviceInfo.value
     let email = e.target.elements.email.value
     let password = e.target.elements.password.value
 
-    if (deviceInfo === '' || email === '') {
+    if (email === '' || password === '') {
       window.alert('Both fields are required.')
       return false
     }
 
-    signup(deviceInfo, email, password)
+    signup(email, password)
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <h1>SignUp</h1>
-      <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
       <input placeholder='password' name='password' defaultValue='barbar' />
       <button type='submit'>SignUp</button>
@@ -68,8 +65,8 @@ SignUp.propTypes = () => ({
 
 export default graphql(signup, {
   props: ({ mutate }) => ({
-    signup: (deviceInfo, email, password) => mutate({
-      variables: { deviceInfo, email, password },
+    signup: ( email, password ) => mutate({
+      variables: { email, password },
       updateQueries: {
         userProfile: (previousResult, { mutationResult }) => {
           // Guard

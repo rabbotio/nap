@@ -33,7 +33,7 @@ export default graphql(logout, {
           persist.willRemoveSessionToken()
 
           // Provide no user
-          return { user: null, errors: [] }
+          return { user: null, errors: [], sessionToken : null }
         }
       }
     })

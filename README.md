@@ -159,6 +159,7 @@ open http://localhost:3000/graphql/original
 - [x] Login/Logout with `Facebook` from [NextJS](#passport---cookie).
 
 ## DOING
+- [ ] Use `viewer` scope.
 - [ ] Link `facebook-token` with `auth/facebook` user.
 - [ ] Link `facebook-token` with `auth/email` user.
 - [ ] Unlink `Facebook` via `React` web.

@@ -30,18 +30,16 @@ const willValidatePassword = (password) => new Promise(async (resolve, reject) =
   return resolve(true)
 })
 
-
 const willValidateEmailAndPassword = (email, password) => new Promise(async (resolve, reject) => {
   let isValid = await willValidateEmail(email).catch(reject)
-  isValid = await willValidatePassword(password).catch(reject)
+  isValid = isValid && await willValidatePassword(password).catch(reject)
 
-  return isValid
+  return isValid ? resolve(isValid) : reject(new Error('Email and/or Password is invalid'))
 })
 
 const _withHashedPassword = (user, password) => {
   const bcrypt = require('bcryptjs')
   const salt = bcrypt.genSaltSync(10)
-
   user.hashed_password = bcrypt.hashSync(password, salt)
 
   return user
@@ -55,13 +53,16 @@ const _withVerifiedByEmail = (user) => {
   return user
 }
 
-const _createNewUserData = (email, password, token) => _withHashedPassword({
-  email,
-  name: email.split('@')[0],
-  token,
-  role: 'user',
-  status: 'WAIT_FOR_EMAIL_VERIFICATION',
-})
+const _createNewUserData = (email, password, token) => _withHashedPassword(
+  {
+    email,
+    name: email.split('@')[0],
+    token,
+    role: 'user',
+    status: 'WAIT_FOR_EMAIL_VERIFICATION',
+  }, 
+  password
+)
 
 const willSignUpNewUser = (email, password, token) => new Promise((resolve, reject) => {
   // Guard existing user
@@ -88,7 +89,7 @@ const willResetPasswordExistingUser = (email, token) => new Promise((resolve, re
     }
 
     if (!user) {
-      return reject(new Error('User not exist'))
+      return reject(new Error('Email not exist'))
     }
 
     user.token = token
@@ -121,7 +122,7 @@ const _willMarkUserAsVerifiedByToken = token => new Promise((resolve, reject) =>
   })
 })
 
-const _verifyPassword = (password, hashed_password) => new Promise((resolve, reject) => {
+const _willVerifyPassword = (password, hashed_password) => new Promise((resolve, reject) => {
   // Guard
   if (!password) {
     return reject(new Error('Required : password'))
@@ -134,7 +135,8 @@ const _verifyPassword = (password, hashed_password) => new Promise((resolve, rej
 
   // Password matched?
   const bcrypt = require('bcryptjs')
-  return resolve(bcrypt.compareSync(password, hashed_password))
+  const isEqual = bcrypt.compareSync(password, hashed_password)
+  resolve(isEqual)
 })
 
 const init = (app, passport) => {
@@ -156,26 +158,18 @@ const init = (app, passport) => {
   const LocalStrategy = require('passport-local')
   passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password'
+    passwordField: 'password',
+    session: false
   }, (email, password, done) => {
     // Find by email
-    NAP.User.findOne({ email }, (err, user) => {
+    NAP.User.findOne({ email, verified: true}, async (err, user) => {
       // Guard
       if (err) { return done(err) }
       if (!user) { return done(null, false) }
 
-      // Verify email?
-      if (!user.verified) {
-        return done(null, false)
-      }
-
-      // Compare password
-      if (!_verifyPassword(password, user.hashed_password)) {
-        return done(null, false)
-      }
-
-      // Succeed
-      return done(null, user)
+      // Verify password
+      const isPasswordMatch = await _willVerifyPassword(password, user.hashed_password).catch(() => done(null, false))
+      return done(null, isPasswordMatch ? user : false)
     })
   }))
 

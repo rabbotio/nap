@@ -3,7 +3,7 @@ const {
   willLoginWithFacebook,
   willSignUp,
   willLogin,
-  willResetPassword
+  willResetPassword,
 } = require('./authen')
 
 const init = (req, res, next) => {

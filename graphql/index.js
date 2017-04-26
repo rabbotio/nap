@@ -36,6 +36,7 @@ GQC.rootQuery().addFields(Object.assign(
     // let add restriction for owner only
     user: UserTC.getResolver('user'),
   }), {
+    authen: AuthenTC.getResolver('authen'),
     errors: ErrorTC.getResolver('error'),
   })
 )

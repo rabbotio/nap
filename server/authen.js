@@ -74,7 +74,7 @@ const _willAuthenticateWithPassport = (strategy, req) => new Promise((resolve, r
       return reject(err)
     }
 
-    return user ? resolve(user) : reject(new Error('User not exist'))
+    return user ? resolve(user) : reject(new Error('Wrong user and/or password'))
   })(req)
 })
 
@@ -92,7 +92,8 @@ const willLogin = (req, email, password) => new Promise(async (resolve, reject) 
   req.body.password = password
 
   // Validate local
-  return _willAuthenticateWithPassport('local', req).then(resolve).catch(reject)
+  const user = _willAuthenticateWithPassport('local', req).catch(reject)
+  return user ? resolve(user) : reject(new Error('Authentication failed'))
 })
 
 // Valid accessToken?
@@ -112,7 +113,8 @@ const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject
   req.body.access_token = accessToken
 
   // Validate facebook token
-  return _willAuthenticateWithPassport('facebook-token', req).then(resolve).catch(reject)
+  const user = _willAuthenticateWithPassport('facebook-token', req).catch(reject)
+  return user ? resolve(user) : reject(new Error('Authentication failed'))
 })
 
 const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
