@@ -1,5 +1,40 @@
+// Forget password
+const willResetPassword = (req, email) => new Promise(async (resolve, reject) => {
+  // Guard
+  const { willValidateEmail } = require('./passport-local')
+  const isValidEmail = await willValidateEmail(email).catch(reject)
+  if (!isValidEmail) {
+    return reject(new Error('Not valid email'))
+  }
+
+  // Token
+  const token = require('uuid/v4')()
+
+  // Validate receiver
+  const { willResetPasswordExistingUser } = require('./passport-local')
+  const user = await willResetPasswordExistingUser(email, token).catch(reject)
+
+  // Guard
+  if (!user) {
+    return reject(new Error(`Can't reset password for : ${email}`))
+  }
+
+  // Will send email verification
+  const { createPasswordResetURL, createNewPasswordResetURL } = require('./passport-local')
+  const baseURL = `${req.protocol}://${req.headers.host}`
+  const passwordResetURL = createPasswordResetURL(baseURL, token)
+  const newPasswordResetURL = createNewPasswordResetURL(baseURL, token)
+
+  // New user, will need verification by email
+  const mailer = require('./mailer')
+  const msg = await mailer.willSendPasswordReset(email, passwordResetURL, newPasswordResetURL).catch(reject)
+
+  // Got verificationURL and msg?
+  return msg ? resolve(user) : reject(new Error(`Can't send email: `, passwordResetURL))
+})
+
 // Register with email and password
-const willSignup = (req, email, password) => new Promise(async (resolve, reject) => {
+const willSignUp = (req, email, password) => new Promise(async (resolve, reject) => {
   // Guard
   const { willValidateEmailAndPassword } = require('./passport-local')
   const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password).catch(reject)
@@ -11,12 +46,12 @@ const willSignup = (req, email, password) => new Promise(async (resolve, reject)
   const token = require('uuid/v4')()
 
   // Validate receiver
-  const { willRegisterNewUser } = require('./passport-local')
-  const user = await willRegisterNewUser(email, password, token).catch(reject)
+  const { willSignUpNewUser } = require('./passport-local')
+  const user = await willSignUpNewUser(email, password, token).catch(reject)
 
   // Guard
   if (!user) {
-    return reject(new Error(`Can't register : ${email}`))
+    return reject(new Error(`Can't sign up : ${email}`))
   }
 
   // Will send email verification
@@ -39,7 +74,7 @@ const _willAuthenticateWithPassport = (strategy, req) => new Promise((resolve, r
       return reject(err)
     }
 
-    return user ? resolve(user) : reject(new Error('User not exist'))
+    return user ? resolve(user) : reject(new Error('Wrong user and/or password'))
   })(req)
 })
 
@@ -57,7 +92,8 @@ const willLogin = (req, email, password) => new Promise(async (resolve, reject) 
   req.body.password = password
 
   // Validate local
-  return _willAuthenticateWithPassport('local', req).then(resolve).catch(reject)
+  const user = _willAuthenticateWithPassport('local', req).catch(reject)
+  return user ? resolve(user) : reject(new Error('Authentication failed'))
 })
 
 // Valid accessToken?
@@ -77,7 +113,8 @@ const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject
   req.body.access_token = accessToken
 
   // Validate facebook token
-  return _willAuthenticateWithPassport('facebook-token', req).then(resolve).catch(reject)
+  const user = _willAuthenticateWithPassport('facebook-token', req).catch(reject)
+  return user ? resolve(user) : reject(new Error('Authentication failed'))
 })
 
 const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
@@ -157,4 +194,12 @@ const willAuthen = (installationId, { id: userId, verified }, provider) => new P
     })
 })
 
-module.exports = { createSessionToken, authenticate, willAuthen, willLoginWithFacebook, willSignup, willLogin }
+module.exports = {
+  createSessionToken,
+  authenticate,
+  willAuthen,
+  willLoginWithFacebook,
+  willSignUp,
+  willLogin,
+  willResetPassword
+}

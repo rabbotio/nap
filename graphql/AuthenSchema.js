@@ -48,6 +48,7 @@ const AuthenTC = composeWithMongoose(Authen)
 const { InstallationTC } = require('./InstallationSchema')
 const { UserTC } = require('./UserSchema')
 
+// user
 AuthenTC.addRelation(
   'user',
   () => ({
@@ -61,6 +62,7 @@ AuthenTC.addRelation(
   })
 )
 
+// installation
 AuthenTC.addRelation(
   'installation',
   () => ({
@@ -79,6 +81,7 @@ AuthenTC.addRelation(
 const { willInstall } = require('./InstallationSchema')
 const { createUser } = require('./UserSchema')
 
+// loginWithFacebook
 AuthenTC.addResolver({
   name: 'loginWithFacebook',
   kind: 'mutation',
@@ -103,10 +106,10 @@ AuthenTC.addResolver({
 
     // User
     const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(createUser).catch(onError)
-    
+
     // Guard
     if (!user) {
-      return onError(new Error('User not exist'))
+      return onError(new Error('Authen error'))
     }
 
     // Link
@@ -124,6 +127,7 @@ AuthenTC.addResolver({
   })
 })
 
+// signup
 AuthenTC.addResolver({
   name: 'signup',
   kind: 'mutation',
@@ -140,13 +144,41 @@ AuthenTC.addResolver({
     }
 
     // Installation
-    const user = await context.nap.willSignup(context, args.email, args.password).then(createUser).catch(onError)
+    const user = await context.nap.willSignUp(context, args.email, args.password).then(createUser).catch(onError)
 
     // Succeed
     resolve(user)
   })
 })
 
+// forget
+AuthenTC.addResolver({
+  name: 'forget',
+  kind: 'mutation',
+  args: {
+    email: 'String'
+  },
+  type: AuthenTC,
+  resolve: ({ context, args }) => new Promise(async (resolve) => {
+    // Error
+    const onError = err => {
+      context.nap.errors.push({ code: 403, message: err.message })
+      return resolve(null)
+    }
+
+    // Installation
+    const user = await context.nap.willResetPassword(context, args.email).catch(onError)
+
+    // Succeed
+    return resolve({
+      user: {
+        status: user.status
+      }
+    })
+  })
+})
+
+// login
 AuthenTC.addResolver({
   name: 'login',
   kind: 'mutation',
@@ -175,7 +207,7 @@ AuthenTC.addResolver({
 
     // Guard
     if (!user) {
-      return onError(new Error('User not exist'))
+      return onError(new Error('Authen error'))
     }
 
     // Link
@@ -199,6 +231,7 @@ const willLogout = (installationId, userId, sessionToken) => new Promise((resolv
   }, { new: true, upsert: false }, (err, result) => err ? reject(err) : resolve(result))
 })
 
+// logout
 AuthenTC.addResolver({
   name: 'logout',
   kind: 'mutation',
@@ -209,7 +242,8 @@ AuthenTC.addResolver({
 
     // Guard
     if (!context.nap.currentUser) {
-      return reject(new Error('No session found'))
+      context.nap.errors.push({ code: 403, message: 'No session found' })
+      return resolve(null)
     }
 
     // Logout
@@ -222,6 +256,28 @@ AuthenTC.addResolver({
 
     // Succeed
     return resolve(authen)
+  })
+})
+
+// login
+AuthenTC.addResolver({
+  name: 'authen',
+  kind: 'query',
+  type: AuthenTC,
+  resolve: ({ context }) => new Promise(async (resolve) => {
+    // Guard
+    if (!context.nap.currentUser) {
+      return resolve(null)
+    }
+
+    const authen = await new Promise((resolve) => Authen.findOne(
+      {
+        userId: context.nap.currentUser.userId
+      },
+      (err, result) => err ? resolve(null) : resolve(result)
+    ))
+
+    return authen ? resolve(authen) : resolve(null)
   })
 })
 

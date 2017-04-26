@@ -36,6 +36,7 @@ GQC.rootQuery().addFields(Object.assign(
     // let add restriction for owner only
     user: UserTC.getResolver('user'),
   }), {
+    authen: AuthenTC.getResolver('authen'),
     errors: ErrorTC.getResolver('error'),
   })
 )
@@ -45,6 +46,7 @@ GQC.rootMutation().addFields(
     signup: AuthenTC.getResolver('signup'),
     login: AuthenTC.getResolver('login'),
     logout: AuthenTC.getResolver('logout'),
+    forget: AuthenTC.getResolver('forget'),
     loginWithFacebook: AuthenTC.getResolver('loginWithFacebook'),
     update_GCMSenderId: InstallationTC.getResolver('update_GCMSenderId'),
     update_deviceToken: InstallationTC.getResolver('update_deviceToken'),
