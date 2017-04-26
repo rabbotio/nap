@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+VERSION=$(node -e "console.log(require('./package.json').clogii_version)")
+NAME=clogii-content
+echo "$VERSION"
+echo "docker build -t "$NAME:$VERSION" -f ../Dockerfile.clogii"
+docker build -t "$NAME:$VERSION" -f Dockerfile.clogii .

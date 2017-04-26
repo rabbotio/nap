@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+VERSION=$(node -e "console.log(require('./package.json').clogii_version)")
+NAME=clogii-content
+PREFIX=hub.clogii.com
+echo "$VERSION"
+docker tag "$NAME:$VERSION" "$PREFIX/$NAME"
+docker push "$PREFIX/$NAME"
+docker tag "$NAME:$VERSION" "$PREFIX/$NAME:$VERSION"
+docker push "$PREFIX/$NAME:$VERSION"
+docker tag -f "$NAME:$VERSION" "$PREFIX/$NAME:latest"
+docker push "$PREFIX/$NAME:latest"
