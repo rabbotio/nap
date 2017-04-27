@@ -27,7 +27,10 @@ module.exports = async (config, nextjs) => {
 
   // Express
   await require('./initExpress')(config, app, nextjs)
+  // Authen
+  require('./initAuthen')(config, app)
 
+  require('../lib/nap-plugin-oauth').init({app, config, nextjs})
   // Ready
   debug.info('NAP is ready to use, enjoy! [^._.^]ﾉ彡')
 }
