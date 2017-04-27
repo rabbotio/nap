@@ -46,6 +46,9 @@ COPY pages /usr/app/pages
 RUN mkdir -p /usr/app/components
 COPY components /usr/app/components
 
+RUN mkdir -p /usr/app/templates
+COPY templates /usr/app/templates
+
 ###### END DEV
 
 # From here we load our application's code in, therefore the previous docker
