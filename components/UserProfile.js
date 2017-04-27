@@ -1,10 +1,11 @@
-import { gql, graphql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import React from 'react'
 import LoginWithFacebook from '../components/auth/LoginWithFacebook'
 import SignUp from '../components/auth/SignUp'
 import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
 import Forget from '../components/auth/Forget'
+import userProfile from './userProfile.gql'
 
 const UserProfile = ({ loading, user, errors, authen }) => {
   if (loading) {
@@ -30,23 +31,6 @@ const UserProfile = ({ loading, user, errors, authen }) => {
   }
   return <div><p>{info}</p><LoginWithFacebook /><hr /><SignUp /><hr /><Login /> <Forget /></div>
 }
-
-export const userProfile = gql`
-query userProfile {
-  authen {
-    isLoggedIn
-  }
-  user {
-    _id
-    name
-    status
-  }
-  errors {
-    code
-    message
-  }
-}
-`
 
 export default graphql(userProfile, {
   options: { fetchPolicy: 'cache-and-network' },

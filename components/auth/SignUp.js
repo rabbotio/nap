@@ -1,6 +1,7 @@
 import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
+import userProfile from '../userProfile.gql'
 
 const SignUp = ({ signup }) => {
   const handleSubmit = (e) => {
@@ -65,7 +66,7 @@ SignUp.propTypes = () => ({
 
 export default graphql(signup, {
   props: ({ mutate }) => ({
-    signup: ( email, password ) => mutate({
+    signup: (email, password) => mutate({
       variables: { email, password },
       updateQueries: {
         userProfile: (previousResult, { mutationResult }) => {
@@ -83,9 +84,6 @@ export default graphql(signup, {
         }
       },
       update: (proxy) => {
-        // Target query
-        const { userProfile } = require('../UserProfile')
-
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 

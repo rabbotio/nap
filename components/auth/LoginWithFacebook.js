@@ -2,6 +2,7 @@ import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import device from '../../lib/device'
+import userProfile from '../userProfile.gql'
 
 const LoginWithFacebook = ({ loginWithFacebook }) => {
   const handleSubmit = (e) => {
@@ -73,25 +74,22 @@ export default graphql(loginWithFacebook, {
     loginWithFacebook: (deviceInfo, accessToken) => mutate({
       variables: { deviceInfo, accessToken },
       updateQueries: {
-        userProfile: async (previousResult, { mutationResult }) => {
+        userProfile: (previousResult, { mutationResult }) => {
           // Keep session
-          await persist.willSetSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
+          persist.willSetSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
 
           // Provide user
           return mutationResult.data.loginWithFacebook
         }
       },
       update: (proxy, { data }) => {
-        // Target query
-        const { userProfile } = require('../UserProfile')
-
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 
         // Modify it
         if (cached && cached.authen) {
-          cached.authen.isLoggedIn = data.login ? data.loginWithFacebook.isLoggedIn : false
-          cached.authen.sessionToken = data.login ? data.loginWithFacebook.sessionToken : null
+          cached.authen.isLoggedIn = data.loginWithFacebook ? data.loginWithFacebook.isLoggedIn : false
+          cached.authen.sessionToken = data.loginWithFacebook ? data.loginWithFacebook.sessionToken : null
         }
 
         // Write our data back to the cache.

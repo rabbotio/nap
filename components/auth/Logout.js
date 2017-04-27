@@ -1,6 +1,7 @@
 import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import React from 'react'
+import userProfile from '../userProfile.gql'
 
 const Logout = ({ logout }) => {
   return (
@@ -34,21 +35,18 @@ export default graphql(logout, {
           persist.willRemoveSessionToken()
 
           // Provide no user
-          return { user: null, errors: [], isLoggedIn : false, sessionToken : null }
+          return { user: null, errors: [], isLoggedIn: false, sessionToken: null }
         },
         update: (proxy) => {
-          // Target query
-          const { userProfile } = require('../UserProfile')
-
           // Read the data from our cache for this query.
           let cached = proxy.readQuery({ query: userProfile })
 
           // Modify it
-          if(cached && cached.authen) {
+          if (cached && cached.authen) {
             cached.authen.isLoggedIn = false
-            cached.authen.sessionToken =  null
+            cached.authen.sessionToken = null
           }
-          
+
           cached.user = null
 
           // Write our data back to the cache.
