@@ -101,7 +101,7 @@ AuthenTC.addResolver({
     // Error
     const onError = err => {
       context.nap.errors.push({ code: 403, message: err.message })
-      resolve(null)
+      return resolve(null)
     }
 
     // User
@@ -118,12 +118,11 @@ AuthenTC.addResolver({
 
     // Fail
     if (!authen) {
-      onError(new Error('Authen error'))
-      return
+      return onError(new Error('Authen error'))
     }
 
     // Succeed
-    resolve(authen)
+    return resolve(authen)
   })
 })
 
@@ -265,19 +264,22 @@ AuthenTC.addResolver({
   kind: 'query',
   type: AuthenTC,
   resolve: ({ context }) => new Promise(async (resolve) => {
-    // Guard
-    if (!context.nap.currentUser) {
-      return resolve(null)
+    // No Authen
+    const _noAuthen = {
+      isLoggedIn: false,
+      sessionToken: null
     }
 
-    const authen = await new Promise((resolve) => Authen.findOne(
-      {
-        userId: context.nap.currentUser.userId
-      },
-      (err, result) => err ? resolve(null) : resolve(result)
-    ))
+    // Guard
+    if (!context.nap.currentUser) {
+      return resolve(_noAuthen)
+    }
 
-    return authen ? resolve(authen) : resolve(null)
+    Authen.findOne({
+      userId: context.nap.currentUser.userId, installationId: context.nap.currentUser.installationId
+    },
+      (err, result) => err ? resolve(_noAuthen) : resolve(result)
+    )
   })
 })
 
