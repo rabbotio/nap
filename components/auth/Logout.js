@@ -1,5 +1,5 @@
 import { gql, graphql } from 'react-apollo'
-import persist from '../lib/persist'
+import persist from '../../lib/persist'
 import React from 'react'
 
 const Logout = ({ logout }) => {
@@ -33,7 +33,7 @@ export default graphql(logout, {
           persist.willRemoveSessionToken()
 
           // Provide no user
-          return { user: null, errors: [] }
+          return { user: null, errors: [], sessionToken : null }
         }
       }
     })

@@ -23,9 +23,9 @@ module.exports = async (config, nextjs) => {
   // Store
   require('./initStore')(mongoose)
 
-  // Authen
-  require('./initAuthen')(config, app)
-
   // Express
-  require('./initExpress')(config, app, nextjs)
+  await require('./initExpress')(config, app, nextjs)
+
+  // Ready
+  debug.info('NAP is ready to use, enjoy! [^._.^]ﾉ彡')
 }

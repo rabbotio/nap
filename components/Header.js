@@ -4,7 +4,7 @@ import UserProfile from '../components/UserProfile'
 
 const Header = ({ pathname }) => (
   <header>
-    <UserProfile/>
+    <UserProfile />
 
     <Link href='/'>
       <a className={pathname === '/' && 'is-active'}>Home</a>
@@ -13,7 +13,7 @@ const Header = ({ pathname }) => (
     <Link href='/about'>
       <a className={pathname === '/about' && 'is-active'}>About</a>
     </Link>
-    
+
     <style jsx>{`
       header {
         margin-bottom: 25px;
