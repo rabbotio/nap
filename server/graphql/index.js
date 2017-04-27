@@ -49,6 +49,7 @@ module.exports.buildSchema = () => {
   }
 
   models.AuthenTC = compose(
+    addResolverMiddleware('login', loginMiddleware),
     addResolverMiddleware('loginWithFacebook', loginMiddleware),
     addResolverMiddleware('logout', logoutMiddleware)
   )(models.AuthenTC);
