@@ -39,6 +39,7 @@ module.exports.buildSchema = () => {
     userAccess({
       user: models.UserTC.getResolver('user'),
     }), {
+      authen: models.AuthenTC.getResolver('authen'),
       errors: models.ErrorTC.getResolver('error'),
     })
   )
