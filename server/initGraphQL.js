@@ -4,6 +4,11 @@ const init = (config, app) => {
   const upload = multer({ dest: './.tmp' });
   app.use(cors())
 
+  // Helmet
+  const helmet = require('helmet')
+  app.use(helmet())
+
+  // GraphQL
   const graphqlHTTP = require('express-graphql')
 
   const { buildSchema } = require('./graphql')

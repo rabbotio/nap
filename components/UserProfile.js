@@ -19,7 +19,7 @@ const UserProfile = ({ loading, user, errors, authen }) => {
   }
 
   // Not logged in  
-  let info = errors[0] ? errors[0].message : ''
+  let info = errors && errors[0] ? errors[0].message : ''
   if (user) {
     switch (user.status) {
       case 'WAIT_FOR_EMAIL_VERIFICATION':
