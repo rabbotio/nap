@@ -96,7 +96,7 @@ UserTC.addResolver({
     const user = await new Promise((resolve, reject) => User.findById(context.nap.currentUser.userId, (err, result) => err ? reject(err) : resolve(result)))
     // Fail
     if (!user) {
-      return onError(new Error('User not exist'))      
+      return onError(new Error('User not exist'))
     }
 
     // Succeed
