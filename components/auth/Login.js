@@ -87,15 +87,15 @@ export default graphql(login, {
       },
       update: (proxy, { data }) => {
         // Target query
-        const { userProfile } = require('../UserProfile') // Didn't work?
+        const { userProfile } = require('../UserProfile')
 
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 
         // Modify it
-        cached.authen = {
-          isLoggedIn : data.login.isLoggedIn,
-          sessionToken : data.login.sessionToken,
+        if(cached && cached.authen) {
+          cached.authen.isLoggedIn = data.login ? data.login.isLoggedIn : false
+          cached.authen.sessionToken = data.login ? data.login.sessionToken : null
         }
 
         // Write our data back to the cache.
