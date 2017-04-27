@@ -44,9 +44,13 @@ module.exports = (models) => {
         context.nap.errors.push({ code: 403, message: err.message })
         resolve(null)
       }
-      const installation = await models.willInstall(args).catch(onError)
       const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(models.createUser).catch(onError)
-      const authen = await context.nap.willAuthen(installation.id, user.id, 'facebook').catch(onError)
+      if (!user) {
+        return onError(new Error('Authen error'))
+      }
+      
+      const installation = await models.willInstall(args).catch(onError)
+      const authen = await context.nap.willAuthen(installation.id, user, 'facebook').catch(onError)
 
       if (!authen) {
         onError(new Error('Authen error'))
@@ -58,9 +62,59 @@ module.exports = (models) => {
   })
 
   models.AuthenTC.addResolver({
-    name: 'loginWithEmail',
+    name: 'signup',
     kind: 'mutation',
     args: {
+      email: 'String',
+      password: 'String'
+    },
+    type: models.AuthenTC,
+    resolve: ({ context, args }) => new Promise(async (resolve) => {
+      // Error
+      const onError = err => {
+        context.nap.errors.push({ code: 403, message: err.message })
+        resolve(null)
+      }
+
+      // Installation
+      const user = await context.nap.willSignUp(context, args.email, args.password).then(models.createUser).catch(onError)
+
+      // Succeed
+      resolve(user)
+    })
+  })
+
+  models.AuthenTC.addResolver({
+    name: 'forget',
+    kind: 'mutation',
+    args: {
+      email: 'String'
+    },
+    type: models.AuthenTC,
+    resolve: ({ context, args }) => new Promise(async (resolve) => {
+      // Error
+      const onError = err => {
+        context.nap.errors.push({ code: 403, message: err.message })
+        return resolve(null)
+      }
+
+      // Installation
+      const user = await context.nap.willResetPassword(context, args.email).catch(onError)
+
+      // Succeed
+      return resolve({
+        user: {
+          status: user.status
+        }
+      })
+    })
+  })
+
+  models.AuthenTC.addResolver({
+    name: 'login',
+    kind: 'mutation',
+    args: {
+      // Devices
       deviceInfo: 'String',
       locale: 'String',
       country: 'String',
@@ -68,23 +122,37 @@ module.exports = (models) => {
       deviceName: 'String',
       deviceToken: 'String',
 
-      email: 'String'
+      // Email, Password
+      email: 'String',
+      password: 'String'
     },
     type: models.AuthenTC,
     resolve: ({ context, args }) => new Promise(async (resolve) => {
+      // Error
       const onError = err => {
         context.nap.errors.push({ code: 403, message: err.message })
-        resolve(null)
+        return resolve(null)
       }
-      const installation = await models.willInstall(args).catch(onError)
-      const user = await context.nap.willLoginWithEmail(context, args.email).then(models.createUser).catch(onError)
-      const authen = await context.nap.willAuthen(installation.id, user.id, 'email').catch(onError)
 
-      if (!authen) {
-        onError(new Error('Authen error'))
-        return
+      // User
+      const user = await context.nap.willLogin(context, args.email, args.password).catch(onError)
+
+      // Guard
+      if (!user) {
+        return onError(new Error('Authen error'))
       }
-      resolve(authen)
+
+      // Link
+      const installation = await models.willInstall(args).catch(onError)
+      const authen = await context.nap.willAuthen(installation.id, user, 'local').catch(onError)
+
+      // Fail
+      if (!authen) {
+        return onError(new Error('Authen error'))
+      }
+
+      // Succeed
+      return resolve(authen)
     })
   })
 
@@ -92,12 +160,7 @@ module.exports = (models) => {
     models.Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
       loggedOutAt: new Date().toISOString(),
       isLoggedIn: false
-    }, { new: true, upsert: false }, (err, result) => {
-      // Error?
-      err && debug.error(err) && reject(err)
-      // Succeed
-      resolve(result)
-    })
+    }, { new: true, upsert: false }, (err, result) => err ? reject(err) : resolve(result))
   })
 
   models.AuthenTC.addResolver({
@@ -105,18 +168,46 @@ module.exports = (models) => {
     kind: 'mutation',
     type: models.AuthenTC,
     resolve: ({ context }) => new Promise(async (resolve, reject) => {
+      // Logout from cookie
       context.logout()
+
+      // Guard
       if (!context.nap.currentUser) {
-        reject(new Error('No session found'))
-        return
+        context.nap.errors.push({ code: 403, message: 'No session found' })
+        return resolve(null)
       }
-  
+
+      // Logout
       const authen = await willLogout(context.nap.currentUser.installationId, context.nap.currentUser.userId, context.token)
+
+      // Fail
       if (!authen) {
-        reject(new Error('No session found'))
-        return
+        return reject(new Error('No session found'))
       }
-      resolve(authen)
+
+      // Succeed
+      return resolve(authen)
+    })
+  })
+
+  models.AuthenTC.addResolver({
+    name: 'authen',
+    kind: 'query',
+    type: models.AuthenTC,
+    resolve: ({ context }) => new Promise(async (resolve) => {
+      // Guard
+      if (!context.nap.currentUser) {
+        return resolve(null)
+      }
+
+      const authen = await new Promise((resolve) => models.Authen.findOne(
+        {
+          userId: context.nap.currentUser.userId
+        },
+        (err, result) => err ? resolve(null) : resolve(result)
+      ))
+
+      return authen ? resolve(authen) : resolve(null)
     })
   })
 }

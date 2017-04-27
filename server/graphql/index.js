@@ -45,12 +45,14 @@ module.exports.buildSchema = () => {
 
   GQC.rootMutation().addFields(
     {
+      signup: models.AuthenTC.getResolver('signup'),
+      login: models.AuthenTC.getResolver('login'),
       logout: models.AuthenTC.getResolver('logout'),
+      forget: models.AuthenTC.getResolver('forget'),
       loginWithFacebook: models.AuthenTC.getResolver('loginWithFacebook'),
       unlinkFacebook: models.UserTC.getResolver('unlinkFacebook'),
       linkFacebook: models.UserTC.getResolver('linkFacebook'),
       changeEmail: models.UserTC.getResolver('changeEmail'),
-      loginWithEmail: models.AuthenTC.getResolver('loginWithEmail'),
       update_GCMSenderId: models.InstallationTC.getResolver('update_GCMSenderId'),
       update_deviceToken: models.InstallationTC.getResolver('update_deviceToken'),
       errors: models.ErrorTC.getResolver('error'),
