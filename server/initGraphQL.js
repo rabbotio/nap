@@ -6,6 +6,10 @@ const init = ({ port }, app) => {
   const cors = require('cors')
   app.use(cors())
 
+  // Helmet
+  const helmet = require('helmet')
+  app.use(helmet())
+
   // GraphQL
   const graphqlHTTP = require('express-graphql')
 

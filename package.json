@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.11.3",
+  "version": "0.12.0",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
     "lint": "eslint . || true",
@@ -49,6 +49,7 @@
     "graphql-compose-relay": "^1.0.11",
     "graphql-tag": "^2.0.0",
     "graphql-tools": "^0.11.0",
+    "helmet": "^3.5.0",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.4.0",
     "lusca": "^1.4.1",
