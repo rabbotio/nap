@@ -5,33 +5,28 @@ module.exports = (models) => {
     name: 'user',
     kind: 'query',
     type: models.UserTC,
-    resolve: ({ context }) => new Promise(async (resolve) => {
-      if (context.nap.error) {
-        return
+    resolve: ({ context }) => new Promise(async (resolve, reject) => {
+      // Guard
+      if (!context.nap.currentUser) {
+        return reject(new Error('No session found'))
       }
 
+      // Error
       const onError = err => {
         context.nap.errors.push({ code: 403, message: err.message })
         resolve(null)
       }
 
-      const user = await new Promise((reslove, reject) => models.User.findById(context.nap.currentUser.userId, (err, result) => {
-        if (err) {
-          reject(err)
-          return
-        }
-
-        reslove(result)
-      }))
-
+      const user = await new Promise((resolve, reject) => models.User.findById(context.nap.currentUser.userId, (err, result) => err ? reject(err) : resolve(result)))
+      // Fail
       if (!user) {
-        onError(new Error('Authen error'))
-        return
+        return onError(new Error('User not exist'))      
       }
 
-      resolve(user)
+      // Succeed
+      return resolve(user)
     })
-  });
+  })
 
   models.UserTC.addResolver({
     name: 'unlinkFacebook',
