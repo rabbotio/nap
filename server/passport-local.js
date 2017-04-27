@@ -59,6 +59,7 @@ const _createNewUserData = (email, password, token) => _withHashedPassword(
     name: email.split('@')[0],
     token,
     role: 'user',
+    verified: false,
     status: 'WAIT_FOR_EMAIL_VERIFICATION',
   }, 
   password
@@ -74,11 +75,11 @@ const willSignUpNewUser = (email, password, token) => new Promise((resolve, reje
     if (user) {
       return reject(new Error('Email already use'))
     }
-  })
 
-  // Create user with email and token, password if any
-  const userData = _createNewUserData(email, password, token)
-  NAP.User.create(userData, (err, user) => err ? reject(err) : resolve(user))
+    // Create user with email and token, password if any
+    const userData = _createNewUserData(email, password, token)
+    NAP.User.create(userData, (err, user) => err ? reject(err) : resolve(user))
+  })
 })
 
 const willResetPasswordExistingUser = (email, token) => new Promise((resolve, reject) => {

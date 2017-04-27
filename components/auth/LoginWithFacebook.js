@@ -73,9 +73,9 @@ export default graphql(loginWithFacebook, {
     loginWithFacebook: (deviceInfo, accessToken) => mutate({
       variables: { deviceInfo, accessToken },
       updateQueries: {
-        userProfile: (previousResult, { mutationResult }) => {
+        userProfile: async (previousResult, { mutationResult }) => {
           // Keep session
-          persist.willSetSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
+          await persist.willSetSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
 
           // Provide user
           return mutationResult.data.loginWithFacebook
@@ -83,15 +83,15 @@ export default graphql(loginWithFacebook, {
       },
       update: (proxy, { data }) => {
         // Target query
-        const { userProfile } = require('../UserProfile') // Didn't work?
+        const { userProfile } = require('../UserProfile')
 
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 
         // Modify it
-        cached.authen = {
-          isLoggedIn : data.loginWithFacebook.isLoggedIn,
-          sessionToken : data.loginWithFacebook.sessionToken,
+        if (cached && cached.authen) {
+          cached.authen.isLoggedIn = data.login ? data.loginWithFacebook.isLoggedIn : false
+          cached.authen.sessionToken = data.login ? data.loginWithFacebook.sessionToken : null
         }
 
         // Write our data back to the cache.

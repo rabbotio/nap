@@ -52,10 +52,12 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [mongoose-role](https://github.com/ksmithut/mongoose-role) for manage user roles and user access levels
 - [x] [modclean](https://www.npmjs.com/package/modclean) for smaller `node_modules`.
 - [x] [mailgun](http://www.mailgun.com/) for send email.
+- [x] [passport-local](https://github.com/jaredhanson/passport-local) for `email`/`password` login.
 - [x] [passport-facebook-token](https://github.com/drudge/passport-facebook-token) for authenticating with Facebook access tokens.
+- [x] helmet : https://github.com/helmetjs/helmet
 - [x] [lusca](https://github.com/krakenjs/lusca) for web application security middleware.
 - [x] [platform](https://github.com/bestiejs/platform.js) for detect client platform.
-- [x] [commitizen](https://github.com/commitizen/cz-cli) for commit formatting
+- [x] [commitizen](https://github.com/commitizen/cz-cli) for commit formatting.
 - [ ] [nginx](https://github.com/nginxinc) for proxy.
 - [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
@@ -175,8 +177,8 @@ open http://localhost:3000/graphql/original
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 - [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
-- [ ] [Securing a Containerized Instance of MongoDB](http://rancher.com/securing-containerized-instance-mongodb/)
-- [ ] helmet : https://github.com/helmetjs/helmet
+- [ ] Securing a Containerized Instance of MongoDB : http://rancher.com/securing-containerized-instance-mongodb/
+- [ ] Docker multi-stage build : https://codefresh.io/blog/node_docker_multistage/
 
 ## TOTEST
 - [ ] `Redis` fail test.
