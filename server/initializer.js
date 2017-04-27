@@ -11,6 +11,8 @@ module.exports = async (config, nextjs) => {
   // Static
   app.use(express.static('public'))
 
+  require('./initMubsub')()
+
   // Mongoose
   const mongoose = await require('./initMongoose')(config.mongo_url)
 

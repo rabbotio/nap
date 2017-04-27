@@ -23,4 +23,6 @@ module.exports = {
   passportEnabled: int(process.env.PASSPORT_DISABLED || '0') === 0,
   graphqlEnabled: true,
   graphqliqlEnabled: true,
+
+  mubsub: process.env.TRIGGER_MUBSUB,
 }

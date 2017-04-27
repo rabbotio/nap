@@ -1,4 +1,5 @@
 const init = (config, app) => {
+  require('../graphql/setup');
   const cors = require('cors')
   const multer = require('multer');
   const upload = multer({ dest: './.tmp' });
