@@ -80,6 +80,22 @@ export default graphql(loginWithFacebook, {
           // Provide user
           return mutationResult.data.loginWithFacebook
         }
+      },
+      update: (proxy, { data }) => {
+        // Target query
+        const { userProfile } = require('../UserProfile') // Didn't work?
+
+        // Read the data from our cache for this query.
+        let cached = proxy.readQuery({ query: userProfile })
+
+        // Modify it
+        cached.authen = {
+          isLoggedIn : data.loginWithFacebook.isLoggedIn,
+          sessionToken : data.loginWithFacebook.sessionToken,
+        }
+
+        // Write our data back to the cache.
+        proxy.writeQuery({ query: userProfile, data: cached })
       }
     })
   })

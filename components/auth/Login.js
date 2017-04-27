@@ -93,7 +93,10 @@ export default graphql(login, {
         let cached = proxy.readQuery({ query: userProfile })
 
         // Modify it
-        cached.authen = data.login
+        cached.authen = {
+          isLoggedIn : data.login.isLoggedIn,
+          sessionToken : data.login.sessionToken,
+        }
 
         // Write our data back to the cache.
         proxy.writeQuery({ query: userProfile, data: cached })
