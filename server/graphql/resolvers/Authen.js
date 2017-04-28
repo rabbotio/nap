@@ -42,7 +42,7 @@ module.exports = (models) => {
     resolve: ({ context, args }) => new Promise(async (resolve) => {
       const onError = err => {
         context.nap.errors.push({ code: 403, message: err.message })
-        resolve(null)
+        return resolve(null)
       }
       const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(models.createUser).catch(onError)
       if (!user) {
@@ -57,7 +57,7 @@ module.exports = (models) => {
         return
       }
 
-      resolve(authen)
+      return resolve(authen)
     })
   })
 
@@ -195,19 +195,21 @@ module.exports = (models) => {
     kind: 'query',
     type: models.AuthenTC,
     resolve: ({ context }) => new Promise(async (resolve) => {
-      // Guard
-      if (!context.nap.currentUser) {
-        return resolve(null)
+      const _noAuthen = {
+        isLoggedIn: false,
+        sessionToken: null
       }
 
-      const authen = await new Promise((resolve) => models.Authen.findOne(
-        {
-          userId: context.nap.currentUser.userId
-        },
-        (err, result) => err ? resolve(null) : resolve(result)
-      ))
+      // Guard
+      if (!context.nap.currentUser) {
+        return resolve(_noAuthen)
+      }
 
-      return authen ? resolve(authen) : resolve(null)
+      models.Authen.findOne({
+        userId: context.nap.currentUser.userId, installationId: context.nap.currentUser.installationId
+      },
+        (err, result) => err ? resolve(_noAuthen) : resolve(result)
+      )
     })
   })
 }

@@ -185,7 +185,7 @@ const willAuthen = (installationId, { id: userId, verified }, provider) => new P
 
   // Allow to authen
   NAP.Authen.findOneAndUpdate(
-    { installationId },
+    { installationId, userId },
     authenData,
     { new: true, upsert: true },
     (err, result) => {

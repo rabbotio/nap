@@ -2,6 +2,7 @@ import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import device from '../../lib/device'
+import userProfile from '../userProfile.gql'
 
 const Login = ({ login }) => {
   const handleSubmit = (e) => {
@@ -86,14 +87,14 @@ export default graphql(login, {
         }
       },
       update: (proxy, { data }) => {
-        // Target query
-        const { userProfile } = require('../UserProfile')
-
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 
+        console.log(cached)
+        console.log(data.login)
+
         // Modify it
-        if(cached && cached.authen) {
+        if (cached && cached.authen) {
           cached.authen.isLoggedIn = data.login ? data.login.isLoggedIn : false
           cached.authen.sessionToken = data.login ? data.login.sessionToken : null
         }
