@@ -1,6 +1,6 @@
 const willSendVerification = (email, verification_url) => new Promise((resolve, reject) => {
   // Guard
-  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_api_key) {
+  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_domain) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
@@ -28,7 +28,7 @@ const willSendVerification = (email, verification_url) => new Promise((resolve, 
 
 const willSendPasswordReset = (email, password_reset_url, new_password_reset_url) => new Promise((resolve, reject) => {
   // Guard
-  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_api_key) {
+  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_domain) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
