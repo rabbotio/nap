@@ -11,7 +11,7 @@ MailGun.client = ({ username, key }) => {
   // Good
   return {
     messages: {
-      create: () => new Promise((resolve) => resolve('FOO_MAILGUN_BODY'))
+      create: () => Promise.resolve('FOO_MAILGUN_BODY')
     }
   }
 }
