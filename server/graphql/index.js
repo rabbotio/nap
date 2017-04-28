@@ -21,12 +21,12 @@ module.exports.buildSchema = () => {
   const authenChannel = NAP.mubsub.client.channel('authen');
   async function loginMiddleware({ rp }, next) {
     const authen = await next();
-    authenChannel.publish('login', { Authen_Id: authen._id, User_Id: authen.userId, Installation_Id: authen.installationId });
+    authenChannel.publish('login', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() });
   }
 
   async function logoutMiddleware({ rp }, next) {
     const authen = await next();
-    authenChannel.publish('logout', { Authen_Id: authen._id, User_Id: authen.userId, Installation_Id: authen.installationId });
+    authenChannel.publish('logout', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() });
   }
 
   const { ComposeStorage } = require('graphql-compose')
