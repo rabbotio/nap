@@ -1,9 +1,7 @@
 {
   "name": "nap",
   "version": "0.12.1",
-  "clogii_version": "0.0.1",
   "main": "index.js",
-  "docker-registry": "hub.clogii.com",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
     "lint": "eslint . || true",
@@ -19,8 +17,6 @@
     "serve": "npm run exec -- npm run _serve",
     "local": "npm run stop && REDIS_URI=redis://localhost MONGODB_URI=mongodb://localhost/graphql npm run _serve",
     "bi": "docker build -t rabbotio/nap . || true",
-    "build:clogii": "sh ./scripts/clogii-build",
-    "push:clogii": "sh ./scripts/clogii-push",
     "in": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh || true",
     "exec": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap)",
     "rmi": "docker rmi -f rabbotio/nap || true",
@@ -33,12 +29,7 @@
     "up": "docker-compose build && docker-compose up -d && docker ps -a && docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql",
     "test": "jest --watchAll --runInBand",
-    "cover": "jest --coverage --no-cache",
-    "gen-seed": "node ./scripts/seeds/gen-seed.js",
-    "import-seed": "node ./scripts/seeds/import.js",
-    "remove-seed": "node ./scripts/seeds/remove.js",
-    "re-gen-seed": "npm run gen-seed && npm run remove-seed && npm run import-seed",
-    "seed-episode-binary": "node ./scripts/seeds/seed-episode-binary.js"
+    "cover": "jest --coverage --no-cache"
   },
   "dependencies": {
     "apollo-client": "^1.0.4",
@@ -53,7 +44,6 @@
     "express-graphql": "^0.6.4",
     "express-session": "^1.15.2",
     "graphql": "^0.9.3",
-    "graphql-comment": "0.0.2",
     "graphql-compose": "^1.18.1",
     "graphql-compose-connection": "^2.1.3",
     "graphql-compose-mongoose": "^1.4.9",
@@ -88,7 +78,6 @@
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "superagent": "^3.5.2",
     "uuid": "^3.0.1",
     "validator": "^7.0.0"
   },
