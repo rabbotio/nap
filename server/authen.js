@@ -25,7 +25,7 @@ const willResetPassword = (req, email) => new Promise(async (resolve, reject) =>
   const { createPasswordResetURL, createNewPasswordResetURL } = require('./passport-local')
   const baseURL = `${req.protocol}://${req.headers.host}`
   const passwordResetURL = createPasswordResetURL(baseURL, token)
-  const newPasswordResetURL = createNewPasswordResetURL(baseURL, token)
+  const newPasswordResetURL = createNewPasswordResetURL(baseURL)
 
   // New user, will need verification by email
   const mailer = require('./mailer')

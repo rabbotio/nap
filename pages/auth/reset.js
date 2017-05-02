@@ -1,19 +1,15 @@
 import React from 'react'
 import Router from 'next/router'
+import 'isomorphic-fetch'
 
-const resetPassword = (token, password) => new Promise((resolve, reject) => {
-  const xhr = new XMLHttpRequest()
-  xhr.responseType = 'json'
-  xhr.open('POST', '/reset-password-by-token')
-  xhr.setRequestHeader('Content-Type', 'application/json')
-  xhr.setRequestHeader('Accept', 'application/json')
-  xhr.onload = () => {
-    if (xhr.readyState === 4) {
-      resolve(xhr.response)
-    }
-  }
-  xhr.send(JSON.stringify({ token, password }))
-})
+const resetPassword = (token, password) => fetch('/reset-password-by-token', {
+  method: 'POST',
+  body: JSON.stringify({ token, password }),
+  headers : new Headers({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  })
+}).then(response => response.json())
 
 class Reset extends React.Component {
   static getInitialProps({ query: { token } }) {

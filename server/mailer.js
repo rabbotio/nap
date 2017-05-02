@@ -2,7 +2,7 @@ const config = require('./config');
 
 const willSendVerification = (email, verification_url) => new Promise((resolve, reject) => {
   // Guard
-  if (!config.mailgun_api_key || !config.mailgun_api_key) {
+  if (!config.mailgun_api_key || !config.mailgun_domain) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
@@ -30,7 +30,7 @@ const willSendVerification = (email, verification_url) => new Promise((resolve, 
 
 const willSendPasswordReset = (email, password_reset_url, new_password_reset_url) => new Promise((resolve, reject) => {
   // Guard
-  if (!config.mailgun_api_key || !config.mailgun_api_key) {
+  if (!config.mailgun_api_key || !config.mailgun_domain) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
