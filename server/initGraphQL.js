@@ -1,5 +1,10 @@
+const fs = require('fs');
+const path = require('path');
+
 const init = (config, app) => {
-  require('../graphql/setup');
+  if (fs.existsSync(path.resolve(__dirname, '../graphql/setup.js'))) {
+    require('../graphql/setup');
+  }
   const cors = require('cors')
   const multer = require('multer');
   const upload = multer({ dest: './.tmp' });
