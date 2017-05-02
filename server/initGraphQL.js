@@ -2,6 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 const init = (config, app) => {
+  NAP.expose = {
+    extendModel: require('./graphql').extendModel,
+    setBuildGraphqlSchema: require('./graphql').setBuildGraphqlSchema,
+    FileType: require('./graphql/types/File'),
+    getFile: require('./graphql').getFile,
+  };
+
   if (fs.existsSync(path.resolve(__dirname, '../graphql/setup.js'))) {
     require('../graphql/setup');
   }

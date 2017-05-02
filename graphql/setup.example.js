@@ -1,8 +1,8 @@
-global.nap.extendModel('User', {
+global.NAP.expose.extendModel('User', {
   extenddedString: 'String',
 });
 
-global.nap.setBuildGraphqlSchema(({ GQC, models }) => {
+global.NAP.expose.setBuildGraphqlSchema(({ GQC, models }) => {
   models.UserTC.addFields({
     extendedFeild: {
       type: 'String',
