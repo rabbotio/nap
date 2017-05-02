@@ -1,4 +1,5 @@
 const { addResolverMiddleware, compose } = require('graphql-compose-recompose');
+const config = require('../config');
 
 const defaultBuildSchema = ({ GQC }) => {
   return GQC.buildSchema();
@@ -18,7 +19,7 @@ module.exports.getFile = (fileInput, context) => {
 module.exports.extendModel = require('./models').extendModel;
 module.exports.setBuildGraphqlSchema = (builder) => buildGraphqlSchema = builder;
 module.exports.buildSchema = () => {
-  const authenChannel = NAP.mubsub.client.channel('authen');
+  let authenChannel;
   async function loginMiddleware({ rp }, next) {
     const authen = await next();
     authenChannel.publish('login', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() });
@@ -48,11 +49,15 @@ module.exports.buildSchema = () => {
     return resolvers
   }
 
-  models.AuthenTC = compose(
-    addResolverMiddleware('login', loginMiddleware),
-    addResolverMiddleware('loginWithFacebook', loginMiddleware),
-    addResolverMiddleware('logout', logoutMiddleware)
-  )(models.AuthenTC);
+  if (config.mubsub_enabled) {
+    authenChannel = NAP.mubsub.client.channel('authen');
+
+    models.AuthenTC = compose(
+      addResolverMiddleware('login', loginMiddleware),
+      addResolverMiddleware('loginWithFacebook', loginMiddleware),
+      addResolverMiddleware('logout', logoutMiddleware)
+    )(models.AuthenTC);
+  }
 
   GQC.rootQuery().addFields(Object.assign(
     userAccess({

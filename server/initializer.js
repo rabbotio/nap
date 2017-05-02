@@ -11,16 +11,16 @@ module.exports = async (config, nextjs) => {
   // Static
   app.use(express.static('public'))
 
-  require('./initMubsub')()
+  config.mubsub_enabled && require('./initMubsub')()
 
   // Mongoose
   const mongoose = await require('./initMongoose')(config.mongo_url)
 
   // Passport
-  config.passportEnabled && require('./initPassport')(config, app, nextjs)
+  !config.passport_disabled && require('./initPassport')(config, app, nextjs)
 
   // GraphQL
-  config.graphqlEnabled && require('./initGraphQL')(config, app)
+  !config.graphql_disabled && require('./initGraphQL')(config, app)
 
   // Store
   require('./initStore')(mongoose)

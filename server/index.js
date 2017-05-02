@@ -8,7 +8,7 @@ const start = () => {
 
   // Will apply middleware
   const initializer = require('./initializer')
-  return nextjs.prepare().then(() => initializer(config, nextjs)).catch(console.log)
+  return nextjs.prepare().then(() => initializer(config, nextjs))
 }
 
 module.exports = {

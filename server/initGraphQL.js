@@ -30,7 +30,7 @@ const init = (config, app) => {
   app.use('/graphql', upload.array('files'), authenticate, graphqlHTTP(() => {
     return {
       schema,
-      graphiql: config.graphqliqlEnabled,
+      graphiql: config.graphiql_enabled,
       formatError: (error) => ({
         message: error.message,
         stack: !error.message.match(/[NOSTACK]/i) ? error.stack.split('\n') : null,

@@ -6,11 +6,11 @@ global.NAP.expose.setBuildGraphqlSchema(({ GQC, models }) => {
   models.UserTC.addFields({
     extendedFeild: {
       type: 'String',
-      resolve: () => 'HEllo',
+      resolve: () => 'Hello',
     },
   });
   GQC.rootQuery().addFields({
-    sss: {
+    foo: {
       type: 'Int!',
       resolve: () => 5,
     },
