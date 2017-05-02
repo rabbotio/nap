@@ -24,7 +24,7 @@ const config = {
   
   passport_disabled: int(process.env.PASSPORT_DISABLED || '0') === 1,
   graphql_disabled: int(process.env.GRAPHQL_SERVER_DISABLED || '0') === 1,
-  graphiql_enabled: process.env.GRAPHIQL_ENABLED !== undefined ? process.env.GRAPHIQL_ENABLED : dev,
+  graphiql_enabled: process.env.GRAPHIQL_ENABLED !== undefined ? int(process.env.GRAPHQL_SERVER_DISABLED) === 1 : dev,
 
   mubsub: process.env.MUBSUB_URI,
   mubsub_enabled: process.env.MUBSUB_URI !== undefined && !!process.env.MUBSUB_URI,
