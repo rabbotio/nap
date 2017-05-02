@@ -3,7 +3,7 @@ const bool = (str) => (str == void 0) ? false : str.toLowerCase() === 'true' // 
 const int = (str) => (!str) ? 0 : parseInt(str, 10) // eslint-disable-line
 const float = (str) => (!str) ? 0: parseFloat(str, 10)  // eslint-disable-line
 
-module.exports = {
+const config = {
   // Environments
   dev : process.env.NODE_ENV !== 'production',
 
@@ -25,4 +25,6 @@ module.exports = {
   graphqliqlEnabled: true,
 
   mubsub: process.env.TRIGGER_MUBSUB,
-}
+};
+
+module.exports = config;

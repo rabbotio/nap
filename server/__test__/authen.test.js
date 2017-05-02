@@ -4,7 +4,6 @@ process.env.FACEBOOK_APP_SECRET = 'BAR_FACEBOOK_APP_SECRET'
 process.env.MAILGUN_API_KEY = 'FOO_MAILGUN_API_KEY'
 process.env.MAILGUN_DOMAIN = 'BAR_MAILGUN_DOMAIN'
 
-require('../config')
 require('../debug')
 
 describe('authen', () => {
@@ -44,6 +43,7 @@ describe('authen', () => {
 
   it('should authen and return user', async () => {
     // stub
+    global.NAP = {};
     NAP.Authen = {
       findOneAndUpdate: (find, update, options, callback) => callback(null, { _id: '58d0e20e7ff032b39c2a9a18', name: 'bar' })
     }

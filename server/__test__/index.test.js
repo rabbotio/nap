@@ -33,7 +33,7 @@ describe('index', () => {
         }
       }
       `,
-    variables: `{"deviceInfo": "foo", "accessToken": "EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD"}`
+    variables: `{"deviceInfo": "foo", "accessToken": "EAAZA7qxaGBBABAEEZALz9Hg33lZBZBkWV1pY6USZCVbhtdZAIJIJZBpflfGoSJc3RjNZBZC7E4OussiFRGkLpGrlrkQPP5g0up8I3lou1sM7Orl6DaNj24qp5nmOLCk06UtxOAPkFD6qZCPA5rb3TnHCpD88Jqad7BeREUzcdLpOnSj1a8uaEIVRbUpGQ8C1j7k7wxQtwhOAzSsn3OaPcDHlqBHSjNEgpqx8thBxvvJnWfyQZDZD"}`
   }
 
   it('can log user in with Facebook token', async () => {
@@ -47,7 +47,7 @@ describe('index', () => {
             sessionToken,
             "user": {
               "_id": expect.any(String),
-              "name": "Katopz Todsaporn"
+              "name": "David Thuns"
             }
           },
           "errors": []
