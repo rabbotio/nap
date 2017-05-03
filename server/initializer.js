@@ -17,7 +17,7 @@ module.exports = async (config, nextjs) => {
   const mongoose = await require('./initMongoose')(config.mongo_url)
 
   // Passport
-  !config.passport_disabled && require('./initPassport')(config, app, nextjs)
+  !config.passport_disabled && require('./initPassport')(config, app)
 
   // GraphQL
   !config.graphql_disabled && require('./initGraphQL')(config, app)
