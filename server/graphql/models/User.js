@@ -3,7 +3,7 @@ const { composeWithMongoose } = require('graphql-compose-mongoose')
 
 const { buildMongooseSchema } = require('./helpers')
 
-module.exports = (config = {}) => {
+module.exports = (extendedSchema) => {
   const ProviderSchema = new mongoose.Schema(
     {
       id: String,
@@ -35,7 +35,7 @@ module.exports = (config = {}) => {
 
   const UserSchema = new mongoose.Schema(
     Object.assign(
-      buildMongooseSchema(UserSchemaObject, config)
+      buildMongooseSchema(UserSchemaObject, extendedSchema)
     ), {
       timestamps: true,
     }

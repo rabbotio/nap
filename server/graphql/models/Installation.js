@@ -3,7 +3,7 @@ const { composeWithMongoose } = require('graphql-compose-mongoose')
 
 const { buildMongooseSchema } = require('./helpers')
 
-module.exports = (config) => {
+module.exports = (extendedSchema) => {
   const InstallationSchemaObject = {
     deviceInfo: String,
     locale: String,
@@ -24,7 +24,7 @@ module.exports = (config) => {
 
   const InstallationSchema = new mongoose.Schema(
     Object.assign(
-      buildMongooseSchema(InstallationSchemaObject, config)
+      buildMongooseSchema(InstallationSchemaObject, extendedSchema)
     ), {
       timestamps: true,
     }

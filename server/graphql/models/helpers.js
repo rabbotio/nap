@@ -1,1 +1,1 @@
-module.exports.buildMongooseSchema = (baseSchema, config) => Object.assign(baseSchema, config ? config.extendSchema || {} : {})
+module.exports.buildMongooseSchema = (baseSchema, extendedSchema = {}) => Object.assign(baseSchema, extendedSchema)
