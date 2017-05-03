@@ -4,14 +4,15 @@ exports[`config should return config 1`] = `
 Object {
   "cookie_secret": "foo",
   "dev": true,
-  "graphqlEnabled": true,
-  "graphqliqlEnabled": true,
+  "graphiql_enabled": true,
+  "graphql_disabled": false,
   "jwt_secret": "foo",
   "mailgun_api_key": "FOO_MAILGUN_API_KEY",
   "mailgun_domain": "BAR_MAILGUN_DOMAIN",
   "mongo_url": "mongodb://mongo/graphql",
   "mubsub": undefined,
-  "passportEnabled": true,
+  "mubsub_enabled": false,
+  "passport_disabled": false,
   "port": 3000,
   "redis_url": "redis://redis",
 }

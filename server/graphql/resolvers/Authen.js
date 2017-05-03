@@ -44,7 +44,13 @@ module.exports = (models) => {
         context.nap.errors.push({ code: 403, message: err.message })
         return resolve(null)
       }
-      const user = await context.nap.willLoginWithFacebook(context, args.accessToken).then(models.createUser).catch(onError)
+
+      const userData = await context.nap.willLoginWithFacebook(context, args.accessToken).catch(onError)
+      if (!userData) {
+        return onError(new Error('Authen error'))
+      }
+
+      const user = models.createUser(userData).catch(onError)
       if (!user) {
         return onError(new Error('Authen error'))
       }
@@ -53,8 +59,7 @@ module.exports = (models) => {
       const authen = await context.nap.willAuthen(installation.id, user, 'facebook').catch(onError)
 
       if (!authen) {
-        onError(new Error('Authen error'))
-        return
+        return onError(new Error('Authen error'))
       }
 
       return resolve(authen)

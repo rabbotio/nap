@@ -41,8 +41,6 @@ const forget = gql`
 mutation forget($email: String!) {
   forget(email: $email) {
     user {
-      _id
-      name
       status
     }
   }
