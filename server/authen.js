@@ -188,12 +188,8 @@ const willAuthen = (installationId, { id: userId, verified }, provider) => new P
     { installationId, userId },
     authenData,
     { new: true, upsert: true },
-    (err, result) => {
-      // Error?
-      err && debug.error(err) && reject(err)
-      // Succeed
-      resolve(result)
-    })
+    (err, result) => err ? reject(err) : resolve(result)
+  )
 })
 
 module.exports = {

@@ -1,6 +1,8 @@
 const init = (app, passport) => {
-  // Required
-  if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) return
+  // Guard
+  if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) {
+    return // Ignore error
+  }
 
   const FacebookTokenStrategy = require('passport-facebook-token')
 
@@ -23,16 +25,10 @@ const init = (app, passport) => {
     // Will find someone that has this email and update token 
     NAP.User.findOneAndUpdate({
       email: payload.email
-    }, payload, { new: true, upsert: true }, (err, user) => {
-      // Error?
-      err && debug.error(err)
-
-      // Return existing user
-      if (user) {
-        done(err, user)
-        return
-      }
-    })
+    }, payload,
+      { new: true, upsert: true },
+      (err, user) => err ? done(err, null) : done(err, user)
+    )
   }))
 
   // Route

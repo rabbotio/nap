@@ -73,12 +73,7 @@ module.exports = (extendedSchema) => {
   const createUser = userData => new Promise((resolve, reject) => {
     userData = Object.assign(userData, { role: 'user' })
 
-    User.create(userData, (err, result) => {
-      // Error?
-      err && debug.error(err) && reject(err)
-      // Succeed
-      resolve(result)
-    })
+    User.create(userData, (err, result) => err ? reject(err) : resolve(result))
   })
   return { User, UserTC, Provider, createUser, model: User, typeComposer: UserTC }
 }

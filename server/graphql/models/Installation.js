@@ -34,12 +34,7 @@ module.exports = (extendedSchema) => {
   const InstallationTC = composeWithMongoose(Installation)
 
   const willInstall = (device) => new Promise((resolve, reject) => {
-    Installation.create(device, (err, result) => {
-      // Error?
-      err && debug.error(err) && reject(err)
-      // Succeed
-      resolve(result)
-    })
+    Installation.create(device, (err, result) => err ? reject(err) : resolve(result))
   })
 
   const willUpdateField = (installationId, fieldObject) => new Promise((resolve, reject) => {
@@ -51,12 +46,8 @@ module.exports = (extendedSchema) => {
       // Options
       { new: true, upsert: false },
       // Callback
-      (err, result) => {
-        // Error?
-        err && debug.error(err) && reject(err)
-        // Succeed
-        resolve(result)
-      })
+      (err, result) => err ? reject(err) : resolve(result)
+    )
   })
 
   return { Installation, InstallationTC, InstallationSchema, willInstall, willUpdateField }
