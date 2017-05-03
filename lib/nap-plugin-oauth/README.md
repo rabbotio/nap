@@ -1,6 +1,7 @@
 
 ## Usage
 
+### Typescript
 ```ts
 // in server side
 type NAPContext = {
@@ -9,6 +10,16 @@ type NAPContext = {
     nextjs: nextjsApp
 }
 require('nap-plugin-oauth').init(context: NAPContext)
+
+// in /pages/oauth.js
+import PermissionConfirm from '../lib/nap-plugin-oauth/ui/PermissionConfirm'
+export default PermissionConfirm
+```
+
+### Javascript
+```js
+// in server side
+require('nap-plugin-oauth').init(context)
 
 // in /pages/oauth.js
 import PermissionConfirm from '../lib/nap-plugin-oauth/ui/PermissionConfirm'
