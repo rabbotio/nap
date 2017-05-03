@@ -1,2 +1,4 @@
-require('dotenv').config()
-require("./server")()
+require('dotenv/config')
+const nap = require('./server');
+
+nap.start();

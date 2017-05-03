@@ -15,9 +15,10 @@ const init = (app, passport) => {
       name: profile.displayName,
       facebook: {
         id: profile.id,
-        token: accessToken
-      }
-    }
+        token: accessToken,
+        profile,
+      },
+    };
 
     // Will find someone that has this email and update token 
     NAP.User.findOneAndUpdate({

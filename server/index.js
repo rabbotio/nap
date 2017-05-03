@@ -1,11 +1,9 @@
 require('./debug')
-require('./config')
+const config = require('./config');
 
-const init = () => {
-  // Config
-  const config = global.NAP.Config
-
+const start = () => {
   // Next
+  global.NAP = {};
   const nextjs = require('next')({ dev: config.dev })
 
   // Will apply middleware
@@ -13,4 +11,6 @@ const init = () => {
   return nextjs.prepare().then(() => initializer(config, nextjs))
 }
 
-module.exports = init
+module.exports = {
+  start,
+};

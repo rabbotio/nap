@@ -1,3 +1,5 @@
+const config = require('./config');
+
 let providers = []
 
 const init = (app, passport) => {
@@ -13,7 +15,7 @@ const init = (app, passport) => {
 
   // Define a Passport strategy for provider
   providers.forEach(({ provider, Strategy, strategyOptions, getUserFromProfile }) => {
-    strategyOptions.callbackURL = `http://localhost:${NAP.Config.port}/auth/${provider}/callback`
+    strategyOptions.callbackURL = `http://localhost:${config.port}/auth/${provider}/callback`
     strategyOptions.passReqToCallback = true
 
     passport.use(new Strategy(strategyOptions, (req, accessToken, refreshToken, profile, done) => {

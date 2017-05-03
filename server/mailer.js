@@ -1,6 +1,8 @@
+const config = require('./config');
+
 const willSendVerification = (email, verification_url) => new Promise((resolve, reject) => {
   // Guard
-  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_domain) {
+  if (!config.mailgun_api_key || !config.mailgun_domain) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
@@ -13,22 +15,22 @@ const willSendVerification = (email, verification_url) => new Promise((resolve, 
   const MailGun = require('mailgun.js')
   const mailgunClient = MailGun.client({
     username: 'api',
-    key: NAP.Config.mailgun_api_key
+    key: config.mailgun_api_key
   })
 
   // Template
   const builder = require('../templates/email-signin')
-  const data = builder(NAP.Config.mailgun_domain, email, verification_url)
+  const data = builder(config.mailgun_domain, email, verification_url)
 
   // Send
   return mailgunClient.messages
-    .create(NAP.Config.mailgun_domain, data)
+    .create(config.mailgun_domain, data)
     .then(resolve).catch(reject)
 })
 
 const willSendPasswordReset = (email, password_reset_url, new_password_reset_url) => new Promise((resolve, reject) => {
   // Guard
-  if (!NAP.Config.mailgun_api_key || !NAP.Config.mailgun_domain) {
+  if (!config.mailgun_api_key || !config.mailgun_domain) {
     throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
   }
 
@@ -46,16 +48,16 @@ const willSendPasswordReset = (email, password_reset_url, new_password_reset_url
   const MailGun = require('mailgun.js')
   const mailgunClient = MailGun.client({
     username: 'api',
-    key: NAP.Config.mailgun_api_key
+    key: config.mailgun_api_key
   })
 
   // Template
   const builder = require('../templates/email-forget')
-  const data = builder(NAP.Config.mailgun_domain, email, password_reset_url, new_password_reset_url)
+  const data = builder(config.mailgun_domain, email, password_reset_url, new_password_reset_url)
 
   // Send
   return mailgunClient.messages
-    .create(NAP.Config.mailgun_domain, data)
+    .create(config.mailgun_domain, data)
     .then(resolve).catch(reject)
 })
 

@@ -11,14 +11,16 @@ module.exports = async (config, nextjs) => {
   // Static
   app.use(express.static('public'))
 
+  config.mubsub_enabled && require('./initMubsub')()
+
   // Mongoose
   const mongoose = await require('./initMongoose')(config.mongo_url)
 
   // Passport
-  process.env.PASSPORT_DISABLED !== '1' && require('./initPassport')(config, app)
+  !config.passport_disabled && require('./initPassport')(config, app)
 
   // GraphQL
-  process.env.GRAPHQL_SERVER_DISABLED !== '1' && require('./initGraphQL')(config, app)
+  !config.graphql_disabled && require('./initGraphQL')(config, app)
 
   // Store
   require('./initStore')(mongoose)
@@ -26,6 +28,7 @@ module.exports = async (config, nextjs) => {
   // Express
   await require('./initExpress')(config, app, nextjs)
 
+  require('../lib/nap-plugin-oauth').init({app, config, nextjs})
   // Ready
   debug.info('NAP is ready to use, enjoy! [^._.^]ﾉ彡')
 }
