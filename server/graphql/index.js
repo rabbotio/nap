@@ -1,39 +1,39 @@
-const { addResolverMiddleware, compose } = require('graphql-compose-recompose');
-const config = require('../config');
+const { addResolverMiddleware, compose } = require('graphql-compose-recompose')
+const config = require('../config')
 
 const defaultBuildSchema = ({ GQC }) => {
-  return GQC.buildSchema();
+  return GQC.buildSchema()
 }
 
-let buildGraphqlSchema = null;
+let buildGraphqlSchema = null
 
-module.exports = {};
+module.exports = {}
 module.exports.getFile = (fileInput, context) => {
   if (!fileInput || !fileInput.mapKey) {
-    return null;
+    return null
   }
   return context.files.find(file => {
-    return file.originalname === fileInput.mapKey;
-  });
-};
-module.exports.extendModel = require('./models').extendModel;
-module.exports.setBuildGraphqlSchema = (builder) => buildGraphqlSchema = builder;
+    return file.originalname === fileInput.mapKey
+  })
+}
+module.exports.extendModel = require('./models').extendModel
+module.exports.setBuildGraphqlSchema = (builder) => buildGraphqlSchema = builder
 module.exports.buildSchema = () => {
-  let authenChannel;
+  let authenChannel
   async function loginMiddleware({ rp }, next) {
-    const authen = await next();
-    authenChannel.publish('login', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() });
+    const authen = await next()
+    authenChannel.publish('login', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() })
   }
 
   async function logoutMiddleware({ rp }, next) {
-    const authen = await next();
-    authenChannel.publish('logout', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() });
+    const authen = await next()
+    authenChannel.publish('logout', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() })
   }
 
   const { ComposeStorage } = require('graphql-compose')
   const GQC = new ComposeStorage()
-  const models = require('./models')();
-  require('./resolvers')(models);
+  const models = require('./models')()
+  require('./resolvers')(models)
 
   const userAccess = (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
@@ -50,13 +50,13 @@ module.exports.buildSchema = () => {
   }
 
   if (config.mubsub_enabled) {
-    authenChannel = NAP.mubsub.client.channel('authen');
+    authenChannel = NAP.mubsub.client.channel('authen')
 
     models.AuthenTC = compose(
       addResolverMiddleware('login', loginMiddleware),
       addResolverMiddleware('loginWithFacebook', loginMiddleware),
       addResolverMiddleware('logout', logoutMiddleware)
-    )(models.AuthenTC);
+    )(models.AuthenTC)
   }
 
   GQC.rootQuery().addFields(Object.assign(
@@ -82,10 +82,10 @@ module.exports.buildSchema = () => {
       update_deviceToken: models.InstallationTC.getResolver('update_deviceToken'),
       errors: models.ErrorTC.getResolver('error'),
     }
-  );
+  )
 
   if (buildGraphqlSchema) {
     return buildGraphqlSchema({ GQC, models })
   }
-  return defaultBuildSchema({ GQC });
-};
+  return defaultBuildSchema({ GQC })
+}

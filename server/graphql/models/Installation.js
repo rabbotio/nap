@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
-const { buildMongooseSchema } = require('./helpers');
+const { buildMongooseSchema } = require('./helpers')
 
 module.exports = (config) => {
   const InstallationSchemaObject = {
@@ -20,7 +20,7 @@ module.exports = (config) => {
     deviceToken: String,
     badge: String,
     channels: String,
-  };
+  }
 
   const InstallationSchema = new mongoose.Schema(
     Object.assign(
@@ -59,5 +59,5 @@ module.exports = (config) => {
       })
   })
 
-  return { Installation, InstallationTC, InstallationSchema, willInstall, willUpdateField };
-};
+  return { Installation, InstallationTC, InstallationSchema, willInstall, willUpdateField }
+}

@@ -1,4 +1,4 @@
-const { buildMongooseSchema } = require('./helpers');
+const { buildMongooseSchema } = require('./helpers')
 
 module.exports = (config) => {
   const mongoose = require('mongoose')
@@ -32,5 +32,5 @@ module.exports = (config) => {
   const Authen = mongoose.model('Authen', AuthenSchema)
   const AuthenTC = composeWithMongoose(Authen)
 
-  return { Authen, AuthenTC, model: Authen, typeComposer: AuthenTC };
+  return { Authen, AuthenTC, model: Authen, typeComposer: AuthenTC }
 }

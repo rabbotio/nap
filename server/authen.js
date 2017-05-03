@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('./config')
 
 // Forget password
 const willResetPassword = (req, email) => new Promise(async (resolve, reject) => {

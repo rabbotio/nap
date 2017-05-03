@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
-const { buildMongooseSchema } = require('./helpers');
+const { buildMongooseSchema } = require('./helpers')
 
 module.exports = (config = {}) => {
   const ProviderSchema = new mongoose.Schema(
@@ -60,13 +60,13 @@ module.exports = (config = {}) => {
       type: 'Boolean!',
       resolve: (source) => {
         if (source.facebook && !source.facebook.isUnlink) {
-          return true;
+          return true
         }
-        return false;
+        return false
       },
       projection: { facebook: true },
     },
-  });
+  })
 
   const Provider = mongoose.model('Provider', ProviderSchema)
 
@@ -80,5 +80,5 @@ module.exports = (config = {}) => {
       resolve(result)
     })
   })
-  return { User, UserTC, Provider, createUser, model: User, typeComposer: UserTC };
-};
+  return { User, UserTC, Provider, createUser, model: User, typeComposer: UserTC }
+}
