@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 const init = (config, app) => {
   NAP.expose = {
@@ -7,14 +7,14 @@ const init = (config, app) => {
     setBuildGraphqlSchema: require('./graphql').setBuildGraphqlSchema,
     FileType: require('./graphql/types/File'),
     getFile: require('./graphql').getFile,
-  };
+  }
 
   if (fs.existsSync(path.resolve(__dirname, '../graphql/setup.js'))) {
-    require('../graphql/setup');
+    require('../graphql/setup')
   }
   const cors = require('cors')
-  const multer = require('multer');
-  const upload = multer({ dest: './.tmp' });
+  const multer = require('multer')
+  const upload = multer({ dest: './.tmp' })
   app.use(cors())
 
   // Helmet
@@ -26,7 +26,7 @@ const init = (config, app) => {
 
   const { buildSchema } = require('./graphql')
   const { authenticate } = require('./authen')
-  const schema = buildSchema();
+  const schema = buildSchema()
   app.use('/graphql', upload.array('files'), authenticate, graphqlHTTP(() => {
     return {
       schema,
@@ -35,8 +35,8 @@ const init = (config, app) => {
         message: error.message,
         stack: !error.message.match(/[NOSTACK]/i) ? error.stack.split('\n') : null,
       }),
-    };
-  }));
+    }
+  }))
 }
 
 module.exports = init

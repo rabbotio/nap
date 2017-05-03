@@ -1,6 +1,6 @@
 const init = ({ cookie_secret: secret, redis_url: url }, app) => {
   // Constants
-  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
 
   // Passport
   const passport = require('passport')

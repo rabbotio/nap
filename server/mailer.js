@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('./config')
 
 const willSendVerification = (email, verification_url) => new Promise((resolve, reject) => {
   // Guard

@@ -3,7 +3,7 @@ const bool = (str) => (str == void 0) ? false : str.toLowerCase() === 'true' // 
 const int = (str) => (!str) ? 0 : parseInt(str, 10) // eslint-disable-line
 const float = (str) => (!str) ? 0: parseFloat(str, 10)  // eslint-disable-line
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== 'production'
 
 const config = {
   // Environments
@@ -28,6 +28,6 @@ const config = {
 
   mubsub: process.env.MUBSUB_URI,
   mubsub_enabled: process.env.MUBSUB_URI !== undefined && !!process.env.MUBSUB_URI,
-};
+}
 
-module.exports = config;
+module.exports = config

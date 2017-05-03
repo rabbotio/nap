@@ -1,4 +1,4 @@
-const isEmail = require('validator/lib/isEmail');
+const isEmail = require('validator/lib/isEmail')
 
 module.exports = (models) => {
   models.UserTC.addResolver({
@@ -32,19 +32,19 @@ module.exports = (models) => {
     name: 'unlinkFacebook',
     type: models.UserTC,
     resolve: async ({ context }) => {
-      const user = await models.User.findById(context.nap.currentUser.userId);
+      const user = await models.User.findById(context.nap.currentUser.userId)
       if (!user) {
-        throw new Error('Authen error');
+        throw new Error('Authen error')
       }
 
       if (user.facebook) {
-        user.facebook.isUnlink = true;
+        user.facebook.isUnlink = true
       }
 
-      await user.save();
-      return user;
+      await user.save()
+      return user
     },
-  });
+  })
 
   models.UserTC.addResolver({
     name: 'linkFacebook',
@@ -53,18 +53,18 @@ module.exports = (models) => {
       accessToken: 'String!'
     },
     resolve: async ({ args, context }) => {
-      const user = await models.User.findById(context.nap.currentUser.userId);
+      const user = await models.User.findById(context.nap.currentUser.userId)
       if (!user) {
-        throw new Error('Authen error');
+        throw new Error('Authen error')
       }
 
-      const userData = await context.nap.willLoginWithFacebook(context, args.accessToken);
-      user.facebook = userData.facebook;
+      const userData = await context.nap.willLoginWithFacebook(context, args.accessToken)
+      user.facebook = userData.facebook
 
-      await user.save();
-      return user;
+      await user.save()
+      return user
     },
-  });
+  })
 
   models.UserTC.addResolver({
     name: 'changeEmail',
@@ -73,19 +73,19 @@ module.exports = (models) => {
       email: 'String!'
     },
     resolve: async ({ args, context }) => {
-      const user = await models.User.findById(context.nap.currentUser.userId);
+      const user = await models.User.findById(context.nap.currentUser.userId)
       if (!user) {
-        throw new Error('Authen error');
+        throw new Error('Authen error')
       }
 
       if (!isEmail(args.email)) {
-        throw new Error('email format not validated');
+        throw new Error('email format not validated')
       }
 
-      user.email = args.email;
+      user.email = args.email
 
-      await user.save();
-      return user;
+      await user.save()
+      return user
     },
-  });
+  })
 }

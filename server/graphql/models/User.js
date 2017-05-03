@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 
-const { buildMongooseSchema } = require('./helpers');
+const { buildMongooseSchema } = require('./helpers')
 
-module.exports = (config = {}) => {
+module.exports = (extendedSchema) => {
   const ProviderSchema = new mongoose.Schema(
     {
       id: String,
@@ -35,7 +35,7 @@ module.exports = (config = {}) => {
 
   const UserSchema = new mongoose.Schema(
     Object.assign(
-      buildMongooseSchema(UserSchemaObject, config)
+      buildMongooseSchema(UserSchemaObject, extendedSchema)
     ), {
       timestamps: true,
     }
@@ -60,25 +60,20 @@ module.exports = (config = {}) => {
       type: 'Boolean!',
       resolve: (source) => {
         if (source.facebook && !source.facebook.isUnlink) {
-          return true;
+          return true
         }
-        return false;
+        return false
       },
       projection: { facebook: true },
     },
-  });
+  })
 
   const Provider = mongoose.model('Provider', ProviderSchema)
 
   const createUser = userData => new Promise((resolve, reject) => {
     userData = Object.assign(userData, { role: 'user' })
 
-    User.create(userData, (err, result) => {
-      // Error?
-      err && debug.error(err) && reject(err)
-      // Succeed
-      resolve(result)
-    })
+    User.create(userData, (err, result) => err ? reject(err) : resolve(result))
   })
-  return { User, UserTC, Provider, createUser, model: User, typeComposer: UserTC };
-};
+  return { User, UserTC, Provider, createUser, model: User, typeComposer: UserTC }
+}

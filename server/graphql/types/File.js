@@ -1,5 +1,5 @@
-const { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } = require('graphql');
-const { InputTypeComposer } = require('graphql-compose');
+const { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } = require('graphql')
+const { InputTypeComposer } = require('graphql-compose')
 const InputType = new InputTypeComposer(
     new GraphQLInputObjectType({
       name: 'FileInput',
@@ -9,8 +9,8 @@ const InputType = new InputTypeComposer(
         mapKey: { type: new GraphQLNonNull(GraphQLString) },
       },
     })
-);
+)
 
 module.exports = {
   inputType: InputType,
-};
+}

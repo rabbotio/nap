@@ -2,7 +2,7 @@ const init = (mongo_url) => {
   return new Promise((resolve, reject) => {
     const mongoose = require('mongoose')
 
-    mongoose.Promise = global.Promise;
+    mongoose.Promise = global.Promise
 
     mongoose.connect(mongo_url, {
       server: {
