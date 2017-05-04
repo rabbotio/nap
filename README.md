@@ -126,21 +126,6 @@ exports.extraInstallationSchema = {
   isVerified: Boolean
 }
 ```
-
-## GraphQL examples
-```shell
-# For original graphql-compose examples
-cp -r ./examples/schema-graphql-compose/ ./graphql/
-open http://localhost:3000/graphql/user
-
-# For Apollo style with graphql-tools
-cp -r ./examples/schema-graphql-tools/ ./graphql/
-open http://localhost:3000/graphql/apollo
-
-# For original style
-cp -r ./examples/schema-original/ ./graphql/
-open http://localhost:3000/graphql/original
-```
 - - -
 
 ## Passport (cookie)
