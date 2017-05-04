@@ -18,14 +18,14 @@ module.exports = (extendedSchema) => {
     loggedInWith: String,
     loggedOutAt: Date,
     sessionToken: String,
-    accessToken: String,
+    accessToken: String
   }
 
   const AuthenSchema = new mongoose.Schema(
     Object.assign(
       buildMongooseSchema(AuthenSchemaObject, extendedSchema)
     ), {
-      timestamps: true,
+      timestamps: true
     }
   )
 

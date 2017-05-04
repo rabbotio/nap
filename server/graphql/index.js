@@ -17,15 +17,15 @@ module.exports.getFile = (fileInput, context) => {
   })
 }
 module.exports.extendModel = require('./models').extendModel
-module.exports.setBuildGraphqlSchema = (builder) => buildGraphqlSchema = builder
+module.exports.setBuildGraphqlSchema = (builder) => (buildGraphqlSchema = builder)
 module.exports.buildSchema = () => {
   let authenChannel
-  async function loginMiddleware({ rp }, next) {
+  async function loginMiddleware ({ rp }, next) {
     const authen = await next()
     authenChannel.publish('login', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() })
   }
 
-  async function logoutMiddleware({ rp }, next) {
+  async function logoutMiddleware ({ rp }, next) {
     const authen = await next()
     authenChannel.publish('logout', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() })
   }
@@ -33,7 +33,7 @@ module.exports.buildSchema = () => {
   const { ComposeStorage } = require('graphql-compose')
   const GQC = new ComposeStorage()
   const models = require('./models')()
-  require('./resolvers')(models)
+  require('./composers')(models)
 
   const userAccess = (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
@@ -61,10 +61,10 @@ module.exports.buildSchema = () => {
 
   GQC.rootQuery().addFields(Object.assign(
     userAccess({
-      user: models.UserTC.getResolver('user'),
+      user: models.UserTC.getResolver('user')
     }), {
       authen: models.AuthenTC.getResolver('authen'),
-      errors: models.ErrorTC.getResolver('error'),
+      errors: models.ErrorTC.getResolver('error')
     })
   )
 
@@ -80,7 +80,7 @@ module.exports.buildSchema = () => {
       changeEmail: models.UserTC.getResolver('changeEmail'),
       update_GCMSenderId: models.InstallationTC.getResolver('update_GCMSenderId'),
       update_deviceToken: models.InstallationTC.getResolver('update_deviceToken'),
-      errors: models.ErrorTC.getResolver('error'),
+      errors: models.ErrorTC.getResolver('error')
     }
   )
 

@@ -3,8 +3,11 @@ const {
   willLoginWithFacebook,
   willSignUp,
   willLogin,
-  willResetPassword,
+  willLogout,
+  willResetPassword
 } = require('./authen')
+const { willCreateUser } = require('./graphql/resolvers/UserResolver')
+const { willInstall } = require('./graphql/resolvers/InstallationResolver')
 
 const init = (req, res, next) => {
   // Inject req
@@ -13,7 +16,10 @@ const init = (req, res, next) => {
     willLoginWithFacebook,
     willSignUp,
     willLogin,
+    willLogout,
     willResetPassword,
+    willCreateUser,
+    willInstall
   }
 
   // No errors

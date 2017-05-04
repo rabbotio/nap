@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NAP Server initNAP 1`] = `
+Object {
+  "nap": Object {
+    "errors": Array [],
+    "willAuthen": [Function],
+    "willCreateUser": [Function],
+    "willInstall": [Function],
+    "willLogin": [Function],
+    "willLoginWithFacebook": [Function],
+    "willLogout": [Function],
+    "willResetPassword": [Function],
+    "willSignUp": [Function],
+  },
+}
+`;

@@ -9,10 +9,10 @@ module.exports = (extendedSchema) => {
       id: String,
       token: String,
       profile: {},
-      isUnlink: Boolean,
+      isUnlink: Boolean
     },
     {
-      _id: false, // disable `_id` field for `Provider` schema
+      _id: false // disable `_id` field for `Provider` schema
     }
   )
   const UserSchemaObject = {
@@ -30,14 +30,14 @@ module.exports = (extendedSchema) => {
     twitter: { type: ProviderSchema },
     google: { type: ProviderSchema },
     github: { type: ProviderSchema },
-    role: { type: String, default: 'user' },
+    role: { type: String, default: 'user' }
   }
 
   const UserSchema = new mongoose.Schema(
     Object.assign(
       buildMongooseSchema(UserSchemaObject, extendedSchema)
     ), {
-      timestamps: true,
+      timestamps: true
     }
   )
 
@@ -64,16 +64,11 @@ module.exports = (extendedSchema) => {
         }
         return false
       },
-      projection: { facebook: true },
-    },
+      projection: { facebook: true }
+    }
   })
 
   const Provider = mongoose.model('Provider', ProviderSchema)
 
-  const createUser = userData => new Promise((resolve, reject) => {
-    userData = Object.assign(userData, { role: 'user' })
-
-    User.create(userData, (err, result) => err ? reject(err) : resolve(result))
-  })
-  return { User, UserTC, Provider, createUser, model: User, typeComposer: UserTC }
+  return { User, UserTC, Provider, model: User, typeComposer: UserTC }
 }

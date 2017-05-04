@@ -169,7 +169,7 @@ const willAuthen = (installationId, { id: userId, verified }, provider) => new P
   let authenData = {
     isLoggedIn: false,
     installationId,
-    userId,
+    userId
   }
 
   // Guard by user local verification if has
@@ -192,6 +192,13 @@ const willAuthen = (installationId, { id: userId, verified }, provider) => new P
   )
 })
 
+const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
+  NAP.Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
+    loggedOutAt: new Date().toISOString(),
+    isLoggedIn: false
+  }, { new: true, upsert: false }, (err, result) => err ? reject(err) : resolve(result))
+})
+
 module.exports = {
   createSessionToken,
   authenticate,
@@ -199,5 +206,6 @@ module.exports = {
   willLoginWithFacebook,
   willSignUp,
   willLogin,
+  willLogout,
   willResetPassword
 }
