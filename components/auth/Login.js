@@ -90,9 +90,6 @@ export default graphql(login, {
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 
-        console.log(cached)
-        console.log(data.login)
-
         // Modify it
         if (cached && cached.authen) {
           cached.authen.isLoggedIn = data.login ? data.login.isLoggedIn : false

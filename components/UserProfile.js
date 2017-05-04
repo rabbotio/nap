@@ -19,7 +19,7 @@ const UserProfile = ({ loading, user, errors, authen }) => {
     }
   }
 
-  // Not logged in  
+  // Not logged in
   let info = errors && errors[0] ? errors[0].message : ''
   if (user) {
     switch (user.status) {
@@ -36,5 +36,5 @@ export default graphql(userProfile, {
   options: { fetchPolicy: 'cache-and-network' },
   props: ({ data: { loading, user, errors, authen } }) => (
     { loading, user, errors, authen }
-  ),
+  )
 })(UserProfile)
