@@ -35,15 +35,15 @@ export default graphql(logout, {
           persist.willRemoveSessionToken()
 
           // Provide no user
-          return { user: null, errors: [], authen: null }
+          return { user: null, errors: [], authen: { isLoggedIn: false } }
         },
         update: (proxy) => {
           // Read the data from our cache for this query.
           let data = proxy.readQuery({ query: userProfile })
 
           // Modify it
-          if (data) {
-            data.authen = null
+          if (data && data.authen) {
+            data.authen.isLoggedIn = false
             data.user = null
           }
 
