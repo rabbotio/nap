@@ -25,7 +25,7 @@ const Login = ({ login }) => {
       <h1>Login</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
-      <input placeholder='password' name='password' defaultValue='barbar' />
+      <input placeholder='password' name='password' defaultValue='bar' />
       <button type='submit'>Login</button>
       <style jsx>{`
         form {
