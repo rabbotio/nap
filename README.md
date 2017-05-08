@@ -186,7 +186,6 @@ exports.extraInstallationSchema = {
 ## TOHAVE
 - [ ] Docker driver [`lvm-direct`](https://hackernoon.com/how-to-properly-run-docker-on-rhel-and-friends-d055754414e5#.1z2ps9ycr)
 - [ ] Notifications Support : https://pusher.com/docs/push_notifications/reference/architecture
-- [ ] More logs. https://github.com/expressjs/morgan
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
 - [ ] RabbitMQ?
 - [ ] Notifications or maybe use vendors with webtask.

@@ -58,7 +58,6 @@
     "mailgun.js": "^2.0.1",
     "mongoose": "^4.9.7",
     "mongoose-role": "^2.0.0",
-    "morgan": "^1.8.1",
     "mubsub": "^1.4.0",
     "multer": "^1.3.0",
     "next": "^2.2.0",

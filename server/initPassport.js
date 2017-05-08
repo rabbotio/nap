@@ -21,9 +21,6 @@ const init = ({ cookie_secret: secret, redis_url: url }, app) => {
     })
   })
 
-  // Use application-level middleware for common functionality, including
-  // logging, parsing, and session handling.
-  app.use(require('morgan')('combined'))
   app.use(require('cookie-parser')(secret))
 
   // Apply
