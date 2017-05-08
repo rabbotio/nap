@@ -63,7 +63,7 @@ export default graphql(forget, {
         userProfile: (previousResult, { mutationResult }) => {
           // Guard
           if (mutationResult.data.errors.length > 0) {
-            console.error(mutationResult.data.errors[0].message)
+            console.error(mutationResult.data.errors[0].message) // eslint-disable-line
             return mutationResult.data.forget
           }
 
