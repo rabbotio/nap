@@ -32,6 +32,13 @@ const UserProfile = ({ loading, user, errors, authen }) => {
   return <div><p>{info}</p><LoginWithFacebook /><hr /><SignUp /><hr /><Login /> <Forget /></div>
 }
 
+UserProfile.propTypes = () => ({
+  loading: React.PropTypes.boolean.isRequired,
+  user: React.PropTypes.object.isRequired,
+  errors: React.PropTypes.array.isRequired,
+  authen: React.PropTypes.object.isRequired,
+})
+
 export default graphql(userProfile, {
   options: { fetchPolicy: 'cache-and-network' },
   props: ({ data: { loading, user, errors, authen } }) => (
