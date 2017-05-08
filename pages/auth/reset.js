@@ -5,7 +5,7 @@ import 'isomorphic-fetch'
 const resetPassword = (token, password) => fetch('/reset-password-by-token', {
   method: 'POST',
   body: JSON.stringify({ token, password }),
-  headers : new Headers({
+  headers: new Headers({
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   })
@@ -37,7 +37,7 @@ class Reset extends React.Component {
     return <form onSubmit={this.handleSubmit}>
       <h1>Reset Password</h1>
       <input placeholder='token' name='token' defaultValue={this.props.token} /><br />
-      <input placeholder='password' name='password' defaultValue='barbar' />
+      <input placeholder='password' name='password' defaultValue='bar' />
       <button type='submit'>Reset</button>
       <style jsx>{`
       form {

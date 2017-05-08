@@ -22,7 +22,7 @@ const SignUp = ({ signup }) => {
     <form onSubmit={handleSubmit}>
       <h1>SignUp</h1>
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
-      <input placeholder='password' name='password' defaultValue='barbar' />
+      <input placeholder='password' name='password' defaultValue='bar' />
       <button type='submit'>SignUp</button>
       <style jsx>{`
         form {
