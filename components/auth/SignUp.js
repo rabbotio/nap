@@ -2,6 +2,7 @@ import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import userProfile from '../userProfile.gql'
+import PropTypes from 'prop-types'
 
 const SignUp = ({ signup }) => {
   const handleSubmit = (e) => {
@@ -22,7 +23,7 @@ const SignUp = ({ signup }) => {
     <form onSubmit={handleSubmit}>
       <h1>SignUp</h1>
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
-      <input placeholder='password' name='password' defaultValue='barbar' />
+      <input placeholder='password' name='password' defaultValue='foobar' />
       <button type='submit'>SignUp</button>
       <style jsx>{`
         form {
@@ -61,7 +62,7 @@ mutation signup($email: String!, $password: String!) {
 `
 
 SignUp.propTypes = () => ({
-  signup: React.PropTypes.func.isRequired
+  signup: PropTypes.func.isRequired
 })
 
 export default graphql(signup, {
@@ -72,7 +73,7 @@ export default graphql(signup, {
         userProfile: (previousResult, { mutationResult }) => {
           // Guard
           if (mutationResult.data.errors.length > 0) {
-            console.error(mutationResult.data.errors[0].message)
+            console.error(mutationResult.data.errors[0].message) // eslint-disable-line
             return mutationResult.data.signup
           }
 

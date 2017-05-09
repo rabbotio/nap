@@ -2,6 +2,7 @@ import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import React from 'react'
 import userProfile from '../userProfile.gql'
+import PropTypes from 'prop-types'
 
 const Logout = ({ logout }) => {
   return (
@@ -23,7 +24,7 @@ mutation logout {
 `
 
 Logout.propTypes = () => ({
-  logout: React.PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired
 })
 
 export default graphql(logout, {

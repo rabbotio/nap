@@ -25,7 +25,7 @@ const init = (config, app) => {
   const graphqlHTTP = require('express-graphql')
 
   const { buildSchema } = require('./graphql')
-  const { authenticate } = require('./authen')
+  const { authenticate } = require('./jwt-token')
   const schema = buildSchema()
   app.use('/graphql', upload.array('files'), authenticate, graphqlHTTP(() => {
     return {

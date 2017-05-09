@@ -1,26 +1,26 @@
 const {
-  willAuthen,
   willLoginWithFacebook,
   willSignUp,
   willLogin,
   willLogout,
-  willResetPassword
-} = require('./authen')
+  willResetPassword,
+  willInstallAndAuthen
+} = require('./graphql/resolvers')
 const { willCreateUser } = require('./graphql/resolvers/UserResolver')
-const { willInstall } = require('./graphql/resolvers/InstallationResolver')
+
+const _NAP = {
+  willLoginWithFacebook,
+  willSignUp,
+  willLogin,
+  willLogout,
+  willResetPassword,
+  willInstallAndAuthen,
+  willCreateUser
+}
 
 const init = (req, res, next) => {
   // Inject req
-  req.nap = req.nap || {
-    willAuthen,
-    willLoginWithFacebook,
-    willSignUp,
-    willLogin,
-    willLogout,
-    willResetPassword,
-    willCreateUser,
-    willInstall
-  }
+  req.nap = req.nap || _NAP
 
   // No errors
   req.nap.errors = []

@@ -3,14 +3,15 @@ import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import device from '../../lib/device'
 import userProfile from '../userProfile.gql'
+import PropTypes from 'prop-types'
 
 const Login = ({ login }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let deviceInfo = e.target.elements.deviceInfo.value
-    let email = e.target.elements.email.value
-    let password = e.target.elements.password.value
+    const deviceInfo = e.target.elements.deviceInfo.value
+    const email = e.target.elements.email.value
+    const password = e.target.elements.password.value
 
     if (deviceInfo === '' || email === '' || password === '') {
       window.alert('All fields are required.')
@@ -25,7 +26,7 @@ const Login = ({ login }) => {
       <h1>Login</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
-      <input placeholder='password' name='password' defaultValue='barbar' />
+      <input placeholder='password' name='password' defaultValue='foobar' />
       <button type='submit'>Login</button>
       <style jsx>{`
         form {
@@ -64,7 +65,7 @@ mutation login($deviceInfo: String!, $email: String!, $password: String!) {
 `
 
 Login.propTypes = () => ({
-  login: React.PropTypes.func.isRequired
+  login: PropTypes.func.isRequired
 })
 
 export default graphql(login, {

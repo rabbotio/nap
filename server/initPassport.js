@@ -7,23 +7,8 @@ const init = ({ cookie_secret: secret, redis_url: url }, app) => {
 
   // Configure Passport authenticated session persistence.
   passport.serializeUser((user, done) => done(null, user.id))
-  passport.deserializeUser((id, done) => {
-    NAP.User.findOne({
-      _id: id
-    }, (err, user) => {
-      // Guard
-      if (!user) {
-        done(null, null)
-        return
-      }
+  passport.deserializeUser((id, done) => NAP.User.findOne({ _id: id }, { id: 1, name: 1 }, done))
 
-      done(err, { id: user.id, name: user.name })
-    })
-  })
-
-  // Use application-level middleware for common functionality, including
-  // logging, parsing, and session handling.
-  app.use(require('morgan')('combined'))
   app.use(require('cookie-parser')(secret))
 
   // Apply

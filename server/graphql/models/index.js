@@ -17,9 +17,7 @@ module.exports.extendModel = (name, schema) => {
   if (startGet) {
     throw new Error(`extendModel can't call after start getting model`)
   }
-  result[name] = require(`./${name}`)({
-    extendedSchema: schema,
-  })
+  result[name] = require(`./${name}`)(schema)
   return result[name]
 }
 

@@ -1,32 +1,31 @@
+const { onError } = require('../../errors')
+
 const willCreateUser = userData => new Promise((resolve, reject) => {
   userData = Object.assign(userData, { role: 'user' })
   NAP.User.create(userData, (err, result) => err ? reject(err) : resolve(result))
 })
 
-const willReadUser = ({ context }) => new Promise(async (resolve, reject) => {
+const willReadUser = async ({ context }) => {
   // Guard
-  if (!context.nap.currentUser) {
-    return reject(new Error('No session found'))
+  if (!context.nap.session) {
+    return onError('No session found')
   }
 
-  // Error
-  const onError = err => {
-    context.nap.errors.push({ code: 403, message: err.message })
-    resolve(null)
-  }
+  const user = await new Promise((resolve, reject) =>
+    NAP.User.findById(context.nap.session.userId,
+      (err, result) => err ? reject(err) : resolve(result)))
 
-  const user = await new Promise((resolve, reject) => NAP.User.findById(context.nap.currentUser.userId, (err, result) => err ? reject(err) : resolve(result)))
   // Fail
   if (!user) {
-    return onError(new Error('User not exist'))
+    return onError('User not exist') && null
   }
 
   // Succeed
-  return resolve(user)
-})
+  return user
+}
 
 const unlinkFacebook = async ({ context }) => {
-  const user = await NAP.User.findById(context.nap.currentUser.userId)
+  const user = await NAP.User.findById(context.nap.session.userId)
   if (!user) {
     throw new Error('Authen error')
   }
@@ -40,7 +39,7 @@ const unlinkFacebook = async ({ context }) => {
 }
 
 const linkFacebook = async ({ args, context }) => {
-  const user = await NAP.User.findById(context.nap.currentUser.userId)
+  const user = await NAP.User.findById(context.nap.session.userId)
   if (!user) {
     throw new Error('Authen error')
   }
@@ -53,7 +52,7 @@ const linkFacebook = async ({ args, context }) => {
 }
 
 const changeEmail = async ({ args, context }) => {
-  const user = await NAP.User.findById(context.nap.currentUser.userId)
+  const user = await NAP.User.findById(context.nap.session.userId)
   if (!user) {
     throw new Error('Authen error')
   }
