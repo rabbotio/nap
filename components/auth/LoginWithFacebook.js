@@ -12,11 +12,10 @@ class LoginWithFacebook extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({accessToken: event.target.value})
+    this.setState({ accessToken: event.target.value })
   }
 
   handleSubmit(e) {
-    console.log(this)
     e.preventDefault()
 
     const deviceInfo = e.target.elements.deviceInfo.value
@@ -35,14 +34,14 @@ class LoginWithFacebook extends React.Component {
   }
 
   componentDidMount() {
-    persist.willGetAccessToken().then(accessToken => this.setState( { accessToken }))
+    persist.willGetAccessToken().then(accessToken => this.setState({ accessToken }))
   }
 
   render() {
     return <form onSubmit={this.handleSubmit.bind(this)}>
       <h1>Login with Facebook accessToken</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
-      <input placeholder='accessToken' name='accessToken' value={this.state.accessToken} onChange={this.handleChange.bind(this)}/>
+      <input placeholder='accessToken' name='accessToken' value={this.state.accessToken} onChange={this.handleChange.bind(this)} />
       <button type='submit'>Login</button>
       <style jsx>{`
         form {
