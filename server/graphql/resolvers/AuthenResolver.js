@@ -1,112 +1,44 @@
-const loginWithFacebook = ({ context, args }) => new Promise(async (resolve) => {
-  const onError = err => {
-    context.nap.errors.push({ code: 403, message: err.message })
-    return resolve(null)
-  }
+// Error, TODO : Use NAP.Error
+const onError = (context) => (err) => {
+  context.nap.errors.push({ code: 403, message: err.message })
+}
 
-  const userData = await context.nap.willLoginWithFacebook(context, args.accessToken).catch(onError)
-  if (!userData) {
-    return onError(new Error('Authen error'))
-  }
+const loginWithFacebook = async ({ context, args }) => {
+  const userData = await context.nap.willLoginWithFacebook(context, args.accessToken).catch(onError(context))
+  const user = userData && await context.nap.willCreateUser(userData).catch(onError(context))
+  return user && await context.nap.willInstallAndAuthen(context, args, user, 'facebook').catch(onError(context))
+}
 
-  const user = await context.nap.willCreateUser(userData).catch(onError)
-  if (!user) {
-    return onError(new Error('Authen error'))
-  }
+const login = async ({ context, args }) => {
+  const user = await context.nap.willLogin(context, args.email, args.password).catch(onError(context))
+  return user && await context.nap.willInstallAndAuthen(context, args, user, 'local').catch(onError(context))
+}
 
-  const installation = await context.nap.willInstall(args).catch(onError)
-  const authen = await context.nap.willAuthen(installation.id, user, 'facebook').catch(onError)
+const signup = async ({ context, args }) => { 
+  const userData = await context.nap.willSignUp(context, args.email, args.password).catch(onError(context))
+  const user = userData && await context.nap.willCreateUser(userData).catch(onError(context))  
+  return user
+}
 
-  if (!authen) {
-    return onError(new Error('Authen error'))
-  }
+const forget = async ({ context, args }) => await context.nap.willResetPassword(context, args.email)
+  .then(user => ({ user: { status: user.status } }))
+  .catch(onError(context))
 
-  return resolve(authen)
-})
-
-const signup = ({ context, args }) => new Promise(async (resolve) => {
-  // Error
-  const onError = err => {
-    context.nap.errors.push({ code: 403, message: err.message })
-    resolve(null)
-  }
-
-  // Installation
-  const user = await context.nap.willSignUp(context, args.email, args.password).then(context.nap.willCreateUser).catch(onError)
-
-  // Succeed
-  resolve(user)
-})
-
-const forget = ({ context, args }) => new Promise(async (resolve) => {
-  // Error
-  const onError = err => {
-    context.nap.errors.push({ code: 403, message: err.message })
-    return resolve(null)
-  }
-
-  // Installation
-  const user = await context.nap.willResetPassword(context, args.email).catch(onError)
-
-  // Succeed
-  return resolve({
-    user: {
-      status: user.status
-    }
-  })
-})
-
-const login = ({ context, args }) => new Promise(async (resolve) => {
-  // Error
-  const onError = err => {
-    context.nap.errors.push({ code: 403, message: err.message })
-    return resolve(null)
-  }
-
-  // User
-  const user = await context.nap.willLogin(context, args.email, args.password).catch(onError)
-
-  // Guard
-  if (!user) {
-    return onError(new Error('Authen error'))
-  }
-
-  // Link
-  const installation = await context.nap.willInstall(args).catch(onError)
-  const authen = await context.nap.willAuthen(installation.id, user, 'local').catch(onError)
-
-  // Fail
-  if (!authen) {
-    return onError(new Error('Authen error'))
-  }
-
-  // Succeed
-  return resolve(authen)
-})
-
-const logout = ({ context }) => new Promise(async (resolve, reject) => {
+const logout = async ({ context }) => {
   // Logout from cookie
   context.logout()
 
   // Guard
   if (!context.nap.currentUser) {
-    context.nap.errors.push({ code: 403, message: 'No session found' })
-    return resolve(null)
+    return onError(context)(new Error('No session found'))
   }
 
   // Logout
-  const authen = await context.nap.willLogout(context.nap.currentUser.installationId, context.nap.currentUser.userId, context.token)
+  const { installationId, userId } = context.nap.currentUser
+  return await context.nap.willLogout(installationId, userId, context.token).catch(onError(context))
+}
 
-  // Fail
-  if (!authen) {
-    return reject(new Error('No session found'))
-  }
-
-  // Succeed
-  return resolve(authen)
-})
-
-const authen = ({ context }) => new Promise(async (resolve) => {
+const authen = async ({ context }) => {
   const _noAuthen = {
     isLoggedIn: false,
     sessionToken: null
@@ -114,14 +46,56 @@ const authen = ({ context }) => new Promise(async (resolve) => {
 
   // Guard
   if (!context.nap.currentUser) {
-    return resolve(_noAuthen)
+    return _noAuthen
   }
 
-  NAP.Authen.findOne({
-    userId: context.nap.currentUser.userId, installationId: context.nap.currentUser.installationId
-  },
-    (err, result) => err ? resolve(_noAuthen) : resolve(result)
-  )
-})
+  return await new Promise((resolve, reject) => {
+    const { installationId, userId } = context.nap.currentUser
+    NAP.Authen.findOne({ userId, installationId }, (err, result) =>
+      err ? reject(_noAuthen) : resolve(result))
+  })
+}
 
-module.exports = { loginWithFacebook, signup, forget, login, logout, authen }
+const willAuthen = async (installationId, { _id: userId, verified }, provider) => {
+  // Base data
+  let authenData = {
+    isLoggedIn: false,
+    installationId,
+    userId
+  }
+
+  // Create session token  
+  const { createSessionToken } = require('../../jwt-token')
+  const sessionToken = createSessionToken(installationId, userId)
+
+  // Guard by user local verification if has
+  const isVerified = (provider === 'local') ? verified : true
+  if (isVerified) {
+    authenData = Object.assign(authenData, {
+      isLoggedIn: isVerified,
+      loggedInAt: new Date().toISOString(),
+      loggedInWith: provider,
+      sessionToken
+    })
+  }
+
+  // Allow to authen
+  return new Promise((resolve, reject) => {
+    NAP.Authen.findOneAndUpdate(
+      { installationId, userId },
+      authenData,
+      { new: true, upsert: true },
+      (err, result) => err ? reject(err) : resolve(result)
+    )
+  })
+}
+
+module.exports = {
+  loginWithFacebook,
+  signup,
+  forget,
+  login,
+  logout,
+  authen,
+  willAuthen
+}

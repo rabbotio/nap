@@ -1,33 +1,48 @@
 import React from 'react'
-import { gql, graphql } from 'react-apollo'
+import { gql, graphql, compose } from 'react-apollo'
 import persist from '../../lib/persist'
 import device from '../../lib/device'
 import userProfile from '../userProfile.gql'
 
-const LoginWithFacebook = ({ loginWithFacebook }) => {
-  const handleSubmit = (e) => {
+class LoginWithFacebook extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { accessToken: '' }
+    this.loginWithFacebook = props.loginWithFacebook
+  }
+
+  handleChange(event) {
+    this.setState({accessToken: event.target.value})
+  }
+
+  handleSubmit(e) {
+    console.log(this)
     e.preventDefault()
 
-    let deviceInfo = e.target.elements.deviceInfo.value
-    let accessToken = e.target.elements.accessToken.value
+    const deviceInfo = e.target.elements.deviceInfo.value
+    const accessToken = e.target.elements.accessToken.value
 
     if (deviceInfo === '' || accessToken === '') {
       window.alert('Both fields are required.')
       return false
     }
 
-    loginWithFacebook(deviceInfo, accessToken)
+    this.loginWithFacebook(deviceInfo, accessToken)
 
     // reset form
     e.target.elements.deviceInfo.value = ''
     e.target.elements.accessToken.value = ''
   }
 
-  return (
-    <form onSubmit={handleSubmit}>
+  componentDidMount() {
+    persist.willGetAccessToken().then(accessToken => this.setState( { accessToken }))
+  }
+
+  render() {
+    return <form onSubmit={this.handleSubmit.bind(this)}>
       <h1>Login with Facebook accessToken</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
-      <input placeholder='accessToken' name='accessToken' defaultValue='EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD' />
+      <input placeholder='accessToken' name='accessToken' value={this.state.accessToken} onChange={this.handleChange.bind(this)}/>
       <button type='submit'>Login</button>
       <style jsx>{`
         form {
@@ -44,7 +59,7 @@ const LoginWithFacebook = ({ loginWithFacebook }) => {
         }
       `}</style>
     </form>
-  )
+  }
 }
 
 const loginWithFacebook = gql`
@@ -69,7 +84,7 @@ LoginWithFacebook.propTypes = () => ({
   loginWithFacebook: React.PropTypes.func.isRequired
 })
 
-export default graphql(loginWithFacebook, {
+const withGraphQL = graphql(loginWithFacebook, {
   props: ({ mutate }) => ({
     loginWithFacebook: (deviceInfo, accessToken) => mutate({
       variables: { deviceInfo, accessToken },
@@ -97,4 +112,8 @@ export default graphql(loginWithFacebook, {
       }
     })
   })
-})(LoginWithFacebook)
+})
+
+export default compose(
+  withGraphQL,
+)(LoginWithFacebook)

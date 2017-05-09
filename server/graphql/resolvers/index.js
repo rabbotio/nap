@@ -1,5 +1,3 @@
-const config = require('./config')
-
 // Forget password
 const willResetPassword = (req, email) => new Promise(async (resolve, reject) => {
   // Guard
@@ -119,79 +117,6 @@ const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject
   return user ? resolve(user) : reject(new Error('Authentication failed'))
 })
 
-const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
-  if (!req.token) {
-    // Ignore empty token
-    return resolve(req)
-  }
-
-  const jwt = require('jsonwebtoken')
-  jwt.verify(req.token, config.jwt_secret, (err, decoded) => {
-    // Error?
-    if (err) {
-      return reject(err)
-    }
-
-    // Succeed
-    req.nap.currentUser = decoded
-    return resolve(req)
-  })
-})
-
-const authenticate = (req, res, next) => {
-  (async () => {
-    // Validate and decode sessionToken
-    await _attachCurrentUserFromSessionToken(req).catch(err => {
-      debug.warn(err.message)
-      req.nap.errors.push({ code: err.code || 0, message: err.message })
-    })
-
-    // Done
-    next()
-  })()
-}
-
-const createSessionToken = (installationId, userId) => {
-  const jwt = require('jsonwebtoken')
-  const sessionToken = jwt.sign({
-    installationId,
-    userId,
-    createdAt: new Date().toISOString()
-  },
-    config.jwt_secret
-  )
-
-  return sessionToken
-}
-
-const willAuthen = (installationId, { _id: userId, verified }, provider) => new Promise(async (resolve, reject) => {
-  // Base data
-  let authenData = {
-    isLoggedIn: false,
-    installationId,
-    userId
-  }
-
-  // Guard by user local verification if has
-  const isVerified = (provider === 'local') ? verified : true
-  if (isVerified) {
-    authenData = Object.assign(authenData, {
-      isLoggedIn: isVerified,
-      loggedInAt: new Date().toISOString(),
-      loggedInWith: provider,
-      sessionToken: createSessionToken(installationId, userId)
-    })
-  }
-
-  // Allow to authen
-  NAP.Authen.findOneAndUpdate(
-    { installationId, userId },
-    authenData,
-    { new: true, upsert: true },
-    (err, result) => err ? reject(err) : resolve(result)
-  )
-})
-
 const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
   NAP.Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {
     loggedOutAt: new Date().toISOString(),
@@ -199,13 +124,32 @@ const willLogout = (installationId, userId, sessionToken) => new Promise((resolv
   }, { new: true, upsert: false }, (err, result) => err ? reject(err) : resolve(result))
 })
 
+const willInstallAndAuthen = async (context, args, user, provider) => {
+  // Guard
+  if (!user) {
+    throw new Error('Authen error')
+  }
+
+  // Link
+  const { willInstall } = require('./InstallationResolver')
+  const { willAuthen } = require('./AuthenResolver')
+  const installation = await willInstall(args)
+  const authen = await willAuthen(installation.id, user, provider)
+
+  // Failed
+  if (!authen) {
+    throw new Error('Authen error')
+  }
+
+  // Succeed
+  return authen
+}
+
 module.exports = {
-  createSessionToken,
-  authenticate,
-  willAuthen,
   willLoginWithFacebook,
   willSignUp,
   willLogin,
   willLogout,
-  willResetPassword
+  willResetPassword,
+  willInstallAndAuthen
 }
