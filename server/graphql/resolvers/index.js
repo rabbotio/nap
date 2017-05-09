@@ -1,70 +1,70 @@
 // Forget password
-const willResetPassword = (req, email) => new Promise(async (resolve, reject) => {
+const willResetPassword = async (req, email) => {
   // Guard
-  const { willValidateEmail } = require('./passport-local')
-  const isValidEmail = await willValidateEmail(email).catch(reject)
+  const { willValidateEmail } = require('../../passport-local')
+  const isValidEmail = await willValidateEmail(email)
   if (!isValidEmail) {
-    return reject(new Error('Not valid email'))
+    return new Error('Not valid email')
   }
 
   // Token
   const token = require('uuid/v4')()
 
   // Validate receiver
-  const { willResetPasswordExistingUser } = require('./passport-local')
-  const user = await willResetPasswordExistingUser(email, token).catch(reject)
+  const { willResetPasswordExistingUser } = require('../../passport-local')
+  const user = await willResetPasswordExistingUser(email, token)
 
   // Guard
   if (!user) {
-    return reject(new Error(`Can't reset password for : ${email}`))
+    return new Error(`Can't reset password for : ${email}`)
   }
 
   // Will send email verification
-  const { createPasswordResetURL, createNewPasswordResetURL } = require('./passport-local')
+  const { createPasswordResetURL, createNewPasswordResetURL } = require('../../passport-local')
   const baseURL = `${req.protocol}://${req.headers.host}`
   const passwordResetURL = createPasswordResetURL(baseURL, token)
   const newPasswordResetURL = createNewPasswordResetURL(baseURL)
 
   // New user, will need verification by email
-  const mailer = require('./mailer')
-  const msg = await mailer.willSendPasswordReset(email, passwordResetURL, newPasswordResetURL).catch(reject)
+  const mailer = require('../../mailer')
+  const msg = await mailer.willSendPasswordReset(email, passwordResetURL, newPasswordResetURL)
 
   // Got verificationURL and msg?
-  return msg ? resolve(user) : reject(new Error(`Can't send email: `, passwordResetURL))
-})
+  return msg ? user : new Error(`Can't send email: `, passwordResetURL)
+}
 
 // Register with email and password
-const willSignUp = (req, email, password) => new Promise(async (resolve, reject) => {
+const willSignUp = async (req, email, password) => {
   // Guard
-  const { willValidateEmailAndPassword } = require('./passport-local')
-  const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password).catch(reject)
+  const { willValidateEmailAndPassword } = require('../../passport-local')
+  const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password)
   if (!isValidEmailAndPassword) {
-    return reject(new Error('Not valid email and/or password'))
+    return new Error('Not valid email and/or password')
   }
 
   // Token
   const token = require('uuid/v4')()
 
   // Validate receiver
-  const { willSignUpNewUser } = require('./passport-local')
-  const user = await willSignUpNewUser(email, password, token).catch(reject)
+  const { willSignUpNewUser } = require('../../passport-local')
+  const user = await willSignUpNewUser(email, password, token)
 
   // Guard
   if (!user) {
-    return reject(new Error(`Can't sign up : ${email}`))
+    return new Error(`Can't sign up : ${email}`)
   }
 
   // Will send email verification
-  const { createVerificationURL } = require('./passport-local')
+  const { createVerificationURL } = require('../../passport-local')
   const verificationURL = createVerificationURL(`${req.protocol}://${req.headers.host}`, token)
 
   // New user, will need verification by email
-  const mailer = require('./mailer')
-  const msg = await mailer.willSendVerification(email, verificationURL).catch(reject)
+  const mailer = require('../../mailer')
+  const msg = await mailer.willSendVerification(email, verificationURL)
 
   // Got verificationURL and msg?
-  return msg ? resolve(user) : reject(new Error(`Can't send email: `, verificationURL))
-})
+  return msg ? user : new Error(`Can't send email: `, verificationURL)
+}
 
 const _willAuthenticateWithPassport = (strategy, req) => new Promise((resolve, reject) => {
   const passport = require('passport')
@@ -79,12 +79,12 @@ const _willAuthenticateWithPassport = (strategy, req) => new Promise((resolve, r
 })
 
 // Login with email
-const willLogin = (req, email, password) => new Promise(async (resolve, reject) => {
+const willLogin = async (req, email, password) => {
   // Guard
-  const { willValidateEmailAndPassword } = require('./passport-local')
-  const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password).catch(reject)
+  const { willValidateEmailAndPassword } = require('../../passport-local')
+  const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password)
   if (!isValidEmailAndPassword) {
-    return reject(new Error('Not valid email and/or password'))
+    return new Error('Not valid email and/or password')
   }
 
   // To let passport-local consume
@@ -92,30 +92,30 @@ const willLogin = (req, email, password) => new Promise(async (resolve, reject) 
   req.body.password = password
 
   // Validate local
-  const user = _willAuthenticateWithPassport('local', req).catch(reject)
-  return user ? resolve(user) : reject(new Error('Authentication failed'))
-})
+  const user = _willAuthenticateWithPassport('local', req)
+  return user ? user : new Error('Authentication failed')
+}
 
 // Valid accessToken?
-const willLoginWithFacebook = (req, accessToken) => new Promise((resolve, reject) => {
+const willLoginWithFacebook = async (req, accessToken) => {
   // Guard
   if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) {
-    return reject(new Error('Required : FACEBOOK_APP_ID, FACEBOOK_APP_SECRET'))
+    return new Error('Required : FACEBOOK_APP_ID, FACEBOOK_APP_SECRET')
   }
 
   // Guard
   const { isEmpty } = require('validator')
   if (isEmpty(accessToken)) {
-    return reject(new Error('Required : accessToken'))
+    return new Error('Required : accessToken')
   }
 
   // To let passport-facebook-token consume
   req.body.access_token = accessToken
 
   // Validate facebook token
-  const user = _willAuthenticateWithPassport('facebook-token', req).catch(reject)
-  return user ? resolve(user) : reject(new Error('Authentication failed'))
-})
+  const user = _willAuthenticateWithPassport('facebook-token', req)
+  return user ? user : new Error('Authentication failed')
+}
 
 const willLogout = (installationId, userId, sessionToken) => new Promise((resolve, reject) => {
   NAP.Authen.findOneAndUpdate({ installationId, userId, sessionToken, isLoggedIn: true }, {

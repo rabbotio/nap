@@ -23,7 +23,7 @@ const SignUp = ({ signup }) => {
     <form onSubmit={handleSubmit}>
       <h1>SignUp</h1>
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
-      <input placeholder='password' name='password' defaultValue='bar' />
+      <input placeholder='password' name='password' defaultValue='foobar' />
       <button type='submit'>SignUp</button>
       <style jsx>{`
         form {
@@ -73,7 +73,7 @@ export default graphql(signup, {
         userProfile: (previousResult, { mutationResult }) => {
           // Guard
           if (mutationResult.data.errors.length > 0) {
-            console.error(mutationResult.data.errors[0].message)
+            console.error(mutationResult.data.errors[0].message) // eslint-disable-line
             return mutationResult.data.signup
           }
 

@@ -1,7 +1,4 @@
-// Error, TODO : Use NAP.Error
-const onError = (context) => (err) => {
-  context.nap.errors.push({ code: 403, message: err.message })
-}
+const { onError } = require('../../errors')
 
 const loginWithFacebook = async ({ context, args }) => {
   const userData = await context.nap.willLoginWithFacebook(context, args.accessToken).catch(onError(context))
@@ -21,7 +18,7 @@ const signup = async ({ context, args }) => {
 }
 
 const forget = async ({ context, args }) => await context.nap.willResetPassword(context, args.email)
-  .then(user => ({ user: { status: user.status } }))
+  .then(({ status }) => ({ user: { status } }))
   .catch(onError(context))
 
 const logout = async ({ context }) => {
@@ -30,7 +27,10 @@ const logout = async ({ context }) => {
 
   // Guard
   if (!context.nap.session) {
-    return onError(context)(new Error('No session found'))
+    return {
+      isLoggedIn: false,
+      sessionToken: null
+    }
   }
 
   // Logout

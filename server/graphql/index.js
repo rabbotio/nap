@@ -20,12 +20,12 @@ module.exports.extendModel = require('./models').extendModel
 module.exports.setBuildGraphqlSchema = (builder) => (buildGraphqlSchema = builder)
 module.exports.buildSchema = () => {
   let authenChannel
-  async function loginMiddleware ({ rp }, next) {
+  async function loginMiddleware({ rp }, next) {
     const authen = await next()
     authenChannel.publish('login', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() })
   }
 
-  async function logoutMiddleware ({ rp }, next) {
+  async function logoutMiddleware({ rp }, next) {
     const authen = await next()
     authenChannel.publish('logout', { Authen_Id: authen._id.toString(), User_Id: authen.userId.toString(), Installation_Id: authen.installationId.toString() })
   }
@@ -34,12 +34,13 @@ module.exports.buildSchema = () => {
   const GQC = new ComposeStorage()
   const models = require('./models')()
   require('./composers')(models)
+  const { onError } = require('../errors')
 
   const userAccess = (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
       resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
         if (!rp.context.nap.session) {
-          rp.context.nap.errors.push({ code: 403, message: 'No session found' })
+          onError(rp.context)('No session found')
           return null
         }
 

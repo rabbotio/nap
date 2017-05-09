@@ -31,14 +31,14 @@ class Reset extends React.Component {
       if (json.data.isReset) {
         return Router.push('/auth/reset-succeed')
       }
-    }).catch(err => console.error(err))
+    }).catch(err => console.error(err)) // eslint-disable-line
   }
 
   render() {
     return <form onSubmit={this.handleSubmit}>
       <h1>Reset Password</h1>
       <input placeholder='token' name='token' defaultValue={this.props.token} /><br />
-      <input placeholder='password' name='password' defaultValue='bar' />
+      <input placeholder='password' name='password' defaultValue='foobar' />
       <button type='submit'>Reset</button>
       <style jsx>{`
       form {
