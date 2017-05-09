@@ -3,6 +3,7 @@ import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import device from '../../lib/device'
 import userProfile from '../userProfile.gql'
+import PropTypes from 'prop-types'
 
 const Login = ({ login }) => {
   const handleSubmit = (e) => {
@@ -64,7 +65,7 @@ mutation login($deviceInfo: String!, $email: String!, $password: String!) {
 `
 
 Login.propTypes = () => ({
-  login: React.PropTypes.func.isRequired
+  login: PropTypes.func.isRequired
 })
 
 export default graphql(login, {

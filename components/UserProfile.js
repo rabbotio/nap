@@ -6,6 +6,7 @@ import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
 import Forget from '../components/auth/Forget'
 import userProfile from './userProfile.gql'
+import PropTypes from 'prop-types'
 
 const UserProfile = ({ loading, user, errors, authen }) => {
   if (loading) {
@@ -33,10 +34,10 @@ const UserProfile = ({ loading, user, errors, authen }) => {
 }
 
 UserProfile.propTypes = () => ({
-  loading: React.PropTypes.boolean.isRequired,
-  user: React.PropTypes.object.isRequired,
-  errors: React.PropTypes.array.isRequired,
-  authen: React.PropTypes.object.isRequired,
+  loading: PropTypes.boolean.isRequired,
+  user: PropTypes.object.isRequired,
+  errors: PropTypes.array.isRequired,
+  authen: PropTypes.object.isRequired,
 })
 
 export default graphql(userProfile, {

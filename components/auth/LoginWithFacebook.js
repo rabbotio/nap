@@ -3,6 +3,7 @@ import { gql, graphql, compose } from 'react-apollo'
 import persist from '../../lib/persist'
 import device from '../../lib/device'
 import userProfile from '../userProfile.gql'
+import PropTypes from 'prop-types'
 
 class LoginWithFacebook extends React.Component {
   constructor(props) {
@@ -80,7 +81,7 @@ mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
 `
 
 LoginWithFacebook.propTypes = () => ({
-  loginWithFacebook: React.PropTypes.func.isRequired
+  loginWithFacebook: PropTypes.func.isRequired
 })
 
 const withGraphQL = graphql(loginWithFacebook, {

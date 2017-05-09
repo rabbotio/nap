@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import UserProfile from '../components/UserProfile'
+import PropTypes from 'prop-types'
 
 const Header = ({ pathname }) => (
   <header>
@@ -31,8 +32,8 @@ const Header = ({ pathname }) => (
 )
 
 Header.propTypes = () => ({
-  pathname: React.PropTypes.string,
-  sessionToken: React.PropTypes.string
+  pathname: PropTypes.string,
+  sessionToken: PropTypes.string
 })
 
 export default Header

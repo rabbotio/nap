@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import 'isomorphic-fetch'
 import persist from '../../lib/persist'
+import PropTypes from 'prop-types'
 
 class welcome extends React.Component {
   static async getInitialProps(context) {
@@ -91,9 +92,9 @@ class welcome extends React.Component {
 }
 
 welcome.propTypes = () => ({
-  userName: React.PropTypes.string,
-  sessionToken: React.PropTypes.string,
-  accessToken: React.PropTypes.string
+  userName: PropTypes.string,
+  sessionToken: PropTypes.string,
+  accessToken: PropTypes.string
 })
 
 export default welcome

@@ -1,6 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 import 'isomorphic-fetch'
+import PropTypes from 'prop-types'
 
 const resetPassword = (token, password) => fetch('/reset-password-by-token', {
   method: 'POST',
@@ -58,7 +59,7 @@ class Reset extends React.Component {
 }
 
 Reset.propTypes = () => ({
-  resetPassword: React.PropTypes.func.isRequired
+  resetPassword: PropTypes.func.isRequired
 })
 
 export default Reset

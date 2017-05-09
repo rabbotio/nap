@@ -105,6 +105,7 @@
     "jest-cli": "^20.0.0",
     "nodemon": "^1.11.0",
     "promise-sequential": "^1.1.1",
+    "prop-types": "^15.5.8",
     "react-addons-test-utils": "^15.5.1",
     "react-test-renderer": "^15.5.4"
   }

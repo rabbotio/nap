@@ -2,6 +2,7 @@ import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import persist from '../../lib/persist'
 import userProfile from '../userProfile.gql'
+import PropTypes from 'prop-types'
 
 const SignUp = ({ signup }) => {
   const handleSubmit = (e) => {
@@ -61,7 +62,7 @@ mutation signup($email: String!, $password: String!) {
 `
 
 SignUp.propTypes = () => ({
-  signup: React.PropTypes.func.isRequired
+  signup: PropTypes.func.isRequired
 })
 
 export default graphql(signup, {

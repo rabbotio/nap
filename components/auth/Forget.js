@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { gql, graphql } from 'react-apollo'
 
 const Forget = ({ forget }) => {
@@ -52,7 +53,7 @@ mutation forget($email: String!) {
 `
 
 Forget.propTypes = () => ({
-  forget: React.PropTypes.func.isRequired
+  forget: PropTypes.func.isRequired
 })
 
 export default graphql(forget, {
