@@ -8,9 +8,9 @@ const Login = ({ login }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let deviceInfo = e.target.elements.deviceInfo.value
-    let email = e.target.elements.email.value
-    let password = e.target.elements.password.value
+    const deviceInfo = e.target.elements.deviceInfo.value
+    const email = e.target.elements.email.value
+    const password = e.target.elements.password.value
 
     if (deviceInfo === '' || email === '' || password === '') {
       window.alert('All fields are required.')
