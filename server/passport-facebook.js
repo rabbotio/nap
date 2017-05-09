@@ -10,7 +10,8 @@ const init = (app, passport) => {
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET
   }, (accessToken, refreshToken, profile, done) => {
-
+    delete profile._raw
+    delete profile._json
     // Upsert data
     const payload = {
       email: profile.emails[0].value,

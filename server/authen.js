@@ -164,7 +164,7 @@ const createSessionToken = (installationId, userId) => {
   return sessionToken
 }
 
-const willAuthen = (installationId, { id: userId, verified }, provider) => new Promise(async (resolve, reject) => {
+const willAuthen = (installationId, { _id: userId, verified }, provider) => new Promise(async (resolve, reject) => {
   // Base data
   let authenData = {
     isLoggedIn: false,

@@ -9,7 +9,7 @@ const loginWithFacebook = ({ context, args }) => new Promise(async (resolve) => 
     return onError(new Error('Authen error'))
   }
 
-  const user = context.nap.willCreateUser(userData).catch(onError)
+  const user = await context.nap.willCreateUser(userData).catch(onError)
   if (!user) {
     return onError(new Error('Authen error'))
   }
