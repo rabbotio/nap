@@ -38,7 +38,7 @@ module.exports.buildSchema = () => {
   const userAccess = (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
       resolvers[k] = resolvers[k].wrapResolve(next => (rp) => {
-        if (!rp.context.nap.currentUser) {
+        if (!rp.context.nap.session) {
           rp.context.nap.errors.push({ code: 403, message: 'No session found' })
           return null
         }

@@ -13,7 +13,7 @@ const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) 
     }
 
     // Succeed
-    req.nap.currentUser = decoded
+    req.nap.session = decoded
     return resolve(req)
   })
 })

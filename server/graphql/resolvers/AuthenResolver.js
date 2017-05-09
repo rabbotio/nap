@@ -14,9 +14,9 @@ const login = async ({ context, args }) => {
   return user && await context.nap.willInstallAndAuthen(context, args, user, 'local').catch(onError(context))
 }
 
-const signup = async ({ context, args }) => { 
+const signup = async ({ context, args }) => {
   const userData = await context.nap.willSignUp(context, args.email, args.password).catch(onError(context))
-  const user = userData && await context.nap.willCreateUser(userData).catch(onError(context))  
+  const user = userData && await context.nap.willCreateUser(userData).catch(onError(context))
   return user
 }
 
@@ -29,12 +29,12 @@ const logout = async ({ context }) => {
   context.logout()
 
   // Guard
-  if (!context.nap.currentUser) {
+  if (!context.nap.session) {
     return onError(context)(new Error('No session found'))
   }
 
   // Logout
-  const { installationId, userId } = context.nap.currentUser
+  const { installationId, userId } = context.nap.session
   return await context.nap.willLogout(installationId, userId, context.token).catch(onError(context))
 }
 
@@ -45,12 +45,12 @@ const authen = async ({ context }) => {
   }
 
   // Guard
-  if (!context.nap.currentUser) {
+  if (!context.nap.session) {
     return _noAuthen
   }
 
   return await new Promise((resolve, reject) => {
-    const { installationId, userId } = context.nap.currentUser
+    const { installationId, userId } = context.nap.session
     NAP.Authen.findOne({ userId, installationId }, (err, result) =>
       err ? reject(_noAuthen) : resolve(result))
   })

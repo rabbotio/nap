@@ -16,12 +16,12 @@ const _willUpdateField = (installationId, fieldObject) => new Promise((resolve, 
 })
 
 const willUpdateField = field => ({ context, args }) => new Promise(async (resolve, reject) => {
-  if (!context.nap.currentUser) {
+  if (!context.nap.session) {
     reject(new Error('No session found'))
     return
   }
 
-  const installation = await _willUpdateField(context.nap.currentUser.installationId, { [field]: args[field] })
+  const installation = await _willUpdateField(context.nap.session.installationId, { [field]: args[field] })
 
   if (!installation) {
     reject(new Error('No installation found'))
