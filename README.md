@@ -146,7 +146,6 @@ exports.extraInstallationSchema = {
 - [x] Login/Logout with `Facebook` from [NextJS](#passport---cookie).
 
 ## DOING
-- [ ] Use `viewer` scope.
 - [ ] Link `facebook-token` with `auth/facebook` user.
 - [ ] Link `facebook-token` with `auth/email` user.
 - [ ] Unlink `Facebook` via `React` web.
@@ -163,7 +162,6 @@ exports.extraInstallationSchema = {
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 - [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
 - [ ] Securing a Containerized Instance of MongoDB : http://rancher.com/securing-containerized-instance-mongodb/
-- [ ] Docker multi-stage build : https://codefresh.io/blog/node_docker_multistage/
 
 ## TOTEST
 - [ ] `Redis` fail test.
@@ -182,24 +180,18 @@ exports.extraInstallationSchema = {
 - [ ] HTTPS with https://github.com/expressjs/session#cookiesecure
 - [ ] Production vs Development. `docker-compose -f docker-compose.yml -f production.yml up -d`
 - [ ] Container config e.g. restart policy, limits CPU/RAM.
+- [ ] Docker multi-stage build : https://codefresh.io/blog/node_docker_multistage/
 
 ## TOHAVE
+- [ ] Node Report : https://github.com/nodejs/node-report
 - [ ] Docker driver [`lvm-direct`](https://hackernoon.com/how-to-properly-run-docker-on-rhel-and-friends-d055754414e5#.1z2ps9ycr)
-- [ ] Notifications Support : https://pusher.com/docs/push_notifications/reference/architecture
 - [ ] Use base-image? https://github.com/phusion/passenger-docker
-- [ ] RabbitMQ?
-- [ ] Notifications or maybe use vendors with webtask.
 - [ ] GraphQL subscriptions :https://github.com/apollographql/graphql-subscriptions
-- [ ] GraphQL advance examples.
-- [ ] yarn? https://github.com/kriasoft/nodejs-api-starter/blob/master/docker-compose.yml#L18
 - [ ] Fallback for `Redis` session store.
 - [ ] Add MongoDB replica set/sharding? https://github.com/sisteming/mongodb-swarm
-- [ ] Cache MongoDB with Redis https://www.npmjs.com/package/mongoose-redis-cache
 - [ ] Cache MongoDB with [mongoose-cache](https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/app/article-model.js#L2)
-- [ ] Add [graphql-sequelize](https://github.com/mickhansen/graphql-sequelize)
 - [ ] Admin Dashboard with `SSH`.
 - [ ] Authen with mobile via [Digits](https://docs.fabric.io/web/digits/overview.html)
-- [ ] Cron with `webtask.io`.
 - [ ] [Backing Up and Restoring Data Volumes](http://www.tricksofthetrades.net/2016/03/14/docker-data-volumes/)
 - [ ] [how-to-copy-docker-images-from-one-host-to-another-without-via-repository](http://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-via-repository)
 - [ ] [Back up and restore dockerized MongoDB](http://blog.btskyrise.com/posts/back-up-and-restore-dockerized-mongodb)
