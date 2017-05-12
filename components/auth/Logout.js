@@ -30,27 +30,28 @@ Logout.propTypes = () => ({
 export default graphql(logout, {
   props: ({ mutate }) => ({
     logout: () => mutate({
-      updateQueries: {
-        userProfile: () => {
-          // Clear session
-          persist.willRemoveSessionToken()
+      update: (proxy, { data }) => {
+        // Clear session
+        persist.willRemoveSessionToken()
 
-          // Provide no user
-          return { user: null, errors: [], authen: { isLoggedIn: false } }
-        },
-        update: (proxy) => {
-          // Read the data from our cache for this query.
-          let data = proxy.readQuery({ query: userProfile })
+        // Read the data from our cache for this query.
+        let cached = proxy.readQuery({ query: userProfile })
 
-          // Modify it
-          if (data && data.authen) {
-            data.authen.isLoggedIn = false
-            data.user = null
-          }
+        // Errors
+        cached.errors = data.errors
 
-          // Write our data back to the cache.
-          proxy.writeQuery({ query: userProfile, data })
+        // User
+        cached.user = data.logout.user
+
+        // Authen
+        cached.authen = {
+          isLoggedIn: data.logout.isLoggedIn,
+          sessionToken: data.logout.sessionToken,
+          _typename: 'Authen'
         }
+
+        // Write our data back to the cache.
+        proxy.writeQuery({ query: userProfile, data: cached })
       }
     })
   })

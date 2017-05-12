@@ -88,23 +88,24 @@ const withGraphQL = graphql(loginWithFacebook, {
   props: ({ mutate }) => ({
     loginWithFacebook: (deviceInfo, accessToken) => mutate({
       variables: { deviceInfo, accessToken },
-      updateQueries: {
-        userProfile: (previousResult, { mutationResult }) => {
-          // Keep session
-          persist.willSetSessionToken(mutationResult.data.loginWithFacebook.sessionToken)
-
-          // Provide user
-          return mutationResult.data.loginWithFacebook
-        }
-      },
       update: (proxy, { data }) => {
+        // Keep session
+        persist.willSetSessionToken(data.loginWithFacebook.sessionToken)
+          
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 
-        // Modify it
-        if (cached && cached.authen) {
-          cached.authen.isLoggedIn = data.loginWithFacebook ? data.loginWithFacebook.isLoggedIn : false
-          cached.authen.sessionToken = data.loginWithFacebook ? data.loginWithFacebook.sessionToken : null
+        // Errors
+        cached.errors = data.errors
+
+        // User
+        cached.user = data.loginWithFacebook.user
+
+        // Authen
+        cached.authen = {
+          isLoggedIn: data.loginWithFacebook.isLoggedIn,
+          sessionToken: data.loginWithFacebook.sessionToken,
+          _typename: 'Authen'
         }
 
         // Write our data back to the cache.

@@ -4,7 +4,7 @@ const init = ({ port }, app, nextjs) => new Promise((resolve, reject) => {
     require('../routes')(app, nextjs)
   } catch (err) {
     // Never mind.
-    debug.warn(err)
+    debug.info('No custom routes found')
   }
 
   const handler = nextjs.getRequestHandler()

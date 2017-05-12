@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mailer should return error if no API_KEY or DOMAIN provide while reset password 1`] = `[Error: No password reset URL]`;
+exports[`mailer should return error if no API_KEY or DOMAIN provide while reset password 1`] = `[Error: Required : mailgun_api_key, Missing .env MAILGUN_API_KEY?]`;
 
-exports[`mailer should return error if no API_KEY or DOMAIN provide while verification 1`] = `[Error: No verification URL]`;
+exports[`mailer should return error if no API_KEY or DOMAIN provide while verification 1`] = `[Error: Required : mailgun_api_key, Missing .env MAILGUN_API_KEY?]`;
 
 exports[`mailer should return reset mail body 1`] = `"FOO_MAILGUN_BODY"`;
 

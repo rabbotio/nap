@@ -18,41 +18,29 @@ class welcome extends React.Component {
     }
 
     // Get access token if has
-    const user = await new Promise((resolve, reject) =>
-      NAP.User.findOne({ _id: req.user.id }, (err, user) =>
-        err ? reject(err) : resolve(user))
-    )
+    const user = await NAP.User.findOne({ _id: req.user.id })
 
-    // Guard    
+    // Guard
     if (!user) {
       return {}
     }
 
-    // Get user name    
-    const userName = user.name
-    const userFacebookAccessToken = user.facebook.token
-
     // Get session token if has
-    const authen = await new Promise((resolve, reject) =>
-      NAP.Authen.findOne({ userId: user.id }, (err, result) =>
-        err ? reject(err) : resolve(result))
-    )
+    const authen = await NAP.Authen.findOne({ userId: user.id })
 
-    // Guard    
+    // Guard : User not authen yet, will use data from user's collection instead    
     if (!authen) {
       return {
-        userName,
-        accessToken: userFacebookAccessToken
+        userName: user.name,
+        accessToken: user.facebook.token
       }
     }
 
-    // Get token    
-    const { sessionToken, accessToken } = authen
-
+    // Use authen collection data
     return {
-      userName,
-      sessionToken,
-      accessToken
+      userName: user.name,
+      sessionToken: authen.sessionToken,
+      accessToken: authen.accessToken
     }
   }
 

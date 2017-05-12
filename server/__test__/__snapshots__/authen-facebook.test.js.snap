@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`authen-facebook should attach current user from session token after authenticate 1`] = `
+Object {
+  "nap": Object {
+    "session": Object {
+      "_id": "58d0e20e7ff032b39c2a9a18",
+      "name": "bar",
+    },
+  },
+  "token": "FOO_BAR_TOKEN",
+}
+`;
+
+exports[`authen-facebook should create session token 1`] = `"FOO_BAR_SESSION_TOKEN"`;
+
+exports[`authen-facebook should login with Facebook and return user 1`] = `
+Object {
+  "_id": "58d0e20e7ff032b39c2a9a18",
+  "name": "bar",
+}
+`;
+
+exports[`authen-facebook should not attach current user to nap from wrong session token after authenticate 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "code": 0,
+      "message": "jwt malformed",
+    },
+  ],
+}
+`;

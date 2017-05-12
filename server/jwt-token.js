@@ -1,6 +1,6 @@
 const { onError } = require('./errors')
 
-const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
+const _willAttachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
   if (!req.token) {
     // Ignore empty token
     return resolve(req)
@@ -23,7 +23,7 @@ const _attachCurrentUserFromSessionToken = req => new Promise((resolve, reject) 
 const authenticate = (req, res, next) => {
   (async () => {
     // Validate and decode sessionToken
-    await _attachCurrentUserFromSessionToken(req).catch(onError(req))
+    await _willAttachCurrentUserFromSessionToken(req).catch(onError(req))
 
     // Done
     next()

@@ -1,11 +1,18 @@
 const {
-  willLoginWithFacebook,
+  willLoginWithFacebook
+} = require('./authen-facebook')
+
+const {
   willSignUp,
   willLogin,
   willLogout,
-  willResetPassword,
+  willResetPassword
+} = require('./authen-local')
+
+const {
   willInstallAndAuthen
 } = require('./graphql/resolvers')
+
 const { willCreateUser } = require('./graphql/resolvers/UserResolver')
 
 const _NAP = {
