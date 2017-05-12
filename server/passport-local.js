@@ -3,13 +3,13 @@ const createPasswordResetURL = (baseURL, token) => `${baseURL}/auth/reset/${toke
 const createNewPasswordResetURL = (baseURL) => `${baseURL}/auth/reset`
 
 const willValidateEmail = (email) => new Promise(async (resolve, reject) => {
-  const { isEmpty, isEmail } = require('validator')
+  const is = require('is_js')
 
-  if (isEmpty(email)) {
+  if (is.empty(email)) {
     return reject(new Error('Required : email'))
   }
 
-  if (!isEmail(email)) {
+  if (is.not.email(email)) {
     return reject(new Error('Invalid email'))
   }
 
@@ -17,13 +17,13 @@ const willValidateEmail = (email) => new Promise(async (resolve, reject) => {
 })
 
 const willValidatePassword = (password) => new Promise(async (resolve, reject) => {
-  const { isEmpty, isLength } = require('validator')
+  const is = require('is_js')
 
-  if (isEmpty(password)) {
+  if (is.empty(password)) {
     return reject(new Error('Required : password'))
   }
 
-  if (!isLength(password, { min: 6, max: 256 })) {
+  if (is.not.within(password.length, 6, 256)) {
     return reject(new Error('Password must be in between 6-256 length'))
   }
 
@@ -61,7 +61,7 @@ const _createNewUserData = (email, password, token) => _withHashedPassword(
     role: 'user',
     verified: false,
     status: 'WAIT_FOR_EMAIL_VERIFICATION',
-  }, 
+  },
   password
 )
 
@@ -163,7 +163,7 @@ const init = (app, passport) => {
     session: false
   }, (email, password, done) => {
     // Find by email
-    NAP.User.findOne({ email, verified: true}, async (err, user) => {
+    NAP.User.findOne({ email, verified: true }, async (err, user) => {
       // Guard
       if (err) { return done(err) }
       if (!user) { return done(null, false) }

@@ -1,10 +1,12 @@
+const { onError } = require('../../errors')
+
 // Forget password
 const willResetPassword = async (req, email) => {
   // Guard
   const { willValidateEmail } = require('../../passport-local')
   const isValidEmail = await willValidateEmail(email)
   if (!isValidEmail) {
-    return new Error('Not valid email')
+    throw new Error('Not valid email')
   }
 
   // Token

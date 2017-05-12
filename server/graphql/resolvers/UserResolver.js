@@ -57,9 +57,10 @@ const changeEmail = async ({ args, context }) => {
     throw new Error('Authen error')
   }
 
-  const isEmail = require('validator/lib/isEmail')
-  if (!isEmail(args.email)) {
-    throw new Error('email format not validated')
+  // Guard
+  const is = require('is_js')
+  if (is.not.email(args.email)) {
+    throw new Error('email format not valid')
   }
 
   user.email = args.email
