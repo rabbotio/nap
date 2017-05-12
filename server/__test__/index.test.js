@@ -18,21 +18,21 @@ describe('index', () => {
 
   const loginWithFacebook = {
     operationName: 'loginWithFacebook',
-    query: `
-      mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
-        loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
-          sessionToken
-          user {
-            _id
-            name
-          }
-        }
-        errors {
-          code
-          message
+    query: `mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
+      loginWithFacebook(deviceInfo: $deviceInfo, accessToken: $accessToken) {
+        isLoggedIn
+        sessionToken
+        user {
+          _id
+          name
+          status
         }
       }
-      `,
+      errors {
+        code
+        message
+      }
+    }`,
     variables: `{"deviceInfo": "foo", "accessToken": "EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD"}`
   }
 

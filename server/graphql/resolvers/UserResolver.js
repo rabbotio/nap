@@ -1,70 +1,56 @@
 const { onError } = require('../../errors')
-
-const willCreateUser = userData => new Promise((resolve, reject) => {
-  userData = Object.assign(userData, { role: 'user' })
-  NAP.User.create(userData, (err, result) => err ? reject(err) : resolve(result))
-})
-
-const willReadUser = async ({ context }) => {
-  // Guard
-  if (!context.nap.session) {
-    return onError('No session found')
-  }
-
-  const user = await new Promise((resolve, reject) =>
-    NAP.User.findById(context.nap.session.userId,
-      (err, result) => err ? reject(err) : resolve(result)))
-
-  // Fail
-  if (!user) {
-    return onError('User not exist') && null
-  }
-
-  // Succeed
-  return user
+// Guard
+const _getUserIdFromSession = (context) => context.nap.session ? context.nap.session.userId : onError('No session found')
+const _getUserFromSession = async (context) => {
+  const userId = _getUserIdFromSession(context)
+  return userId ? await NAP.User.findById(userId).catch(onError(context)) : onError('User not exist')
 }
 
+const willCreateUser = async (user) => await NAP.User.create(Object.assign(user, { role: 'user' }))
+const willReadUser = async ({ context }) => await _getUserFromSession(context)
+
+// TODO : Other provider
 const unlinkFacebook = async ({ context }) => {
-  const user = await NAP.User.findById(context.nap.session.userId)
-  if (!user) {
-    throw new Error('Authen error')
-  }
+  const user = await _getUserFromSession(context)
 
-  if (user.facebook) {
+  // Guard
+  if (user && user.facebook) {
+    // TOFIX : use opt-in isLink
     user.facebook.isUnlink = true
+    await user.save()
   }
 
-  await user.save()
   return user
 }
 
 const linkFacebook = async ({ args, context }) => {
-  const user = await NAP.User.findById(context.nap.session.userId)
-  if (!user) {
-    throw new Error('Authen error')
+  const user = await _getUserFromSession(context)
+  const authenUser = await context.nap.willLoginWithFacebook(context, args.accessToken)
+
+  // Guard
+  if (authenUser && authenUser.facebook) {
+    user.facebook = authenUser.facebook
+    user.facebook.isUnlink = false
+    await user.save()
   }
 
-  const userData = await context.nap.willLoginWithFacebook(context, args.accessToken)
-  user.facebook = userData.facebook
-
-  await user.save()
   return user
 }
 
 const changeEmail = async ({ args, context }) => {
-  const user = await NAP.User.findById(context.nap.session.userId)
-  if (!user) {
-    throw new Error('Authen error')
+  const user = await _getUserFromSession(context)
+
+  // Guard
+  const is = require('is_js')
+  if (is.not.email(args.email)) {
+    throw new Error('email format not valid')
   }
 
-  const isEmail = require('validator/lib/isEmail')
-  if (!isEmail(args.email)) {
-    throw new Error('email format not validated')
+  if (user) {
+    user.email = args.email
+    await user.save()
   }
 
-  user.email = args.email
-
-  await user.save()
   return user
 }
 

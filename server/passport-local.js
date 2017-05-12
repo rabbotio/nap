@@ -1,41 +1,38 @@
-const createVerificationURL = (baseURL, token) => `${baseURL}/auth/local/${token}`
-const createPasswordResetURL = (baseURL, token) => `${baseURL}/auth/reset/${token}`
-const createNewPasswordResetURL = (baseURL) => `${baseURL}/auth/reset`
+const { guard } = require('./errors')
 
-const willValidateEmail = (email) => new Promise(async (resolve, reject) => {
-  const { isEmpty, isEmail } = require('validator')
+const createVerificationURL = (base_url, token) => `${base_url}/auth/local/${token}`
+const createPasswordResetURL = (base_url, token) => `${base_url}/auth/reset/${token}`
+const createNewPasswordResetURL = (base_url) => `${base_url}/auth/reset`
 
-  if (isEmpty(email)) {
-    return reject(new Error('Required : email'))
+const willValidateEmail = async (email) => {
+  const is = require('is_js')
+
+  guard({ email })
+
+  if (is.not.email(email)) {
+    throw new Error('Invalid email')
   }
 
-  if (!isEmail(email)) {
-    return reject(new Error('Invalid email'))
+  return true
+}
+
+const willValidatePassword = async (password) => {
+  const is = require('is_js')
+
+  guard({ password })
+
+  if (is.not.within(password.length, 5, 256)) {
+    throw new Error('Password must be in between 6-256 length')
   }
 
-  return resolve(true)
-})
+  return true
+}
 
-const willValidatePassword = (password) => new Promise(async (resolve, reject) => {
-  const { isEmpty, isLength } = require('validator')
-
-  if (isEmpty(password)) {
-    return reject(new Error('Required : password'))
-  }
-
-  if (!isLength(password, { min: 6, max: 256 })) {
-    return reject(new Error('Password must be in between 6-256 length'))
-  }
-
-  return resolve(true)
-})
-
-const willValidateEmailAndPassword = (email, password) => new Promise(async (resolve, reject) => {
-  let isValid = await willValidateEmail(email).catch(reject)
-  isValid = isValid && await willValidatePassword(password).catch(reject)
-
-  return isValid ? resolve(isValid) : reject(new Error('Email and/or Password is invalid'))
-})
+const willValidateEmailAndPassword = async (email, password) => {
+  let isValid = await willValidateEmail(email)
+  isValid = isValid && await willValidatePassword(password)
+  return isValid
+}
 
 const _withHashedPassword = (user, password) => {
   const bcrypt = require('bcryptjs')
@@ -50,6 +47,7 @@ const _withVerifiedByEmail = (user) => {
   user.verified = true
   user.verifiedAt = new Date().toISOString()
   user.status = 'VERIFIED_BY_EMAIL'
+
   return user
 }
 
@@ -61,84 +59,62 @@ const _createNewUserData = (email, password, token) => _withHashedPassword(
     role: 'user',
     verified: false,
     status: 'WAIT_FOR_EMAIL_VERIFICATION',
-  }, 
+  },
   password
 )
 
-const willSignUpNewUser = (email, password, token) => new Promise((resolve, reject) => {
+const willSignUpNewUser = async (email, password, token) => {
   // Guard existing user
-  NAP.User.findOne({ email }, (err, user) => {
-    if (err) {
-      return reject(err)
-    }
+  const user = await NAP.User.findOne({ email })
+  if (user) { throw new Error('Email already use') }
 
-    if (user) {
-      return reject(new Error('Email already use'))
-    }
+  // Create user with email and token, password if any
+  const userData = _createNewUserData(email, password, token)
+  return await NAP.User.create(userData)
+}
 
-    // Create user with email and token, password if any
-    const userData = _createNewUserData(email, password, token)
-    NAP.User.create(userData, (err, user) => err ? reject(err) : resolve(user))
-  })
-})
-
-const willResetPasswordExistingUser = (email, token) => new Promise((resolve, reject) => {
-  // Guard existing user
-  NAP.User.findOne({ email }, (err, user) => {
-    if (err) {
-      return reject(err)
-    }
-
-    if (!user) {
-      return reject(new Error('Email not exist'))
-    }
-
-    user.token = token
-    user.status = 'WAIT_FOR_EMAIL_RESET'
-    user.save((err, user) => err ? reject(err) : resolve(user))
-  })
-})
-
-const _willMarkUserAsVerifiedByToken = token => new Promise((resolve, reject) => {
+const willResetPasswordExistingUser = async (email, token) => {
   // Guard
-  if (!token) {
-    return reject(new Error('Required : token'))
-  }
+  guard({ email })
+  guard({ token })
+
+  // Use existing user
+  const user = await NAP.User.findOne({ email })
+  if (!user) { throw new Error('Email not exist') }
+
+  // Wait for reset by token
+  user.token = token
+  user.status = 'WAIT_FOR_EMAIL_RESET'
+  return await user.save()
+}
+
+const _willMarkUserAsVerifiedByToken = async (token) => {
+  // Guard
+  guard(token)
 
   // Look up user by token
-  NAP.User.findOne({ token }, (err, user) => {
-    // Guard
-    if (err) {
-      return reject(err)
-    }
+  const user = await NAP.User.findOne({ token })
+  if (!user) { throw new Error('Token has been use') }
 
-    // Guard
-    if (!user) {
-      return reject(new Error('No user found for this token:', token))
-    }
+  return await _withVerifiedByEmail(user).save()
+}
 
-    // Reset token and mark as verified
-    user = _withVerifiedByEmail(user)
-    user.save((err, user) => err ? reject(err) : resolve(user))
-  })
-})
-
-const _willVerifyPassword = (password, hashed_password) => new Promise((resolve, reject) => {
+const _willVerifyPassword = async (password, hashed_password) => {
   // Guard
   if (!password) {
-    return reject(new Error('Required : password'))
+    throw new Error('Required : password')
   }
 
   // Guard
   if (!hashed_password) {
-    return reject(new Error('Required : hashed password'))
+    throw new Error('Required : hashed password')
   }
 
   // Password matched?
   const bcrypt = require('bcryptjs')
   const isEqual = bcrypt.compareSync(password, hashed_password)
-  resolve(isEqual)
-})
+  return isEqual
+}
 
 const init = (app, passport) => {
   // Before verify
@@ -150,9 +126,14 @@ const init = (app, passport) => {
     }
 
     // Verify
-    _willMarkUserAsVerifiedByToken(token).catch(() => res.redirect('/auth/error/token-not-exist'))
-
-    return res.redirect('/auth/verified')
+    _willMarkUserAsVerifiedByToken(token).then(
+      () => res.redirect('/auth/verified')
+    ).catch(
+      err => {
+        debug.error(err)
+        res.redirect('/auth/error/token-not-exist')
+      }
+    )
   })
 
   // After verify
@@ -163,35 +144,31 @@ const init = (app, passport) => {
     session: false
   }, (email, password, done) => {
     // Find by email
-    NAP.User.findOne({ email, verified: true}, async (err, user) => {
-      // Guard
-      if (err) { return done(err) }
-      if (!user) { return done(null, false) }
-
-      // Verify password
-      const isPasswordMatch = await _willVerifyPassword(password, user.hashed_password).catch(() => done(null, false))
+    (async () => {
+      const user = await NAP.User.findOne({ email, verified: true }).catch(done)
+      const isPasswordMatch = user && await _willVerifyPassword(password, user.hashed_password).catch(done)
       return done(null, isPasswordMatch ? user : false)
-    })
+    })()
   }))
 
   // reset-password-by-token
   app.post('/reset-password-by-token', (req, res) => {
-    const token = req.body.token
-    const password = req.body.password
+    (async () => {
+      const token = req.body.token
+      const password = req.body.password
 
-    const isValid = willValidatePassword(password).catch(err => res.json({ errors: [err.message] }))
-    if (!isValid) { return res.json({ errors: ['token-invalid'] }) }
+      const isValid = await willValidatePassword(password).catch(err => res.json({ errors: [err.message] }))
+      if (!isValid) { return res.json({ errors: ['token-invalid'] }) }
 
-    NAP.User.findOne({ token }, (err, user) => {
-      // Guard
-      if (err) { return res.json({ errors: [err.message] }) }
+      let user = await NAP.User.findOne({ token }).catch(err => res.json({ errors: [err.message] }))
       if (!user) { return res.json({ errors: ['user-not-exist'] }) }
 
       user = _withHashedPassword(user, password)
       user = _withVerifiedByEmail(user)
 
-      user.save(err => err ? res.json({ errors: [err.message] }) : res.json({ data: { isReset: true } }))
-    })
+      const result = await user.save().catch(err => res.json({ errors: [err.message] }))
+      return result ? res.json({ data: { isReset: true } }) : res.json({ data: { isReset: false } })
+    })()
   })
 
   // Route

@@ -4,9 +4,8 @@ exports[`NAP Server initNAP 1`] = `
 Object {
   "nap": Object {
     "errors": Array [],
-    "willAuthen": [Function],
     "willCreateUser": [Function],
-    "willInstall": [Function],
+    "willInstallAndAuthen": [Function],
     "willLogin": [Function],
     "willLoginWithFacebook": [Function],
     "willLogout": [Function],

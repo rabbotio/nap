@@ -72,29 +72,24 @@ export default graphql(login, {
   props: ({ mutate }) => ({
     login: (deviceInfo, email, password) => mutate({
       variables: { deviceInfo, email, password },
-      updateQueries: {
-        userProfile: (previousResult, { mutationResult }) => {
-          // Guard
-          if (mutationResult.data.errors.length > 0) {
-            alert(mutationResult.data.errors[0].message)
-            return mutationResult.data.login
-          }
-
-          // Keep session
-          mutationResult.data.login && persist.willSetSessionToken(mutationResult.data.login.sessionToken)
-
-          // Provide user
-          return mutationResult.data.login
-        }
-      },
       update: (proxy, { data }) => {
+        // Keep session
+        data.login && persist.willSetSessionToken(data.login.sessionToken)
+
         // Read the data from our cache for this query.
         let cached = proxy.readQuery({ query: userProfile })
 
-        // Modify it
-        if (cached && cached.authen) {
-          cached.authen.isLoggedIn = data.login ? data.login.isLoggedIn : false
-          cached.authen.sessionToken = data.login ? data.login.sessionToken : null
+        // Errors
+        cached.errors = data.errors
+
+        // User
+        cached.user = data.login.user
+
+        // Authen
+        cached.authen = {
+          isLoggedIn: data.login.isLoggedIn,
+          sessionToken: data.login.sessionToken,
+          _typename: 'Authen'
         }
 
         // Write our data back to the cache.

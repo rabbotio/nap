@@ -49,11 +49,8 @@ const authen = async ({ context }) => {
     return _noAuthen
   }
 
-  return await new Promise((resolve, reject) => {
-    const { installationId, userId } = context.nap.session
-    NAP.Authen.findOne({ userId, installationId }, (err, result) =>
-      err ? reject(_noAuthen) : resolve(result))
-  })
+  const { installationId, userId } = context.nap.session
+  return await NAP.Authen.findOne({ userId, installationId }).catch(err => onError(context)(err) && _noAuthen)
 }
 
 const willAuthen = async (installationId, { _id: userId, verified }, provider) => {
@@ -80,14 +77,7 @@ const willAuthen = async (installationId, { _id: userId, verified }, provider) =
   }
 
   // Allow to authen
-  return new Promise((resolve, reject) => {
-    NAP.Authen.findOneAndUpdate(
-      { installationId, userId },
-      authenData,
-      { new: true, upsert: true },
-      (err, result) => err ? reject(err) : resolve(result)
-    )
-  })
+  return await NAP.Authen.findOneAndUpdate({ installationId, userId }, authenData, { new: true, upsert: true })
 }
 
 module.exports = {

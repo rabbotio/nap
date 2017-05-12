@@ -30,7 +30,14 @@ const UserProfile = ({ loading, user, errors, authen }) => {
         break
     }
   }
-  return <div><p>{info}</p><LoginWithFacebook /><hr /><SignUp /><hr /><Login /> <Forget /></div>
+  return <div>
+    <p className='error'>{info}</p><LoginWithFacebook /><hr /><SignUp /><hr /><Login /> <Forget />
+    <style jsx>{`
+      .error {
+        color: #ff0000
+      }
+      `}</style>
+  </div>
 }
 
 UserProfile.propTypes = () => ({

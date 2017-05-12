@@ -1,64 +1,48 @@
-const config = require('./config')
+const { guard } = require('./errors')
 
-const willSendVerification = (email, verification_url) => new Promise((resolve, reject) => {
+const willSendVerification = async ({ mailgun_api_key, mailgun_domain, email, verification_url }) => {
   // Guard
-  if (!config.mailgun_api_key || !config.mailgun_domain) {
-    throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
-  }
-
-  // Guard
-  if (!verification_url) {
-    return reject(new Error('No verification URL'))
-  }
+  guard({ mailgun_api_key }, 'Required : mailgun_api_key, Missing .env MAILGUN_API_KEY?')
+  guard({ mailgun_domain }, 'Required : mailgun_domain, Missing .env MAILGUN_DOMAIN?')
+  guard({ email })
+  guard({ verification_url })
 
   // Client
   const MailGun = require('mailgun.js')
   const mailgunClient = MailGun.client({
     username: 'api',
-    key: config.mailgun_api_key
+    key: mailgun_api_key
   })
 
   // Template
   const builder = require('../templates/email-signin')
-  const data = builder(config.mailgun_domain, email, verification_url)
+  const data = builder(mailgun_domain, email, verification_url)
 
   // Send
-  return mailgunClient.messages
-    .create(config.mailgun_domain, data)
-    .then(resolve).catch(reject)
-})
+  return await mailgunClient.messages.create(mailgun_domain, data)
+}
 
-const willSendPasswordReset = (email, password_reset_url, new_password_reset_url) => new Promise((resolve, reject) => {
+const willSendPasswordReset = async ({ mailgun_api_key, mailgun_domain, email, password_reset_url, new_password_reset_url }) => {
   // Guard
-  if (!config.mailgun_api_key || !config.mailgun_domain) {
-    throw 'Required MAILGUN_API_KEY, MAILGUN_DOMAIN'
-  }
-
-  // Guard
-  if (!password_reset_url) {
-    return reject(new Error('No password reset URL'))
-  }
-
-  // Guard
-  if (!new_password_reset_url) {
-    return reject(new Error('No new password reset URL'))
-  }
+  guard({ mailgun_api_key }, 'Required : mailgun_api_key, Missing .env MAILGUN_API_KEY?')
+  guard({ mailgun_domain }, 'Required : mailgun_domain, Missing .env MAILGUN_DOMAIN?')
+  guard({ email })
+  guard({ password_reset_url })
+  guard({ new_password_reset_url })
 
   // Client
   const MailGun = require('mailgun.js')
   const mailgunClient = MailGun.client({
     username: 'api',
-    key: config.mailgun_api_key
+    key: mailgun_api_key
   })
 
   // Template
   const builder = require('../templates/email-forget')
-  const data = builder(config.mailgun_domain, email, password_reset_url, new_password_reset_url)
+  const data = builder(mailgun_domain, email, password_reset_url, new_password_reset_url)
 
   // Send
-  return mailgunClient.messages
-    .create(config.mailgun_domain, data)
-    .then(resolve).catch(reject)
-})
+  return await mailgunClient.messages.create(mailgun_domain, data)
+}
 
 module.exports = { willSendVerification, willSendPasswordReset }
