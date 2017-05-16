@@ -27,7 +27,7 @@ const onError = (req) => (...args) => {
 
   // 403, 'foo'  
   if (typeof args[0] === 'number' && typeof args[1] === 'string') {
-    _push(req, new GenericError(...args))
+    _push(req, new GenericError(args[0], args[1]))
     return
   }
 
