@@ -3,12 +3,12 @@ const { onError } = require('../../errors')
 const loginWithFacebook = async ({ context, args }) => {
   const userData = await context.nap.willLoginWithFacebook(context, args.accessToken).catch(onError(context))
   const user = userData && await context.nap.willCreateUser(userData).catch(onError(context))
-  return user && await context.nap.willInstallAndAuthen(context, args, user, 'facebook').catch(onError(context))
+  return user && await context.nap.willInstallAndAuthen(args, user, 'facebook').catch(onError(context))
 }
 
 const login = async ({ context, args }) => {
   const user = await context.nap.willLogin(context, args.email, args.password).catch(onError(context))
-  return user && await context.nap.willInstallAndAuthen(context, args, user, 'local').catch(onError(context))
+  return user && await context.nap.willInstallAndAuthen(args, user, 'local').catch(onError(context))
 }
 
 const signup = async ({ context, args }) => {
