@@ -18,7 +18,7 @@ COPY providers /usr/app/providers
 
 # Templates layer
 RUN mkdir -p /usr/app/templates
-COPY server /usr/app/templates
+COPY templates /usr/app/templates
 
 # Server layer
 RUN mkdir -p /usr/app/server
