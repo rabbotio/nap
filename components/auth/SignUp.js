@@ -21,7 +21,7 @@ const SignUp = ({ signup }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>SignUp</h1>
+      <h1>SignUp (GraphQL)</h1>
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
       <input placeholder='password' name='password' defaultValue='foobar' />
       <button type='submit'>SignUp</button>

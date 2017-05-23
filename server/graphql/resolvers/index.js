@@ -1,4 +1,4 @@
-const willInstallAndAuthen = async (context, args, user, provider) => {
+const willInstallAndAuthen = async (args, user, provider) => {
   // Guard
   if (!user) {
     throw new Error('Authen error')

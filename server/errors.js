@@ -20,20 +20,20 @@ const onError = (req) => (...args) => {
   }
 
   // 'foo'
-  if (args[0] instanceof String) {
+  if (typeof args[0] === 'string') {
     _push(req, new GenericError(0, args[0]))
     return
   }
 
   // 403, 'foo'  
-  if (args[0] instanceof Number && args[1] instanceof String) {
-    _push(req, new GenericError(...args))
+  if (typeof args[0] === 'number' && typeof args[1] === 'string') {
+    _push(req, new GenericError(args[0], args[1]))
     return
   }
 
   // 403
-  if (args[0] instanceof Number && args.length === 1) {
-    _push(req, new GenericError(0, _COMMON_ERRORS[args[0]] || ''))
+  if (typeof args[0] === 'number' && args.length === 1) {
+    _push(req, new GenericError(args[0], _COMMON_ERRORS[args[0]] || ''))
     return
   }
 }

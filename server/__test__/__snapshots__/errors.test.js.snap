@@ -1,3 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`errors should add code as new generic error to request 1`] = `
+Object {
+  "code": 3,
+  "message": "",
+}
+`;
+
+exports[`errors should add code with common error as new generic error to request 1`] = `
+Object {
+  "code": 403,
+  "message": "Forbidden",
+}
+`;
+
+exports[`errors should add code, string as new generic error to request 1`] = `
+Object {
+  "code": 403,
+  "message": "foo",
+}
+`;
+
+exports[`errors should add error new generic error to request 1`] = `
+Object {
+  "code": 0,
+  "message": "foo",
+}
+`;
+
+exports[`errors should add string as new generic error to request 1`] = `
+Object {
+  "code": 0,
+  "message": "foo",
+}
+`;
+
 exports[`errors should return SESSION_EMPTY_ERROR 1`] = `[Error: User has no session provide]`;
