@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 const Logout = ({ logout }) => {
   return (
-    <button onClick={logout}>LogOut</button>
+    <button onClick={logout}>LogOut (GraphQL)</button>
   )
 }
 

@@ -17,7 +17,7 @@ const Forget = ({ forget }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Forget Password</h1>
+      <h1>Forget Password (GraphQL)</h1>
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
       <button type='submit'>Forget</button>
       <style jsx>{`

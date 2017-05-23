@@ -40,7 +40,7 @@ class LoginWithFacebook extends React.Component {
 
   render() {
     return <form onSubmit={this.handleSubmit.bind(this)}>
-      <h1>Login with Facebook accessToken</h1>
+      <h1>Login (GraphQL) with Facebook accessToken</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='accessToken' name='accessToken' value={this.state.accessToken} onChange={this.handleChange.bind(this)} />
       <button type='submit'>Login</button>

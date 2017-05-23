@@ -23,7 +23,7 @@ const Login = ({ login }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Login</h1>
+      <h1>Login (GraphQL)</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
       <input placeholder='email' name='email' defaultValue='katopz@gmail.com' />
       <input placeholder='password' name='password' defaultValue='foobar' />
