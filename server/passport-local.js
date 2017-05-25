@@ -1,4 +1,4 @@
-const { guard } = require('./errors')
+const { guard, PASSWORD_LENGTH_ERROR } = require('./errors')
 
 const createVerificationURL = (base_url, token) => `${base_url}/auth/local/${token}`
 const createPasswordResetURL = (base_url, token) => `${base_url}/auth/reset/${token}`
@@ -22,7 +22,7 @@ const willValidatePassword = async (password) => {
   guard({ password })
 
   if (is.not.within(password.length, 5, 256)) {
-    throw new Error('Password must be in between 6-256 length')
+    throw PASSWORD_LENGTH_ERROR
   }
 
   return true

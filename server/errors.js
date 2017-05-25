@@ -47,10 +47,11 @@ const guard = (arg, msg) => {
 
   return false
 }
-
+new Error('Password must be in between 6-256 length')
 module.exports = {
   GenericError,
   SESSION_EMPTY_ERROR: new GenericError(190, 'User has no session provide'),
+  PASSWORD_LENGTH_ERROR: new GenericError(180, 'Password must be in between 6-256 length'),
   onError,
   guard
 }

@@ -9,11 +9,13 @@ module.exports = () => {
     }
   `)
 
+  const ErrorResolver = require('../resolvers/ErrorResolver')
+  
   ErrorTC.addResolver({
     name: 'error',
     kind: 'query',
     type: new GraphQLList(ErrorTC.getType()),
-    resolve: ({ context }) => context.nap.errors
+    resolve: ErrorResolver.resolver
   })
 
   return { ErrorTC }
