@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthenResolver should return errors if has any error 1`] = `
+Array [
+  Object {
+    "code": 0,
+    "message": "foo",
+  },
+]
+`;
+
+exports[`AuthenResolver should return null if no error 1`] = `null`;

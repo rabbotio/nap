@@ -50,7 +50,7 @@ describe('index', () => {
               "name": expect.any(String),
             }
           },
-          "errors": []
+          "errors": null
         }
       })
     })
@@ -87,7 +87,7 @@ describe('index', () => {
             "loggedOutAt": expect.any(String),
             "isLoggedIn": false,
           },
-          "errors": []
+          "errors": null
         }
       })
     })
