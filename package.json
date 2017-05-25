@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env2",
@@ -99,10 +99,10 @@
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-react": "^7.0.1",
-    "jest": "^20.0.3",
-    "jest-cli": "^20.0.3",
+    "jest": "^20.0.4",
+    "jest-cli": "^20.0.4",
     "nodemon": "^1.11.0",
     "promise-sequential": "^1.1.1",
     "prop-types": "^15.5.10",
