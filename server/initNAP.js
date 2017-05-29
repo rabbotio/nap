@@ -27,7 +27,10 @@ const _NAP = {
 
 const init = (req, res, next) => {
   // Inject req
-  req.nap = req.nap || _NAP
+  req.nap = _NAP
+
+  // No session
+  req.nap.session = null
 
   // No errors
   req.nap.errors = []

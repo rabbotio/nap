@@ -16,26 +16,28 @@ const onError = (req) => (...args) => {
   // Error('foo')  
   if (args[0] instanceof Error) {
     _push(req, new GenericError(0, args[0].message))
-    return
+    return null
   }
 
   // 'foo'
   if (typeof args[0] === 'string') {
     _push(req, new GenericError(0, args[0]))
-    return
+    return null
   }
 
   // 403, 'foo'  
   if (typeof args[0] === 'number' && typeof args[1] === 'string') {
     _push(req, new GenericError(args[0], args[1]))
-    return
+    return null
   }
 
   // 403
   if (typeof args[0] === 'number' && args.length === 1) {
     _push(req, new GenericError(args[0], _COMMON_ERRORS[args[0]] || ''))
-    return
+    return null
   }
+
+  return null
 }
 
 const guard = (arg, msg) => {

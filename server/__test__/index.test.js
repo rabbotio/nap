@@ -56,7 +56,7 @@ describe('index', () => {
     })
   })
 
-  it('can log user out', async () => {
+  it('can log user out and return null user', async () => {
     // Login first
     const loginWithFacebook_query = JSON.stringify(loginWithFacebook)
     const sessionToken = await fetcher(loginWithFacebook_query).then(result => result.data.loginWithFacebook.sessionToken)
@@ -64,10 +64,42 @@ describe('index', () => {
     // Then logout
     const logout = {
       query: `
-      mutation {
-        logout {
-          loggedOutAt
+mutation {
+  logout {
+    loggedOutAt
+    isLoggedIn
+  }
+  errors {
+    code
+    message
+  }
+}`,
+      variables: null
+    }
+
+    const query = JSON.stringify(logout)
+    const authorization = `Bearer ${sessionToken}`
+
+    const result = await fetcher(query, authorization)
+    expect(result).toMatchObject({
+      "data": {
+        "logout": {
+          "loggedOutAt": expect.any(String),
+          "isLoggedIn": false,
+        },
+        "errors": null
+      }
+    })
+
+    const userProfile = {
+      query: `query {
+        authen {
           isLoggedIn
+        }
+        user {
+          _id
+          name
+          status
         }
         errors {
           code
@@ -77,20 +109,21 @@ describe('index', () => {
       variables: null
     }
 
-    const query = JSON.stringify(logout)
-    const authorization = `Bearer ${sessionToken}`
-
-    await fetcher(query, authorization).then(result => {
-      expect(result).toMatchObject({
-        "data": {
-          "logout": {
-            "loggedOutAt": expect.any(String),
-            "isLoggedIn": false,
-          },
-          "errors": null
-        }
-      })
+    const userProfile_query = JSON.stringify(userProfile)
+    const userProfile_result = await fetcher(userProfile_query)
+    expect(userProfile_result).toMatchObject({
+      "data": {
+        "authen": {
+          "isLoggedIn": false,
+        },
+        "errors": [
+          {
+            "code": 0,
+            "message": "No session found"
+          }
+        ],
+        "user": null
+      }
     })
   })
-
 })

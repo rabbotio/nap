@@ -96,7 +96,8 @@ const willLogout = async (installationId, userId, sessionToken) => await NAP.Aut
   { installationId, userId, sessionToken, isLoggedIn: true },
   {
     loggedOutAt: new Date().toISOString(),
-    isLoggedIn: false
+    isLoggedIn: false,
+    sessionToken: null
   },
   { new: true, upsert: false }
 )
