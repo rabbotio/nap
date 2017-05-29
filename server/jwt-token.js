@@ -1,6 +1,10 @@
 const { onError } = require('./errors')
 
 const _willAttachCurrentUserFromSessionToken = req => new Promise((resolve, reject) => {
+  // Ensure no session
+  req.nap.session = null
+
+  //Guard
   if (!req.token) {
     // Ignore empty token
     return resolve(req)

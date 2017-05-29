@@ -29,5 +29,6 @@ Object {
       "message": "jwt malformed",
     },
   ],
+  "session": null,
 }
 `;

@@ -1,17 +1,24 @@
 const { onError } = require('../../errors')
+
 // Guard
-const _getUserIdFromSession = (context) => context.nap.session ? context.nap.session.userId : onError('No session found')
-const _getUserFromSession = async (context) => {
+const _getUserIdFromSession = (context) => context.nap.session ? context.nap.session.userId : null
+const _willGetUserFromSession = async (context) => {
   const userId = _getUserIdFromSession(context)
-  return userId ? await NAP.User.findById(userId).catch(onError(context)) : onError('User not exist')
+
+  // Guard
+  if(!userId) {
+    throw new Error('No session found')
+  }
+
+  return await NAP.User.findById(userId).catch(onError(context))
 }
 
 const willCreateUser = async (user) => await NAP.User.create(Object.assign(user, { role: 'user' }))
-const willReadUser = async ({ context }) => await _getUserFromSession(context)
+const willReadUser = async ({ context }) => await _willGetUserFromSession(context)
 
 // TODO : Other provider
 const unlinkFacebook = async ({ context }) => {
-  const user = await _getUserFromSession(context)
+  const user = await _willGetUserFromSession(context)
 
   // Guard
   if (user && user.facebook) {
@@ -24,7 +31,7 @@ const unlinkFacebook = async ({ context }) => {
 }
 
 const linkFacebook = async ({ args, context }) => {
-  const user = await _getUserFromSession(context)
+  const user = await _willGetUserFromSession(context)
   const authenUser = await context.nap.willLoginWithFacebook(context, args.accessToken)
 
   // Guard
@@ -38,7 +45,7 @@ const linkFacebook = async ({ args, context }) => {
 }
 
 const changeEmail = async ({ args, context }) => {
-  const user = await _getUserFromSession(context)
+  const user = await _willGetUserFromSession(context)
 
   // Guard
   const is = require('is_js')
