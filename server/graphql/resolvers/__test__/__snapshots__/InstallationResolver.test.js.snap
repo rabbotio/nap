@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstallationResolver should install and return installation data 1`] = `
+Object {
+  "_id": "592c0bb41b46e001780f00a6",
+  "deviceInfo": "Chrome 58.0.3029.110 on OS X 10.12.4 64-bit",
+}
+`;
+
+exports[`InstallationResolver should update fields and return installation data 1`] = `
+Object {
+  "_id": "592c0bb41b46e001780f00a6",
+  "foo": "bar",
+}
+`;
