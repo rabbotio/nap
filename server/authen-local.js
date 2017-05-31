@@ -38,10 +38,11 @@ const willResetPassword = async (req, email) => {
 // Register with email and password
 const willSignUp = async (req, email, password) => {
   // Guard
+  const { WRONG_EMAIL_PASSWORD_ERROR } = require('./errors')
   const { willValidateEmailAndPassword } = require('./passport-local')
   const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password)
   if (!isValidEmailAndPassword) {
-    throw new Error('Not valid email and/or password')
+    throw WRONG_EMAIL_PASSWORD_ERROR
   }
 
   // Token
@@ -77,10 +78,11 @@ const willSignUp = async (req, email, password) => {
 // Login with email
 const willLogin = async (req, email, password) => {
   // Guard
+  const { WRONG_EMAIL_PASSWORD_ERROR } = require('./errors')  
   const { willValidateEmailAndPassword } = require('./passport-local')
   const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password)
   if (!isValidEmailAndPassword) {
-    throw new Error('Not valid email and/or password')
+    throw WRONG_EMAIL_PASSWORD_ERROR
   }
 
   // To let passport-local consume
