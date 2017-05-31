@@ -119,4 +119,52 @@ describe('passport-local', () => {
     const { willResetPasswordExistingUser } = require('../passport-local')
     expect(await willResetPasswordExistingUser(email, token)).toMatchSnapshot()
   })
+
+  it('should init without error', async () => {
+    const init = require('../passport-local')
+    const express = require('express')
+    const app = express()
+
+    const passport = require('passport')
+
+    expect(init(app, passport)).toBeUndefined()
+  })
+
+  it('should redirect null token to /auth/error/token-not-provided', async () => {
+    const { auth_local_token } = require('../passport-local').handler
+    const req = { params: { token: null } }
+    const res = {
+      redirect: (route) => expect(route).toMatchSnapshot()
+    }
+    auth_local_token(req, res)
+  })
+
+  it('should redirect non exist token to /auth/error/token-not-exist', async () => {
+    const { auth_local_token } = require('../passport-local').handler
+    const req = { params: { token: 'NOT_EXIST_TOKEN' } }
+    const res = {
+      redirect: (route) => expect(route).toMatchSnapshot()
+    }
+    auth_local_token(req, res)
+  })
+
+  it('should redirect valid token to /auth/verified', async () => {
+    // stub
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        save: () => Promise.resolve({
+          _id: '592c0bb4484d740e0e73798b',
+          role: 'user',
+          status: 'VERIFIED_BY_EMAIL'
+        })
+      }))
+    }
+
+    const { auth_local_token } = require('../passport-local').handler
+    const req = { params: { token: 'VALID_TOKEN' } }
+    const res = {
+      redirect: (route) => expect(route).toMatchSnapshot()
+    }
+    auth_local_token(req, res)
+  })
 })

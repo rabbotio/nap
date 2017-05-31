@@ -117,25 +117,51 @@ const _willVerifyPassword = async (password, hashed_password) => {
   return isEqual
 }
 
+const auth_local_token = (req, res) => {
+  // Guard
+  const token = req.params.token
+  if (!token || token.trim() === '') {
+    return res.redirect('/auth/error/token-not-provided')
+  }
+
+  // Verify
+  _willMarkUserAsVerifiedByToken(token).then(
+    () => res.redirect('/auth/verified')
+  ).catch(err => {
+    res.redirect('/auth/error/token-not-exist')
+  })
+}
+
+const reset_password_by_token = (req, res) => {
+  (async () => {
+    const token = req.body.token
+    const password = req.body.password
+
+    const isValid = await willValidatePassword(password).catch(err => res.json({ errors: [err.message] }))
+    if (!isValid) { return res.json({ errors: ['token-invalid'] }) }
+
+    let user = await NAP.User.findOne({ token }).catch(err => res.json({ errors: [err.message] }))
+    if (!user) { return res.json({ errors: ['user-not-exist'] }) }
+
+    user = _withHashedPassword(user, password)
+    user = _withVerifiedByEmail(user)
+
+    const result = await user.save().catch(err => res.json({ errors: [err.message] }))
+    return result ? res.json({ data: { isReset: true } }) : res.json({ data: { isReset: false } })
+  })()
+}
+
+const auth_local = (req, res) => res.redirect('/auth/welcome')
+
+const handler = {
+  auth_local_token,
+  reset_password_by_token,
+  auth_local
+}
+
 const init = (app, passport) => {
   // Before verify
-  app.get('/auth/local/:token', (req, res) => {
-    // Guard
-    const token = req.params.token
-    if (!token || token.trim() === '') {
-      return res.redirect('/auth/error/token-not-provided')
-    }
-
-    // Verify
-    _willMarkUserAsVerifiedByToken(token).then(
-      () => res.redirect('/auth/verified')
-    ).catch(
-      err => {
-        debug.error(err)
-        res.redirect('/auth/error/token-not-exist')
-      }
-    )
-  })
+  app.get('/auth/local/:token', handler.auth_local_token)
 
   // After verify
   const LocalStrategy = require('passport-local')
@@ -153,30 +179,14 @@ const init = (app, passport) => {
   }))
 
   // reset-password-by-token
-  app.post('/reset-password-by-token', (req, res) => {
-    (async () => {
-      const token = req.body.token
-      const password = req.body.password
-
-      const isValid = await willValidatePassword(password).catch(err => res.json({ errors: [err.message] }))
-      if (!isValid) { return res.json({ errors: ['token-invalid'] }) }
-
-      let user = await NAP.User.findOne({ token }).catch(err => res.json({ errors: [err.message] }))
-      if (!user) { return res.json({ errors: ['user-not-exist'] }) }
-
-      user = _withHashedPassword(user, password)
-      user = _withVerifiedByEmail(user)
-
-      const result = await user.save().catch(err => res.json({ errors: [err.message] }))
-      return result ? res.json({ data: { isReset: true } }) : res.json({ data: { isReset: false } })
-    })()
-  })
+  app.post('/reset-password-by-token', handler.reset_password_by_token)
 
   // Route
-  app.post('/auth/local', passport.authenticate('local', { failureRedirect: '/auth/error' }), (req, res) => res.redirect('/auth/welcome'))
+  app.post('/auth/local', passport.authenticate('local', { failureRedirect: '/auth/error' }), handler.auth_local)
 }
 
 module.exports = init
+module.exports.handler = handler
 module.exports.createVerificationURL = createVerificationURL
 module.exports.createPasswordResetURL = createPasswordResetURL
 module.exports.createNewPasswordResetURL = createNewPasswordResetURL
