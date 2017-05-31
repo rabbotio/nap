@@ -37,7 +37,7 @@ describe('passport-local', () => {
     })
   })
 
-  it('should be true for valid passowrd', async () => {
+  it('should be true for valid password', async () => {
     const { willValidatePassword } = require('../passport-local')
     expect(await willValidatePassword('foofoobarbar')).toMatchSnapshot()
   })

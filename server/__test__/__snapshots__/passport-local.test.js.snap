@@ -2,4 +2,6 @@
 
 exports[`passport-local should be true for valid email 1`] = `true`;
 
-exports[`passport-local should be true for valid passowrd 1`] = `true`;
+exports[`passport-local should be true for valid password 1`] = `true`;
+
+exports[`passport-local should be true for valid password 1`] = `true`;
