@@ -66,7 +66,8 @@ const _createNewUserData = (email, password, token) => _withHashedPassword(
 const willSignUpNewUser = async (email, password, token) => {
   // Guard existing user
   const user = await NAP.User.findOne({ email })
-  if (user) { throw new Error('Email already use') }
+  const { EMAIL_ALREADY_USE_ERROR } = require('./errors')
+  if (user) { throw EMAIL_ALREADY_USE_ERROR }
 
   // Create user with email and token, password if any
   const userData = _createNewUserData(email, password, token)
