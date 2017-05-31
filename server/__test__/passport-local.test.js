@@ -97,4 +97,26 @@ describe('passport-local', () => {
     const token = require('uuid/v4')()
     expect(await willSignUpNewUser('foo@bar.com', 'foofoobarbar', token)).toMatchSnapshot()
   })
+
+  it('should reset password if user exist', async () => {
+    // mock
+    const email = 'foo@bar.com'
+    const token = 'aa90f9ca-ced9-4cad-b4a2-948006bf000d'
+
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        save: () => Promise.resolve({
+          _id: '592c0bb4484d740e0e73798b',
+          role: 'user',
+          email,
+          token
+        })
+      }))
+    }
+
+    const { willResetPasswordExistingUser } = require('../passport-local')
+    expect(await willResetPasswordExistingUser(email, token)).toMatchSnapshot()
+  })
 })

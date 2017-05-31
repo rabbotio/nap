@@ -6,6 +6,15 @@ exports[`passport-local should be true for valid email and password 1`] = `true`
 
 exports[`passport-local should be true for valid password 1`] = `true`;
 
+exports[`passport-local should reset password if user exist 1`] = `
+Object {
+  "_id": "592c0bb4484d740e0e73798b",
+  "email": "foo@bar.com",
+  "role": "user",
+  "token": "aa90f9ca-ced9-4cad-b4a2-948006bf000d",
+}
+`;
+
 exports[`passport-local should signup new user and return user data 1`] = `
 Object {
   "_id": "592c0bb4484d740e0e73798b",
