@@ -6,6 +6,12 @@ exports[`authen-local-passport should be true for valid email and password 1`] =
 
 exports[`authen-local-passport should be true for valid password 1`] = `true`;
 
+exports[`authen-local-passport should create email verification url 1`] = `"http://localhost:3000/auth/local/FOO_TOKEN"`;
+
+exports[`authen-local-passport should create new password reset url 1`] = `"http://localhost:3000/auth/reset"`;
+
+exports[`authen-local-passport should create password reset url 1`] = `"http://localhost:3000/auth/reset/FOO_TOKEN"`;
+
 exports[`authen-local-passport should redirect non exist token to /auth/error/token-not-exist 1`] = `"/auth/error/token-not-exist"`;
 
 exports[`authen-local-passport should redirect null token to /auth/error/token-not-provided 1`] = `"/auth/error/token-not-provided"`;
