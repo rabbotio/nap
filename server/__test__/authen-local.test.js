@@ -81,4 +81,28 @@ describe('authen-local', () => {
     const result = await willLogout(installationId, userId, sessionToken)
     expect(result).toMatchSnapshot()
   })
+
+  it('should reset password', async () => {
+    // mock
+    const req = { headers : { host: 'localhost:3000'} }
+    const email = 'foo@bar.com'
+    const token = 'aa90f9ca-ced9-4cad-b4a2-948006bf000d'
+
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        save: () => Promise.resolve({
+          _id: '592c0bb4484d740e0e73798b',
+          role: 'user',
+          email,
+          token
+        })
+      }))
+    }
+
+    const { willResetPassword } = require('../authen-local')
+    const result = await willResetPassword(req, email)    
+    expect(result).toMatchSnapshot()
+  })
 })

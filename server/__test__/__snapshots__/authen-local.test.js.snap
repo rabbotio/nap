@@ -14,3 +14,12 @@ Object {
   "sessionToken": null,
 }
 `;
+
+exports[`authen-local should reset password 1`] = `
+Object {
+  "_id": "592c0bb4484d740e0e73798b",
+  "email": "foo@bar.com",
+  "role": "user",
+  "token": "aa90f9ca-ced9-4cad-b4a2-948006bf000d",
+}
+`;
