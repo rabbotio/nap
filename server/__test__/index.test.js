@@ -1,8 +1,12 @@
 /* eslint-env jest */
-require('../debug')
-
+const e2e = false
 describe('index', () => {
 
+  it('should have start function', async () => {
+    const start = require('../passport-local')
+    expect(start).toMatchSnapshot()
+  })
+  
   const fetcher = async (body, authorization) => {
     const fetch = require('isomorphic-fetch')
     return await fetch('http://localhost:3000/graphql', {
@@ -11,10 +15,6 @@ describe('index', () => {
       body
     }).then(response => response.json())
   }
-
-  it('has GraphQL', async () => {
-    await fetcher().then(res => expect(res).toMatchSnapshot())
-  })
 
   const loginWithFacebook = {
     operationName: 'loginWithFacebook',
@@ -36,7 +36,7 @@ describe('index', () => {
     variables: `{"deviceInfo": "foo", "accessToken": "EAABnTrZBSJyYBAKvcWAcAOUwt07ZCVxhCYQwKKWFZAwtOhsGYZAc7olL04W8eJTlxBeZCmxCQO9kYZA4kKtTD0zmZChhb5hEoZBl7JHT0Rx39uGP8ow2X9vGoTLFZCm4Dd0NFvH0qsHXNYinsOKjszfSJVOj3DZChv0MNszawr1le8O0ToqI3Ak9Jr8X3X6imEtvJ2q8ceeVh5Ux1rSbgypRQNRDjlredVXpIZD"}`
   }
 
-  it('can log user in with Facebook token', async () => {
+  e2e && it('can log user in with Facebook token', async () => {
     const query = JSON.stringify(loginWithFacebook)
 
     await fetcher(query).then(result => {
@@ -56,7 +56,7 @@ describe('index', () => {
     })
   })
 
-  it('can log user out and return null user', async () => {
+  e2e && it('can log user out and return null user', async () => {
     // Login first
     const loginWithFacebook_query = JSON.stringify(loginWithFacebook)
     const sessionToken = await fetcher(loginWithFacebook_query).then(result => result.data.loginWithFacebook.sessionToken)

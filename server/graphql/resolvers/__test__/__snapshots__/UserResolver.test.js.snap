@@ -1,3 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`willReadUser should create user and return user data 1`] = `
+Object {
+  "_id": "592c0bb4484d740e0e73798b",
+  "foo": "bar",
+  "role": "user",
+}
+`;
+
 exports[`willReadUser should return error if session not exist 1`] = `[Error: No session found]`;
+
+exports[`willReadUser should return user data if has session 1`] = `
+Object {
+  "_id": "592c0bb4484d740e0e73798b",
+  "foo": "bar",
+  "role": "user",
+}
+`;

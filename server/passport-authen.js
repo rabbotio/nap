@@ -5,7 +5,7 @@ const willAuthenWithPassport = (strategy, req) => new Promise((resolve, reject) 
     if (err) { return reject(err) }
 
     // User?
-    return user ? resolve(user) : reject(new Error('Wrong user and/or password'))
+    return user ? resolve(user) : reject(new Error('Authentication failed.'))
   })(req)
 })
 

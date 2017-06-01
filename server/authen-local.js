@@ -3,7 +3,7 @@ const { onError } = require('./errors')
 // Forget password
 const willResetPassword = async (req, email) => {
   // Guard
-  const { willValidateEmail } = require('./passport-local')
+  const { willValidateEmail } = require('./authen-local-passport')
   const isValidEmail = await willValidateEmail(email)
   if (!isValidEmail) {
     throw new Error('Not valid email')
@@ -13,7 +13,7 @@ const willResetPassword = async (req, email) => {
   const token = require('uuid/v4')()
 
   // Validate receiver
-  const { willResetPasswordExistingUser } = require('./passport-local')
+  const { willResetPasswordExistingUser } = require('./authen-local-passport')
   const user = await willResetPasswordExistingUser(email, token)
 
   // Guard
@@ -22,33 +22,41 @@ const willResetPassword = async (req, email) => {
   }
 
   // Will send email verification
-  const { createPasswordResetURL, createNewPasswordResetURL } = require('./passport-local')
+  const { createPasswordResetURL, createNewPasswordResetURL } = require('./authen-local-passport')
   const base_url = `${req.protocol}://${req.headers.host}`
   const password_reset_url = createPasswordResetURL(base_url, token)
   const new_password_reset_url = createNewPasswordResetURL(base_url)
 
   // New user, will need verification by email
+  const config = require('./config')
   const mailer = require('./mailer')
-  const msg = await mailer.willSendPasswordReset({ email, password_reset_url, new_password_reset_url })
+  const msg = await mailer.willSendPasswordReset({
+    mailgun_api_key: config.mailgun_api_key,
+    mailgun_domain: config.mailgun_domain,
+    email,
+    password_reset_url,
+    new_password_reset_url
+  })
 
   // Got verificationURL and msg?
-  return msg ? user : new Error(`Can't send email: `, password_reset_url)
+  return msg ? user : new Error(`Can't send email: ${password_reset_url}`)
 }
 
 // Register with email and password
 const willSignUp = async (req, email, password) => {
   // Guard
-  const { willValidateEmailAndPassword } = require('./passport-local')
+  const { WRONG_EMAIL_PASSWORD_ERROR } = require('./errors')
+  const { willValidateEmailAndPassword } = require('./authen-local-passport')
   const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password)
   if (!isValidEmailAndPassword) {
-    throw new Error('Not valid email and/or password')
+    throw WRONG_EMAIL_PASSWORD_ERROR
   }
 
   // Token
   const token = require('uuid/v4')()
 
   // Validate receiver
-  const { willSignUpNewUser } = require('./passport-local')
+  const { willSignUpNewUser } = require('./authen-local-passport')
   const user = await willSignUpNewUser(email, password, token)
 
   // Guard
@@ -57,7 +65,7 @@ const willSignUp = async (req, email, password) => {
   }
 
   // Will send email verification
-  const { createVerificationURL } = require('./passport-local')
+  const { createVerificationURL } = require('./authen-local-passport')
   const verification_url = createVerificationURL(`${req.protocol}://${req.headers.host}`, token)
 
   // New user, will need verification by email
@@ -71,16 +79,17 @@ const willSignUp = async (req, email, password) => {
   })
 
   // Got verificationURL and msg?
-  return msg ? user : new Error(`Can't send email: `, verification_url)
+  return msg ? user : new Error(`Can't send email: ${verification_url}`)
 }
 
 // Login with email
 const willLogin = async (req, email, password) => {
   // Guard
-  const { willValidateEmailAndPassword } = require('./passport-local')
+  const { WRONG_EMAIL_PASSWORD_ERROR } = require('./errors')  
+  const { willValidateEmailAndPassword } = require('./authen-local-passport')
   const isValidEmailAndPassword = await willValidateEmailAndPassword(email, password)
   if (!isValidEmailAndPassword) {
-    throw new Error('Not valid email and/or password')
+    throw WRONG_EMAIL_PASSWORD_ERROR
   }
 
   // To let passport-local consume

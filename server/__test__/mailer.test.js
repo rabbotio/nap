@@ -21,7 +21,7 @@ describe('mailer', () => {
   })
 
   it('should return verification mail body', async () => {
-    const { createVerificationURL } = require('../passport-local')
+    const { createVerificationURL } = require('../authen-local-passport')
     const email = 'katopz@gmail.com'
     const base_url = 'http://localhost:3000'
     const token = 'FOO_TOKEN'
@@ -39,7 +39,7 @@ describe('mailer', () => {
   })
 
   it('should return reset mail body', async () => {
-    const { createPasswordResetURL, createNewPasswordResetURL } = require('../passport-local')
+    const { createPasswordResetURL, createNewPasswordResetURL } = require('../authen-local-passport')
     const email = 'katopz@gmail.com'
     const base_url = 'http://localhost:3000'
     const token = 'FOO_TOKEN'

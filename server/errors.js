@@ -54,6 +54,8 @@ module.exports = {
   GenericError,
   SESSION_EMPTY_ERROR: new GenericError(190, 'User has no session provide'),
   PASSWORD_LENGTH_ERROR: new GenericError(180, 'Password must be in between 6-256 length'),
+  WRONG_EMAIL_PASSWORD_ERROR: new GenericError(181, 'Wrong email and/or password'),
+  EMAIL_ALREADY_USE_ERROR: new GenericError(181, 'Email already use'),
   onError,
   guard
 }

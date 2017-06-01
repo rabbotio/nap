@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`authen-local should login with user and password 1`] = `
+Object {
+  "_id": "58d0e20e7ff032b39c2a9a18",
+  "name": "bar",
+}
+`;
+
+exports[`authen-local should logout 1`] = `
+Object {
+  "isLoggedIn": false,
+  "loggedOutAt": "2017-06-01T06:22:01.596Z",
+  "sessionToken": null,
+}
+`;
