@@ -158,6 +158,31 @@ describe('authen-local-passport', () => {
     auth_local_token(req, res)
   })
 
+  it('should reset password by token', async () => {
+    const token = 'aa90f9ca-ced9-4cad-b4a2-948006bf000d'
+    const password = 'password'
+
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        save: () => Promise.resolve({
+          _id: '592c0bb4484d740e0e73798b',
+          role: 'user',
+          token
+        })
+      }))
+    }
+    
+    const { reset_password_by_token } = require('../authen-local-passport').handler
+    const req = { body: { token, password} }
+    const res = {
+      redirect: (route) => expect(route).toMatchSnapshot(),
+      json: JSON.toString
+    }
+    reset_password_by_token(req, res)
+  })
+
   it('should redirect valid token to /auth/verified', async () => {
     // stub
     NAP.User = {
