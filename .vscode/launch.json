@@ -24,7 +24,7 @@
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/nodemon",
       "runtimeArgs": [
         "--harmony",
-        "--debug=5858"
+        "--inspect=5858"
       ],
       "program": "${workspaceRoot}/index.js",
       "restart": true,
