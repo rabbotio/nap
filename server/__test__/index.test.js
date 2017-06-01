@@ -12,10 +12,6 @@ describe('index', () => {
     }).then(response => response.json())
   }
 
-  it('has GraphQL', async () => {
-    await fetcher().then(res => expect(res).toMatchSnapshot())
-  })
-
   const loginWithFacebook = {
     operationName: 'loginWithFacebook',
     query: `mutation loginWithFacebook($deviceInfo: String!, $accessToken: String!) {
