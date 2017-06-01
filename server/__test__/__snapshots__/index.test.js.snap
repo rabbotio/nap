@@ -1,12 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`index has GraphQL 1`] = `
-Object {
-  "errors": Array [
-    Object {
-      "message": "Must provide query string.",
-      "stack": null,
-    },
-  ],
-}
-`;
+exports[`index should have start function 1`] = `[Function]`;
