@@ -1,5 +1,8 @@
 /* eslint-env jest */
 
+process.env.MAILGUN_API_KEY = 'FOO_MAILGUN_API_KEY'
+process.env.MAILGUN_DOMAIN = 'BAR_MAILGUN_DOMAIN'
+
 describe('authen-local', () => {
   it('should throw error if has no email and password', async () => {
     // mock
