@@ -28,11 +28,18 @@ const willResetPassword = async (req, email) => {
   const new_password_reset_url = createNewPasswordResetURL(base_url)
 
   // New user, will need verification by email
+  const config = require('./config')
   const mailer = require('./mailer')
-  const msg = await mailer.willSendPasswordReset({ email, password_reset_url, new_password_reset_url })
+  const msg = await mailer.willSendPasswordReset({
+    mailgun_api_key: config.mailgun_api_key,
+    mailgun_domain: config.mailgun_domain,
+    email,
+    password_reset_url,
+    new_password_reset_url
+  })
 
   // Got verificationURL and msg?
-  return msg ? user : new Error(`Can't send email: `, password_reset_url)
+  return msg ? user : new Error(`Can't send email: ${password_reset_url}`)
 }
 
 // Register with email and password
@@ -72,7 +79,7 @@ const willSignUp = async (req, email, password) => {
   })
 
   // Got verificationURL and msg?
-  return msg ? user : new Error(`Can't send email: `, verification_url)
+  return msg ? user : new Error(`Can't send email: ${verification_url}`)
 }
 
 // Login with email
