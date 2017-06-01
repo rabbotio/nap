@@ -105,4 +105,25 @@ describe('authen-local', () => {
     const result = await willResetPassword(req, email)    
     expect(result).toMatchSnapshot()
   })
+
+  it('should able to signup', async () => {
+    // mock
+    const req = { headers : { host: 'localhost:3000'} }
+    const email = 'foo@bar.com'
+    const password = 'password'
+
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => null),
+      create: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        _id: '592c0bb4484d740e0e73798b',
+        role: 'user',
+      }))
+    }
+
+    const { willSignUp } = require('../authen-local')
+    const result = await willSignUp(req, email, password)    
+    expect(result).toMatchSnapshot()
+  })
 })
