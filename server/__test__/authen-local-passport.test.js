@@ -177,4 +177,24 @@ describe('authen-local-passport', () => {
     }
     auth_local_token(req, res)
   })
+
+  it('should validate local strategy', async () => {
+    // mock
+    const email = 'foo@bar.com'
+    const password = 'password'
+    const hashed_password = '$2a$10$J8sNyptEzgDuQu3b9H8PnuYO85KLnMYF2RjmMeAbt.vpND7NymH/O'
+
+    // stub
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        _id: '592c0bb4484d740e0e73798b',
+        role: 'user',
+        verified: true,
+        hashed_password
+      }))
+    }
+
+    const { validateLocalStrategy } = require('../authen-local-passport')
+    validateLocalStrategy(email, password, (err, result) => expect(result).toMatchSnapshot())
+  })
 })

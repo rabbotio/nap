@@ -34,3 +34,12 @@ Object {
   "role": "user",
 }
 `;
+
+exports[`authen-local-passport should validate local strategy 1`] = `
+Object {
+  "_id": "592c0bb4484d740e0e73798b",
+  "hashed_password": "$2a$10$J8sNyptEzgDuQu3b9H8PnuYO85KLnMYF2RjmMeAbt.vpND7NymH/O",
+  "role": "user",
+  "verified": true,
+}
+`;

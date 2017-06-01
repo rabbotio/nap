@@ -120,8 +120,8 @@ const _willVerifyPassword = async (password, hashed_password) => {
 const validateLocalStrategy = (email, password, done) => {
   // Find by email
   (async () => {
-    const user = await NAP.User.findOne({ email, verified: true }).catch(done)
-    const isPasswordMatch = user && await _willVerifyPassword(password, user.hashed_password).catch(done)
+    const user = await NAP.User.findOne({ email, verified: true })
+    const isPasswordMatch = user && await _willVerifyPassword(password, user.hashed_password)
     return done(null, isPasswordMatch ? user : false)
   })()
 }
