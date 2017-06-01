@@ -6,3 +6,11 @@ Object {
   "name": "bar",
 }
 `;
+
+exports[`authen-local should logout 1`] = `
+Object {
+  "isLoggedIn": false,
+  "loggedOutAt": "2017-06-01T06:22:01.596Z",
+  "sessionToken": null,
+}
+`;
