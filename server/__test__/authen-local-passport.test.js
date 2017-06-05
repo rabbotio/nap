@@ -1,5 +1,28 @@
 /* eslint-env jest */
 describe('authen-local-passport', () => {
+  it('should create email verification url', async () => {
+    const { createVerificationURL } = require('../authen-local-passport')
+    const base_url = 'http://localhost:3000'
+    const token = 'FOO_TOKEN'
+    const verification_url = createVerificationURL(base_url, token)
+    expect(verification_url).toMatchSnapshot()
+  })
+
+  it('should create password reset url', async () => {
+    const { createPasswordResetURL } = require('../authen-local-passport')
+    const base_url = 'http://localhost:3000'
+    const token = 'FOO_TOKEN'
+    const password_reset_url = createPasswordResetURL(base_url, token)
+    expect(password_reset_url).toMatchSnapshot()
+  })
+
+  it('should create new password reset url', async () => {
+    const { createNewPasswordResetURL } = require('../authen-local-passport')
+    const base_url = 'http://localhost:3000'
+    const new_password_reset_url = createNewPasswordResetURL(base_url)
+    expect(new_password_reset_url).toMatchSnapshot()
+  })
+
   it('should throw error for empty email', async () => {
     const { willValidateEmail } = require('../authen-local-passport')
     await willValidateEmail().catch(err => {
@@ -135,6 +158,31 @@ describe('authen-local-passport', () => {
     auth_local_token(req, res)
   })
 
+  it('should reset password by token', async () => {
+    const token = 'aa90f9ca-ced9-4cad-b4a2-948006bf000d'
+    const password = 'password'
+
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        save: () => Promise.resolve({
+          _id: '592c0bb4484d740e0e73798b',
+          role: 'user',
+          token
+        })
+      }))
+    }
+    
+    const { reset_password_by_token } = require('../authen-local-passport').handler
+    const req = { body: { token, password} }
+    const res = {
+      redirect: (route) => expect(route).toMatchSnapshot(),
+      json: JSON.toString
+    }
+    reset_password_by_token(req, res)
+  })
+
   it('should redirect valid token to /auth/verified', async () => {
     // stub
     NAP.User = {
@@ -153,5 +201,25 @@ describe('authen-local-passport', () => {
       redirect: (route) => expect(route).toMatchSnapshot()
     }
     auth_local_token(req, res)
+  })
+
+  it('should validate local strategy', async () => {
+    // mock
+    const email = 'foo@bar.com'
+    const password = 'password'
+    const hashed_password = '$2a$10$J8sNyptEzgDuQu3b9H8PnuYO85KLnMYF2RjmMeAbt.vpND7NymH/O'
+
+    // stub
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        _id: '592c0bb4484d740e0e73798b',
+        role: 'user',
+        verified: true,
+        hashed_password
+      }))
+    }
+
+    const { validateLocalStrategy } = require('../authen-local-passport')
+    validateLocalStrategy(email, password, (err, result) => expect(result).toMatchSnapshot())
   })
 })

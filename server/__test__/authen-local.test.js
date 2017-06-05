@@ -1,5 +1,8 @@
 /* eslint-env jest */
 
+process.env.MAILGUN_API_KEY = 'FOO_MAILGUN_API_KEY'
+process.env.MAILGUN_DOMAIN = 'BAR_MAILGUN_DOMAIN'
+
 describe('authen-local', () => {
   it('should throw error if has no email and password', async () => {
     // mock
@@ -79,6 +82,51 @@ describe('authen-local', () => {
 
     const { willLogout } = require('../authen-local')
     const result = await willLogout(installationId, userId, sessionToken)
+    expect(result).toMatchSnapshot()
+  })
+
+  it('should reset password', async () => {
+    // mock
+    const req = { headers : { host: 'localhost:3000'} }
+    const email = 'foo@bar.com'
+    const token = 'aa90f9ca-ced9-4cad-b4a2-948006bf000d'
+
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        save: () => Promise.resolve({
+          _id: '592c0bb4484d740e0e73798b',
+          role: 'user',
+          email,
+          token
+        })
+      }))
+    }
+
+    const { willResetPassword } = require('../authen-local')
+    const result = await willResetPassword(req, email)    
+    expect(result).toMatchSnapshot()
+  })
+
+  it('should able to signup', async () => {
+    // mock
+    const req = { headers : { host: 'localhost:3000'} }
+    const email = 'foo@bar.com'
+    const password = 'password'
+
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => null),
+      create: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        _id: '592c0bb4484d740e0e73798b',
+        role: 'user',
+      }))
+    }
+
+    const { willSignUp } = require('../authen-local')
+    const result = await willSignUp(req, email, password)    
     expect(result).toMatchSnapshot()
   })
 })

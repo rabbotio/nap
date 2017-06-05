@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AuthenResolver should able to forget password 1`] = `
+Object {
+  "user": Object {
+    "status": "WAIT_FOR_EMAIL_RESET",
+  },
+}
+`;
+
+exports[`AuthenResolver should able to login 1`] = `
+Object {
+  "_id": "58d0e20e7ff032b39c2a9a18",
+  "role": "user",
+}
+`;
+
+exports[`AuthenResolver should able to login with Facebook 1`] = `
+Object {
+  "_id": "58d0e20e7ff032b39c2a9a18",
+  "role": "user",
+}
+`;
+
+exports[`AuthenResolver should able to logout 1`] = `
+Object {
+  "isLoggedIn": false,
+  "sessionToken": null,
+}
+`;
+
+exports[`AuthenResolver should able to signup 1`] = `
+Object {
+  "_id": "58d0e20e7ff032b39c2a9a18",
+  "role": "user",
+}
+`;
+
 exports[`AuthenResolver should authen and return user 1`] = `
 Object {
   "_id": "58d0e20e7ff032b39c2a9a18",

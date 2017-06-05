@@ -1,4 +1,4 @@
-const { onError } = require('./errors')
+const { guard, onError } = require('./errors')
 
 // Valid accessToken?
 const willLoginWithFacebook = async (req, accessToken) => {
@@ -8,10 +8,7 @@ const willLoginWithFacebook = async (req, accessToken) => {
   }
 
   // Guard
-  const is = require('is_js')
-  if (is.not.existy(accessToken)) {
-    throw new Error('Required : accessToken')
-  }
+  guard({ accessToken })
 
   // To let passport-facebook-token consume
   req.body.access_token = accessToken

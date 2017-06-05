@@ -100,28 +100,21 @@ const _willMarkUserAsVerifiedByToken = async (token) => {
   return await _withVerifiedByEmail(user).save()
 }
 
-const _willVerifyPassword = async (password, hashed_password) => {
+const _willValidatePassword = async (password, hashed_password) => {
   // Guard
-  if (!password) {
-    throw new Error('Required : password')
-  }
-
-  // Guard
-  if (!hashed_password) {
-    throw new Error('Required : hashed password')
-  }
+  guard({ password })
+  guard({ hashed_password })
 
   // Password matched?
   const bcrypt = require('bcryptjs')
-  const isEqual = bcrypt.compareSync(password, hashed_password)
-  return isEqual
+  return bcrypt.compareSync(password, hashed_password)
 }
 
 const validateLocalStrategy = (email, password, done) => {
   // Find by email
   (async () => {
-    const user = await NAP.User.findOne({ email, verified: true }).catch(done)
-    const isPasswordMatch = user && await _willVerifyPassword(password, user.hashed_password).catch(done)
+    const user = await NAP.User.findOne({ email, verified: true }).catch(err => err)
+    const isPasswordMatch = user && await _willValidatePassword(password, user.hashed_password).catch(err => err)
     return done(null, isPasswordMatch ? user : false)
   })()
 }
@@ -136,7 +129,7 @@ const auth_local_token = (req, res) => {
   // Verify
   _willMarkUserAsVerifiedByToken(token).then(
     () => res.redirect('/auth/verified')
-  ).catch(err => {
+  ).catch(() => {
     res.redirect('/auth/error/token-not-exist')
   })
 }
@@ -156,7 +149,7 @@ const reset_password_by_token = (req, res) => {
     user = _withVerifiedByEmail(user)
 
     const result = await user.save().catch(err => res.json({ errors: [err.message] }))
-    return result ? res.json({ data: { isReset: true } }) : res.json({ data: { isReset: false } })
+    return res.json({ data: { isReset: result ? true : false } })
   })()
 }
 

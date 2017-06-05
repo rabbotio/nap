@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`authen-local should able to signup 1`] = `
+Object {
+  "_id": "592c0bb4484d740e0e73798b",
+  "role": "user",
+}
+`;
+
 exports[`authen-local should login with user and password 1`] = `
 Object {
   "_id": "58d0e20e7ff032b39c2a9a18",
@@ -12,5 +19,14 @@ Object {
   "isLoggedIn": false,
   "loggedOutAt": "2017-06-01T06:22:01.596Z",
   "sessionToken": null,
+}
+`;
+
+exports[`authen-local should reset password 1`] = `
+Object {
+  "_id": "592c0bb4484d740e0e73798b",
+  "email": "foo@bar.com",
+  "role": "user",
+  "token": "aa90f9ca-ced9-4cad-b4a2-948006bf000d",
 }
 `;
