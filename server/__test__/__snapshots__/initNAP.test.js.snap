@@ -2,7 +2,7 @@
 
 exports[`NAP Server initNAP 1`] = `
 Object {
-  "nap": Object {
+  "nap": nap {
     "errors": Array [],
     "session": null,
     "willCreateUser": [Function],
