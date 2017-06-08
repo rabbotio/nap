@@ -39,6 +39,8 @@ VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib"
 # Port
 # Node Inspector port
 EXPOSE 5858
+# Node V8 Inspector port
+EXPOSE 9222
 # HTTP port, default to 3000
 EXPOSE ${PORT:-3000}
 
