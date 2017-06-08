@@ -13,7 +13,7 @@ class LoginWithFacebook extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({ accessToken: event.target.value })
+    this.setState({ accessToken: event.target.value || '' })
   }
 
   handleSubmit(e) {
@@ -42,7 +42,7 @@ class LoginWithFacebook extends React.Component {
     return <form onSubmit={this.handleSubmit.bind(this)}>
       <h1>Login (GraphQL) with Facebook accessToken</h1>
       <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
-      <input placeholder='accessToken' name='accessToken' value={this.state.accessToken} onChange={this.handleChange.bind(this)} />
+      <input placeholder='accessToken' name='accessToken' value={this.state.accessToken || ''} onChange={this.handleChange.bind(this)} />
       <button type='submit'>Login</button>
       <style jsx>{`
         form {
