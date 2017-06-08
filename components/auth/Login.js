@@ -56,6 +56,10 @@ mutation login($deviceInfo: String!, $email: String!, $password: String!) {
       name
       status
     }
+    installation {
+      _id
+      deviceInfo
+    }
   }
   errors {
     code
