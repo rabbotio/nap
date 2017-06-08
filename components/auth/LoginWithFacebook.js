@@ -8,7 +8,10 @@ import PropTypes from 'prop-types'
 class LoginWithFacebook extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { accessToken: '' }
+    this.state = {
+      accessToken: '',
+      deviceInfo: ''
+    }
     this.loginWithFacebook = props.loginWithFacebook
   }
 
@@ -23,7 +26,7 @@ class LoginWithFacebook extends React.Component {
     const accessToken = e.target.elements.accessToken.value
 
     if (deviceInfo === '' || accessToken === '') {
-      window.alert('Both fields are required.')
+      window.alert('All fields are required.')
       return false
     }
 
@@ -35,13 +38,21 @@ class LoginWithFacebook extends React.Component {
   }
 
   componentDidMount() {
-    persist.willGetAccessToken().then(accessToken => this.setState({ accessToken }))
+    if (this.isComponentDidMount) return
+    this.isComponentDidMount = true
+    
+    persist.willGetAccessToken().then(accessToken => this.isComponentDidMount && this.setState({ accessToken }))
+    this.setState({ deviceInfo: device.info() })
+  }
+
+  componentWillUnmount() {
+    this.isComponentDidMount = false
   }
 
   render() {
     return <form onSubmit={this.handleSubmit.bind(this)}>
       <h1>Login (GraphQL) with Facebook accessToken</h1>
-      <input placeholder='deviceInfo' name='deviceInfo' defaultValue={device.info()} />
+      <input placeholder='deviceInfo' name='deviceInfo' value={this.state.deviceInfo} />
       <input placeholder='accessToken' name='accessToken' value={this.state.accessToken} onChange={this.handleChange.bind(this)} />
       <button type='submit'>Login</button>
       <style jsx>{`

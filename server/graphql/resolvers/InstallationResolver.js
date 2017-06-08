@@ -16,10 +16,4 @@ const willUpdateField = field => async ({ context, args }) => {
   return installation
 }
 
-const _getInstallationIdFromSession = (context) => context.nap.session ? context.nap.session.installationId : null
-const installation = async ({ context }) =>  {
-  const installationId = _getInstallationIdFromSession(context)
-  return await NAP.Installation.findById(installationId).catch(onError(context))
-}
-
-module.exports = { installation, willInstall, willUpdateField }
+module.exports = { willInstall, willUpdateField }

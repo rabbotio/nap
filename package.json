@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.20.5",
+  "version": "0.21.0",
   "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env",
@@ -21,7 +21,7 @@
     "exec": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap)",
     "rmi": "docker rmi -f rabbotio/nap || true",
     "clean": "docker rm -f $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
-    "run": "docker run -p 3000:3000 -p 5858:5858 -d rabbotio/nap || true",
+    "run": "docker run -p 3000:3000 -p 5858:5858 -p 9229:9229 -d rabbotio/nap || true",
     "logs": "docker logs $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "stop": "docker stop $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "clear": "docker rm $(docker ps -aq) -f || true && docker rmi -f rabbotio/nap && docker system prune -f && docker images && docker ps -a || true",
