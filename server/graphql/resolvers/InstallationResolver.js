@@ -1,3 +1,5 @@
+const { onError } = require('../../errors')
+
 const willInstall = async (device) => await NAP.Installation.create(device)
 
 const _willUpdateField = async (installationId, fieldObject) => await NAP.Installation.findOneAndUpdate(
@@ -14,4 +16,10 @@ const willUpdateField = field => async ({ context, args }) => {
   return installation
 }
 
-module.exports = { willInstall, willUpdateField }
+const _getInstallationIdFromSession = (context) => context.nap.session ? context.nap.session.installationId : null
+const installation = async ({ context }) =>  {
+  const installationId = _getInstallationIdFromSession(context)
+  return await NAP.Installation.findById(installationId).catch(onError(context))
+}
+
+module.exports = { installation, willInstall, willUpdateField }
