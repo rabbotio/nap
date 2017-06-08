@@ -4,7 +4,7 @@ module.exports = (models) => {
   models.AuthenTC.addRelation(
     'user',
     () => ({
-      resolver: models.UserTC.getResolver('findOne'),
+      resolver: models.UserTC.getResolver('user'),
       args: {
         filter: (source) => ({ userId: source.userId }),
         skip: null,
@@ -17,7 +17,7 @@ module.exports = (models) => {
   models.AuthenTC.addRelation(
     'installation',
     () => ({
-      resolver: models.InstallationTC.getResolver('findOne'),
+      resolver: models.AuthenTC.getResolver('authen'),
       args: {
         filter: (source) => ({ userId: source.installationId }),
         skip: null,
