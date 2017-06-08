@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.20.1",
+  "version": "0.20.3",
   "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env",
@@ -32,7 +32,7 @@
     "cover": "jest --coverage --no-cache"
   },
   "dependencies": {
-    "apollo-client": "^1.4.0",
+    "apollo-client": "^1.4.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-redis": "^3.3.0",
