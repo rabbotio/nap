@@ -5,16 +5,27 @@ const init = (app, passport) => {
   }
 
   const FacebookTokenStrategy = require('passport-facebook-token')
+  const { guard } = require('./errors')
+  const is = require('is_js')
 
+  // @ts-ignore
   passport.use(new FacebookTokenStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET
   }, (accessToken, refreshToken, profile, done) => {
     delete profile._raw
     delete profile._json
+
+    // Guard email
+    const email = profile.emails[0].value
+    guard({ email })
+    if (is.not.email(email)) {
+      throw new Error('Invalid email')
+    }
+
     // Upsert data
     const payload = {
-      email: profile.emails[0].value,
+      email,
       name: profile.displayName,
       facebook: {
         id: profile.id,
