@@ -8,10 +8,8 @@ module.exports = (models) => {
       args: {
         _id: (source) => `${source.userId}`,
         filter: (source) => ({ userId: source.userId }),
-        skip: null,
-        sort: null
       },
-      projection: { userId: true },
+      projection: { userId: 1 },
       catchErrors: false,
     })
   )
@@ -23,10 +21,8 @@ module.exports = (models) => {
       args: {
         _id: (source) => `${source.installationId}`,
         filter: (source) => ({ installationId: source.installationId }),
-        skip: null,
-        sort: null
       },
-      projection: { installationId: true },
+      projection: { installationId: 1 },
       catchErrors: false,
     })
   )
