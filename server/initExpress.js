@@ -1,41 +1,15 @@
-const init = ({ port }, app, nextjs) => new Promise((resolve, reject) => {
-  // Custom routes
-  try {
-    require('../routes')(app, nextjs)
-  } catch (err) {
-    // Never mind.
-    debug.info('No custom routes found')
-  }
+const init = ({ port }, nap) => {
+  // Create a new Express application.
+  const express = require('express')
+  const app = express()
 
-  const handler = nextjs.getRequestHandler()
+  // NAP as First class
+  app.use(nap)
 
-  app.get('/auth/reset/*', (req, res) => {
-    const { parse } = require('url')
-    const pathMatch = require('path-match')
+  // Static
+  app.use(express.static('public'))
 
-    const route = pathMatch()
-    const match = route('/auth/reset/:token')
-    const { pathname, query } = parse(req.url, true)
-    const params = match(pathname)
-
-    if (params === false) {
-      handler(req, res)
-      return
-    }
-
-    nextjs.render(req, res, '/auth/reset', Object.assign(params, query))
-  })
-
-  // Default catch-all handler to allow Next.js to handle all other routes
-  app.all('*', (req, res) => handler(req, res))
-
-  // Server
-  app.listen(port, (err) => {
-    if (err) return reject(err)
-
-    debug.info(`NextJS  : http://localhost:${port}`)
-    resolve(app)
-  })
-})
+  return app
+}
 
 module.exports = init

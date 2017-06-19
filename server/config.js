@@ -1,5 +1,14 @@
 // Helper
 const dev = process.env.NODE_ENV !== 'production'
+const isTrue = (value) => {
+  switch (value) {
+    case true: return true
+    case 'true': return true
+    case 1: return true
+    case '1': return true
+    default: return false
+  }
+}
 
 const config = {
   // Environments
@@ -18,9 +27,10 @@ const config = {
   cookie_secret: process.env.COOKIE_SECRET || 'foo',
   jwt_secret: process.env.JWT_SECRET || 'foo',
 
-  passport_disabled: parseInt(process.env.PASSPORT_DISABLED || '0') === 1,
-  graphql_disabled: parseInt(process.env.GRAPHQL_SERVER_DISABLED || '0') === 1,
-  graphiql_enabled: process.env.GRAPHIQL_ENABLED !== undefined ? parseInt(process.env.GRAPHIQL_ENABLED || '0') === 1 : dev,
+  next_disabled: isTrue(process.env.NEXT_DISABLED),
+  passport_disabled: isTrue(process.env.PASSPORT_DISABLED),
+  graphql_disabled: isTrue(process.env.GRAPHQL_SERVER_DISABLED),
+  graphiql_enabled: dev || isTrue(process.env.GRAPHIQL_ENABLED),
 
   mubsub: process.env.MUBSUB_URI,
   mubsub_enabled: process.env.MUBSUB_URI !== undefined && !!process.env.MUBSUB_URI,

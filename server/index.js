@@ -2,13 +2,23 @@ require('./debug')
 const config = require('./config')
 
 const start = () => {
-  // Next
+  // NAP
   global.NAP = {}
+
+  // Components  
+  const initializer = require('./initializer')
+
+  // Next disabled?
+  if (config.next_disabled) {
+    initializer(config)
+    return
+  }
+
+  // Next
   const nextjs = require('next')({ dev: config.dev })
 
   // Will apply middleware
-  const initializer = require('./initializer')
-  return nextjs.prepare().then(() => initializer(config, nextjs))
+  nextjs.prepare().then(() => initializer(config, nextjs))
 }
 
 module.exports = {
