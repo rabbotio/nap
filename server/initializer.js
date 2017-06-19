@@ -1,33 +1,25 @@
 module.exports = async (config, nextjs) => {
-  // Express
-  const express = require('express')
+    // NAP
+    const nap = require('./initNAP')
 
-  // Create a new Express application.
-  const app = express()
+    // Express
+    const app = require('./initExpress')(config, nap)
 
-  // NAP as First class
-  app.use(require('./initNAP'))
+    // MubSub  
+    config.mubsub_enabled && require('./initMubsub')()
 
-  // Static
-  app.use(express.static('public'))
+    // Mongoose
+    const mongoose = await require('./initMongoose')(config.mongo_url)
 
-  config.mubsub_enabled && require('./initMubsub')()
+    // Passport
+    !config.passport_disabled && require('./initPassport')(config, app)
 
-  // Mongoose
-  const mongoose = await require('./initMongoose')(config.mongo_url)
+    // GraphQL
+    !config.graphql_disabled && require('./initGraphQL')(config, app)
 
-  // Passport
-  !config.passport_disabled && require('./initPassport')(config, app)
+    // Store
+    require('./initStore')(mongoose)
 
-  // GraphQL
-  !config.graphql_disabled && require('./initGraphQL')(config, app)
-
-  // Store
-  require('./initStore')(mongoose)
-
-  // Express
-  await require('./initExpress')(config, app, nextjs)
-
-  // Ready
-  debug.info('NAP is ready to use, enjoy! [^._.^]ﾉ彡')
+    // Next+Express
+    return await require('./initRoute')(config, app, nextjs)
 }

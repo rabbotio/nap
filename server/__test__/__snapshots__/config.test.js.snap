@@ -12,6 +12,7 @@ Object {
   "mongo_url": "mongodb://mongo/graphql",
   "mubsub": undefined,
   "mubsub_enabled": false,
+  "next_disabled": false,
   "passport_disabled": false,
   "port": 3000,
   "redis_url": "redis://redis",

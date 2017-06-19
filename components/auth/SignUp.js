@@ -80,13 +80,13 @@ export default graphql(signup, {
         cached.errors = data.errors
 
         // User
-        cached.user = data.signup ? data.signup.user : { _id: null, name: null, status: null, _typename: 'User' }
+        cached.user = data.signup ? data.signup.user : { _id: null, name: null, status: null, __typename: 'User' }
 
         // Authen
         cached.authen = {
           isLoggedIn: data.signup ? data.signup.isLoggedIn : null,
           sessionToken: data.signup ? data.signup.sessionToken : null,
-          _typename: 'Authen'
+          __typename: 'Authen'
         }
 
         // Write our data back to the cache.

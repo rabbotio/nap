@@ -1,14 +1,17 @@
 require('./debug')
 const config = require('./config')
 
-const start = () => {
-  // Next
+const start = async () => {
+  // NAP
   global.NAP = {}
-  const nextjs = require('next')({ dev: config.dev })
 
-  // Will apply middleware
+  // Next and else
+  const nextjs = await require('./initNext')(config)
   const initializer = require('./initializer')
-  return nextjs.prepare().then(() => initializer(config, nextjs))
+  await initializer(config, nextjs)
+
+  // Ready
+  debug.info('NAP is ready to use, enjoy! [^._.^]ﾉ彡')
 }
 
 module.exports = {

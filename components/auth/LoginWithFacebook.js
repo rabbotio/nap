@@ -116,7 +116,7 @@ const withGraphQL = graphql(loginWithFacebook, {
         cached.authen = {
           isLoggedIn: data.loginWithFacebook.isLoggedIn,
           sessionToken: data.loginWithFacebook.sessionToken,
-          _typename: 'Authen'
+          __typename: 'Authen'
         }
 
         // Write our data back to the cache.

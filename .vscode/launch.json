@@ -40,8 +40,10 @@
       "cwd": "${workspaceRoot}",
       "program": "${workspaceRoot}/node_modules/.bin/nodemon",
       "args": [
-        "--harmony",
         "${workspaceRoot}/index.js"
+      ],
+      "runtimeArgs": [
+        "--harmony"
       ]
     },
     {
