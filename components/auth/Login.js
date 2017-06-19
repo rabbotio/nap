@@ -38,7 +38,7 @@ class Login extends React.Component {
     this.setState({ deviceInfo: device.info() })
   }
 
-  render () {
+  render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
         <h1>Login (GraphQL)</h1>
@@ -106,13 +106,15 @@ export default graphql(login, {
         cached.errors = data.errors
 
         // User
-        cached.user = data.login.user
+        if (data.login) {
+          cached.user = data.login.user
 
-        // Authen
-        cached.authen = {
-          isLoggedIn: data.login.isLoggedIn,
-          sessionToken: data.login.sessionToken,
-          _typename: 'Authen'
+          // Authen
+          cached.authen = {
+            isLoggedIn: data.login.isLoggedIn,
+            sessionToken: data.login.sessionToken,
+            __typename: 'Authen'
+          }
         }
 
         // Write our data back to the cache.

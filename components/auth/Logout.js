@@ -41,13 +41,13 @@ export default graphql(logout, {
         cached.errors = data.errors
 
         // User
-        cached.user = data.logout.user
+        cached.user = data.logout.user ? data.logout.user : { _id: null, name: null, status: null, __typename: 'User' }
 
         // Authen
         cached.authen = {
           isLoggedIn: data.logout.isLoggedIn,
           sessionToken: data.logout.sessionToken,
-          _typename: 'Authen'
+          __typename: 'Authen'
         }
 
         // Write our data back to the cache.
