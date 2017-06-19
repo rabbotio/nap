@@ -1,24 +1,17 @@
 require('./debug')
 const config = require('./config')
 
-const start = () => {
+const start = async () => {
   // NAP
   global.NAP = {}
 
-  // Components  
+  // Next and else
+  const nextjs = await require('./initNext')(config)
   const initializer = require('./initializer')
+  await initializer(config, nextjs)
 
-  // Next disabled?
-  if (config.next_disabled) {
-    initializer(config)
-    return
-  }
-
-  // Next
-  const nextjs = require('next')({ dev: config.dev })
-
-  // Will apply middleware
-  nextjs.prepare().then(() => initializer(config, nextjs))
+  // Ready
+  debug.info('NAP is ready to use, enjoy! [^._.^]ﾉ彡')
 }
 
 module.exports = {

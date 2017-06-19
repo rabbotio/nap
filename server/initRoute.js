@@ -1,9 +1,8 @@
-const init = ({ port }, app, nextjs) => new Promise((resolve, reject) => {
+const initNextRoute = (app, nextjs) => {
   // Next exist?
   if (!nextjs) {
     // Silently fail
     debug.info(`NextJS  : N/A`)
-    resolve()
     return
   }
 
@@ -13,9 +12,9 @@ const init = ({ port }, app, nextjs) => new Promise((resolve, reject) => {
   } catch (err) {
     // Never mind.
     debug.info('NextJS  : No custom routes found')
-    resolve()
   }
 
+  // Handler  
   const handler = nextjs.getRequestHandler()
 
   // Authen.reset  
@@ -38,6 +37,11 @@ const init = ({ port }, app, nextjs) => new Promise((resolve, reject) => {
 
   // Default catch-all handler to allow Next.js to handle all other routes
   app.all('*', (req, res) => handler(req, res))
+}
+
+const init = ({ port }, app, nextjs) => new Promise((resolve, reject) => {
+  // Next exist?
+  initNextRoute(app, nextjs)
 
   // Server
   app.listen(port, (err) => {
