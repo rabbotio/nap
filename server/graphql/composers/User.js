@@ -17,7 +17,7 @@ module.exports = (models) => {
   models.UserTC.addResolver({
     name: 'linkFacebook',
     type: models.UserTC,
-    args: {
+    prepareArgs: {
       accessToken: 'String!'
     },
     resolve: UserResolver.linkFacebook
@@ -26,7 +26,7 @@ module.exports = (models) => {
   models.UserTC.addResolver({
     name: 'changeEmail',
     type: models.UserTC,
-    args: {
+    prepareArgs: {
       email: 'String!'
     },
     resolve: UserResolver.changeEmail

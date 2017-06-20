@@ -5,7 +5,7 @@ module.exports = (models) => {
   fields.map(field => models.InstallationTC.addResolver({
     name: `update_${field}`,
     kind: 'mutation',
-    args: {
+    prepareArgs: {
       [field]: 'String'
     },
     type: models.InstallationTC,

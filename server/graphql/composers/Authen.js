@@ -5,7 +5,7 @@ module.exports = (models) => {
     'user',
     () => ({
       resolver: models.UserTC.getResolver('findById'),
-      args: {
+      prepareArgs: {
         _id: (source) => `${source.userId}`,
         filter: (source) => ({ userId: source.userId }),
       },
@@ -18,7 +18,7 @@ module.exports = (models) => {
     'installation',
     () => ({
       resolver: models.InstallationTC.getResolver('findById'),
-      args: {
+      prepareArgs: {
         _id: (source) => `${source.installationId}`,
         filter: (source) => ({ installationId: source.installationId }),
       },
@@ -30,7 +30,7 @@ module.exports = (models) => {
   models.AuthenTC.addResolver({
     name: 'loginWithFacebook',
     kind: 'mutation',
-    args: {
+    prepareArgs: {
       deviceInfo: 'String',
       locale: 'String',
       country: 'String',
@@ -47,7 +47,7 @@ module.exports = (models) => {
   models.AuthenTC.addResolver({
     name: 'signup',
     kind: 'mutation',
-    args: {
+    prepareArgs: {
       email: 'String',
       password: 'String'
     },
@@ -58,7 +58,7 @@ module.exports = (models) => {
   models.AuthenTC.addResolver({
     name: 'forget',
     kind: 'mutation',
-    args: {
+    prepareArgs: {
       email: 'String'
     },
     type: models.AuthenTC,
@@ -68,7 +68,7 @@ module.exports = (models) => {
   models.AuthenTC.addResolver({
     name: 'login',
     kind: 'mutation',
-    args: {
+    prepareArgs: {
       // Devices
       deviceInfo: 'String',
       locale: 'String',
