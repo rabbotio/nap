@@ -142,6 +142,7 @@ exports.extraInstallationSchema = {
 - [ ] Handle cookies via [React Native](https://mockingbot.com/posts/287)
 
 ## TODO
+- [ ] Lint Docker file with https://www.fromlatest.io/
 - [ ] Add [HOC](https://github.com/bosung90/HOCExample) to [nap-react-native](https://github.com/rabbotio/nap-react-native)
 - [ ] Create doc separated from this `README`
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
