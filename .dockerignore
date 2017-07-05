@@ -5,3 +5,7 @@ npm-debug.log
 .git
 .gitignore
 .gitmodules
+.test.js
+__mocks__
+__test__
+__snapshots__
