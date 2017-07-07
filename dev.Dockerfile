@@ -1,8 +1,8 @@
 FROM node:8.1.2-alpine
 MAINTAINER Todsaporn Banjerdkit <katopz@gmail.com>
 
-# Use production environments
-ENV NODE_ENV production
+# Use development environments
+ENV NODE_ENV development
 
 # Ref : http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/
 # use changes to package.json to force Docker not to use the cache
@@ -12,10 +12,6 @@ RUN npm config set registry https://registry.npmjs.org/ && \
     cd /tmp && \
     npm i --quiet --depth 0 && \
     cd / && \
-    # Smaller node_modules size
-    npm i -g --quiet --depth 0 modclean && \
-    modclean -r -D /tmp/node_modules && \
-    npm r -g --quiet modclean && du -ms . && \
     # Move to app folder
     mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app/
 WORKDIR /usr/app

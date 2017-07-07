@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.24.0",
+  "version": "0.24.1",
   "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env",
@@ -21,6 +21,7 @@
     "prod": "npm run exec -- npm run _prod",
     "local": "npm run stop && REDIS_URI=redis://localhost MONGODB_URI=mongodb://localhost/graphql npm run _serve",
     "image": "docker build --no-cache -t rabbotio/nap . || true",
+    "image-dev": "NODE_ENV=development docker build --no-cache -t rabbotio/nap . || true",
     "history": "docker history rabbotio/nap > history.log && cat history.log || true",
     "size": "echo $(docker image inspect rabbotio/nap -f {{.Size}})",
     "in": "docker exec -it $(docker ps -a -q --filter ancestor=rabbotio/nap) /bin/sh || true",
@@ -34,7 +35,7 @@
     "clear": "docker rm $(docker ps -aq) -f || true && docker rmi -f rabbotio/nap && docker system prune -f && docker images && docker ps -a || true",
     "down": "docker-compose kill || true && docker-compose down || true",
     "up": "docker-compose build && docker-compose up -d && docker ps || true",
-    "up-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml build && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d && docker ps -a || true && npm run attach",
+    "up-dev": "NODE_ENV=development docker-compose -f docker-compose.yml -f docker-compose.dev.yml build && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d && docker ps -a || true && npm run attach",
     "attach": "docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql",
     "test": "jest --watchAll --runInBand",
