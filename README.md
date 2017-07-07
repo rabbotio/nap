@@ -48,8 +48,6 @@ Build in Next JS for SSR, Apollo Client for GraphQL, Passport JS for authenticat
 - [x] [lusca](https://github.com/krakenjs/lusca) for web application security middleware.
 - [x] [platform](https://github.com/bestiejs/platform.js) for detect client platform.
 - [x] [commitizen](https://github.com/commitizen/cz-cli) for commit formatting.
-- [ ] [nginx](https://github.com/nginxinc) for proxy.
-- [ ] [certbot](https://github.com/rabbotio/nginx-certbot) for `TLS`.
 
 - - -
 
@@ -61,8 +59,8 @@ cp .env.example .env
 
 ## Develop
 ```shell
-# To build and run docker compose (it take sometime for first build)
-npm run up
+# Will build and run then attach with docker compose (it take sometime for first build)
+npm run up-dev
 
 # Try modify files and see the HMR result
 open http://localhost:3000
@@ -77,17 +75,23 @@ open http://localhost:3000/graphql
 
 ## Addition
 ```shell
-# To kill all and tear down
+# Will kill all and tear down
 npm run down
 
-# To dive in container
+# Will dive into container
 npm run in
 ```
 
-## Test
-```
-# Will need to run server for integration test (WIP)
+## Production
+```shell
+# Will pull image and run with docker compose (won't build)
 npm run up
+```
+
+## Test
+```shell
+# Will need to run server for integration test (WIP)
+npm run up-dev
 
 # To test all with Jest
 npm run test
@@ -98,32 +102,12 @@ npm run cover
 
 - - -
 
-## GraphQL extend default fields
-```js
-// Just modify ./graphql/custom.js
-// To add `score` field as `Number` to `User` collection
-exports.extraUserSchema = {
-  score: Number
-}
-
-// To add `FCMToken` field as `String` to `Installation` collection
-exports.extraInstallationSchema = {
-  FCMToken: String
-}
-
-// To add `isVerified` field as `Boolean` to `Installation` collection
-exports.extraInstallationSchema = {
-  isVerified: Boolean
-}
-```
-- - -
-
 ## Passport (cookie)
 - [x] Facebook : http://localhost:3000/auth/facebook/
 - [x] Github : http://localhost:3000/auth/github/
 - [x] Twitter : http://localhost:3000/auth/twitter/
 - [x] Google : http://localhost:3000/auth/google/
-- [x] Local
+- [x] Local : With email/password
 
 ## Passport (token via GraphQL)
 - [x] Facebook : [nap-react-native](https://github.com/rabbotio/nap-react-native)
@@ -136,6 +120,7 @@ exports.extraInstallationSchema = {
 - [x] Login/Logout with `Facebook` from [NextJS](#passport---cookie).
 
 ## DOING
+- [ ] Optional asking for user from facebook graph query.
 - [ ] Link `facebook-token` with `auth/facebook` user.
 - [ ] Link `facebook-token` with `auth/email` user.
 - [ ] Unlink `Facebook` via `React` web.
@@ -143,15 +128,16 @@ exports.extraInstallationSchema = {
 
 ## TODO
 - [ ] Add [HOC](https://github.com/bosung90/HOCExample) to [nap-react-native](https://github.com/rabbotio/nap-react-native)
-- [ ] Create doc separated from this `README`
+- [ ] Create doc separated from this `README` as github page.
 - [ ] Add [Swarm mode stack](https://gist.githubusercontent.com/katopz/e4d5cf402a53c4a002a657c4c4f67a3f/raw/077ac9057c789f49a366563941dd749827d52e3d/setup-swarm-stack.sh)
-- [ ] Add `Nginx` TLS container : https://github.com/rabbotio/nginx-certbot
-- [ ] Add HTTPS : https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md
-- [ ] Grateful shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
+- [ ] Gracefully shutdown : https://github.com/heroku-examples/node-articles-nlp/blob/master/lib/server.js#L31
+- [ ] Gracefully shutdown : https://github.com/sebhildebrandt/http-graceful-shutdown
 - [ ] Don't run as root : https://github.com/jdleesmiller/docker-chat-demo/blob/master/Dockerfile
+- [ ] Don't run as root : https://github.com/davidbarton/docker-node-tini/blob/master/Dockerfile#L34
 - [ ] Separated Dockerfile : https://docs.docker.com/compose/compose-file/#build
 - [ ] More secure with [lusca](https://github.com/krakenjs/lusca)
 - [ ] Securing a Containerized Instance of MongoDB : http://rancher.com/securing-containerized-instance-mongodb/
+- [ ] Docker Secrets : https://semaphoreci.com/community/tutorials/managing-secrets-in-docker-swarm
 
 ## TOTEST
 - [ ] `Redis` fail test.
@@ -186,3 +172,5 @@ exports.extraInstallationSchema = {
 - [ ] [how-to-copy-docker-images-from-one-host-to-another-without-via-repository](http://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-via-repository)
 - [ ] [Back up and restore dockerized MongoDB](http://blog.btskyrise.com/posts/back-up-and-restore-dockerized-mongodb)
 - [ ] [Export Docker Mongo Data](https://github.com/wekan/wekan/wiki/Export-Docker-Mongo-Data)
+- [ ] Add `Nginx` TLS container : https://github.com/rabbotio/nginx-certbot
+- [ ] Add HTTPS : https://github.com/vfarcic/docker-flow-stacks/blob/master/ssl/README.md

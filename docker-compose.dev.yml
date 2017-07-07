@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  nap:
+    ports:
+      - "5858:5858" # Node Inspector port
+      - "9222:9222" # Node V8 Inspector port
+    volumes:
+      - npm:/root/.npm
+      - ./providers:/usr/app/providers
+      - ./server:/usr/app/server
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    command: npm run _build-back-dev # Will build next and run express server
+volumes:
+  npm:

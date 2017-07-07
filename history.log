@@ -1,0 +1,22 @@
+IMAGE               CREATED              CREATED BY                                      SIZE                COMMENT
+ee48e29cf030        37 seconds ago       /bin/sh -c #(nop)  EXPOSE 3000/tcp              0B                  
+cf46d5b85b0c        37 seconds ago       /bin/sh -c #(nop)  VOLUME [/usr/app/.env /...   0B                  
+dfb0362614d9        38 seconds ago       /bin/sh -c #(nop) COPY file:e6801c2e48b851...   70B                 
+644e75242671        39 seconds ago       /bin/sh -c #(nop) COPY file:de7c8ff83cac73...   4.34kB              
+228774a2da20        39 seconds ago       /bin/sh -c #(nop) COPY dir:3d37ec26a08f6f0...   88.9kB              
+92f398065df1        40 seconds ago       /bin/sh -c #(nop) COPY dir:3b7822ef288a0bc...   1.25kB              
+ca8058059162        40 seconds ago       /bin/sh -c #(nop) COPY dir:0518729ddb34e9d...   2.25kB              
+ec0cc6cedcb2        41 seconds ago       /bin/sh -c mkdir -p /usr/app/providers && ...   0B                  
+f47e8c350db5        42 seconds ago       /bin/sh -c #(nop) WORKDIR /usr/app              0B                  
+7e50b9ee85f2        43 seconds ago       /bin/sh -c npm config set registry https:/...   166MB               
+2ba5d43fac65        About a minute ago   /bin/sh -c #(nop) COPY file:de7c8ff83cac73...   4.34kB              
+796105579124        About a minute ago   /bin/sh -c #(nop)  ENV NODE_ENV=production      0B                  
+e4524a72cacf        About a minute ago   /bin/sh -c #(nop)  MAINTAINER Todsaporn Ba...   0B                  
+7f4e364fac17        6 days ago           /bin/sh -c #(nop)  CMD ["node"]                 0B                  
+<missing>           6 days ago           /bin/sh -c apk add --no-cache --virtual .b...   3.77MB              
+<missing>           6 days ago           /bin/sh -c #(nop)  ENV YARN_VERSION=0.24.6      0B                  
+<missing>           6 days ago           /bin/sh -c addgroup -g 1000 node     && ad...   56MB                
+<missing>           6 days ago           /bin/sh -c #(nop)  ENV NODE_VERSION=8.1.2       0B                  
+<missing>           6 days ago           /bin/sh -c #(nop)  ENV NPM_CONFIG_LOGLEVEL...   0B                  
+<missing>           7 days ago           /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+<missing>           7 days ago           /bin/sh -c #(nop) ADD file:4583e12bf5caec4...   3.97MB              

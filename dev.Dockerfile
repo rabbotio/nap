@@ -10,10 +10,10 @@ ENV NODE_ENV production
 COPY package.json /tmp/package.json
 RUN npm config set registry https://registry.npmjs.org/ && \
     cd /tmp && \
-    npm i --production --quiet --depth 0 && \
+    npm i --quiet --depth 0 && \
     cd / && \
     # Smaller node_modules size
-    npm i --production -g --quiet --depth 0 modclean && \
+    npm i -g --quiet --depth 0 modclean && \
     modclean -r -D /tmp/node_modules && \
     npm r -g --quiet modclean && du -ms . && \
     # Move to app folder
