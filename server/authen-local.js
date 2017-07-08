@@ -18,7 +18,7 @@ const willResetPassword = async (req, email) => {
 
   // Guard
   if (!user) {
-    throw new Error(`Can't reset password for : ${email}`)
+    throw new Error(`Email not exist? : ${email}`)
   }
 
   // Will send email verification
@@ -39,7 +39,11 @@ const willResetPassword = async (req, email) => {
   })
 
   // Got verificationURL and msg?
-  return msg ? user : new Error(`Can't send email: ${password_reset_url}`)
+  if (!msg) {
+    throw new Error(`Can't send email: ${password_reset_url}`)
+  } else {
+    return user
+  }
 }
 
 // Register with email and password
