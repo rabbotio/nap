@@ -61,4 +61,9 @@ const changeEmail = async ({ args, context }) => {
   return user
 }
 
-module.exports = { willCreateUser, user: willReadUser, linkFacebook, unlinkFacebook, changeEmail }
+const forget = async ({ context, args }) =>
+  await context.nap
+    .willResetPassword(context, args.email)
+    .catch(onError(context))
+
+module.exports = { willCreateUser, user: willReadUser, linkFacebook, unlinkFacebook, changeEmail, forget }

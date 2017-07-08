@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`willReadUser should able to forget password 1`] = `
+Object {
+  "status": "WAIT_FOR_EMAIL_RESET",
+}
+`;
+
 exports[`willReadUser should create user and return user data 1`] = `
 Object {
   "_id": "592c0bb4484d740e0e73798b",

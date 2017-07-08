@@ -80,14 +80,22 @@ const willResetPasswordExistingUser = async (email, token) => {
   guard({ token })
 
   // Use existing user
-  const user = await NAP.User.findOne({ email })
-  if (!user) { throw new Error('Email not exist') }
-
-  // Wait for reset by token
-  user.token = token
-  user.status = 'WAIT_FOR_EMAIL_RESET'
-  return await user.save()
+  return await NAP.User.findOneAndUpdate(
+    {
+      email
+    },
+    {
+      token,
+      status: 'WAIT_FOR_EMAIL_RESET'
+    },
+    {
+      projection: { _id:1, status: 1 },
+      new: true,
+      upsert: false
+    }
+  )
 }
+
 
 const _willMarkUserAsVerifiedByToken = async (token) => {
   // Guard
@@ -96,7 +104,7 @@ const _willMarkUserAsVerifiedByToken = async (token) => {
   // Look up user by token
   const user = await NAP.User.findOne({ token })
   if (!user) { throw new Error('Token has been use') }
-
+  
   return await _withVerifiedByEmail(user).save()
 }
 

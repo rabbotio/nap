@@ -94,14 +94,14 @@ describe('authen-local', () => {
     // stub
     global.NAP = {}
     NAP.User = {
-      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
-        save: () => Promise.resolve({
+      findOneAndUpdate: jest.fn().mockImplementationOnce(() =>
+        Promise.resolve({
           _id: '592c0bb4484d740e0e73798b',
-          role: 'user',
           email,
+          role: 'user',
           token
         })
-      }))
+      )
     }
 
     const { willResetPassword } = require('../authen-local')

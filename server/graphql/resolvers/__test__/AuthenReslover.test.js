@@ -90,22 +90,6 @@ describe('AuthenResolver', () => {
     expect(user).toMatchSnapshot()
   })
 
-  it('should able to forget password', async () => {
-    const context = { 
-      headers : { host: 'localhost:3000'},
-      nap : {
-        willResetPassword: async () => ({ 
-          status: 'WAIT_FOR_EMAIL_RESET'
-        }),
-      }
-    }
-    const email = 'foo@bar.com'
-    const args = { email }
-    const { forget } = require('../AuthenResolver')
-    const user = await forget({ context, args })    
-    expect(user).toMatchSnapshot()
-  })
-
   it('should able to logout', async () => {
     const authenData = {
       isLoggedIn: false,

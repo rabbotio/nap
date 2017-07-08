@@ -133,7 +133,15 @@ describe('authen-local-passport', () => {
           email,
           token
         })
-      }))
+      })),
+      findOneAndUpdate: jest.fn().mockImplementationOnce(() =>
+        Promise.resolve({
+          _id: '592c0bb4484d740e0e73798b',
+          role: 'user',
+          email,
+          token
+        })
+      )
     }
 
     const { willResetPasswordExistingUser } = require('../authen-local-passport')
@@ -150,11 +158,18 @@ describe('authen-local-passport', () => {
   })
 
   it('should redirect non exist token to /auth/error/token-not-exist', async () => {
+    // stub
+    global.NAP = {}
+    NAP.User = {
+      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve(null))
+    }
+
     const { auth_local_token } = require('../authen-local-passport').handler
     const req = { params: { token: 'NOT_EXIST_TOKEN' } }
     const res = {
       redirect: (route) => expect(route).toMatchSnapshot()
     }
+
     auth_local_token(req, res)
   })
 
@@ -162,7 +177,7 @@ describe('authen-local-passport', () => {
     const token = 'aa90f9ca-ced9-4cad-b4a2-948006bf000d'
     const password = 'password'
 
-    // stub
+   // stub
     global.NAP = {}
     NAP.User = {
       findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({

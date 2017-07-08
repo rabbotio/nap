@@ -56,16 +56,6 @@ module.exports = (models) => {
   })
 
   models.AuthenTC.addResolver({
-    name: 'forget',
-    kind: 'mutation',
-    args: {
-      email: 'String'
-    },
-    type: models.AuthenTC,
-    resolve: AuthenResolver.forget
-  })
-
-  models.AuthenTC.addResolver({
     name: 'login',
     kind: 'mutation',
     args: {
