@@ -7,7 +7,7 @@ const init = ({ cookie_secret: secret, redis_url: url }, app) => {
 
   // Configure Passport authenticated session persistence.
   passport.serializeUser((user, done) => done(null, user.id))
-  passport.deserializeUser((id, done) => NAP.User.findOne({ _id: id }, { id: 1, name: 1 }, done))
+  passport.deserializeUser((id, done) => id ? NAP.User.findOne({ _id: id }, { id: 1, name: 1 }, done) : done(null, null))
 
   app.use(require('cookie-parser')(secret))
 
