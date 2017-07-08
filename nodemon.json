@@ -1,4 +1,6 @@
 {
+  "restartable": false,
+  "verbose": true,
   "restartable": "rs",
   "ignore": [
     ".git",

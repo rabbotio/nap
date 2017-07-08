@@ -26,6 +26,7 @@ COPY templates /usr/app/templates
 COPY server /usr/app/server
 COPY package.json /usr/app/
 COPY index.js /usr/app/
+COPY nodemon.json /usr/app/
 
 # Make volume path
 VOLUME ["/usr/app/.env", "/usr/app/pages", "/usr/app/components", "/usr/app/lib", "/usr/app/public", "/usr/app/graphql", "/usr/app/routes", "/usr/app/providers", "/usr/app/templates", "/usr/app/server"]
