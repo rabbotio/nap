@@ -201,12 +201,10 @@ describe('authen-local-passport', () => {
   it('should redirect valid token to /auth/verified', async () => {
     // stub
     NAP.User = {
-      findOne: jest.fn().mockImplementationOnce(() => Promise.resolve({
-        save: () => Promise.resolve({
-          _id: '592c0bb4484d740e0e73798b',
-          role: 'user',
-          status: 'VERIFIED_BY_EMAIL'
-        })
+      findOneAndUpdate: jest.fn().mockImplementationOnce(() => Promise.resolve({
+        _id: '592c0bb4484d740e0e73798b',
+        role: 'user',
+        status: 'VERIFIED_BY_EMAIL'
       }))
     }
 

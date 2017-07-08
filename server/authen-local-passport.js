@@ -42,14 +42,12 @@ const _withHashedPassword = (user, password) => {
   return user
 }
 
-const _withVerifiedByEmail = (user) => {
-  user.token = null
-  user.verified = true
-  user.verifiedAt = new Date().toISOString()
-  user.status = 'VERIFIED_BY_EMAIL'
-
-  return user
-}
+const _verifiedByEmailPayload = () => ({
+  token : null,
+  verified : true,
+  verifiedAt : new Date().toISOString(),
+  status : 'VERIFIED_BY_EMAIL'
+})
 
 const _createNewUserData = (email, password, token) => _withHashedPassword(
   {
@@ -102,10 +100,10 @@ const _willMarkUserAsVerifiedByToken = async (token) => {
   guard(token)
 
   // Look up user by token
-  const user = await NAP.User.findOne({ token })
+  const user = await NAP.User.findOneAndUpdate({ token }, _verifiedByEmailPayload())
   if (!user) { throw new Error('Token has been use') }
-  
-  return await _withVerifiedByEmail(user).save()
+
+  return user
 }
 
 const _willValidatePassword = async (password, hashed_password) => {
@@ -154,7 +152,7 @@ const reset_password_by_token = (req, res) => {
     if (!user) { return res.json({ errors: ['user-not-exist'] }) }
 
     user = _withHashedPassword(user, password)
-    user = _withVerifiedByEmail(user)
+    user = Object.assign(user, _verifiedByEmailPayload())
 
     const result = await user.save().catch(err => res.json({ errors: [err.message] }))
     return res.json({ data: { isReset: result ? true : false } })
