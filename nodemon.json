@@ -4,8 +4,9 @@
     ".git",
     "node_modules/**/node_modules",
     ".next",
-    "__test__",
-    "__mocks__"
+    "*.test.js",
+    "*__",
+    "coverage"
   ],
   "events": {
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
