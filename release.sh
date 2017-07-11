@@ -1,10 +1,10 @@
+# Ensure git flow exist
+command -v git-flow >/dev/null 2>&1 || brew install git-flow
+
+# Tag as version
+tag=$(grep '"version":' package.json | cut -d\" -f4)
+
 run() {
-  # Ensure git flow exist
-  command -v git-flow >/dev/null 2>&1 || brew install git-flow
-
-  # Tag as version
-  tag=$(grep '"version":' package.json | cut -d\" -f4)
-
   # Start release
   git checkout develop
   git push
@@ -18,7 +18,7 @@ run() {
 }
 
 # Process
-PROCESS='release'
+PROCESS="release-$tag"
 echo -e "$(tput setaf 3)[$PROCESS] : Begin$(tput sgr0)"
 run
 echo -e "$(tput setaf 2)[$PROCESS] : End$(tput sgr0)"
