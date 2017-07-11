@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.25.1",
+  "version": "0.25.2",
   "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env",
@@ -39,10 +39,11 @@
     "attach": "docker attach $(docker ps -a -q --filter ancestor=rabbotio/nap) || true",
     "graphiql": "docker run -it -p3001:3000 vitalcode/auth-graphiql",
     "test": "jest --watchAll --runInBand",
-    "cover": "jest --coverage --no-cache"
+    "cover": "jest --coverage --no-cache",
+    "release": ". release.sh"
   },
   "dependencies": {
-    "apollo-client": "^1.7.0",
+    "apollo-client": "^1.8.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-redis": "^3.3.0",
@@ -72,7 +73,7 @@
     "mongoose-role": "^2.0.1",
     "mubsub": "^1.4.0",
     "multer": "^1.3.0",
-    "next": "2.4.6",
+    "next": "2.4.7",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-facebook-token": "^3.3.0",
@@ -107,7 +108,7 @@
     "casual": "^1.5.14",
     "docker-build-run-push": "^3.0.0",
     "enzyme": "^2.9.1",
-    "eslint": "^4.1.1",
+    "eslint": "^4.2.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-react": "^7.1.0",
