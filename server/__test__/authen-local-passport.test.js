@@ -78,6 +78,16 @@ describe('authen-local-passport', () => {
         Promise.resolve(Object.assign(
           {
             _id: '592c0bb4484d740e0e73798b',
+            status: 'VERIFIED_BY_EMAIL',
+            role: 'user'
+          },
+          userData
+        ))
+      ),
+      _create: jest.fn().mockImplementationOnce(() =>
+        Promise.resolve(Object.assign(
+          {
+            _id: '592c0bb4484d740e0e73798b',
             role: 'user'
           },
           userData
