@@ -5,7 +5,6 @@ npm-debug.log
 .git
 .gitignore
 .gitmodules
-.babelrc
 .test.js
 __mocks__
 __test__
