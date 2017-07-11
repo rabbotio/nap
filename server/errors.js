@@ -56,6 +56,7 @@ module.exports = {
   PASSWORD_LENGTH_ERROR: new GenericError(180, 'Password must be in between 6-256 length'),
   WRONG_EMAIL_PASSWORD_ERROR: new GenericError(181, 'Wrong email and/or password'),
   EMAIL_ALREADY_USE_ERROR: new GenericError(181, 'Email already use'),
+  WAIT_FOR_EMAIL_VERIFICATION_ERROR: new GenericError(181, 'Email has been sent and wait for verification'),
   onError,
   guard
 }

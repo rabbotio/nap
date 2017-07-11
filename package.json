@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.24.1",
+  "version": "0.25.0",
   "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env",
@@ -10,7 +10,7 @@
     "_build": "next build",
     "_start": "next start",
     "_serve": "NODE_ENV=production node index.js",
-    "_serve-dev": "nodemon --inspect=0.0.0.0:5858 index.js",
+    "_serve-dev": "nodemon --verbose --inspect=0.0.0.0:5858 index.js",
     "_build-front": "next build && next start",
     "_build-back": "next build && npm run _serve",
     "_build-back-dev": "next build && npm run _serve-dev",

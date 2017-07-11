@@ -42,14 +42,12 @@ const _withHashedPassword = (user, password) => {
   return user
 }
 
-const _withVerifiedByEmail = (user) => {
-  user.token = null
-  user.verified = true
-  user.verifiedAt = new Date().toISOString()
-  user.status = 'VERIFIED_BY_EMAIL'
-
-  return user
-}
+const _verifiedByEmailPayload = () => ({
+  token : null,
+  verified : true,
+  verifiedAt : new Date().toISOString(),
+  status : 'VERIFIED_BY_EMAIL'
+})
 
 const _createNewUserData = (email, password, token) => _withHashedPassword(
   {
@@ -66,8 +64,13 @@ const _createNewUserData = (email, password, token) => _withHashedPassword(
 const willSignUpNewUser = async (email, password, token) => {
   // Guard existing user
   const user = await NAP.User.findOne({ email })
-  const { EMAIL_ALREADY_USE_ERROR } = require('./errors')
-  if (user) { throw EMAIL_ALREADY_USE_ERROR }
+
+  if (user) {
+    switch (user.status) {
+      case 'WAIT_FOR_EMAIL_VERIFICATION': throw require('./errors').WAIT_FOR_EMAIL_VERIFICATION_ERROR
+      case 'VERIFIED_BY_EMAIL' : throw require('./errors').EMAIL_ALREADY_USE_ERROR
+    }
+  }
 
   // Create user with email and token, password if any
   const userData = _createNewUserData(email, password, token)
@@ -80,24 +83,32 @@ const willResetPasswordExistingUser = async (email, token) => {
   guard({ token })
 
   // Use existing user
-  const user = await NAP.User.findOne({ email })
-  if (!user) { throw new Error('Email not exist') }
-
-  // Wait for reset by token
-  user.token = token
-  user.status = 'WAIT_FOR_EMAIL_RESET'
-  return await user.save()
+  return await NAP.User.findOneAndUpdate(
+    {
+      email
+    },
+    {
+      token,
+      status: 'WAIT_FOR_EMAIL_RESET'
+    },
+    {
+      projection: { _id:1, status: 1 },
+      new: true,
+      upsert: false
+    }
+  )
 }
+
 
 const _willMarkUserAsVerifiedByToken = async (token) => {
   // Guard
   guard(token)
 
   // Look up user by token
-  const user = await NAP.User.findOne({ token })
+  const user = await NAP.User.findOneAndUpdate({ token }, _verifiedByEmailPayload())
   if (!user) { throw new Error('Token has been use') }
 
-  return await _withVerifiedByEmail(user).save()
+  return user
 }
 
 const _willValidatePassword = async (password, hashed_password) => {
@@ -146,7 +157,7 @@ const reset_password_by_token = (req, res) => {
     if (!user) { return res.json({ errors: ['user-not-exist'] }) }
 
     user = _withHashedPassword(user, password)
-    user = _withVerifiedByEmail(user)
+    user = Object.assign(user, _verifiedByEmailPayload())
 
     const result = await user.save().catch(err => res.json({ errors: [err.message] }))
     return res.json({ data: { isReset: result ? true : false } })

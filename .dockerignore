@@ -5,7 +5,12 @@ npm-debug.log
 .git
 .gitignore
 .gitmodules
+.babelrc
 .test.js
 __mocks__
 __test__
 __snapshots__
+coverage
+*.log
+Dockerfile
+*.Dockerfile

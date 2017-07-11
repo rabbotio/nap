@@ -31,4 +31,14 @@ module.exports = (models) => {
     },
     resolve: UserResolver.changeEmail
   })
+
+  models.UserTC.addResolver({
+    name: 'forget',
+    kind: 'mutation',
+    args: {
+      email: 'String'
+    },
+    type: models.UserTC,
+    resolve: UserResolver.forget
+  })
 }
