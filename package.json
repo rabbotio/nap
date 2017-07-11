@@ -1,6 +1,6 @@
 {
   "name": "nap",
-  "version": "0.24.1",
+  "version": "0.25.0",
   "main": "index.js",
   "scripts": {
     "setup": "echo \"# See .env.example for more\" > .env",

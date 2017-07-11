@@ -6,7 +6,7 @@ module.exports = (models) => {
     () => ({
       resolver: models.UserTC.getResolver('findById'),
       args: {
-        _id: (source) => `${source.userId}`,
+        _id: (source) => `${source.userId || source._id}`,
         filter: (source) => ({ userId: source.userId }),
       },
       projection: { userId: 1 },
@@ -19,7 +19,7 @@ module.exports = (models) => {
     () => ({
       resolver: models.InstallationTC.getResolver('findById'),
       args: {
-        _id: (source) => `${source.installationId}`,
+        _id: (source) => `${source.installationId || source._id}`,
         filter: (source) => ({ installationId: source.installationId }),
       },
       projection: { installationId: 1 },
