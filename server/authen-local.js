@@ -36,14 +36,15 @@ const willResetPassword = async (req, email) => {
     email,
     password_reset_url,
     new_password_reset_url
+  }).catch(err => {
+    throw new Error(`Can't send email: ${email}, Reason : ${err.message}`)
   })
 
-  // Got verificationURL and msg?
+  // Got msg?
   if (!msg) {
-    throw new Error(`Can't send email: ${password_reset_url}`)
-  } else {
-    return user
+    throw new Error(`Can't send email: ${email}`)
   }
+  return user
 }
 
 // Register with email and password
@@ -80,10 +81,15 @@ const willSignUp = async (req, email, password) => {
     mailgun_domain: config.mailgun_domain,
     email,
     verification_url
+  }).catch(err => {
+    throw new Error(`Can't send email: ${email}, Reason : ${err.message}`)
   })
 
-  // Got verificationURL and msg?
-  return msg ? user : new Error(`Can't send email: ${verification_url}`)
+  // Got msg?
+  if (!msg) {
+    throw new Error(`Can't send email: ${email}`)
+  }
+  return user
 }
 
 // Login with email
